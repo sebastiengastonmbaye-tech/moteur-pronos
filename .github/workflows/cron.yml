@@ -25,6 +25,12 @@ jobs:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: python cron_quotidien.py
 
+      - name: Synchronisation Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python sync_supabase.py
+
       - name: Commit horodaté (la preuve du palmarès)
         run: |
           git config user.name "moteur-bot"
