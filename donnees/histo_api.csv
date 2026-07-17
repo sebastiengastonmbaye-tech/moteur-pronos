@@ -20541,6 +20541,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490325,2026-07-16,FT,253,Major League Soccer,2026,CF Montreal,Toronto FC,0.0,0.0
 1490327,2026-07-17,FT,253,Major League Soccer,2026,St. Louis City,Sporting Kansas City,3.0,2.0
 1490328,2026-07-17,FT,253,Major League Soccer,2026,Seattle Sounders,Portland Timbers,1.0,5.0
+1490326,2026-07-17,PST,253,Major League Soccer,2026,Chicago Fire,Vancouver Whitecaps,,
 1490329,2026-07-18,NS,253,Major League Soccer,2026,Nashville SC,Atlanta United FC,,
 1490330,2026-07-18,NS,253,Major League Soccer,2026,Los Angeles Galaxy,Los Angeles FC,,
 1490334,2026-07-22,NS,253,Major League Soccer,2026,Philadelphia Union,New York Red Bulls,,
@@ -20725,7 +20726,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490507,2026-09-27,NS,253,Major League Soccer,2026,Los Angeles Galaxy,Colorado Rapids,,
 1490510,2026-09-27,NS,253,Major League Soccer,2026,Columbus Crew,Inter Miami,,
 1490463,2026-10-02,NS,253,Major League Soccer,2026,Seattle Sounders,Sporting Kansas City,,
-1490326,2026-10-07,NS,253,Major League Soccer,2026,Chicago Fire,Vancouver Whitecaps,,
 1490512,2026-10-10,NS,253,Major League Soccer,2026,Toronto FC,CF Montreal,,
 1490511,2026-10-10,NS,253,Major League Soccer,2026,Chicago Fire,New York City FC,,
 1490515,2026-10-10,NS,253,Major League Soccer,2026,Orlando City SC,Columbus Crew,,
