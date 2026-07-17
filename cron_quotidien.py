@@ -36,6 +36,7 @@ HEADERS = {"x-apisports-key": CLE}
 
 # ID des compétitions chez API-Football
 LIGUES = {
+    # --- Europe (saison août → mai) ---
     39:  "Premier League",
     140: "La Liga",
     135: "Serie A",
@@ -46,6 +47,13 @@ LIGUES = {
     144: "Jupiler Pro League",
     203: "Süper Lig",
     2:   "Ligue des Champions",
+    # --- Calendrier d'été (actifs pendant la trêve européenne) ---
+    71:  "Brésil Série A",
+    128: "Argentine Liga Profesional",
+    253: "MLS",
+    103: "Norvège Eliteserien",
+    113: "Suède Allsvenskan",
+    98:  "Japon J1 League",
 }
 
 SAISONS_HISTO = [2023, 2024, 2025]   # historique d'entraînement
