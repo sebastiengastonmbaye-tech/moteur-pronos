@@ -1,0 +1,47 @@
+publie_le,fixture_id,date_match,ligue,dom,ext,prono_principal,code_principal,badge,confiance,prono_buts,code_buts,confiance_buts,scores_top3,btts,p1,pN,p2,pO25,score_reel,prono_gagne,buts_gagne,verifie
+2026-07-17T09:32:50+00:00,1492140,2026-07-17,Brésil Série A,Bahia,Chapecoense-sc,Victoire Bahia,1,Audacieux,63,"Plus de 2,5 buts",O2.5,65,2-1 · 2-0 · 1-1,60,63.5,19.2,17.3,65.3,,,,False
+2026-07-17T09:32:50+00:00,1492295,2026-07-17,Brésil Série A,Fluminense,RB Bragantino,Fluminense ou nul (1X),1X,Équilibré,70,"Plus de 2,5 buts",O2.5,55,1-1 · 2-1 · 1-0,57,45.5,24.5,29.9,54.6,,,,False
+2026-07-17T09:32:50+00:00,1492297,2026-07-17,Brésil Série A,Mirassol,Gremio,Mirassol ou nul (1X),1X,Équilibré,69,"Moins de 2,5 buts",U2.5,52,1-1 · 1-0 · 2-1,52,42.9,26.2,30.9,47.9,,,,False
+2026-07-17T09:32:50+00:00,1492290,2026-07-21,Brésil Série A,Atletico-MG,Bahia,Atletico-MG ou nul (1X),1X,Équilibré,67,"Plus de 2,5 buts",O2.5,54,1-1 · 2-1 · 1-0,57,41.7,24.9,33.3,54.2,,,,False
+2026-07-17T09:32:50+00:00,1492294,2026-07-22,Brésil Série A,Coritiba,Palmeiras,Palmeiras ou nul (X2),X2,Sûr,76,"Plus de 2,5 buts",O2.5,51,1-1 · 0-1 · 1-2,52,23.8,24.4,51.7,50.6,,,,False
+2026-07-17T09:32:50+00:00,1492296,2026-07-23,Brésil Série A,Internacional,Cruzeiro,Internacional ou nul (1X),1X,Audacieux,63,"Plus de 2,5 buts",O2.5,54,1-1 · 1-0 · 2-1,57,37.6,25.2,37.2,53.6,,,,False
+2026-07-17T09:32:50+00:00,1492298,2026-07-23,Brésil Série A,Sao Paulo,Atletico Paranaense,Atletico Paranaense ou nul (X2),X2,Équilibré,66,"Moins de 2,5 buts",U2.5,56,1-1 · 0-1 · 1-0,49,34.5,27.5,38.0,43.7,,,,False
+2026-07-17T09:32:50+00:00,1492292,2026-07-23,Brésil Série A,Chapecoense-sc,Flamengo,Victoire Flamengo,2,Équilibré,71,"Plus de 2,5 buts",O2.5,66,0-2 · 1-2 · 0-3,56,12.2,16.6,71.1,66.4,,,,False
+2026-07-17T09:32:50+00:00,1492141,2026-07-23,Brésil Série A,Botafogo,Vitoria,Botafogo ou nul (1X),1X,Équilibré,75,"Plus de 2,5 buts",O2.5,65,1-1 · 2-1 · 1-0,64,52.9,21.7,25.4,64.7,,,,False
+2026-07-17T09:32:50+00:00,1492293,2026-07-23,Brésil Série A,Corinthians,Remo,Corinthians ou nul (1X),1X,Équilibré,72,"Moins de 2,5 buts",U2.5,51,1-1 · 1-0 · 2-1,52,46.7,25.6,27.7,48.7,,,,False
+2026-07-17T09:32:50+00:00,1493003,2026-07-23,Argentine Liga Profesional,Belgrano Cordoba,Rosario Central,Rosario Central ou nul (X2),X2,Équilibré,67,"Moins de 2,5 buts",U2.5,57,1-1 · 0-1 · 1-0,49,32.7,27.6,39.8,43.1,,,,False
+2026-07-17T09:32:50+00:00,1493015,2026-07-23,Argentine Liga Profesional,Sarmiento Junin,Argentinos JRS,Victoire Argentinos JRS,2,Audacieux,59,"Moins de 2,5 buts",U2.5,52,0-1 · 0-2 · 1-1,47,17.4,23.3,59.3,47.6,,,,False
+2026-07-17T09:32:50+00:00,1490329,2026-07-18,MLS,Nashville SC,Atlanta United FC,Victoire Nashville SC,1,Équilibré,73,"Plus de 2,5 buts",O2.5,57,2-0 · 1-0 · 3-0,45,73.1,17.1,9.8,57.1,,,,False
+2026-07-17T09:32:50+00:00,1490330,2026-07-18,MLS,Los Angeles Galaxy,Los Angeles FC,Los Angeles FC ou nul (X2),X2,Audacieux,63,"Plus de 2,5 buts",O2.5,52,1-1 · 0-1 · 1-0,56,37.2,25.4,37.3,52.3,,,,False
+2026-07-17T09:32:50+00:00,1490334,2026-07-22,MLS,Philadelphia Union,New York Red Bulls,Philadelphia Union ou nul (1X),1X,Équilibré,72,"Plus de 2,5 buts",O2.5,63,1-1 · 2-1 · 1-0,63,50.0,22.4,27.6,63.1,,,,False
+2026-07-17T09:32:50+00:00,1490335,2026-07-22,MLS,New England Revolution,Toronto FC,New England Revolution ou nul (1X),1X,Sûr,78,"Moins de 2,5 buts",U2.5,50,1-0 · 1-1 · 2-0,51,54.4,24.0,21.6,49.9,,,,False
+2026-07-17T09:32:50+00:00,1490333,2026-07-22,MLS,Columbus Crew,New York City FC,Columbus Crew ou nul (1X),1X,Équilibré,68,"Plus de 2,5 buts",O2.5,51,1-1 · 1-0 · 2-1,55,42.3,25.6,32.1,51.0,,,,False
+2026-07-17T09:32:50+00:00,1490332,2026-07-22,MLS,FC Cincinnati,Vancouver Whitecaps,Vancouver Whitecaps ou nul (X2),X2,Équilibré,74,"Plus de 2,5 buts",O2.5,74,1-2 · 1-1 · 2-2,71,25.8,19.9,54.3,73.6,,,,False
+2026-07-17T09:32:50+00:00,1490331,2026-07-22,MLS,Inter Miami,Chicago Fire,Victoire Inter Miami,1,Audacieux,61,"Plus de 2,5 buts",O2.5,79,2-1 · 3-1 · 2-2,73,61.4,17.7,20.9,78.7,,,,False
+2026-07-17T09:32:50+00:00,1490336,2026-07-23,MLS,Charlotte,Atlanta United FC,Victoire Charlotte,1,Audacieux,58,"Moins de 2,5 buts",U2.5,51,1-0 · 2-0 · 1-1,48,58.3,23.2,18.4,49.2,,,,False
+2026-07-17T09:32:50+00:00,1490340,2026-07-23,MLS,Houston Dynamo,DC United,Houston Dynamo ou nul (1X),1X,Sûr,78,"Plus de 2,5 buts",O2.5,55,1-1 · 1-0 · 2-1,55,54.5,23.1,22.4,54.6,,,,False
+2026-07-17T09:32:50+00:00,1490339,2026-07-23,MLS,Sporting Kansas City,Minnesota United FC,Minnesota United FC ou nul (X2),X2,Équilibré,70,"Plus de 2,5 buts",O2.5,56,1-1 · 1-2 · 0-1,58,29.7,24.3,46.0,55.5,,,,False
+2026-07-17T09:32:50+00:00,1490338,2026-07-23,MLS,Nashville SC,CF Montreal,Victoire Nashville SC,1,Équilibré,74,"Plus de 2,5 buts",O2.5,65,2-0 · 3-0 · 2-1,52,74.4,15.6,10.1,65.3,,,,False
+2026-07-17T09:32:50+00:00,1490337,2026-07-23,MLS,Austin,Seattle Sounders,Seattle Sounders ou nul (X2),X2,Audacieux,65,"Plus de 2,5 buts",O2.5,53,1-1 · 0-1 · 1-2,57,35.1,25.3,39.6,52.8,,,,False
+2026-07-17T09:32:50+00:00,1490341,2026-07-23,MLS,Colorado Rapids,San Diego,Colorado Rapids ou nul (1X),1X,Équilibré,67,"Plus de 2,5 buts",O2.5,67,1-1 · 2-1 · 1-2,67,45.2,22.2,32.6,67.1,,,,False
+2026-07-17T09:32:50+00:00,1490344,2026-07-23,MLS,San Jose Earthquakes,Orlando City SC,Victoire San Jose Earthquakes,1,Sûr,79,"Plus de 2,5 buts",O2.5,83,3-1 · 2-1 · 3-0,66,79.1,11.8,9.1,82.9,,,,False
+2026-07-17T09:32:50+00:00,1490343,2026-07-23,MLS,Los Angeles Galaxy,St. Louis City,Los Angeles Galaxy ou nul (1X),1X,Équilibré,74,"Plus de 2,5 buts",O2.5,56,1-1 · 2-1 · 1-0,58,50.0,23.7,26.4,56.2,,,,False
+2026-07-17T09:32:50+00:00,1490342,2026-07-23,MLS,Los Angeles FC,Real Salt Lake,Los Angeles FC ou nul (1X),1X,Sûr,77,"Plus de 2,5 buts",O2.5,52,1-1 · 1-0 · 2-1,53,53.0,23.9,23.1,52.3,,,,False
+2026-07-17T09:32:50+00:00,1490345,2026-07-23,MLS,Portland Timbers,FC Dallas,Portland Timbers ou nul (1X),1X,Équilibré,68,"Plus de 2,5 buts",O2.5,68,1-1 · 2-1 · 1-2,68,45.7,21.9,32.4,68.2,,,,False
+2026-07-17T09:32:50+00:00,1494700,2026-07-17,Norvège Eliteserien,Bodo/Glimt,Fredrikstad,Victoire Bodo/Glimt,1,Sûr,84,"Plus de 2,5 buts",O2.5,74,3-0 · 2-0 · 4-0,50,84.0,10.5,5.6,74.4,,,,False
+2026-07-17T09:32:50+00:00,1494701,2026-07-18,Norvège Eliteserien,Ham-Kam,Tromso,Ham-Kam ou nul (1X),1X,Équilibré,66,"Plus de 2,5 buts",O2.5,55,1-1 · 2-1 · 1-0,58,40.9,24.9,34.3,54.6,,,,False
+2026-07-17T09:32:50+00:00,1494702,2026-07-18,Norvège Eliteserien,Kristiansund BK,Sarpsborg 08 FF,Sarpsborg 08 FF ou nul (X2),X2,Équilibré,65,"Moins de 2,5 buts",U2.5,51,1-1 · 0-1 · 1-0,54,34.6,26.1,39.2,49.1,,,,False
+2026-07-17T09:32:50+00:00,1494703,2026-07-18,Norvège Eliteserien,Lillestrom,KFUM Oslo,Victoire Lillestrom,1,Audacieux,64,"Moins de 2,5 buts",U2.5,53,1-0 · 2-0 · 1-1,43,63.9,22.0,14.1,47.0,,,,False
+2026-07-17T09:32:50+00:00,1494705,2026-07-18,Norvège Eliteserien,Start,Rosenborg,Start ou nul (1X),1X,Audacieux,65,"Plus de 2,5 buts",O2.5,58,1-1 · 2-1 · 1-2,61,40.6,24.2,35.2,58.1,,,,False
+2026-07-17T09:32:50+00:00,1494704,2026-07-18,Norvège Eliteserien,Molde,Brann,Molde ou nul (1X),1X,Équilibré,74,"Plus de 2,5 buts",O2.5,66,2-1 · 1-1 · 2-0,65,52.6,21.5,26.0,66.2,,,,False
+2026-07-17T09:32:50+00:00,1494707,2026-07-18,Norvège Eliteserien,Viking,Sandefjord,Victoire Viking,1,Équilibré,74,"Plus de 2,5 buts",O2.5,68,2-0 · 2-1 · 3-0,54,74.3,15.3,10.4,67.8,,,,False
+2026-07-17T09:32:50+00:00,1494680,2026-07-22,Norvège Eliteserien,Lillestrom,Viking,Viking ou nul (X2),X2,Audacieux,63,"Plus de 2,5 buts",O2.5,56,1-1 · 1-2 · 2-1,59,37.3,24.6,38.1,56.2,,,,False
+2026-07-17T09:32:50+00:00,1494611,2026-07-22,Norvège Eliteserien,Bodo/Glimt,Ham-Kam,Victoire Bodo/Glimt,1,Sûr,80,"Plus de 2,5 buts",O2.5,77,3-0 · 2-0 · 3-1,58,80.3,11.8,7.9,77.4,,,,False
+2026-07-17T09:32:50+00:00,1494211,2026-07-17,Suède Allsvenskan,IFK Goteborg,IF Brommapojkarna,IFK Goteborg ou nul (1X),1X,Audacieux,63,"Plus de 2,5 buts",O2.5,56,1-1 · 2-1 · 1-2,59,38.3,24.6,37.2,56.4,,,,False
+2026-07-17T09:32:50+00:00,1494215,2026-07-17,Suède Allsvenskan,Mjallby AIF,Vasteras SK FK,Victoire Mjallby AIF,1,Audacieux,57,"Plus de 2,5 buts",O2.5,67,2-1 · 1-1 · 2-0,64,57.2,20.5,22.4,67.1,,,,False
+2026-07-17T09:32:50+00:00,1494209,2026-07-18,Suède Allsvenskan,AIK Stockholm,Gais,Gais ou nul (X2),X2,Équilibré,67,"Moins de 2,5 buts",U2.5,64,1-1 · 0-1 · 1-0,43,32.7,29.7,37.6,35.7,,,,False
+2026-07-17T09:32:50+00:00,1494213,2026-07-19,Suède Allsvenskan,Hammarby FF,Degerfors IF,Victoire Hammarby FF,1,Équilibré,72,"Plus de 2,5 buts",O2.5,55,2-0 · 1-0 · 3-0,44,72.3,17.7,10.0,55.2,,,,False
+2026-07-17T09:32:50+00:00,1494210,2026-07-19,Suède Allsvenskan,IF Elfsborg,Sirius,Sirius ou nul (X2),X2,Équilibré,72,"Plus de 2,5 buts",O2.5,62,1-1 · 1-2 · 0-1,63,28.1,22.6,49.3,62.3,,,,False
+2026-07-17T09:32:50+00:00,1494212,2026-07-19,Suède Allsvenskan,Halmstad,BK Hacken,Victoire BK Hacken,2,Audacieux,55,"Plus de 2,5 buts",O2.5,61,1-1 · 1-2 · 0-1,60,23.1,21.8,55.0,61.3,,,,False
+2026-07-17T09:32:50+00:00,1494214,2026-07-20,Suède Allsvenskan,Kalmar FF,Malmo FF,Malmo FF ou nul (X2),X2,Équilibré,67,"Plus de 2,5 buts",O2.5,53,1-1 · 0-1 · 1-2,57,33.3,25.1,41.6,53.4,,,,False
+2026-07-17T09:32:50+00:00,1494216,2026-07-20,Suède Allsvenskan,Orgryte IS,Djurgardens IF,Victoire Djurgardens IF,2,Équilibré,68,"Plus de 2,5 buts",O2.5,77,1-2 · 1-3 · 0-2,68,15.6,16.2,68.3,77.1,,,,False
