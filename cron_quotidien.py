@@ -174,6 +174,34 @@ def verifier(histo):
     print(f"   ✅ {n} pronos vérifiés")
 
 
+
+# ==================================================================
+# 2bis. RATTRAPAGE DES MÉTADONNÉES (logos, heure) sur les pronos déjà publiés
+# ==================================================================
+def completer_metadonnees(histo):
+    """Complète logos et heure manquants des pronos existants, depuis
+    l'historique. Ne touche JAMAIS aux pronos eux-mêmes."""
+    if not os.path.exists(F_PRONOS):
+        return
+    p = pd.read_csv(F_PRONOS)
+    for col in ("logo_dom", "logo_ext", "heure"):
+        if col not in p.columns:
+            p[col] = None
+        p[col] = p[col].astype("object")
+    ref = histo.drop_duplicates("fixture_id").set_index("fixture_id")
+    n = 0
+    for i, row in p.iterrows():
+        if row.fixture_id not in ref.index:
+            continue
+        m = ref.loc[row.fixture_id]
+        for col in ("logo_dom", "logo_ext", "heure"):
+            if (pd.isna(row.get(col)) or row.get(col) in (None, "")) and pd.notna(m.get(col)):
+                p.at[i, col] = m[col]
+                n += 1
+    if n:
+        p.to_csv(F_PRONOS, index=False)
+    print(f"   ✅ métadonnées complétées : {n} champs (logos/heure)")
+
 # ==================================================================
 # 3. PUBLICATION DES NOUVEAUX PRONOS
 # ==================================================================
@@ -259,6 +287,6 @@ def palmares():
 
 if __name__ == "__main__":
     print("1️⃣  IMPORT");   histo = importer_historique()
-    print("2️⃣  VÉRIFICATION"); verifier(histo)
+    print("2️⃣  VÉRIFICATION"); verifier(histo); completer_metadonnees(histo)
     print("3️⃣  PUBLICATION");  publier(histo)
     palmares()
