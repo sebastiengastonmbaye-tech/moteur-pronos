@@ -17554,41 +17554,41 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550460,2027-05-30,NS,135,Serie A,2026,Como,Genoa,,
 1550464,2027-05-30,NS,135,Serie A,2026,Monza,Torino,,
 1575140,2026-08-28,NS,78,Bundesliga,2026,Bayern München,VfB Stuttgart,,
-1575145,2026-08-29,NS,78,Bundesliga,2026,SC Freiburg,Werder Bremen,,
 1575146,2026-08-29,NS,78,Bundesliga,2026,FSV Mainz 05,SC Paderborn 07,,
-1575142,2026-08-29,NS,78,Bundesliga,2026,Borussia Dortmund,Hamburger SV,,
-1575141,2026-08-29,NS,78,Bundesliga,2026,FC Augsburg,FC Schalke 04,,
 1575147,2026-08-29,NS,78,Bundesliga,2026,RB Leipzig,Borussia Mönchengladbach,,
 1575148,2026-08-29,NS,78,Bundesliga,2026,Union Berlin,Eintracht Frankfurt,,
 1575144,2026-08-29,NS,78,Bundesliga,2026,1. FC Köln,1899 Hoffenheim,,
 1575143,2026-08-29,NS,78,Bundesliga,2026,SV Elversberg,Bayer Leverkusen,,
+1575142,2026-08-29,NS,78,Bundesliga,2026,Borussia Dortmund,Hamburger SV,,
+1575145,2026-08-30,NS,78,Bundesliga,2026,SC Freiburg,Werder Bremen,,
+1575141,2026-08-30,NS,78,Bundesliga,2026,FC Augsburg,FC Schalke 04,,
+1575149,2026-09-04,NS,78,Bundesliga,2026,VfB Stuttgart,1. FC Köln,,
 1575155,2026-09-05,NS,78,Bundesliga,2026,Werder Bremen,RB Leipzig,,
 1575153,2026-09-05,NS,78,Bundesliga,2026,Borussia Mönchengladbach,SV Elversberg,,
 1575150,2026-09-05,NS,78,Bundesliga,2026,1899 Hoffenheim,Borussia Dortmund,,
 1575151,2026-09-05,NS,78,Bundesliga,2026,Bayer Leverkusen,Union Berlin,,
-1575152,2026-09-05,NS,78,Bundesliga,2026,Eintracht Frankfurt,FC Augsburg,,
-1575149,2026-09-05,NS,78,Bundesliga,2026,VfB Stuttgart,1. FC Köln,,
-1575156,2026-09-05,NS,78,Bundesliga,2026,FC Schalke 04,Bayern München,,
-1575154,2026-09-05,NS,78,Bundesliga,2026,Hamburger SV,FSV Mainz 05,,
 1575157,2026-09-05,NS,78,Bundesliga,2026,SC Paderborn 07,SC Freiburg,,
+1575156,2026-09-05,NS,78,Bundesliga,2026,FC Schalke 04,Bayern München,,
+1575154,2026-09-06,NS,78,Bundesliga,2026,Hamburger SV,FSV Mainz 05,,
+1575152,2026-09-06,NS,78,Bundesliga,2026,Eintracht Frankfurt,FC Augsburg,,
+1575164,2026-09-11,NS,78,Bundesliga,2026,Union Berlin,FC Schalke 04,,
 1575161,2026-09-12,NS,78,Bundesliga,2026,SC Freiburg,Borussia Mönchengladbach,,
 1575163,2026-09-12,NS,78,Bundesliga,2026,FSV Mainz 05,Eintracht Frankfurt,,
 1575158,2026-09-12,NS,78,Bundesliga,2026,Borussia Dortmund,SC Paderborn 07,,
 1575160,2026-09-12,NS,78,Bundesliga,2026,1899 Hoffenheim,VfB Stuttgart,,
 1575162,2026-09-12,NS,78,Bundesliga,2026,FC Augsburg,Bayer Leverkusen,,
-1575159,2026-09-12,NS,78,Bundesliga,2026,RB Leipzig,Hamburger SV,,
-1575164,2026-09-12,NS,78,Bundesliga,2026,Union Berlin,FC Schalke 04,,
 1575165,2026-09-12,NS,78,Bundesliga,2026,1. FC Köln,Werder Bremen,,
-1575166,2026-09-12,NS,78,Bundesliga,2026,SV Elversberg,Bayern München,,
-1575167,2026-09-19,NS,78,Bundesliga,2026,Bayern München,Union Berlin,,
+1575159,2026-09-13,NS,78,Bundesliga,2026,RB Leipzig,Hamburger SV,,
+1575166,2026-09-13,NS,78,Bundesliga,2026,SV Elversberg,Bayern München,,
+1575167,2026-09-18,NS,78,Bundesliga,2026,Bayern München,Union Berlin,,
 1575172,2026-09-19,NS,78,Bundesliga,2026,Werder Bremen,FC Augsburg,,
 1575174,2026-09-19,NS,78,Bundesliga,2026,Borussia Mönchengladbach,FSV Mainz 05,,
-1575169,2026-09-19,NS,78,Bundesliga,2026,Bayer Leverkusen,RB Leipzig,,
 1575170,2026-09-19,NS,78,Bundesliga,2026,Eintracht Frankfurt,SC Freiburg,,
-1575168,2026-09-19,NS,78,Bundesliga,2026,VfB Stuttgart,Borussia Dortmund,,
-1575173,2026-09-19,NS,78,Bundesliga,2026,FC Schalke 04,SV Elversberg,,
 1575171,2026-09-19,NS,78,Bundesliga,2026,Hamburger SV,1. FC Köln,,
-1575175,2026-09-19,NS,78,Bundesliga,2026,SC Paderborn 07,1899 Hoffenheim,,
+1575168,2026-09-19,NS,78,Bundesliga,2026,VfB Stuttgart,Borussia Dortmund,,
+1575169,2026-09-20,NS,78,Bundesliga,2026,Bayer Leverkusen,RB Leipzig,,
+1575173,2026-09-20,NS,78,Bundesliga,2026,FC Schalke 04,SV Elversberg,,
+1575175,2026-09-20,NS,78,Bundesliga,2026,SC Paderborn 07,1899 Hoffenheim,,
 1575179,2026-10-10,NS,78,Bundesliga,2026,SC Freiburg,FC Schalke 04,,
 1575181,2026-10-10,NS,78,Bundesliga,2026,FSV Mainz 05,Bayer Leverkusen,,
 1575176,2026-10-10,NS,78,Bundesliga,2026,Borussia Dortmund,Werder Bremen,,
@@ -19624,10 +19624,10 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1492287,2026-05-31,FT,71,Serie A,2026,Remo,Sao Paulo,1.0,0.0
 1492291,2026-07-16,FT,71,Serie A,2026,Botafogo,Santos,2.0,1.0
 1492299,2026-07-16,FT,71,Serie A,2026,Vitoria,Vasco DA Gama,1.0,0.0
+1492140,2026-07-17,FT,71,Serie A,2026,Bahia,Chapecoense-sc,2.0,0.0
+1492295,2026-07-17,FT,71,Serie A,2026,Fluminense,RB Bragantino,1.0,1.0
+1492297,2026-07-17,FT,71,Serie A,2026,Mirassol,Gremio,2.0,1.0
 1492145,2026-02-25,PST,71,Serie A,2026,Flamengo,Mirassol,,
-1492140,2026-07-17,NS,71,Serie A,2026,Bahia,Chapecoense-sc,,
-1492295,2026-07-17,NS,71,Serie A,2026,Fluminense,RB Bragantino,,
-1492297,2026-07-17,NS,71,Serie A,2026,Mirassol,Gremio,,
 1492290,2026-07-21,NS,71,Serie A,2026,Atletico-MG,Bahia,,
 1492294,2026-07-22,NS,71,Serie A,2026,Coritiba,Palmeiras,,
 1492296,2026-07-23,NS,71,Serie A,2026,Internacional,Cruzeiro,,
@@ -20541,9 +20541,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490325,2026-07-16,FT,253,Major League Soccer,2026,CF Montreal,Toronto FC,0.0,0.0
 1490327,2026-07-17,FT,253,Major League Soccer,2026,St. Louis City,Sporting Kansas City,3.0,2.0
 1490328,2026-07-17,FT,253,Major League Soccer,2026,Seattle Sounders,Portland Timbers,1.0,5.0
-1490326,2026-07-17,PST,253,Major League Soccer,2026,Chicago Fire,Vancouver Whitecaps,,
-1490329,2026-07-18,NS,253,Major League Soccer,2026,Nashville SC,Atlanta United FC,,
-1490330,2026-07-18,NS,253,Major League Soccer,2026,Los Angeles Galaxy,Los Angeles FC,,
+1490329,2026-07-18,FT,253,Major League Soccer,2026,Nashville SC,Atlanta United FC,1.0,0.0
+1490330,2026-07-18,FT,253,Major League Soccer,2026,Los Angeles Galaxy,Los Angeles FC,0.0,3.0
 1490334,2026-07-22,NS,253,Major League Soccer,2026,Philadelphia Union,New York Red Bulls,,
 1490335,2026-07-22,NS,253,Major League Soccer,2026,New England Revolution,Toronto FC,,
 1490333,2026-07-22,NS,253,Major League Soccer,2026,Columbus Crew,New York City FC,,
@@ -20726,6 +20725,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490507,2026-09-27,NS,253,Major League Soccer,2026,Los Angeles Galaxy,Colorado Rapids,,
 1490510,2026-09-27,NS,253,Major League Soccer,2026,Columbus Crew,Inter Miami,,
 1490463,2026-10-02,NS,253,Major League Soccer,2026,Seattle Sounders,Sporting Kansas City,,
+1490326,2026-10-07,NS,253,Major League Soccer,2026,Chicago Fire,Vancouver Whitecaps,,
 1490512,2026-10-10,NS,253,Major League Soccer,2026,Toronto FC,CF Montreal,,
 1490511,2026-10-10,NS,253,Major League Soccer,2026,Chicago Fire,New York City FC,,
 1490515,2026-10-10,NS,253,Major League Soccer,2026,Orlando City SC,Columbus Crew,,
@@ -20830,6 +20830,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490613,2026-11-08,NS,253,Major League Soccer,2026,Minnesota United FC,San Jose Earthquakes,,
 1490611,2026-11-08,NS,253,Major League Soccer,2026,Austin,Portland Timbers,,
 1490612,2026-11-08,NS,253,Major League Soccer,2026,San Diego,Sporting Kansas City,,
+1494701,2026-07-18,1H,103,Eliteserien,2026,Ham-Kam,Tromso,0.0,0.0
 1494596,2026-03-14,FT,103,Eliteserien,2026,Ham-Kam,Viking,2.0,1.0
 1494597,2026-03-14,FT,103,Eliteserien,2026,Molde,Rosenborg,2.0,0.0
 1494598,2026-03-15,FT,103,Eliteserien,2026,Kristiansund BK,Brann,3.0,2.0
@@ -20928,8 +20929,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494697,2026-07-12,FT,103,Eliteserien,2026,Sandefjord,Ham-Kam,2.0,2.0
 1494698,2026-07-12,FT,103,Eliteserien,2026,Sarpsborg 08 FF,Viking,1.0,0.0
 1494706,2026-07-16,FT,103,Eliteserien,2026,Valerenga,Aalesund,6.0,1.0
-1494700,2026-07-17,NS,103,Eliteserien,2026,Bodo/Glimt,Fredrikstad,,
-1494701,2026-07-18,NS,103,Eliteserien,2026,Ham-Kam,Tromso,,
+1494700,2026-07-17,FT,103,Eliteserien,2026,Bodo/Glimt,Fredrikstad,1.0,0.0
 1494702,2026-07-18,NS,103,Eliteserien,2026,Kristiansund BK,Sarpsborg 08 FF,,
 1494703,2026-07-18,NS,103,Eliteserien,2026,Lillestrom,KFUM Oslo,,
 1494705,2026-07-18,NS,103,Eliteserien,2026,Start,Rosenborg,,
@@ -21167,8 +21167,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494201,2026-07-12,FT,113,Allsvenskan,2026,IF Brommapojkarna,Sirius,1.0,2.0
 1494203,2026-07-12,FT,113,Allsvenskan,2026,Gais,IF Elfsborg,1.0,0.0
 1494202,2026-07-13,FT,113,Allsvenskan,2026,Djurgardens IF,Halmstad,3.0,0.0
-1494211,2026-07-17,NS,113,Allsvenskan,2026,IFK Goteborg,IF Brommapojkarna,,
-1494215,2026-07-17,NS,113,Allsvenskan,2026,Mjallby AIF,Vasteras SK FK,,
+1494211,2026-07-17,FT,113,Allsvenskan,2026,IFK Goteborg,IF Brommapojkarna,2.0,1.0
+1494215,2026-07-17,FT,113,Allsvenskan,2026,Mjallby AIF,Vasteras SK FK,0.0,0.0
 1494209,2026-07-18,NS,113,Allsvenskan,2026,AIK Stockholm,Gais,,
 1494213,2026-07-19,NS,113,Allsvenskan,2026,Hammarby FF,Degerfors IF,,
 1494210,2026-07-19,NS,113,Allsvenskan,2026,IF Elfsborg,Sirius,,
