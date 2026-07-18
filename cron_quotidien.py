@@ -3,18 +3,16 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
-Tourne chaque nuit via GitHub Actions. Trois étapes :
+V3 : capture des logos d'équipes (URL API-Football) et de l'heure
+de coup d'envoi, pour affichage dans l'app.
 
-  1. IMPORT     : rafraîchit l'historique des matchs (cache local, économe)
+Tourne chaque nuit via GitHub Actions. Trois étapes :
+  1. IMPORT     : rafraîchit l'historique des matchs (cache local)
   2. VÉRIFIE    : va chercher les résultats des pronos déjà publiés
   3. PUBLIE     : entraîne le moteur et publie les pronos des 7 prochains jours
 
 Les pronos sont APPEND-ONLY dans donnees/pronos_publies.csv.
-Rien n'est jamais modifié ni supprimé — chaque commit git horodate la
-publication. C'est ça, la preuve du palmarès.
-
 Clé API : variable d'environnement API_FOOTBALL_KEY (GitHub Secret).
-Ne JAMAIS écrire la clé dans le code.
 """
 import os
 import sys
@@ -34,7 +32,6 @@ if not CLE:
 BASE = "https://v3.football.api-sports.io"
 HEADERS = {"x-apisports-key": CLE}
 
-# ID des compétitions chez API-Football
 LIGUES = {
     # --- Europe (saison août → mai) ---
     39:  "Premier League",
@@ -56,8 +53,8 @@ LIGUES = {
     98:  "Japon J1 League",
 }
 
-SAISONS_HISTO = [2023, 2024, 2025]   # historique d'entraînement
-SAISON_COURANTE = 2026               # saison des matchs à venir
+SAISONS_HISTO = [2023, 2024, 2025]
+SAISON_COURANTE = 2026
 JOURS_A_PREDIRE = 7
 
 F_HISTO  = "donnees/histo_api.csv"
@@ -65,7 +62,6 @@ F_PRONOS = "donnees/pronos_publies.csv"
 
 
 def appel(endpoint, params):
-    """Appel API avec gestion des erreurs et du quota."""
     for essai in range(3):
         try:
             r = requests.get(f"{BASE}/{endpoint}", headers=HEADERS,
@@ -86,16 +82,18 @@ def appel(endpoint, params):
 
 
 def plat(f):
-    """Aplatit un objet fixture API-Football en ligne exploitable."""
     return {
         "fixture_id": f["fixture"]["id"],
         "date": f["fixture"]["date"][:10],
+        "heure": f["fixture"]["date"][11:16],
         "statut": f["fixture"]["status"]["short"],
         "ligue_id": f["league"]["id"],
         "ligue_nom": f["league"]["name"],
         "saison": f["league"]["season"],
         "equipe_dom": f["teams"]["home"]["name"],
         "equipe_ext": f["teams"]["away"]["name"],
+        "logo_dom": f["teams"]["home"].get("logo"),
+        "logo_ext": f["teams"]["away"].get("logo"),
         "buts_dom": f["goals"]["home"],
         "buts_ext": f["goals"]["away"],
     }
@@ -116,13 +114,12 @@ def importer_historique():
     for lid in LIGUES:
         for saison in SAISONS_HISTO:
             if (lid, saison) in deja:
-                continue   # saison terminée déjà en cache → 0 appel
+                continue
             print(f"   ↓ {LIGUES[lid]} {saison}")
             rep = appel("fixtures", {"league": lid, "season": saison})
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    # la saison courante est toujours rafraîchie (elle bouge)
     for lid in LIGUES:
         print(f"   ↻ {LIGUES[lid]} {SAISON_COURANTE}")
         rep = appel("fixtures", {"league": lid, "season": SAISON_COURANTE})
@@ -149,7 +146,7 @@ def verifier(histo):
         return
     p = pd.read_csv(F_PRONOS)
     for c in ("score_reel", "prono_gagne", "buts_gagne"):
-      p[c] = p[c].astype("object")
+        p[c] = p[c].astype("object")
     fini = histo[histo.statut == "FT"].set_index("fixture_id")
     n = 0
     for i, row in p[p.verifie != True].iterrows():
@@ -213,8 +210,10 @@ def publier(histo):
                 "publie_le": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 "fixture_id": f.fixture_id,
                 "date_match": f.date.date(),
+                "heure": f.get("heure"),
                 "ligue": nom,
                 "dom": f.equipe_dom, "ext": f.equipe_ext,
+                "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
                 "prono_principal": fiche["prono_principal"]["selection"],
                 "code_principal": fiche["prono_principal"]["code"],
                 "badge": fiche["prono_principal"]["niveau"],
