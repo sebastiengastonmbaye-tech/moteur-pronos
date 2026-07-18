@@ -148,6 +148,8 @@ def verifier(histo):
         print("   (aucun prono à vérifier)")
         return
     p = pd.read_csv(F_PRONOS)
+    for c in ("score_reel", "prono_gagne", "buts_gagne"):
+      p[c] = p[c].astype("object")
     fini = histo[histo.statut == "FT"].set_index("fixture_id")
     n = 0
     for i, row in p[p.verifie != True].iterrows():
