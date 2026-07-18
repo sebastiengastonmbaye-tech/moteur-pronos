@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-SYNC SUPABASE — pousse pronos_publies.csv vers la table public.pronos
-=====================================================================
-Appelé en fin de cron quotidien, après import/vérification/publication.
-Idempotent : upsert sur fixture_id (nouveau prono → insert,
-prono vérifié → update des seuls champs de vérification).
-
-Variables d'environnement (GitHub Secrets) :
-  SUPABASE_URL          ex. https://xxxx.supabase.co
-  SUPABASE_SERVICE_KEY  la clé service_role (JAMAIS l'anon key ici,
-                        et JAMAIS cette clé dans le code ou le front)
+SYNC SUPABASE V2 — pousse pronos_publies.csv vers public.pronos
+(ajout : logos d'équipes + heure de coup d'envoi)
+Variables d'environnement : SUPABASE_URL, SUPABASE_SERVICE_KEY
 """
 import os
 import sys
@@ -28,11 +21,10 @@ ENTETES = {
     "apikey": KEY,
     "Authorization": f"Bearer {KEY}",
     "Content-Type": "application/json",
-    "Prefer": "resolution=merge-duplicates",   # upsert sur fixture_id
+    "Prefer": "resolution=merge-duplicates",
 }
 
 def nettoie(v):
-    """NaN → None, numpy → types natifs, pour un JSON propre."""
     if v is None:
         return None
     if isinstance(v, float) and math.isnan(v):
@@ -53,9 +45,12 @@ def main():
             "publie_le":       r["publie_le"],
             "fixture_id":      int(r["fixture_id"]),
             "date_match":      str(r["date_match"]),
+            "heure":           nettoie(r.get("heure")),
             "ligue":           r["ligue"],
             "dom":             r["dom"],
             "ext":             r["ext"],
+            "logo_dom":        nettoie(r.get("logo_dom")),
+            "logo_ext":        nettoie(r.get("logo_ext")),
             "prono_principal": r["prono_principal"],
             "code_principal":  r["code_principal"],
             "badge":           r["badge"],
@@ -73,7 +68,6 @@ def main():
             "buts_gagne":  nettoie(r.get("buts_gagne")),
         })
 
-    # envoi par paquets de 200
     total = 0
     for i in range(0, len(lignes), 200):
         paquet = lignes[i:i+200]
@@ -81,9 +75,6 @@ def main():
             f"{URL}/rest/v1/pronos?on_conflict=fixture_id",
             headers=ENTETES, json=paquet, timeout=60)
         if rep.status_code not in (200, 201, 204):
-            # Le verrou d'immutabilité peut refuser un upsert si le CSV
-            # divergeait de la base sur un prono déjà publié : c'est
-            # VOULU — on le signale sans échouer tout le run.
             print(f"⚠️ paquet {i//200+1} refusé ({rep.status_code}) : {rep.text[:300]}")
         else:
             total += len(paquet)
