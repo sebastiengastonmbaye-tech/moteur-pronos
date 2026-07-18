@@ -20830,7 +20830,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490613,2026-11-08,NS,253,Major League Soccer,2026,Minnesota United FC,San Jose Earthquakes,,,00:00,https://media.api-sports.io/football/teams/1612.png,https://media.api-sports.io/football/teams/1596.png
 1490611,2026-11-08,NS,253,Major League Soccer,2026,Austin,Portland Timbers,,,00:00,https://media.api-sports.io/football/teams/16489.png,https://media.api-sports.io/football/teams/1617.png
 1490612,2026-11-08,NS,253,Major League Soccer,2026,San Diego,Sporting Kansas City,,,00:00,https://media.api-sports.io/football/teams/25484.png,https://media.api-sports.io/football/teams/1611.png
-1494701,2026-07-18,1H,103,Eliteserien,2026,Ham-Kam,Tromso,0.0,0.0,12:00,https://media.api-sports.io/football/teams/2159.png,https://media.api-sports.io/football/teams/325.png
+1494701,2026-07-18,2H,103,Eliteserien,2026,Ham-Kam,Tromso,0.0,2.0,12:00,https://media.api-sports.io/football/teams/2159.png,https://media.api-sports.io/football/teams/325.png
 1494596,2026-03-14,FT,103,Eliteserien,2026,Ham-Kam,Viking,2.0,1.0,15:00,https://media.api-sports.io/football/teams/2159.png,https://media.api-sports.io/football/teams/759.png
 1494597,2026-03-14,FT,103,Eliteserien,2026,Molde,Rosenborg,2.0,0.0,17:00,https://media.api-sports.io/football/teams/329.png,https://media.api-sports.io/football/teams/331.png
 1494598,2026-03-15,FT,103,Eliteserien,2026,Kristiansund BK,Brann,3.0,2.0,13:30,https://media.api-sports.io/football/teams/320.png,https://media.api-sports.io/football/teams/319.png
@@ -21070,6 +21070,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494834,2026-12-13,NS,103,Eliteserien,2026,Start,Kristiansund BK,,,16:00,https://media.api-sports.io/football/teams/334.png,https://media.api-sports.io/football/teams/320.png
 1494835,2026-12-13,NS,103,Eliteserien,2026,Viking,Ham-Kam,,,16:00,https://media.api-sports.io/football/teams/759.png,https://media.api-sports.io/football/teams/2159.png
 1494830,2026-12-13,NS,103,Eliteserien,2026,Fredrikstad,Molde,,,16:00,https://media.api-sports.io/football/teams/2149.png,https://media.api-sports.io/football/teams/329.png
+1494209,2026-07-18,1H,113,Allsvenskan,2026,AIK Stockholm,Gais,0.0,0.0,13:00,https://media.api-sports.io/football/teams/377.png,https://media.api-sports.io/football/teams/2170.png
 1494118,2026-04-04,FT,113,Allsvenskan,2026,Hammarby FF,Mjallby AIF,3.0,0.0,13:00,https://media.api-sports.io/football/teams/363.png,https://media.api-sports.io/football/teams/2240.png
 1494114,2026-04-04,FT,113,Allsvenskan,2026,Degerfors IF,Sirius,0.0,3.0,13:00,https://media.api-sports.io/football/teams/2172.png,https://media.api-sports.io/football/teams/370.png
 1494119,2026-04-05,FT,113,Allsvenskan,2026,Kalmar FF,Vasteras SK FK,0.0,1.0,12:00,https://media.api-sports.io/football/teams/374.png,https://media.api-sports.io/football/teams/2241.png
@@ -21169,7 +21170,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494202,2026-07-13,FT,113,Allsvenskan,2026,Djurgardens IF,Halmstad,3.0,0.0,17:00,https://media.api-sports.io/football/teams/364.png,https://media.api-sports.io/football/teams/766.png
 1494211,2026-07-17,FT,113,Allsvenskan,2026,IFK Goteborg,IF Brommapojkarna,2.0,1.0,17:00,https://media.api-sports.io/football/teams/366.png,https://media.api-sports.io/football/teams/371.png
 1494215,2026-07-17,FT,113,Allsvenskan,2026,Mjallby AIF,Vasteras SK FK,0.0,0.0,17:00,https://media.api-sports.io/football/teams/2240.png,https://media.api-sports.io/football/teams/2241.png
-1494209,2026-07-18,NS,113,Allsvenskan,2026,AIK Stockholm,Gais,,,13:00,https://media.api-sports.io/football/teams/377.png,https://media.api-sports.io/football/teams/2170.png
 1494213,2026-07-19,NS,113,Allsvenskan,2026,Hammarby FF,Degerfors IF,,,14:30,https://media.api-sports.io/football/teams/363.png,https://media.api-sports.io/football/teams/2172.png
 1494210,2026-07-19,NS,113,Allsvenskan,2026,IF Elfsborg,Sirius,,,14:30,https://media.api-sports.io/football/teams/372.png,https://media.api-sports.io/football/teams/370.png
 1494212,2026-07-19,NS,113,Allsvenskan,2026,Halmstad,BK Hacken,,,14:30,https://media.api-sports.io/football/teams/766.png,https://media.api-sports.io/football/teams/367.png
