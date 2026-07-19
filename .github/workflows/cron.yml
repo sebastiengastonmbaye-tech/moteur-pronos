@@ -38,3 +38,8 @@ jobs:
           git add donnees/
           git commit -m "Pronos du $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "Rien de neuf"
           git push
+
+      - name: Rappels d'abonnement (J-3 et jour J)
+        run: |
+          curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
