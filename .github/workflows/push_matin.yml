@@ -1,0 +1,15 @@
+name: Push du matin (annonce des pronos)
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # 10h00 heure de Dakar (UTC)
+  workflow_dispatch:        # bouton "Run workflow" pour tester à la main
+
+jobs:
+  annonce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Annonce des pronos du jour (in-app + push à tous)
+        run: |
+          curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels?mode=matin" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
