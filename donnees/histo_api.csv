@@ -21170,9 +21170,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494211,2026-07-17,FT,113,Allsvenskan,2026,IFK Goteborg,IF Brommapojkarna,2.0,1.0,17:00,https://media.api-sports.io/football/teams/366.png,https://media.api-sports.io/football/teams/371.png
 1494215,2026-07-17,FT,113,Allsvenskan,2026,Mjallby AIF,Vasteras SK FK,0.0,0.0,17:00,https://media.api-sports.io/football/teams/2240.png,https://media.api-sports.io/football/teams/2241.png
 1494209,2026-07-18,FT,113,Allsvenskan,2026,AIK Stockholm,Gais,2.0,0.0,13:00,https://media.api-sports.io/football/teams/377.png,https://media.api-sports.io/football/teams/2170.png
-1494213,2026-07-19,NS,113,Allsvenskan,2026,Hammarby FF,Degerfors IF,,,14:30,https://media.api-sports.io/football/teams/363.png,https://media.api-sports.io/football/teams/2172.png
-1494210,2026-07-19,NS,113,Allsvenskan,2026,IF Elfsborg,Sirius,,,14:30,https://media.api-sports.io/football/teams/372.png,https://media.api-sports.io/football/teams/370.png
-1494212,2026-07-19,NS,113,Allsvenskan,2026,Halmstad,BK Hacken,,,14:30,https://media.api-sports.io/football/teams/766.png,https://media.api-sports.io/football/teams/367.png
+1494213,2026-07-19,FT,113,Allsvenskan,2026,Hammarby FF,Degerfors IF,4.0,0.0,14:30,https://media.api-sports.io/football/teams/363.png,https://media.api-sports.io/football/teams/2172.png
+1494210,2026-07-19,FT,113,Allsvenskan,2026,IF Elfsborg,Sirius,1.0,3.0,14:30,https://media.api-sports.io/football/teams/372.png,https://media.api-sports.io/football/teams/370.png
+1494212,2026-07-19,FT,113,Allsvenskan,2026,Halmstad,BK Hacken,0.0,2.0,14:30,https://media.api-sports.io/football/teams/766.png,https://media.api-sports.io/football/teams/367.png
 1494214,2026-07-20,NS,113,Allsvenskan,2026,Kalmar FF,Malmo FF,,,17:00,https://media.api-sports.io/football/teams/374.png,https://media.api-sports.io/football/teams/375.png
 1494216,2026-07-20,NS,113,Allsvenskan,2026,Orgryte IS,Djurgardens IF,,,17:00,https://media.api-sports.io/football/teams/2166.png,https://media.api-sports.io/football/teams/364.png
 1494224,2026-07-24,NS,113,Allsvenskan,2026,Vasteras SK FK,Orgryte IS,,,17:00,https://media.api-sports.io/football/teams/2241.png,https://media.api-sports.io/football/teams/2166.png
