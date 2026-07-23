@@ -19451,6 +19451,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1598828,2026-08-11,NS,2,UEFA Champions League,2026,Lyon,Sparta Praha,,,17:00,https://media.api-sports.io/football/teams/80.png,https://media.api-sports.io/football/teams/628.png
 1598827,2026-08-11,NS,2,UEFA Champions League,2026,Bodo/Glimt,Union St. Gilloise,,,17:00,https://media.api-sports.io/football/teams/327.png,https://media.api-sports.io/football/teams/1393.png
 1598829,2026-08-11,NS,2,UEFA Champions League,2026,NEC Nijmegen,Olympiakos Piraeus,,,17:00,https://media.api-sports.io/football/teams/413.png,https://media.api-sports.io/football/teams/553.png
+1492141,2026-07-23,1H,71,Serie A,2026,Botafogo,Vitoria,0.0,0.0,22:30,https://media.api-sports.io/football/teams/120.png,https://media.api-sports.io/football/teams/136.png
+1492293,2026-07-23,1H,71,Serie A,2026,Corinthians,Remo,1.0,0.0,22:30,https://media.api-sports.io/football/teams/131.png,https://media.api-sports.io/football/teams/1198.png
 1492116,2026-01-28,FT,71,Serie A,2026,Internacional,Atletico Paranaense,0.0,1.0,22:00,https://media.api-sports.io/football/teams/119.png,https://media.api-sports.io/football/teams/134.png
 1492119,2026-01-28,FT,71,Serie A,2026,Vitoria,Remo,2.0,0.0,22:00,https://media.api-sports.io/football/teams/136.png,https://media.api-sports.io/football/teams/1198.png
 1492114,2026-01-28,FT,71,Serie A,2026,Coritiba,RB Bragantino,0.0,1.0,22:00,https://media.api-sports.io/football/teams/147.png,https://media.api-sports.io/football/teams/794.png
@@ -19639,8 +19641,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1492298,2026-07-23,FT,71,Serie A,2026,Sao Paulo,Atletico Paranaense,1.0,2.0,00:30,https://media.api-sports.io/football/teams/126.png,https://media.api-sports.io/football/teams/134.png
 1492292,2026-07-23,FT,71,Serie A,2026,Chapecoense-sc,Flamengo,0.0,4.0,00:30,https://media.api-sports.io/football/teams/132.png,https://media.api-sports.io/football/teams/127.png
 1492145,2026-02-25,PST,71,Serie A,2026,Flamengo,Mirassol,,,21:00,https://media.api-sports.io/football/teams/127.png,https://media.api-sports.io/football/teams/7848.png
-1492141,2026-07-23,NS,71,Serie A,2026,Botafogo,Vitoria,,,22:30,https://media.api-sports.io/football/teams/120.png,https://media.api-sports.io/football/teams/136.png
-1492293,2026-07-23,NS,71,Serie A,2026,Corinthians,Remo,,,22:30,https://media.api-sports.io/football/teams/131.png,https://media.api-sports.io/football/teams/1198.png
 1492308,2026-07-25,NS,71,Serie A,2026,Santos,Chapecoense-sc,,,21:30,https://media.api-sports.io/football/teams/128.png,https://media.api-sports.io/football/teams/132.png
 1492300,2026-07-25,NS,71,Serie A,2026,Atletico Paranaense,Internacional,,,21:30,https://media.api-sports.io/football/teams/134.png,https://media.api-sports.io/football/teams/119.png
 1492309,2026-07-25,NS,71,Serie A,2026,Vasco DA Gama,Mirassol,,,23:30,https://media.api-sports.io/football/teams/133.png,https://media.api-sports.io/football/teams/7848.png
@@ -19831,6 +19831,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1492483,2026-12-02,NS,71,Serie A,2026,Cruzeiro,Internacional,,,21:00,https://media.api-sports.io/football/teams/135.png,https://media.api-sports.io/football/teams/119.png
 1492482,2026-12-02,NS,71,Serie A,2026,RB Bragantino,Fluminense,,,21:00,https://media.api-sports.io/football/teams/794.png,https://media.api-sports.io/football/teams/124.png
 1492487,2026-12-02,NS,71,Serie A,2026,Remo,Corinthians,,,21:00,https://media.api-sports.io/football/teams/1198.png,https://media.api-sports.io/football/teams/131.png
+1493003,2026-07-23,1H,128,Liga Profesional Argentina,2026,Belgrano Cordoba,Rosario Central,0.0,0.0,22:30,https://media.api-sports.io/football/teams/440.png,https://media.api-sports.io/football/teams/437.png
+1493015,2026-07-23,1H,128,Liga Profesional Argentina,2026,Sarmiento Junin,Argentinos JRS,0.0,0.0,22:30,https://media.api-sports.io/football/teams/474.png,https://media.api-sports.io/football/teams/458.png
 1491818,2026-01-22,FT,128,Liga Profesional Argentina,2026,Aldosivi,Defensa Y Justicia,0.0,0.0,20:00,https://media.api-sports.io/football/teams/463.png,https://media.api-sports.io/football/teams/442.png
 1491832,2026-01-22,FT,128,Liga Profesional Argentina,2026,Union Santa Fe,Platense,0.0,0.0,23:00,https://media.api-sports.io/football/teams/441.png,https://media.api-sports.io/football/teams/1064.png
 1491820,2026-01-22,FT,128,Liga Profesional Argentina,2026,Banfield,Huracan,1.0,1.0,23:00,https://media.api-sports.io/football/teams/449.png,https://media.api-sports.io/football/teams/445.png
@@ -20086,8 +20088,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1545164,2026-05-16,FT,128,Liga Profesional Argentina,2026,River Plate,Rosario Central,1.0,0.0,22:30,https://media.api-sports.io/football/teams/435.png,https://media.api-sports.io/football/teams/437.png
 1545165,2026-05-17,PEN,128,Liga Profesional Argentina,2026,Argentinos JRS,Belgrano Cordoba,1.0,1.0,20:00,https://media.api-sports.io/football/teams/458.png,https://media.api-sports.io/football/teams/440.png
 1545443,2026-05-24,FT,128,Liga Profesional Argentina,2026,River Plate,Belgrano Cordoba,2.0,3.0,18:30,https://media.api-sports.io/football/teams/435.png,https://media.api-sports.io/football/teams/440.png
-1493003,2026-07-23,NS,128,Liga Profesional Argentina,2026,Belgrano Cordoba,Rosario Central,,,22:30,https://media.api-sports.io/football/teams/440.png,https://media.api-sports.io/football/teams/437.png
-1493015,2026-07-23,NS,128,Liga Profesional Argentina,2026,Sarmiento Junin,Argentinos JRS,,,22:30,https://media.api-sports.io/football/teams/474.png,https://media.api-sports.io/football/teams/458.png
 1493004,2026-07-24,NS,128,Liga Profesional Argentina,2026,Defensa Y Justicia,Aldosivi,,,00:45,https://media.api-sports.io/football/teams/442.png,https://media.api-sports.io/football/teams/463.png
 1493008,2026-07-24,NS,128,Liga Profesional Argentina,2026,Gimnasia M.,Central Cordoba de Santiago,,,19:45,https://media.api-sports.io/football/teams/1066.png,https://media.api-sports.io/football/teams/1065.png
 1493013,2026-07-24,NS,128,Liga Profesional Argentina,2026,Racing Club,Gimnasia L.P.,,,22:00,https://media.api-sports.io/football/teams/436.png,https://media.api-sports.io/football/teams/434.png
