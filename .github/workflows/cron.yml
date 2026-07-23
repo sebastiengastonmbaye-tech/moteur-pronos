@@ -31,11 +31,17 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python sync_supabase.py
 
+      - name: Kit marketing du jour
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python generer_kit.py
+
       - name: Commit horodaté (la preuve du palmarès)
         run: |
           git config user.name "moteur-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add donnees/
+          git add donnees/ kit_du_jour.txt
           git commit -m "Pronos du $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "Rien de neuf"
           git push
 
