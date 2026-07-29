@@ -19431,12 +19431,12 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1591936,2026-07-22,FT,2,UEFA Champions League,2026,Omonia Nicosia,Kairat Almaty,1.0,0.0,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/664.png
 1591935,2026-07-22,FT,2,UEFA Champions League,2026,Levski Sofia,Universitatea Craiova,1.0,0.0,17:30,https://media.api-sports.io/football/teams/646.png,https://media.api-sports.io/football/teams/632.png
 1591933,2026-07-22,FT,2,UEFA Champions League,2026,Egnatia Rrogozhinë,Celje,3.0,3.0,19:00,https://media.api-sports.io/football/teams/3327.png,https://media.api-sports.io/football/teams/4360.png
-1589423,2026-07-28,NS,2,UEFA Champions League,2026,KuPS,Sabah FA,,,15:00,https://media.api-sports.io/football/teams/1165.png,https://media.api-sports.io/football/teams/13976.png
-1589424,2026-07-28,NS,2,UEFA Champions League,2026,Lincoln Red Imps FC,Mjallby AIF,,,16:00,https://media.api-sports.io/football/teams/667.png,https://media.api-sports.io/football/teams/2240.png
-1556505,2026-07-28,NS,2,UEFA Champions League,2026,Dinamo Zagreb,FC Thun,,,18:00,https://media.api-sports.io/football/teams/620.png,https://media.api-sports.io/football/teams/1012.png
-1591937,2026-07-28,NS,2,UEFA Champions League,2026,Celje,Egnatia Rrogozhinë,,,18:15,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/3327.png
-1556507,2026-07-28,NS,2,UEFA Champions League,2026,Heart Of Midlothian,Sturm Graz,,,18:45,https://media.api-sports.io/football/teams/254.png,https://media.api-sports.io/football/teams/637.png
-1589425,2026-07-28,NS,2,UEFA Champions League,2026,Shamrock Rovers,Ararat-Armenia,,,19:00,https://media.api-sports.io/football/teams/652.png,https://media.api-sports.io/football/teams/3683.png
+1589423,2026-07-28,FT,2,UEFA Champions League,2026,KuPS,Sabah FA,0.0,2.0,15:00,https://media.api-sports.io/football/teams/1165.png,https://media.api-sports.io/football/teams/13976.png
+1589424,2026-07-28,FT,2,UEFA Champions League,2026,Lincoln Red Imps FC,Mjallby AIF,0.0,0.0,16:00,https://media.api-sports.io/football/teams/667.png,https://media.api-sports.io/football/teams/2240.png
+1556505,2026-07-28,AET,2,UEFA Champions League,2026,Dinamo Zagreb,FC Thun,3.0,2.0,18:00,https://media.api-sports.io/football/teams/620.png,https://media.api-sports.io/football/teams/1012.png
+1591937,2026-07-28,PEN,2,UEFA Champions League,2026,Celje,Egnatia Rrogozhinë,1.0,1.0,18:15,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/3327.png
+1556507,2026-07-28,FT,2,UEFA Champions League,2026,Heart Of Midlothian,Sturm Graz,0.0,2.0,18:45,https://media.api-sports.io/football/teams/254.png,https://media.api-sports.io/football/teams/637.png
+1589425,2026-07-28,FT,2,UEFA Champions League,2026,Shamrock Rovers,Ararat-Armenia,2.0,1.0,19:00,https://media.api-sports.io/football/teams/652.png,https://media.api-sports.io/football/teams/3683.png
 1591938,2026-07-29,NS,2,UEFA Champions League,2026,Kairat Almaty,Omonia Nicosia,,,15:00,https://media.api-sports.io/football/teams/664.png,https://media.api-sports.io/football/teams/3402.png
 1591939,2026-07-29,NS,2,UEFA Champions League,2026,Kauno Žalgiris,KI Klaksvik,,,16:00,https://media.api-sports.io/football/teams/3872.png,https://media.api-sports.io/football/teams/701.png
 1556508,2026-07-29,NS,2,UEFA Champions League,2026,Lech Poznan,Aarhus,,,17:00,https://media.api-sports.io/football/teams/347.png,https://media.api-sports.io/football/teams/406.png
@@ -19447,10 +19447,12 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1589426,2026-07-29,NS,2,UEFA Champions League,2026,Slovan Bratislava,Saburtalo,,,18:15,https://media.api-sports.io/football/teams/656.png,https://media.api-sports.io/football/teams/3502.png
 1598824,2026-08-04,NS,2,UEFA Champions League,2026,Olympiakos Piraeus,NEC Nijmegen,,,17:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/413.png
 1598826,2026-08-04,NS,2,UEFA Champions League,2026,Sparta Praha,Lyon,,,17:00,https://media.api-sports.io/football/teams/628.png,https://media.api-sports.io/football/teams/80.png
-1598825,2026-08-04,NS,2,UEFA Champions League,2026,Union St. Gilloise,Bodo/Glimt,,,17:00,https://media.api-sports.io/football/teams/1393.png,https://media.api-sports.io/football/teams/327.png
+1605370,2026-08-04,NS,2,UEFA Champions League,2026,Ararat-Armenia,Celje,,,17:00,https://media.api-sports.io/football/teams/3683.png,https://media.api-sports.io/football/teams/4360.png
+1598825,2026-08-04,NS,2,UEFA Champions League,2026,Union St. Gilloise,Bodo/Glimt,,,18:00,https://media.api-sports.io/football/teams/1393.png,https://media.api-sports.io/football/teams/327.png
 1598828,2026-08-11,NS,2,UEFA Champions League,2026,Lyon,Sparta Praha,,,17:00,https://media.api-sports.io/football/teams/80.png,https://media.api-sports.io/football/teams/628.png
 1598827,2026-08-11,NS,2,UEFA Champions League,2026,Bodo/Glimt,Union St. Gilloise,,,17:00,https://media.api-sports.io/football/teams/327.png,https://media.api-sports.io/football/teams/1393.png
 1598829,2026-08-11,NS,2,UEFA Champions League,2026,NEC Nijmegen,Olympiakos Piraeus,,,17:00,https://media.api-sports.io/football/teams/413.png,https://media.api-sports.io/football/teams/553.png
+1605371,2026-08-11,NS,2,UEFA Champions League,2026,Celje,Ararat-Armenia,,,17:00,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/3683.png
 1492116,2026-01-28,FT,71,Serie A,2026,Internacional,Atletico Paranaense,0.0,1.0,22:00,https://media.api-sports.io/football/teams/119.png,https://media.api-sports.io/football/teams/134.png
 1492119,2026-01-28,FT,71,Serie A,2026,Vitoria,Remo,2.0,0.0,22:00,https://media.api-sports.io/football/teams/136.png,https://media.api-sports.io/football/teams/1198.png
 1492114,2026-01-28,FT,71,Serie A,2026,Coritiba,RB Bragantino,0.0,1.0,22:00,https://media.api-sports.io/football/teams/147.png,https://media.api-sports.io/football/teams/794.png
@@ -20101,10 +20103,10 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1493002,2026-07-26,FT,128,Liga Profesional Argentina,2026,Atletico Tucuman,Independ. Rivadavia,0.0,0.0,18:00,https://media.api-sports.io/football/teams/455.png,https://media.api-sports.io/football/teams/473.png
 1493006,2026-07-26,FT,128,Liga Profesional Argentina,2026,Estudiantes L.P.,Independiente,0.0,2.0,20:15,https://media.api-sports.io/football/teams/450.png,https://media.api-sports.io/football/teams/453.png
 1493005,2026-07-26,FT,128,Liga Profesional Argentina,2026,Deportivo Riestra,Boca Juniors,3.0,0.0,22:30,https://media.api-sports.io/football/teams/476.png,https://media.api-sports.io/football/teams/451.png
-1493018,2026-07-28,NS,128,Liga Profesional Argentina,2026,Banfield,Sarmiento Junin,,,22:00,https://media.api-sports.io/football/teams/449.png,https://media.api-sports.io/football/teams/474.png
-1493028,2026-07-28,NS,128,Liga Profesional Argentina,2026,San Lorenzo,Gimnasia M.,,,22:00,https://media.api-sports.io/football/teams/460.png,https://media.api-sports.io/football/teams/1066.png
-1493027,2026-07-29,NS,128,Liga Profesional Argentina,2026,Rosario Central,Racing Club,,,00:15,https://media.api-sports.io/football/teams/437.png,https://media.api-sports.io/football/teams/436.png
-1493017,2026-07-29,NS,128,Liga Profesional Argentina,2026,Argentinos JRS,Estudiantes de Rio Cuarto,,,00:15,https://media.api-sports.io/football/teams/458.png,https://media.api-sports.io/football/teams/2424.png
+1493018,2026-07-28,FT,128,Liga Profesional Argentina,2026,Banfield,Sarmiento Junin,3.0,2.0,22:00,https://media.api-sports.io/football/teams/449.png,https://media.api-sports.io/football/teams/474.png
+1493028,2026-07-28,FT,128,Liga Profesional Argentina,2026,San Lorenzo,Gimnasia M.,1.0,0.0,22:00,https://media.api-sports.io/football/teams/460.png,https://media.api-sports.io/football/teams/1066.png
+1493027,2026-07-29,FT,128,Liga Profesional Argentina,2026,Rosario Central,Racing Club,0.0,0.0,00:15,https://media.api-sports.io/football/teams/437.png,https://media.api-sports.io/football/teams/436.png
+1493017,2026-07-29,FT,128,Liga Profesional Argentina,2026,Argentinos JRS,Estudiantes de Rio Cuarto,3.0,0.0,00:15,https://media.api-sports.io/football/teams/458.png,https://media.api-sports.io/football/teams/2424.png
 1493019,2026-07-29,NS,128,Liga Profesional Argentina,2026,Barracas Central,Aldosivi,,,17:30,https://media.api-sports.io/football/teams/2432.png,https://media.api-sports.io/football/teams/463.png
 1493022,2026-07-29,NS,128,Liga Profesional Argentina,2026,Defensa Y Justicia,Deportivo Riestra,,,20:00,https://media.api-sports.io/football/teams/442.png,https://media.api-sports.io/football/teams/476.png
 1493023,2026-07-29,NS,128,Liga Profesional Argentina,2026,Gimnasia L.P.,River Plate,,,22:15,https://media.api-sports.io/football/teams/434.png,https://media.api-sports.io/football/teams/435.png
@@ -20593,7 +20595,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490372,2026-08-02,NS,253,Major League Soccer,2026,St. Louis City,Real Salt Lake,,,00:30,https://media.api-sports.io/football/teams/20787.png,https://media.api-sports.io/football/teams/1606.png
 1490373,2026-08-02,NS,253,Major League Soccer,2026,Colorado Rapids,Austin,,,01:30,https://media.api-sports.io/football/teams/1610.png,https://media.api-sports.io/football/teams/16489.png
 1490374,2026-08-02,NS,253,Major League Soccer,2026,Los Angeles Galaxy,FC Dallas,,,02:30,https://media.api-sports.io/football/teams/1605.png,https://media.api-sports.io/football/teams/1597.png
-1490375,2026-08-02,NS,253,Major League Soccer,2026,Portland Timbers,Seattle Sounders,,,02:30,https://media.api-sports.io/football/teams/1617.png,https://media.api-sports.io/football/teams/1595.png
+1490375,2026-08-02,NS,253,Major League Soccer,2026,Portland Timbers,Seattle Sounders,,,02:45,https://media.api-sports.io/football/teams/1617.png,https://media.api-sports.io/football/teams/1595.png
 1490136,2026-08-08,NS,253,Major League Soccer,2026,New England Revolution,Houston Dynamo,,,20:30,https://media.api-sports.io/football/teams/1609.png,https://media.api-sports.io/football/teams/1600.png
 1490376,2026-08-15,NS,253,Major League Soccer,2026,Orlando City SC,FC Cincinnati,,,23:30,https://media.api-sports.io/football/teams/1598.png,https://media.api-sports.io/football/teams/2242.png
 1490379,2026-08-15,NS,253,Major League Soccer,2026,Toronto FC,New England Revolution,,,23:30,https://media.api-sports.io/football/teams/1601.png,https://media.api-sports.io/football/teams/1609.png
