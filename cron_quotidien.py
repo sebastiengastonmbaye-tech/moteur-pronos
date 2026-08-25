@@ -32,8 +32,9 @@ if not CLE:
 BASE = "https://v3.football.api-sports.io"
 HEADERS = {"x-apisports-key": CLE}
 
+# Compétitions sur lesquelles le moteur PUBLIE des pronos
 LIGUES = {
-    # --- Top championnats européens (saison août → mai) ---
+    # --- Top 7 championnats européens (saison août → mai) ---
     39:  "Premier League",
     140: "La Liga",
     135: "Serie A",
@@ -44,6 +45,39 @@ LIGUES = {
     # --- Coupes d'Europe UEFA ---
     2:   "Ligue des Champions",
     3:   "Ligue Europa",
+}
+
+# Deuxièmes divisions : leurs matchs nourrissent le modèle du championnat
+# correspondant (les équipes promues/reléguées font le pont entre les deux
+# niveaux, ce qui laisse le moteur calibrer seul l'écart de niveau).
+# Aucun prono n'est publié sur ces divisions.
+D2_VERS_D1 = {
+    40:  39,   # Championship        → Premier League
+    141: 140,  # Segunda División    → La Liga
+    136: 135,  # Serie B             → Serie A
+    79:  78,   # 2. Bundesliga       → Bundesliga
+    62:  61,   # Ligue 2             → Ligue 1
+    89:  88,   # Eerste Divisie      → Eredivisie
+    95:  94,   # Liga Portugal 2     → Liga Portugal
+}
+NOMS_D2 = {
+    40: "Championship", 141: "Segunda División", 136: "Serie B",
+    79: "2. Bundesliga", 62: "Ligue 2", 89: "Eerste Divisie",
+    95: "Liga Portugal 2",
+}
+
+# Compétitions dont on continue de RÉCUPÉRER les résultats, uniquement pour
+# vérifier les pronos déjà publiés (engagement : tout prono publié est vérifié,
+# gagné ou perdu). Aucune nouvelle prédiction n'y est faite.
+LIGUES_SUIVI = {
+    71:  "Brésil Série A",
+    128: "Argentine Liga Profesional",
+    253: "MLS",
+    103: "Norvège Eliteserien",
+    113: "Suède Allsvenskan",
+    98:  "Japon J1 League",
+    144: "Jupiler Pro League",
+    203: "Süper Lig",
 }
 
 SAISONS_HISTO = [2023, 2024, 2025]
@@ -104,17 +138,19 @@ def importer_historique():
         histo, deja = pd.DataFrame(), set()
 
     nouveaux = []
-    for lid in LIGUES:
+    a_historiser = {**LIGUES, **NOMS_D2}
+    for lid in a_historiser:
         for saison in SAISONS_HISTO:
             if (lid, saison) in deja:
                 continue
-            print(f"   ↓ {LIGUES[lid]} {saison}")
+            print(f"   ↓ {a_historiser[lid]} {saison}")
             rep = appel("fixtures", {"league": lid, "season": saison})
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    for lid in LIGUES:
-        print(f"   ↻ {LIGUES[lid]} {SAISON_COURANTE}")
+    toutes = {**LIGUES, **NOMS_D2, **LIGUES_SUIVI}
+    for lid in toutes:
+        print(f"   ↻ {toutes[lid]} {SAISON_COURANTE}")
         rep = appel("fixtures", {"league": lid, "season": SAISON_COURANTE})
         nouveaux += [plat(f) for f in rep]
         time.sleep(1)
@@ -208,12 +244,19 @@ def publier(histo):
         deja = set(pd.read_csv(F_PRONOS).fixture_id)
 
     lignes = []
+    ecartes = []          # journal des matchs non publiés
     for lid, nom in LIGUES.items():
-        passe = histo[(histo.ligue_id == lid) & (histo.statut == "FT")].dropna(
+        # le vivier d'entraînement inclut la 2e division du même pays :
+        # les équipes promues y ont leur historique, et les équipes qui
+        # font l'aller-retour calibrent l'écart de niveau entre divisions
+        viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
+        passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
             subset=["buts_dom", "buts_ext"])
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= aujourdhui) & (histo.date < fin)]
         if len(passe) < 120 or avenir.empty:
+            if not avenir.empty:
+                ecartes.append((nom, len(avenir), "historique insuffisant pour la ligue"))
             continue
         try:
             m = Moteur(passe, date_ref=aujourdhui)
@@ -226,6 +269,7 @@ def publier(histo):
                 continue
             fiche = m.analyser(f.equipe_dom, f.equipe_ext)
             if "erreur" in fiche:
+                ecartes.append((nom, f"{f.equipe_dom} – {f.equipe_ext}", fiche["erreur"]))
                 continue
             lignes.append({
                 "publie_le": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -250,6 +294,11 @@ def publier(histo):
                 "buts_gagne": None, "verifie": False,
             })
 
+    if ecartes:
+        print(f"   ⚠️ {len(ecartes)} match(s) non publiés :")
+        for ligue, quoi, motif in ecartes[:40]:
+            print(f"      · {ligue} — {quoi} : {motif}")
+
     if not lignes:
         print("   (aucun nouveau prono)")
         return
@@ -258,6 +307,9 @@ def publier(histo):
         neuf = pd.concat([pd.read_csv(F_PRONOS), neuf], ignore_index=True)
     neuf.to_csv(F_PRONOS, index=False)
     print(f"   ✅ {len(lignes)} nouveaux pronos publiés")
+    recap = pd.DataFrame(lignes).groupby("ligue").size().sort_values(ascending=False)
+    for ligue, n in recap.items():
+        print(f"      · {ligue} : {n}")
 
 
 # ==================================================================
