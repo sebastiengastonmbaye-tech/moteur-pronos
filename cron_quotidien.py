@@ -33,7 +33,7 @@ BASE = "https://v3.football.api-sports.io"
 HEADERS = {"x-apisports-key": CLE}
 
 LIGUES = {
-    # --- Europe (saison août → mai) ---
+    # --- Top championnats européens (saison août → mai) ---
     39:  "Premier League",
     140: "La Liga",
     135: "Serie A",
@@ -41,16 +41,9 @@ LIGUES = {
     61:  "Ligue 1",
     88:  "Eredivisie",
     94:  "Liga Portugal",
-    144: "Jupiler Pro League",
-    203: "Süper Lig",
+    # --- Coupes d'Europe UEFA ---
     2:   "Ligue des Champions",
-    # --- Calendrier d'été (actifs pendant la trêve européenne) ---
-    71:  "Brésil Série A",
-    128: "Argentine Liga Profesional",
-    253: "MLS",
-    103: "Norvège Eliteserien",
-    113: "Suède Allsvenskan",
-    98:  "Japon J1 League",
+    3:   "Ligue Europa",
 }
 
 SAISONS_HISTO = [2023, 2024, 2025]
