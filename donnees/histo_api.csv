@@ -25772,7 +25772,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1570346,2026-08-23,FT,140,La Liga,2026,Elche,Barcelona,0.0,5.0,19:30,https://media.api-sports.io/football/teams/797.png,https://media.api-sports.io/football/teams/529.png
 1570350,2026-08-24,FT,140,La Liga,2026,Osasuna,Levante,0.0,0.0,17:30,https://media.api-sports.io/football/teams/727.png,https://media.api-sports.io/football/teams/539.png
 1570349,2026-08-24,FT,140,La Liga,2026,Malaga,Deportivo La Coruna,1.0,1.0,19:30,https://media.api-sports.io/football/teams/535.png,https://media.api-sports.io/football/teams/544.png
-1570342,2026-08-25,NS,140,La Liga,2026,Valencia,Real Betis,,,19:00,https://media.api-sports.io/football/teams/532.png,https://media.api-sports.io/football/teams/543.png
+1570342,2026-08-25,FT,140,La Liga,2026,Valencia,Real Betis,0.0,1.0,19:00,https://media.api-sports.io/football/teams/532.png,https://media.api-sports.io/football/teams/543.png
 1570340,2026-08-26,NS,140,La Liga,2026,Real Madrid,Real Sociedad,,,19:00,https://media.api-sports.io/football/teams/541.png,https://media.api-sports.io/football/teams/548.png
 1570336,2026-08-27,NS,140,La Liga,2026,Celta Vigo,Osasuna,,,18:30,https://media.api-sports.io/football/teams/538.png,https://media.api-sports.io/football/teams/727.png
 1570335,2026-08-27,NS,140,La Liga,2026,Barcelona,Athletic Club,,,19:00,https://media.api-sports.io/football/teams/529.png,https://media.api-sports.io/football/teams/531.png
@@ -27823,9 +27823,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1622624,2026-08-19,FT,2,UEFA Champions League,2026,NEC Nijmegen,Bodo/Glimt,1.0,3.0,19:00,https://media.api-sports.io/football/teams/413.png,https://media.api-sports.io/football/teams/327.png
 1622623,2026-08-19,FT,2,UEFA Champions League,2026,Hapoel Beer Sheva,Sabah FA,2.0,1.0,19:00,https://media.api-sports.io/football/teams/563.png,https://media.api-sports.io/football/teams/13976.png
 1622625,2026-08-19,FT,2,UEFA Champions League,2026,Slovan Bratislava,Celje,1.0,1.0,19:00,https://media.api-sports.io/football/teams/656.png,https://media.api-sports.io/football/teams/4360.png
-1622626,2026-08-25,NS,2,UEFA Champions League,2026,Sabah FA,Hapoel Beer Sheva,,,16:45,https://media.api-sports.io/football/teams/13976.png,https://media.api-sports.io/football/teams/563.png
-1622627,2026-08-25,NS,2,UEFA Champions League,2026,Bodo/Glimt,NEC Nijmegen,,,19:00,https://media.api-sports.io/football/teams/327.png,https://media.api-sports.io/football/teams/413.png
-1610924,2026-08-25,NS,2,UEFA Champions League,2026,Lask Linz,Celtic,,,19:00,https://media.api-sports.io/football/teams/1026.png,https://media.api-sports.io/football/teams/247.png
+1622626,2026-08-25,AET,2,UEFA Champions League,2026,Sabah FA,Hapoel Beer Sheva,5.0,2.0,16:45,https://media.api-sports.io/football/teams/13976.png,https://media.api-sports.io/football/teams/563.png
+1622627,2026-08-25,FT,2,UEFA Champions League,2026,Bodo/Glimt,NEC Nijmegen,3.0,0.0,19:00,https://media.api-sports.io/football/teams/327.png,https://media.api-sports.io/football/teams/413.png
+1610924,2026-08-25,AET,2,UEFA Champions League,2026,Lask Linz,Celtic,5.0,1.0,19:00,https://media.api-sports.io/football/teams/1026.png,https://media.api-sports.io/football/teams/247.png
 1622630,2026-08-26,NS,2,UEFA Champions League,2026,Lyon,Fenerbahçe,,,19:00,https://media.api-sports.io/football/teams/80.png,https://media.api-sports.io/football/teams/611.png
 1622629,2026-08-26,NS,2,UEFA Champions League,2026,AEK Athens FC,Levski Sofia,,,19:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/646.png
 1622631,2026-08-26,NS,2,UEFA Champions League,2026,Viking,Dinamo Zagreb,,,19:00,https://media.api-sports.io/football/teams/759.png,https://media.api-sports.io/football/teams/620.png
@@ -28021,10 +28021,10 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563197,2026-10-13,NS,40,Championship,2026,Wolves,Bolton,,,18:45,https://media.api-sports.io/football/teams/39.png,https://media.api-sports.io/football/teams/68.png
 1563194,2026-10-13,NS,40,Championship,2026,Cardiff,Watford,,,18:45,https://media.api-sports.io/football/teams/43.png,https://media.api-sports.io/football/teams/38.png
 1563193,2026-10-13,NS,40,Championship,2026,Burnley,Charlton,,,18:45,https://media.api-sports.io/football/teams/44.png,https://media.api-sports.io/football/teams/1335.png
-1563191,2026-10-13,NS,40,Championship,2026,Birmingham,Preston,,,18:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/59.png
 1563192,2026-10-13,NS,40,Championship,2026,Bristol City,Blackburn,,,18:45,https://media.api-sports.io/football/teams/56.png,https://media.api-sports.io/football/teams/67.png
 1563195,2026-10-13,NS,40,Championship,2026,Millwall,Swansea,,,18:45,https://media.api-sports.io/football/teams/58.png,https://media.api-sports.io/football/teams/76.png
 1563198,2026-10-13,NS,40,Championship,2026,Wrexham,West Brom,,,18:45,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/60.png
+1563191,2026-10-13,NS,40,Championship,2026,Birmingham,Preston,,,19:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/59.png
 1563196,2026-10-13,NS,40,Championship,2026,Stoke City,Middlesbrough,,,19:00,https://media.api-sports.io/football/teams/75.png,https://media.api-sports.io/football/teams/70.png
 1563200,2026-10-14,NS,40,Championship,2026,Norwich,Southampton,,,18:45,https://media.api-sports.io/football/teams/71.png,https://media.api-sports.io/football/teams/41.png
 1563202,2026-10-14,NS,40,Championship,2026,QPR,Derby,,,18:45,https://media.api-sports.io/football/teams/72.png,https://media.api-sports.io/football/teams/69.png
@@ -28067,13 +28067,13 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563230,2026-10-31,NS,40,Championship,2026,Middlesbrough,Charlton,,,15:00,https://media.api-sports.io/football/teams/70.png,https://media.api-sports.io/football/teams/1335.png
 1563236,2026-10-31,NS,40,Championship,2026,Swansea,Blackburn,,,15:00,https://media.api-sports.io/football/teams/76.png,https://media.api-sports.io/football/teams/67.png
 1563245,2026-11-03,NS,40,Championship,2026,Watford,Lincoln,,,19:45,https://media.api-sports.io/football/teams/38.png,https://media.api-sports.io/football/teams/1379.png
-1563239,2026-11-03,NS,40,Championship,2026,Birmingham,Millwall,,,19:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/58.png
 1563243,2026-11-03,NS,40,Championship,2026,Preston,Sheffield Utd,,,19:45,https://media.api-sports.io/football/teams/59.png,https://media.api-sports.io/football/teams/62.png
 1563240,2026-11-03,NS,40,Championship,2026,Blackburn,Stoke City,,,19:45,https://media.api-sports.io/football/teams/67.png,https://media.api-sports.io/football/teams/75.png
 1563241,2026-11-03,NS,40,Championship,2026,Derby,Norwich,,,19:45,https://media.api-sports.io/football/teams/69.png,https://media.api-sports.io/football/teams/71.png
 1563244,2026-11-03,NS,40,Championship,2026,QPR,Burnley,,,19:45,https://media.api-sports.io/football/teams/72.png,https://media.api-sports.io/football/teams/44.png
 1563249,2026-11-03,NS,40,Championship,2026,Charlton,Bolton,,,19:45,https://media.api-sports.io/football/teams/1335.png,https://media.api-sports.io/football/teams/68.png
 1563242,2026-11-03,NS,40,Championship,2026,Portsmouth,Swansea,,,19:45,https://media.api-sports.io/football/teams/1355.png,https://media.api-sports.io/football/teams/76.png
+1563239,2026-11-03,NS,40,Championship,2026,Birmingham,Millwall,,,20:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/58.png
 1563246,2026-11-03,NS,40,Championship,2026,West Brom,Southampton,,,20:00,https://media.api-sports.io/football/teams/60.png,https://media.api-sports.io/football/teams/41.png
 1563248,2026-11-04,NS,40,Championship,2026,Cardiff,West Ham,,,19:45,https://media.api-sports.io/football/teams/43.png,https://media.api-sports.io/football/teams/48.png
 1563250,2026-11-04,NS,40,Championship,2026,Wrexham,Middlesbrough,,,19:45,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/70.png
@@ -28138,7 +28138,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563303,2026-12-05,NS,40,Championship,2026,Charlton,Birmingham,,,15:00,https://media.api-sports.io/football/teams/1335.png,https://media.api-sports.io/football/teams/54.png
 1563306,2026-12-05,NS,40,Championship,2026,Portsmouth,West Brom,,,15:00,https://media.api-sports.io/football/teams/1355.png,https://media.api-sports.io/football/teams/60.png
 1563301,2026-12-06,NS,40,Championship,2026,Burnley,Preston,,,12:00,https://media.api-sports.io/football/teams/44.png,https://media.api-sports.io/football/teams/59.png
-1563311,2026-12-08,NS,40,Championship,2026,Birmingham,Watford,,,19:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/38.png
 1563313,2026-12-08,NS,40,Championship,2026,Millwall,Sheffield Utd,,,19:45,https://media.api-sports.io/football/teams/58.png,https://media.api-sports.io/football/teams/62.png
 1563316,2026-12-08,NS,40,Championship,2026,West Brom,Cardiff,,,19:45,https://media.api-sports.io/football/teams/60.png,https://media.api-sports.io/football/teams/43.png
 1563312,2026-12-08,NS,40,Championship,2026,Blackburn,Norwich,,,19:45,https://media.api-sports.io/football/teams/67.png,https://media.api-sports.io/football/teams/71.png
@@ -28146,6 +28145,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563315,2026-12-08,NS,40,Championship,2026,Swansea,Bolton,,,19:45,https://media.api-sports.io/football/teams/76.png,https://media.api-sports.io/football/teams/68.png
 1563318,2026-12-08,NS,40,Championship,2026,Wrexham,Charlton,,,19:45,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/1335.png
 1563317,2026-12-08,NS,40,Championship,2026,West Ham,Middlesbrough,,,20:00,https://media.api-sports.io/football/teams/48.png,https://media.api-sports.io/football/teams/70.png
+1563311,2026-12-08,NS,40,Championship,2026,Birmingham,Watford,,,20:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/38.png
 1563321,2026-12-09,NS,40,Championship,2026,Preston,Portsmouth,,,19:45,https://media.api-sports.io/football/teams/59.png,https://media.api-sports.io/football/teams/1355.png
 1563319,2026-12-09,NS,40,Championship,2026,Derby,Bristol City,,,19:45,https://media.api-sports.io/football/teams/69.png,https://media.api-sports.io/football/teams/56.png
 1563320,2026-12-09,NS,40,Championship,2026,Lincoln,Stoke City,,,19:45,https://media.api-sports.io/football/teams/1379.png,https://media.api-sports.io/football/teams/75.png
@@ -28189,7 +28189,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563370,2026-12-29,NS,40,Championship,2026,Wrexham,Blackburn,,,18:00,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/67.png
 1563368,2026-12-29,NS,40,Championship,2026,Watford,Wolves,,,19:45,https://media.api-sports.io/football/teams/38.png,https://media.api-sports.io/football/teams/39.png
 1563361,2026-12-29,NS,40,Championship,2026,Burnley,Lincoln,,,19:45,https://media.api-sports.io/football/teams/44.png,https://media.api-sports.io/football/teams/1379.png
-1563359,2026-12-29,NS,40,Championship,2026,Birmingham,Cardiff,,,19:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/43.png
 1563360,2026-12-29,NS,40,Championship,2026,Bristol City,Stoke City,,,19:45,https://media.api-sports.io/football/teams/56.png,https://media.api-sports.io/football/teams/75.png
 1563364,2026-12-29,NS,40,Championship,2026,Millwall,Portsmouth,,,19:45,https://media.api-sports.io/football/teams/58.png,https://media.api-sports.io/football/teams/1355.png
 1563369,2026-12-29,NS,40,Championship,2026,West Brom,Preston,,,19:45,https://media.api-sports.io/football/teams/60.png,https://media.api-sports.io/football/teams/59.png
@@ -28197,6 +28196,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563363,2026-12-29,NS,40,Championship,2026,Middlesbrough,Bolton,,,19:45,https://media.api-sports.io/football/teams/70.png,https://media.api-sports.io/football/teams/68.png
 1563365,2026-12-29,NS,40,Championship,2026,Norwich,Charlton,,,19:45,https://media.api-sports.io/football/teams/71.png,https://media.api-sports.io/football/teams/1335.png
 1563367,2026-12-29,NS,40,Championship,2026,Swansea,QPR,,,19:45,https://media.api-sports.io/football/teams/76.png,https://media.api-sports.io/football/teams/72.png
+1563359,2026-12-29,NS,40,Championship,2026,Birmingham,Cardiff,,,20:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/43.png
 1563366,2026-12-29,NS,40,Championship,2026,Southampton,West Ham,,,20:15,https://media.api-sports.io/football/teams/41.png,https://media.api-sports.io/football/teams/48.png
 1563376,2027-01-01,NS,40,Championship,2026,Millwall,Wolves,,,12:30,https://media.api-sports.io/football/teams/58.png,https://media.api-sports.io/football/teams/39.png
 1563380,2027-01-01,NS,40,Championship,2026,Watford,QPR,,,15:00,https://media.api-sports.io/football/teams/38.png,https://media.api-sports.io/football/teams/72.png
@@ -28363,9 +28363,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563528,2027-03-16,NS,40,Championship,2026,Lincoln,Cardiff,,,19:45,https://media.api-sports.io/football/teams/1379.png,https://media.api-sports.io/football/teams/43.png
 1563534,2027-03-16,NS,40,Championship,2026,Wrexham,Norwich,,,19:45,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/71.png
 1563538,2027-03-17,NS,40,Championship,2026,West Ham,Sheffield Utd,,,19:45,https://media.api-sports.io/football/teams/48.png,https://media.api-sports.io/football/teams/62.png
-1563535,2027-03-17,NS,40,Championship,2026,Birmingham,Charlton,,,19:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/1335.png
 1563537,2027-03-17,NS,40,Championship,2026,Millwall,Watford,,,19:45,https://media.api-sports.io/football/teams/58.png,https://media.api-sports.io/football/teams/38.png
 1563536,2027-03-17,NS,40,Championship,2026,Blackburn,Bolton,,,19:45,https://media.api-sports.io/football/teams/67.png,https://media.api-sports.io/football/teams/68.png
+1563535,2027-03-17,NS,40,Championship,2026,Birmingham,Charlton,,,20:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/1335.png
 1563548,2027-03-20,NS,40,Championship,2026,Watford,Portsmouth,,,15:00,https://media.api-sports.io/football/teams/38.png,https://media.api-sports.io/football/teams/1355.png
 1563546,2027-03-20,NS,40,Championship,2026,Southampton,Charlton,,,15:00,https://media.api-sports.io/football/teams/41.png,https://media.api-sports.io/football/teams/1335.png
 1563541,2027-03-20,NS,40,Championship,2026,Burnley,Bolton,,,15:00,https://media.api-sports.io/football/teams/44.png,https://media.api-sports.io/football/teams/68.png
@@ -28398,10 +28398,10 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563569,2027-04-06,NS,40,Championship,2026,Swansea,Southampton,,,18:45,https://media.api-sports.io/football/teams/76.png,https://media.api-sports.io/football/teams/41.png
 1563566,2027-04-06,NS,40,Championship,2026,Portsmouth,Wolves,,,18:45,https://media.api-sports.io/football/teams/1355.png,https://media.api-sports.io/football/teams/39.png
 1563564,2027-04-06,NS,40,Championship,2026,Lincoln,Bristol City,,,18:45,https://media.api-sports.io/football/teams/1379.png,https://media.api-sports.io/football/teams/56.png
-1563571,2027-04-07,NS,40,Championship,2026,Birmingham,Norwich,,,18:45,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/71.png
 1563572,2027-04-07,NS,40,Championship,2026,Preston,Watford,,,18:45,https://media.api-sports.io/football/teams/59.png,https://media.api-sports.io/football/teams/38.png
 1563574,2027-04-07,NS,40,Championship,2026,West Brom,Derby,,,18:45,https://media.api-sports.io/football/teams/60.png,https://media.api-sports.io/football/teams/69.png
 1563573,2027-04-07,NS,40,Championship,2026,Sheffield Utd,Blackburn,,,18:45,https://media.api-sports.io/football/teams/62.png,https://media.api-sports.io/football/teams/67.png
+1563571,2027-04-07,NS,40,Championship,2026,Birmingham,Norwich,,,19:00,https://media.api-sports.io/football/teams/54.png,https://media.api-sports.io/football/teams/71.png
 1563584,2027-04-10,NS,40,Championship,2026,Watford,West Brom,,,14:00,https://media.api-sports.io/football/teams/38.png,https://media.api-sports.io/football/teams/60.png
 1563585,2027-04-10,NS,40,Championship,2026,Wolves,Birmingham,,,14:00,https://media.api-sports.io/football/teams/39.png,https://media.api-sports.io/football/teams/54.png
 1563583,2027-04-10,NS,40,Championship,2026,Southampton,Lincoln,,,14:00,https://media.api-sports.io/football/teams/41.png,https://media.api-sports.io/football/teams/1379.png
