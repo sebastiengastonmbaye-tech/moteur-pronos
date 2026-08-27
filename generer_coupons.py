@@ -55,7 +55,7 @@ LIGUES_NUIT = {
     262: "Liga MX",
     239: "Colombie Primera A",
 }
-NUIT_DEBUT, NUIT_FIN = 23, 7      # heures (UTC = heure de Dakar)
+NUIT_DEBUT, NUIT_FIN = 22, 7      # heures (UTC = heure de Dakar)
 
 # bookmakers préférés, dans l'ordre (partenaires d'abord)
 BOOKMAKERS = ["1xbet", "melbet", "betwinner", "1win", "bet365", "pinnacle"]
@@ -74,7 +74,7 @@ CATEGORIES = [
     ("fun",        15.0,   9.0,  22.0,  5, 10, 2),
     ("confiance",   6.0,   3.0,  10.0,  4,  7, 3),
     ("sure",        2.2,   1.7,   2.6,  3,  4, 3),
-    ("montante",    1.8,   1.5,   2.0,  2,  3, 1),
+    ("montante",    1.7,   1.4,   2.0,  2,  3, 1),
 ]
 
 # Issues 1X2 couvertes par chaque code (H = dom, D = nul, A = ext)
@@ -131,15 +131,18 @@ def sb(chemin, methode="GET", corps=None, prefer=None):
 # ==================================================================
 def candidats(demain=False, nuit=False):
     histo = pd.read_csv(F_HISTO)
-    histo["date"] = pd.to_datetime(histo["date"], errors="coerce", utc=True).dt.tz_localize(None)
+    # la colonne « date » ne contient que le jour : on recompose l'horodatage réel
+    jours = pd.to_datetime(histo["date"], errors="coerce").dt.normalize()
+    heures = pd.to_timedelta(histo["heure"].fillna("00:00").astype(str) + ":00", errors="coerce")
+    histo["date"] = jours + heures.fillna(pd.Timedelta(0))
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
     if nuit:
-        # nuit du jour visé : de 23h à 7h le lendemain matin
-        base = maintenant.date() + timedelta(days=1 if demain else 0)
+        # LA NUIT QUI VIENT : de 22h ce soir à 7h demain matin, quelle que soit
+        # l'heure d'exécution (le matin comme le soir, on prépare la même nuit)
+        base = maintenant.date()
         debut = datetime.combine(base, datetime.min.time()) + timedelta(hours=NUIT_DEBUT)
         fin = datetime.combine(base + timedelta(days=1), datetime.min.time()) + timedelta(hours=NUIT_FIN)
-        if not demain:
-            debut = max(debut, maintenant)
+        debut = max(debut, maintenant)      # jamais un match déjà commencé
     elif demain:
         # toute la journée de demain
         debut = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
@@ -298,11 +301,22 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
     # « valeur » = écart entre ce que dit le moteur et ce que paie le bookmaker
     for s in dispo:
         s["valeur"] = s["proba"] * s["cote"] - 1
+    # aucune sélection en dessous de 1,20 : une cote à 1,06 n'apporte rien au coupon
+    dispo = [s for s in dispo if s["cote"] >= 1.20]
+    if not dispo:
+        return None, 0.0
+
     # on ne retient d'abord que les cotes dans la zone utile pour cette cible
     zone = [s for s in dispo if 0.7 * moy_visee <= s["cote"] <= 1.7 * moy_visee]
     candidats_tries = zone or dispo
     # priorité du marché, puis valeur réelle, puis probabilité, puis fraîcheur
     candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"]))
+
+    def equilibre(cotes, nouvelle):
+        """Un coupon reste lisible si ses cotes restent du même ordre :
+        la plus forte ne dépasse pas 2,2 fois la plus faible."""
+        toutes = cotes + [nouvelle]
+        return max(toutes) <= 2.2 * min(toutes)
 
     choisies, matchs_pris, total = [], set(), 1.0
     for s in candidats_tries:
@@ -311,6 +325,8 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
         if s["fixture_id"] in matchs_pris:
             continue
         if total * s["cote"] > plafond:
+            continue
+        if not equilibre([x["cote"] for x in choisies], s["cote"]):
             continue
         choisies.append(s)
         matchs_pris.add(s["fixture_id"])
@@ -325,6 +341,8 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
             if len(choisies) >= max_matchs or total >= cible:
                 break
             if total * s["cote"] > plafond:
+                continue
+            if not equilibre([x["cote"] for x in choisies], s["cote"]):
                 continue
             choisies.append(s)
             matchs_pris.add(s["fixture_id"])
@@ -343,21 +361,9 @@ def construire(pool, categories=None):
         faits = 0
         for numero in range(1, combien + 1):
             sel, total = batir(pool, cible, plancher, plafond, taille, nmax, deja_pris, verdicts, usages)
-            note = None
-
-            # repli : peu de matchs aujourd'hui → meilleur coupon possible, signalé
-            if not sel and faits == 0:
-                sel, total = batir(pool, cible, 1.01, plafond, taille, nmax, deja_pris, verdicts, usages)
-                if sel and total >= plancher * 0.5:
-                    note = ("Peu de matchs aujourd'hui — c'est la cote la plus haute "
-                            "que le moteur peut construire sans descendre en qualité.")
-                    print(f"   ↘ {cle} : repli à {total} (cible {cible})")
-                else:
-                    sel = None
-
             if not sel:
                 break
-            coupons.append({"categorie": cle, "numero": numero, "note": note,
+            coupons.append({"categorie": cle, "numero": numero,
                             "selections": sel, "cote_totale": total})
             for s in sel:
                 deja_pris.add((s["fixture_id"], s["code"]))
@@ -460,18 +466,27 @@ def enregistrer(coupons, jour):
         cree = sb("coupons", "POST", {
             "jour": jour, "categorie": cle, "numero": numero,
             "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"]),
-            "note": c.get("note"),
         }, prefer="return=representation")
         if not cree:
             continue
         cid = cree[0]["id"]
-        sb("coupon_selections", "POST", [{
+        rep_sel = sb("coupon_selections", "POST", [{
             "coupon_id": cid, "fixture_id": s["fixture_id"], "ligue": s["ligue"],
             "dom": s["dom"], "ext": s["ext"], "date_match": s["date_match"],
             "heure": s["heure"], "logo_dom": s["logo_dom"], "logo_ext": s["logo_ext"],
             "marche": s["marche"], "selection": s["selection"],
             "code": s["code"], "cote": s["cote"], "confiance": s["confiance"],
-        } for s in c["selections"]], prefer="return=minimal")
+        } for s in c["selections"]], prefer="return=representation")
+
+        # garde-fou : un coupon sans sélection ne doit jamais rester en base
+        verif = sb(f"coupon_selections?coupon_id=eq.{cid}&select=id")
+        if not isinstance(verif, list) or len(verif) != len(c["selections"]):
+            print(f"   ❌ {cle} #{numero} : sélections non enregistrées ({len(verif) if isinstance(verif, list) else 0}"
+                  f"/{len(c['selections'])}) → coupon annulé")
+            sb(f"coupon_selections?coupon_id=eq.{cid}", "DELETE")
+            sb(f"coupons?id=eq.{cid}", "DELETE")
+            continue
+
         if cle == "montante":
             avancer_montante(cid, c["cote_totale"], jour)   # un seul palier ouvert à la fois
 
@@ -506,19 +521,23 @@ def main():
     coupons = construire(pool)
 
     # ----- coupons de la nuit (Amériques) -----
-    print("→ Coupons de la nuit")
-    matchs_nuit = candidats(demain, nuit=True)
+    print("→ Coupons de la nuit qui vient (22h → 7h)")
+    coupons_nuit = []
+    matchs_nuit = candidats(nuit=True)
     if matchs_nuit:
         pool_nuit = selections_possibles(matchs_nuit, bookmaker)
         if pool_nuit:
-            coupons += construire(pool_nuit, CATEGORIES_NUIT)
+            coupons_nuit = construire(pool_nuit, CATEGORIES_NUIT)
     else:
         print("   (aucun match cette nuit)")
 
+    ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5}
     if coupons:
-        ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5}
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
+    if coupons_nuit:
+        # la nuit qui vient appartient à la soirée d'aujourd'hui
+        enregistrer(coupons_nuit, datetime.now(timezone.utc).date().isoformat())
     print(f"✓ coupons du {jour} terminés")
 
 
