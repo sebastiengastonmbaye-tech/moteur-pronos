@@ -29024,7 +29024,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1557738,2027-05-30,NS,39,Premier League,2026,Aston Villa,Tottenham,,,15:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/47.png
 1557746,2027-05-30,NS,39,Premier League,2026,Sunderland,Manchester City,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/50.png
 1557740,2027-05-30,NS,39,Premier League,2026,Coventry,Nottingham Forest,,,15:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/65.png
-1570335,2026-08-27,2H,140,La Liga,2026,Barcelona,Athletic Club,2.0,0.0,19:00,https://media.api-sports.io/football/teams/529.png,https://media.api-sports.io/football/teams/531.png
 1570333,2026-08-15,FT,140,La Liga,2026,Alaves,Getafe,3.0,0.0,17:30,https://media.api-sports.io/football/teams/542.png,https://media.api-sports.io/football/teams/546.png
 1570341,2026-08-15,FT,140,La Liga,2026,Sevilla,Rayo Vallecano,2.0,1.0,19:30,https://media.api-sports.io/football/teams/536.png,https://media.api-sports.io/football/teams/728.png
 1570339,2026-08-16,FT,140,La Liga,2026,Racing Santander,Villarreal,2.0,2.0,15:00,https://media.api-sports.io/football/teams/4665.png,https://media.api-sports.io/football/teams/533.png
@@ -29044,6 +29043,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1570342,2026-08-25,FT,140,La Liga,2026,Valencia,Real Betis,0.0,1.0,19:00,https://media.api-sports.io/football/teams/532.png,https://media.api-sports.io/football/teams/543.png
 1570340,2026-08-26,FT,140,La Liga,2026,Real Madrid,Real Sociedad,4.0,1.0,19:00,https://media.api-sports.io/football/teams/541.png,https://media.api-sports.io/football/teams/548.png
 1570336,2026-08-27,FT,140,La Liga,2026,Celta Vigo,Osasuna,1.0,2.0,18:30,https://media.api-sports.io/football/teams/538.png,https://media.api-sports.io/football/teams/727.png
+1570335,2026-08-27,FT,140,La Liga,2026,Barcelona,Athletic Club,2.0,0.0,19:00,https://media.api-sports.io/football/teams/529.png,https://media.api-sports.io/football/teams/531.png
 1570359,2026-08-28,NS,140,La Liga,2026,Racing Santander,Elche,,,17:00,https://media.api-sports.io/football/teams/4665.png,https://media.api-sports.io/football/teams/797.png
 1570353,2026-08-28,NS,140,La Liga,2026,Alaves,Villarreal,,,19:30,https://media.api-sports.io/football/teams/542.png,https://media.api-sports.io/football/teams/533.png
 1570357,2026-08-29,NS,140,La Liga,2026,Levante,Real Betis,,,15:00,https://media.api-sports.io/football/teams/539.png,https://media.api-sports.io/football/teams/543.png
