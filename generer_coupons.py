@@ -59,6 +59,27 @@ CATEGORIES = [
     ("grosses",    60.0,  20.0, 150.0, 13, 2),
 ]
 
+# Issues 1X2 couvertes par chaque code (H = dom, D = nul, A = ext)
+ISSUES = {
+    "1": {"H"}, "2": {"A"}, "1X": {"H", "D"}, "X2": {"D", "A"}, "12": {"H", "A"},
+}
+# Familles exclusives : deux codes d'une même famille se contredisent
+FAMILLES = {"O2.5": "buts", "U2.5": "buts", "BTTS": "btts", "NOBTTS": "btts"}
+
+
+def compatibles(code_a, code_b):
+    """Deux sélections sur LE MÊME match peuvent-elles coexister sans se contredire ?"""
+    if code_a == code_b:
+        return True
+    if code_a in ISSUES and code_b in ISSUES:
+        # il faut au moins une issue commune (ex. « 1 » et « 1X » : oui ; « 1 » et « X2 » : non)
+        return bool(ISSUES[code_a] & ISSUES[code_b])
+    fa, fb = FAMILLES.get(code_a), FAMILLES.get(code_b)
+    if fa and fb and fa == fb:
+        return False          # Plus de 2,5 vs Moins de 2,5 → contradiction
+    return True               # marchés indépendants (résultat vs buts) : compatibles
+
+
 # priorité des marchés voulue par Babs (0 = servi en premier)
 PRIORITE = {"1": 0, "2": 0, "O2.5": 1, "U2.5": 1,
             "1X": 2, "X2": 2, "12": 2, "BTTS": 3, "NOBTTS": 3}
@@ -227,21 +248,36 @@ def selections_possibles(matchs, bookmaker):
 # ==================================================================
 # 3. Construction des coupons
 # ==================================================================
-def batir(pool, cible, plancher, plafond, max_matchs, deja_pris):
-    """Empile des sélections jusqu'à approcher la cote visée, en gardant
-    les probabilités les plus hautes possibles pour cette cible."""
-    dispo = [s for s in pool if (s["fixture_id"], s["code"]) not in deja_pris]
+def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usages):
+    """Empile des sélections jusqu'à approcher la cote visée.
+    Deux garde-fous : jamais de sélection qui contredit un autre coupon du jour,
+    et on privilégie les sélections où le moteur voit un écart avec la cote."""
+    # on écarte tout ce qui contredirait un choix déjà fait sur le même match
+    dispo = []
+    for s in pool:
+        deja = verdicts.get(s["fixture_id"], [])
+        if any(not compatibles(s["code"], c) for c in deja):
+            continue
+        if usages.get((s["fixture_id"], s["code"]), 0) >= 2:   # jamais plus de 2 coupons
+            continue
+        dispo.append(s)
     if not dispo:
         return None, 0.0
 
-    # cote moyenne nécessaire pour atteindre la cible avec max_matchs sélections
+    # cote moyenne nécessaire pour atteindre la cible
     moy_visee = cible ** (1 / max(1, max_matchs))
-    # on sert d'abord les sélections proches de cette cote moyenne, en respectant
-    # l'ordre de priorité des marchés voulu (V1/V2 → buts → double chance)
-    dispo.sort(key=lambda s: (s["priorite"], abs(s["cote"] - moy_visee), -s["proba"]))
+    # « valeur » = écart entre ce que dit le moteur et ce que paie le bookmaker
+    for s in dispo:
+        s["valeur"] = s["proba"] * s["cote"] - 1
+    # on ne retient que les cotes dans la zone utile pour cette cible
+    zone = [s for s in dispo if 0.55 * moy_visee <= s["cote"] <= 2.2 * moy_visee]
+    candidats_tries = zone or dispo
+    # priorité du marché, puis valeur réelle, puis probabilité, puis fraîcheur
+    candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"],
+                                        usages.get((s["fixture_id"], s["code"]), 0)))
 
     choisies, matchs_pris, total = [], set(), 1.0
-    for s in dispo:
+    for s in candidats_tries:
         if len(choisies) >= max_matchs or total >= cible:
             break
         if s["fixture_id"] in matchs_pris:
@@ -259,15 +295,17 @@ def batir(pool, cible, plancher, plafond, max_matchs, deja_pris):
 
 def construire(pool):
     coupons, deja_pris = [], set()
+    verdicts = {}    # fixture_id → codes déjà engagés aujourd'hui
+    usages = {}      # (fixture_id, code) → nombre de coupons l'utilisant
     for cle, cible, plancher, plafond, nmax, combien in CATEGORIES:
         faits = 0
         for numero in range(1, combien + 1):
-            sel, total = batir(pool, cible, plancher, plafond, nmax, deja_pris)
+            sel, total = batir(pool, cible, plancher, plafond, nmax, deja_pris, verdicts, usages)
             note = None
 
             # repli : peu de matchs aujourd'hui → meilleur coupon possible, signalé
             if not sel and faits == 0:
-                sel, total = batir(pool, cible, 1.01, plafond, nmax, deja_pris)
+                sel, total = batir(pool, cible, 1.01, plafond, nmax, deja_pris, verdicts, usages)
                 if sel and total >= plancher * 0.5:
                     note = ("Peu de matchs aujourd'hui — c'est la cote la plus haute "
                             "que le moteur peut construire sans descendre en qualité.")
@@ -281,6 +319,10 @@ def construire(pool):
                             "selections": sel, "cote_totale": total})
             for s in sel:
                 deja_pris.add((s["fixture_id"], s["code"]))
+                verdicts.setdefault(s["fixture_id"], [])
+                if s["code"] not in verdicts[s["fixture_id"]]:
+                    verdicts[s["fixture_id"]].append(s["code"])
+                usages[(s["fixture_id"], s["code"])] = usages.get((s["fixture_id"], s["code"]), 0) + 1
             print(f"   ✅ {cle} #{numero} : {len(sel)} match(s), cote {total}")
             faits += 1
         if faits == 0:
