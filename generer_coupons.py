@@ -32,7 +32,7 @@ BASE_API = "https://v3.football.api-sports.io"
 
 F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
-FENETRE_H = 36            # matchs des 36 prochaines heures
+FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
 MISE_DEPART = 5000        # montante : mise de départ en F CFA
 OBJECTIF_MONTANTE = 15    # ×15 puis on repart à zéro
 
@@ -94,7 +94,8 @@ def candidats():
     histo = pd.read_csv(F_HISTO)
     histo["date"] = pd.to_datetime(histo["date"], errors="coerce", utc=True).dt.tz_localize(None)
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
-    fin = maintenant + timedelta(hours=FENETRE_H)
+    # fenêtre = ce qu'il reste de la journée en cours (jamais les matchs de demain)
+    fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
 
     lignes = []
     for lid, nom in LIGUES_COUPONS.items():
