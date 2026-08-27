@@ -27830,6 +27830,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1622629,2026-08-26,FT,2,UEFA Champions League,2026,AEK Athens FC,Levski Sofia,4.0,0.0,19:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/646.png
 1622631,2026-08-26,FT,2,UEFA Champions League,2026,Viking,Dinamo Zagreb,3.0,1.0,19:00,https://media.api-sports.io/football/teams/759.png,https://media.api-sports.io/football/teams/620.png
 1622628,2026-08-26,AET,2,UEFA Champions League,2026,Celje,Slovan Bratislava,1.0,2.0,19:00,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/656.png
+1623446,2026-08-27,1H,3,UEFA Europa League,2026,FC Iberia 1999,Jagiellonia,0.0,0.0,16:00,https://media.api-sports.io/football/teams/3502.png,https://media.api-sports.io/football/teams/336.png
+1623443,2026-08-27,1H,3,UEFA Europa League,2026,Ararat-Armenia,Universitatea Craiova,0.0,0.0,16:00,https://media.api-sports.io/football/teams/3683.png,https://media.api-sports.io/football/teams/632.png
 1554444,2026-07-09,FT,3,UEFA Europa League,2026,Qarabag,Vestri,3.0,0.0,16:00,https://media.api-sports.io/football/teams/556.png,https://media.api-sports.io/football/teams/4165.png
 1554445,2026-07-09,FT,3,UEFA Europa League,2026,Sheriff Tiraspol,Aluminij,0.0,0.0,17:00,https://media.api-sports.io/football/teams/568.png,https://media.api-sports.io/football/teams/4358.png
 1554442,2026-07-09,FT,3,UEFA Europa League,2026,Dynamo Kyiv,Universitatea Cluj,0.0,0.0,17:00,https://media.api-sports.io/football/teams/572.png,https://media.api-sports.io/football/teams/2599.png
@@ -27898,8 +27900,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1623438,2026-08-20,FT,3,UEFA Europa League,2026,St. Truiden,Omonia Nicosia,1.0,0.0,18:00,https://media.api-sports.io/football/teams/735.png,https://media.api-sports.io/football/teams/3402.png
 1623437,2026-08-20,FT,3,UEFA Europa League,2026,OFI,CSKA Sofia,3.0,0.0,18:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/853.png
 1623431,2026-08-20,FT,3,UEFA Europa League,2026,Benfica,Aarhus,3.0,1.0,19:00,https://media.api-sports.io/football/teams/211.png,https://media.api-sports.io/football/teams/406.png
-1623446,2026-08-27,NS,3,UEFA Europa League,2026,FC Iberia 1999,Jagiellonia,,,16:00,https://media.api-sports.io/football/teams/3502.png,https://media.api-sports.io/football/teams/336.png
-1623443,2026-08-27,NS,3,UEFA Europa League,2026,Ararat-Armenia,Universitatea Craiova,,,16:00,https://media.api-sports.io/football/teams/3683.png,https://media.api-sports.io/football/teams/632.png
 1623448,2026-08-27,NS,3,UEFA Europa League,2026,Lillestrom,Egnatia Rrogozhinë,,,17:00,https://media.api-sports.io/football/teams/321.png,https://media.api-sports.io/football/teams/3327.png
 1622633,2026-08-27,NS,3,UEFA Europa League,2026,Plzen,FK Crvena Zvezda,,,17:00,https://media.api-sports.io/football/teams/567.png,https://media.api-sports.io/football/teams/598.png
 1623450,2026-08-27,NS,3,UEFA Europa League,2026,Red Bull Salzburg,Mjallby AIF,,,17:00,https://media.api-sports.io/football/teams/571.png,https://media.api-sports.io/football/teams/2240.png
