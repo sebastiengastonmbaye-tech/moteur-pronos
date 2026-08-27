@@ -90,12 +90,18 @@ def sb(chemin, methode="GET", corps=None, prefer=None):
 # ==================================================================
 # 1. Candidats : probabilités du moteur sur les matchs à venir
 # ==================================================================
-def candidats():
+def candidats(demain=False):
     histo = pd.read_csv(F_HISTO)
     histo["date"] = pd.to_datetime(histo["date"], errors="coerce", utc=True).dt.tz_localize(None)
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
-    # fenêtre = ce qu'il reste de la journée en cours (jamais les matchs de demain)
-    fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
+    if demain:
+        # toute la journée de demain
+        debut = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
+        fin = debut + timedelta(days=1)
+    else:
+        # ce qu'il reste de la journée en cours (jamais les matchs de demain)
+        debut = maintenant
+        fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
 
     lignes = []
     for lid, nom in LIGUES_COUPONS.items():
@@ -103,7 +109,7 @@ def candidats():
         passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
             subset=["buts_dom", "buts_ext"])
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
-                       (histo.date >= maintenant) & (histo.date < fin)]
+                       (histo.date >= debut) & (histo.date < fin)]
         if len(passe) < 120 or avenir.empty:
             continue
         try:
@@ -382,7 +388,7 @@ def enregistrer(coupons, jour):
             "code": s["code"], "cote": s["cote"], "confiance": s["confiance"],
         } for s in c["selections"]], prefer="return=minimal")
         if cle == "montante":
-            avancer_montante(cid, c["cote_totale"], jour)
+            avancer_montante(cid, c["cote_totale"], jour)   # un seul palier ouvert à la fois
 
 
 # ==================================================================
@@ -393,8 +399,10 @@ def main():
     print("→ Vérification des coupons précédents")
     verifier()
 
-    print("→ Analyse des matchs à venir")
-    matchs = candidats()
+    demain = "--demain" in sys.argv
+    jour = (datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)).isoformat()
+    print(f"→ Analyse des matchs du {jour}" + (" (préparation de demain)" if demain else ""))
+    matchs = candidats(demain)
     if len(matchs) < 5:
         print("   (trop peu de matchs : aucun coupon aujourd'hui)")
         return
@@ -412,8 +420,8 @@ def main():
     print("→ Construction des coupons")
     coupons = construire(pool)
     if coupons:
-        enregistrer(coupons, datetime.now(timezone.utc).date().isoformat())
-    print("✓ coupons du jour terminés")
+        enregistrer(coupons, jour)
+    print(f"✓ coupons du {jour} terminés")
 
 
 if __name__ == "__main__":
