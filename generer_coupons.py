@@ -150,6 +150,7 @@ def candidats(demain=False):
                 "dom": f.equipe_dom, "ext": f.equipe_ext,
                 "date_match": f.date.date().isoformat(),
                 "heure": f.get("heure"),
+                "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
                 "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
                 "btts": ech(fiche["bonus"]["btts_oui"]),
             })
@@ -237,7 +238,8 @@ def selections_possibles(matchs, bookmaker):
                 continue
             marche, gabarit = LIBELLES[code]
             out.append({
-                **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match", "heure")},
+                **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
+                                     "heure", "logo_dom", "logo_ext")},
                 "code": code, "marche": marche,
                 "selection": gabarit.format(dom=m["dom"], ext=m["ext"]),
                 "cote": cote, "proba": p, "confiance": round(p * 100),
@@ -260,7 +262,7 @@ def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usage
         deja = verdicts.get(s["fixture_id"], [])
         if any(not compatibles(s["code"], c) for c in deja):
             continue
-        if usages.get((s["fixture_id"], s["code"]), 0) >= 2:   # jamais plus de 2 coupons
+        if usages.get((s["fixture_id"], s["code"]), 0) >= 1:   # jamais deux fois la même sélection
             continue
         dispo.append(s)
     if not dispo:
@@ -275,8 +277,7 @@ def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usage
     zone = [s for s in dispo if 0.55 * moy_visee <= s["cote"] <= 2.2 * moy_visee]
     candidats_tries = zone or dispo
     # priorité du marché, puis valeur réelle, puis probabilité, puis fraîcheur
-    candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"],
-                                        usages.get((s["fixture_id"], s["code"]), 0)))
+    candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"]))
 
     choisies, matchs_pris, total = [], set(), 1.0
     for s in candidats_tries:
@@ -428,7 +429,8 @@ def enregistrer(coupons, jour):
         sb("coupon_selections", "POST", [{
             "coupon_id": cid, "fixture_id": s["fixture_id"], "ligue": s["ligue"],
             "dom": s["dom"], "ext": s["ext"], "date_match": s["date_match"],
-            "heure": s["heure"], "marche": s["marche"], "selection": s["selection"],
+            "heure": s["heure"], "logo_dom": s["logo_dom"], "logo_ext": s["logo_ext"],
+            "marche": s["marche"], "selection": s["selection"],
             "code": s["code"], "cote": s["cote"], "confiance": s["confiance"],
         } for s in c["selections"]], prefer="return=minimal")
         if cle == "montante":
