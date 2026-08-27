@@ -76,10 +76,10 @@ CATEGORIES_NUIT = [
 ]
 
 CATEGORIES = [
-    ("grosses",    60.0,  20.0, 150.0,  6, 13, 2),
-    ("fun",        15.0,   9.0,  22.0,  5, 10, 2),
-    ("confiance",   6.0,   3.0,  10.0,  4,  7, 3),
-    ("sure",        2.2,   1.7,   2.6,  3,  4, 3),
+    ("grosses",    60.0,  20.0, 150.0,  6,  8, 2),
+    ("fun",        15.0,   9.0,  22.0,  5,  6, 2),
+    ("confiance",   6.0,   3.0,  10.0,  4,  5, 3),
+    ("sure",        2.2,   1.7,   2.6,  3,  3, 3),
     ("montante",    1.7,   1.4,   2.0,  2,  3, 1),
 ]
 
@@ -366,16 +366,35 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
 
 
 def construire(pool, categories=None):
+    """Sert les catégories EN ROTATION : chacune obtient son premier coupon
+    avant qu'une autre en reçoive un deuxième. Sans ça, les catégories
+    servies en premier épuisent le vivier et les suivantes repartent vides."""
+    cats = categories or CATEGORIES
     coupons, deja_pris = [], set()
-    verdicts = {}    # fixture_id → codes déjà engagés aujourd'hui
-    usages = {}      # (fixture_id, code) → nombre de coupons l'utilisant
-    for cle, cible, plancher, plafond, taille, nmax, combien in (categories or CATEGORIES):
-        faits = 0
-        for numero in range(1, combien + 1):
-            sel, total = batir(pool, cible, plancher, plafond, taille, nmax, deja_pris, verdicts, usages,
-                               TAILLE_MINI.get(cle, 1))
+    verdicts, usages = {}, {}
+
+    # avec peu de matchs, on publie moins de coupons plutôt que du remplissage
+    nb_matchs = len({s["fixture_id"] for s in pool})
+    plafond_par_cat = max(1, nb_matchs // 4)
+
+    tours = max(c[6] for c in cats)
+    epuisees = set()
+    for numero in range(1, tours + 1):
+        for cle, cible, plancher, plafond, taille, nmax, combien in cats:
+            if cle in epuisees or numero > min(combien, plafond_par_cat):
+                continue
+            sel, total = batir(pool, cible, plancher, plafond, taille, nmax,
+                               deja_pris, verdicts, usages, TAILLE_MINI.get(cle, 1))
             if not sel:
-                break
+                epuisees.add(cle)
+                if numero == 1:
+                    libres = [s for s in pool
+                              if usages.get((s["fixture_id"], s["code"]), 0) == 0
+                              and all(compatibles(s["code"], c) for c in verdicts.get(s["fixture_id"], []))]
+                    print(f"   ⚠️ {cle} : aucun coupon possible "
+                          f"({len(libres)} sélection(s) libres, cible {cible})")
+                continue
+
             coupons.append({"categorie": cle, "numero": numero,
                             "selections": sel, "cote_totale": total})
             for s in sel:
@@ -385,13 +404,7 @@ def construire(pool, categories=None):
                     verdicts[s["fixture_id"]].append(s["code"])
                 usages[(s["fixture_id"], s["code"])] = usages.get((s["fixture_id"], s["code"]), 0) + 1
             print(f"   ✅ {cle} #{numero} : {len(sel)} match(s), cote {total}")
-            faits += 1
-        if faits == 0:
-            libres = [s for s in pool
-                      if usages.get((s["fixture_id"], s["code"]), 0) == 0
-                      and all(compatibles(s["code"], c) for c in verdicts.get(s["fixture_id"], []))]
-            print(f"   ⚠️ {cle} : aucun coupon possible "
-                  f"({len(libres)} sélection(s) encore libres, cible {cible})")
+
     return coupons
 
 
