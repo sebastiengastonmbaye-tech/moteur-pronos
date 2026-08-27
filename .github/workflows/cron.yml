@@ -31,6 +31,13 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python sync_supabase.py
 
+      - name: Coupons du jour
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python generer_coupons.py
+
       - name: Kit marketing du jour
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
