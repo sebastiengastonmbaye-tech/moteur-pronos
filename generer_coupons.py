@@ -60,6 +60,10 @@ LIGUES_NUIT = {
 NUIT_DEBUT, NUIT_FIN = 22, 7      # heures (UTC = heure de Dakar)
 
 # bookmakers préférés, dans l'ordre (partenaires d'abord)
+COTE_MAX_SELECTION = 3.60    # au-delà, c'est un outsider : jamais dans un combiné
+ECART_MAX_MARCHE = 1.85      # écart maximal toléré entre le moteur et le marché
+TAILLE_MINI = {"grosses": 4, "fun": 3, "confiance": 3, "sure": 2, "nuit": 2, "montante": 1}
+
 BOOKMAKERS = ["1xbet", "melbet", "betwinner", "1win", "bet365", "pinnacle"]
 
 # (clé, cote visée, plancher, plafond, taille visée, matchs maxi, coupons/jour)
@@ -265,6 +269,12 @@ def selections_possibles(matchs, bookmaker):
             p = probas.get(code)
             if p is None or p < 0.35:          # on ne propose rien sous 35 %
                 continue
+            if cote > COTE_MAX_SELECTION:      # pas d'outsider isolé dans un combiné
+                continue
+            # si le moteur s'écarte trop du marché, c'est LUI qui se trompe :
+            # un bookmaker à 9,30 (11 %) contre un modèle à 40 %, c'est une anomalie
+            if p > ECART_MAX_MARCHE * (1 / cote):
+                continue
             marche, gabarit = LIBELLES[code]
             out.append({
                 **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
@@ -281,7 +291,7 @@ def selections_possibles(matchs, bookmaker):
 # ==================================================================
 # 3. Construction des coupons
 # ==================================================================
-def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdicts, usages):
+def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdicts, usages, mini=1):
     """Empile des sélections jusqu'à approcher la cote visée.
     Deux garde-fous : jamais de sélection qui contredit un autre coupon du jour,
     et on privilégie les sélections où le moteur voit un écart avec la cote."""
@@ -350,7 +360,7 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
             matchs_pris.add(s["fixture_id"])
             total *= s["cote"]
 
-    if not choisies or total < plancher:
+    if not choisies or total < plancher or len(choisies) < mini:
         return None, 0.0
     return choisies, round(total, 2)
 
@@ -362,7 +372,8 @@ def construire(pool, categories=None):
     for cle, cible, plancher, plafond, taille, nmax, combien in (categories or CATEGORIES):
         faits = 0
         for numero in range(1, combien + 1):
-            sel, total = batir(pool, cible, plancher, plafond, taille, nmax, deja_pris, verdicts, usages)
+            sel, total = batir(pool, cible, plancher, plafond, taille, nmax, deja_pris, verdicts, usages,
+                               TAILLE_MINI.get(cle, 1))
             if not sel:
                 break
             coupons.append({"categorie": cle, "numero": numero,
@@ -463,8 +474,18 @@ def avancer_montante(coupon_id, cote, jour):
 # ==================================================================
 # 6. Enregistrement
 # ==================================================================
-def enregistrer(coupons, jour):
+def enregistrer(coupons, jour, nuit=False):
+    from datetime import date as _date
+    lendemain = (datetime.fromisoformat(jour).date() + timedelta(days=1)).isoformat()
+    autorises = {jour, lendemain} if nuit else {jour}
+
     for c in coupons:
+        # garde-fou : aucune sélection en dehors de la journée visée
+        hors = [s for s in c["selections"] if s["date_match"] not in autorises]
+        if hors:
+            print(f"   ❌ {c['categorie']} #{c['numero']} : {len(hors)} match(s) hors du "
+                  f"{jour} → coupon annulé")
+            continue
         cle, numero = c["categorie"], c["numero"]
         if sb(f"coupons?jour=eq.{jour}&categorie=eq.{cle}&numero=eq.{numero}&select=id"):
             print(f"   ({cle} #{numero} déjà publié aujourd'hui)")
@@ -542,7 +563,7 @@ def main():
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
     if coupons_nuit:
-        enregistrer(coupons_nuit, jour)
+        enregistrer(coupons_nuit, jour, nuit=True)
     print(f"✓ coupons du {jour} terminés")
 
 
