@@ -66,6 +66,18 @@ NOMS_D2 = {
     95: "Liga Portugal 2",
 }
 
+# Championnats collectés UNIQUEMENT pour alimenter les coupons
+# (aucun prono publié dessus dans la liste principale de l'app)
+LIGUES_COUPONS = {
+    144: "Jupiler Pro League",     # Belgique
+    203: "Süper Lig",              # Turquie
+    179: "Scottish Premiership",   # Écosse
+    218: "Österreich Bundesliga",  # Autriche
+    207: "Super League Suisse",    # Suisse
+    119: "Superliga",              # Danemark
+    197: "Super League Grèce",     # Grèce
+}
+
 # Compétitions dont on continue de RÉCUPÉRER les résultats, uniquement pour
 # vérifier les pronos déjà publiés (engagement : tout prono publié est vérifié,
 # gagné ou perdu). Aucune nouvelle prédiction n'y est faite.
@@ -76,8 +88,6 @@ LIGUES_SUIVI = {
     103: "Norvège Eliteserien",
     113: "Suède Allsvenskan",
     98:  "Japon J1 League",
-    144: "Jupiler Pro League",
-    203: "Süper Lig",
 }
 
 SAISONS_HISTO = [2023, 2024, 2025]
@@ -138,7 +148,7 @@ def importer_historique():
         histo, deja = pd.DataFrame(), set()
 
     nouveaux = []
-    a_historiser = {**LIGUES, **NOMS_D2}
+    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_SUIVI}
     for lid in a_historiser:
         for saison in SAISONS_HISTO:
             if (lid, saison) in deja:
@@ -148,7 +158,7 @@ def importer_historique():
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    toutes = {**LIGUES, **NOMS_D2, **LIGUES_SUIVI}
+    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_SUIVI}
     for lid in toutes:
         print(f"   ↻ {toutes[lid]} {SAISON_COURANTE}")
         rep = appel("fixtures", {"league": lid, "season": SAISON_COURANTE})
