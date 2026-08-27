@@ -131,18 +131,25 @@ def candidats():
 # 2. Cotes réelles (API-Football)
 # ==================================================================
 def id_bookmaker():
+    """Choisit un bookmaker : d'abord les partenaires, sinon le premier valable.
+    L'API renvoie parfois des entrées sans nom : on les ignore."""
     liste = api("odds/bookmakers", {})
-    par_nom = {b["name"].lower(): b["id"] for b in liste}
+    par_nom = {}
+    for b in liste:
+        nom, bid = b.get("name"), b.get("id")
+        if isinstance(nom, str) and nom.strip() and bid:
+            par_nom[nom.strip().lower()] = bid
+    if not par_nom:
+        print("   ❌ aucun bookmaker exploitable renvoyé par l'API")
+        return None
     for voulu in BOOKMAKERS:
         for nom, bid in par_nom.items():
             if voulu in nom:
                 print(f"   Cotes fournies par : {nom}")
                 return bid
-    if par_nom:
-        nom, bid = next(iter(par_nom.items()))
-        print(f"   Cotes fournies par : {nom} (défaut)")
-        return bid
-    return None
+    nom, bid = next(iter(par_nom.items()))
+    print(f"   Cotes fournies par : {nom} (aucun partenaire disponible)")
+    return bid
 
 
 def cotes_du_match(fixture_id, bookmaker):
