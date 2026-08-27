@@ -88,6 +88,8 @@ LIGUES_SUIVI = {
     103: "Norvège Eliteserien",
     113: "Suède Allsvenskan",
     98:  "Japon J1 League",
+    262: "Liga MX",
+    239: "Colombie Primera A",
 }
 
 SAISONS_HISTO = [2023, 2024, 2025]

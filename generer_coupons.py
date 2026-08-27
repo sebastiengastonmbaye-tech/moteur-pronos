@@ -55,6 +55,8 @@ LIGUES_NUIT = {
     262: "Liga MX",
     239: "Colombie Primera A",
 }
+# (Liga MX et Colombie ne produiront des coupons qu'une fois leur historique
+#  collecté par le cron ; sans données, le moteur les ignore silencieusement)
 NUIT_DEBUT, NUIT_FIN = 22, 7      # heures (UTC = heure de Dakar)
 
 # bookmakers préférés, dans l'ordre (partenaires d'abord)
@@ -137,9 +139,8 @@ def candidats(demain=False, nuit=False):
     histo["date"] = jours + heures.fillna(pd.Timedelta(0))
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
     if nuit:
-        # LA NUIT QUI VIENT : de 22h ce soir à 7h demain matin, quelle que soit
-        # l'heure d'exécution (le matin comme le soir, on prépare la même nuit)
-        base = maintenant.date()
+        # nuit du jour visé : de 22h ce soir-là à 7h le lendemain matin
+        base = maintenant.date() + timedelta(days=1 if demain else 0)
         debut = datetime.combine(base, datetime.min.time()) + timedelta(hours=NUIT_DEBUT)
         fin = datetime.combine(base + timedelta(days=1), datetime.min.time()) + timedelta(hours=NUIT_FIN)
         debut = max(debut, maintenant)      # jamais un match déjà commencé
@@ -301,8 +302,9 @@ def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdict
     # « valeur » = écart entre ce que dit le moteur et ce que paie le bookmaker
     for s in dispo:
         s["valeur"] = s["proba"] * s["cote"] - 1
-    # aucune sélection en dessous de 1,20 : une cote à 1,06 n'apporte rien au coupon
-    dispo = [s for s in dispo if s["cote"] >= 1.20]
+    # plancher de cote : plus bas pour les coupons sûrs, qui vivent de petites cotes
+    plancher_cote = 1.15 if cible <= 2.5 else 1.20
+    dispo = [s for s in dispo if s["cote"] >= plancher_cote]
     if not dispo:
         return None, 0.0
 
@@ -374,7 +376,11 @@ def construire(pool, categories=None):
             print(f"   ✅ {cle} #{numero} : {len(sel)} match(s), cote {total}")
             faits += 1
         if faits == 0:
-            print(f"   ⚠️ {cle} : aucun coupon possible aujourd'hui")
+            libres = [s for s in pool
+                      if usages.get((s["fixture_id"], s["code"]), 0) == 0
+                      and all(compatibles(s["code"], c) for c in verdicts.get(s["fixture_id"], []))]
+            print(f"   ⚠️ {cle} : aucun coupon possible "
+                  f"({len(libres)} sélection(s) encore libres, cible {cible})")
     return coupons
 
 
@@ -521,9 +527,9 @@ def main():
     coupons = construire(pool)
 
     # ----- coupons de la nuit (Amériques) -----
-    print("→ Coupons de la nuit qui vient (22h → 7h)")
+    print(f"→ Coupons de la nuit du {jour} (22h → 7h)")
     coupons_nuit = []
-    matchs_nuit = candidats(nuit=True)
+    matchs_nuit = candidats(demain, nuit=True)
     if matchs_nuit:
         pool_nuit = selections_possibles(matchs_nuit, bookmaker)
         if pool_nuit:
@@ -536,8 +542,7 @@ def main():
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
     if coupons_nuit:
-        # la nuit qui vient appartient à la soirée d'aujourd'hui
-        enregistrer(coupons_nuit, datetime.now(timezone.utc).date().isoformat())
+        enregistrer(coupons_nuit, jour)
     print(f"✓ coupons du {jour} terminés")
 
 
