@@ -143,13 +143,15 @@ def candidats(demain=False):
             if "erreur" in fiche:
                 continue
             p = fiche["_probas"]
+            # le moteur renvoie des pourcentages (46) : on ramène tout sur 0-1
+            ech = lambda v: (float(v) / 100) if float(v) > 1 else float(v)
             lignes.append({
                 "fixture_id": int(f.fixture_id), "ligue": nom,
                 "dom": f.equipe_dom, "ext": f.equipe_ext,
                 "date_match": f.date.date().isoformat(),
                 "heure": f.get("heure"),
-                "p1": p["1"], "pN": p["N"], "p2": p["2"], "pO25": p["O2.5"],
-                "btts": fiche["bonus"]["btts_oui"] / 100,
+                "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
+                "btts": ech(fiche["bonus"]["btts_oui"]),
             })
     print(f"   {len(lignes)} match(s) analysés pour les coupons")
     return lignes
