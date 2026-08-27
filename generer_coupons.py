@@ -47,16 +47,34 @@ LIGUES_COUPONS = {
 }
 D2_VERS_D1 = {40: 39, 141: 140, 136: 135, 79: 78, 62: 61, 89: 88, 95: 94}
 
+# Championnats joués pendant la nuit africaine (23h → 7h)
+LIGUES_NUIT = {
+    71:  "Brésil Série A",
+    128: "Argentine Liga Profesional",
+    253: "MLS",
+    262: "Liga MX",
+    239: "Colombie Primera A",
+}
+NUIT_DEBUT, NUIT_FIN = 23, 7      # heures (UTC = heure de Dakar)
+
 # bookmakers préférés, dans l'ordre (partenaires d'abord)
 BOOKMAKERS = ["1xbet", "melbet", "betwinner", "1win", "bet365", "pinnacle"]
 
-# (clé, cote visée, plancher, plafond, matchs maxi, nombre de coupons par jour)
+# (clé, cote visée, plancher, plafond, taille visée, matchs maxi, coupons/jour)
+# ORDRE = ordre de construction : les catégories risquées servent EN PREMIER,
+# sinon les coupons sûrs raflent toutes les sélections à cote moyenne et il ne
+# reste que des cotes à 1,20 pour les grosses cotes.
+# (clé, cote visée, plancher, plafond, taille visée, matchs maxi, coupons/jour)
+CATEGORIES_NUIT = [
+    ("nuit",        3.2,   2.0,   5.0,  2,  4, 3),
+]
+
 CATEGORIES = [
-    ("sure",        2.2,   1.7,   2.5,  4, 3),
-    ("montante",    1.8,   1.6,   1.9,  3, 1),
-    ("confiance",   6.0,   3.0,  10.0,  7, 3),
-    ("fun",        15.0,  10.0,  20.0, 13, 2),
-    ("grosses",    60.0,  20.0, 150.0, 13, 2),
+    ("grosses",    60.0,  20.0, 150.0,  6, 13, 2),
+    ("fun",        15.0,   9.0,  22.0,  5, 10, 2),
+    ("confiance",   6.0,   3.0,  10.0,  4,  7, 3),
+    ("sure",        2.2,   1.7,   2.6,  3,  4, 3),
+    ("montante",    1.8,   1.5,   2.0,  2,  3, 1),
 ]
 
 # Issues 1X2 couvertes par chaque code (H = dom, D = nul, A = ext)
@@ -111,11 +129,18 @@ def sb(chemin, methode="GET", corps=None, prefer=None):
 # ==================================================================
 # 1. Candidats : probabilités du moteur sur les matchs à venir
 # ==================================================================
-def candidats(demain=False):
+def candidats(demain=False, nuit=False):
     histo = pd.read_csv(F_HISTO)
     histo["date"] = pd.to_datetime(histo["date"], errors="coerce", utc=True).dt.tz_localize(None)
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
-    if demain:
+    if nuit:
+        # nuit du jour visé : de 23h à 7h le lendemain matin
+        base = maintenant.date() + timedelta(days=1 if demain else 0)
+        debut = datetime.combine(base, datetime.min.time()) + timedelta(hours=NUIT_DEBUT)
+        fin = datetime.combine(base + timedelta(days=1), datetime.min.time()) + timedelta(hours=NUIT_FIN)
+        if not demain:
+            debut = max(debut, maintenant)
+    elif demain:
         # toute la journée de demain
         debut = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
         fin = debut + timedelta(days=1)
@@ -125,7 +150,7 @@ def candidats(demain=False):
         fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
 
     lignes = []
-    for lid, nom in LIGUES_COUPONS.items():
+    for lid, nom in (LIGUES_NUIT if nuit else LIGUES_COUPONS).items():
         viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
         passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
             subset=["buts_dom", "buts_ext"])
@@ -154,7 +179,7 @@ def candidats(demain=False):
                 "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
                 "btts": ech(fiche["bonus"]["btts_oui"]),
             })
-    print(f"   {len(lignes)} match(s) analysés pour les coupons")
+    print(f"   {len(lignes)} match(s) analysés{' (nuit)' if nuit else ''}")
     return lignes
 
 
@@ -252,7 +277,7 @@ def selections_possibles(matchs, bookmaker):
 # ==================================================================
 # 3. Construction des coupons
 # ==================================================================
-def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usages):
+def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdicts, usages):
     """Empile des sélections jusqu'à approcher la cote visée.
     Deux garde-fous : jamais de sélection qui contredit un autre coupon du jour,
     et on privilégie les sélections où le moteur voit un écart avec la cote."""
@@ -268,13 +293,13 @@ def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usage
     if not dispo:
         return None, 0.0
 
-    # cote moyenne nécessaire pour atteindre la cible
-    moy_visee = cible ** (1 / max(1, max_matchs))
+    # cote moyenne nécessaire pour atteindre la cible avec la taille visée
+    moy_visee = cible ** (1 / max(1, taille))
     # « valeur » = écart entre ce que dit le moteur et ce que paie le bookmaker
     for s in dispo:
         s["valeur"] = s["proba"] * s["cote"] - 1
-    # on ne retient que les cotes dans la zone utile pour cette cible
-    zone = [s for s in dispo if 0.55 * moy_visee <= s["cote"] <= 2.2 * moy_visee]
+    # on ne retient d'abord que les cotes dans la zone utile pour cette cible
+    zone = [s for s in dispo if 0.7 * moy_visee <= s["cote"] <= 1.7 * moy_visee]
     candidats_tries = zone or dispo
     # priorité du marché, puis valeur réelle, puis probabilité, puis fraîcheur
     candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"]))
@@ -291,24 +316,38 @@ def batir(pool, cible, plancher, plafond, max_matchs, deja_pris, verdicts, usage
         matchs_pris.add(s["fixture_id"])
         total *= s["cote"]
 
+    # si la cote reste sous le plancher, on complète avec les meilleures cotes
+    # restantes (les plus rémunératrices d'abord) plutôt que de renoncer
+    if total < plancher and len(choisies) < max_matchs:
+        reste = [s for s in dispo if s["fixture_id"] not in matchs_pris]
+        reste.sort(key=lambda s: (-s["cote"], -s["valeur"]))
+        for s in reste:
+            if len(choisies) >= max_matchs or total >= cible:
+                break
+            if total * s["cote"] > plafond:
+                continue
+            choisies.append(s)
+            matchs_pris.add(s["fixture_id"])
+            total *= s["cote"]
+
     if not choisies or total < plancher:
         return None, 0.0
     return choisies, round(total, 2)
 
 
-def construire(pool):
+def construire(pool, categories=None):
     coupons, deja_pris = [], set()
     verdicts = {}    # fixture_id → codes déjà engagés aujourd'hui
     usages = {}      # (fixture_id, code) → nombre de coupons l'utilisant
-    for cle, cible, plancher, plafond, nmax, combien in CATEGORIES:
+    for cle, cible, plancher, plafond, taille, nmax, combien in (categories or CATEGORIES):
         faits = 0
         for numero in range(1, combien + 1):
-            sel, total = batir(pool, cible, plancher, plafond, nmax, deja_pris, verdicts, usages)
+            sel, total = batir(pool, cible, plancher, plafond, taille, nmax, deja_pris, verdicts, usages)
             note = None
 
             # repli : peu de matchs aujourd'hui → meilleur coupon possible, signalé
             if not sel and faits == 0:
-                sel, total = batir(pool, cible, 1.01, plafond, nmax, deja_pris, verdicts, usages)
+                sel, total = batir(pool, cible, 1.01, plafond, taille, nmax, deja_pris, verdicts, usages)
                 if sel and total >= plancher * 0.5:
                     note = ("Peu de matchs aujourd'hui — c'est la cote la plus haute "
                             "que le moteur peut construire sans descendre en qualité.")
@@ -465,7 +504,20 @@ def main():
 
     print("→ Construction des coupons")
     coupons = construire(pool)
+
+    # ----- coupons de la nuit (Amériques) -----
+    print("→ Coupons de la nuit")
+    matchs_nuit = candidats(demain, nuit=True)
+    if matchs_nuit:
+        pool_nuit = selections_possibles(matchs_nuit, bookmaker)
+        if pool_nuit:
+            coupons += construire(pool_nuit, CATEGORIES_NUIT)
+    else:
+        print("   (aucun match cette nuit)")
+
     if coupons:
+        ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5}
+        coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
     print(f"✓ coupons du {jour} terminés")
 
