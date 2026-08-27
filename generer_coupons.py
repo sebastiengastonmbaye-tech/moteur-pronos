@@ -479,6 +479,18 @@ def enregistrer(coupons, jour, nuit=False):
     lendemain = (datetime.fromisoformat(jour).date() + timedelta(days=1)).isoformat()
     autorises = {jour, lendemain} if nuit else {jour}
 
+    # on efface d'abord les coupons du jour encore en cours : une nouvelle
+    # exécution doit toujours refléter la logique la plus récente
+    cats = {c["categorie"] for c in coupons}
+    for cat in cats:
+        anciens = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cat}&statut=eq.en_cours&select=id")
+        for a in (anciens if isinstance(anciens, list) else []):
+            sb(f"coupon_selections?coupon_id=eq.{a['id']}", "DELETE")
+            sb(f"montante?coupon_id=eq.{a['id']}", "DELETE")
+            sb(f"coupons?id=eq.{a['id']}", "DELETE")
+        if anciens:
+            print(f"   ↻ {cat} : {len(anciens)} ancien(s) coupon(s) remplacé(s)")
+
     for c in coupons:
         # garde-fou : aucune sélection en dehors de la journée visée
         hors = [s for s in c["selections"] if s["date_match"] not in autorises]
@@ -487,9 +499,6 @@ def enregistrer(coupons, jour, nuit=False):
                   f"{jour} → coupon annulé")
             continue
         cle, numero = c["categorie"], c["numero"]
-        if sb(f"coupons?jour=eq.{jour}&categorie=eq.{cle}&numero=eq.{numero}&select=id"):
-            print(f"   ({cle} #{numero} déjà publié aujourd'hui)")
-            continue
         cree = sb("coupons", "POST", {
             "jour": jour, "categorie": cle, "numero": numero,
             "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"]),
