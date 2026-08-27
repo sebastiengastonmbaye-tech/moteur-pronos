@@ -257,16 +257,28 @@ def construire(pool):
         faits = 0
         for numero in range(1, combien + 1):
             sel, total = batir(pool, cible, plancher, plafond, nmax, deja_pris)
+            note = None
+
+            # repli : peu de matchs aujourd'hui → meilleur coupon possible, signalé
+            if not sel and faits == 0:
+                sel, total = batir(pool, cible, 1.01, plafond, nmax, deja_pris)
+                if sel and total >= plancher * 0.5:
+                    note = ("Peu de matchs aujourd'hui — c'est la cote la plus haute "
+                            "que le moteur peut construire sans descendre en qualité.")
+                    print(f"   ↘ {cle} : repli à {total} (cible {cible})")
+                else:
+                    sel = None
+
             if not sel:
                 break
-            coupons.append({"categorie": cle, "numero": numero,
+            coupons.append({"categorie": cle, "numero": numero, "note": note,
                             "selections": sel, "cote_totale": total})
             for s in sel:
                 deja_pris.add((s["fixture_id"], s["code"]))
             print(f"   ✅ {cle} #{numero} : {len(sel)} match(s), cote {total}")
             faits += 1
         if faits == 0:
-            print(f"   ⚠️ {cle} : pas assez de matchs aujourd'hui")
+            print(f"   ⚠️ {cle} : aucun coupon possible aujourd'hui")
     return coupons
 
 
@@ -358,6 +370,7 @@ def enregistrer(coupons, jour):
         cree = sb("coupons", "POST", {
             "jour": jour, "categorie": cle, "numero": numero,
             "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"]),
+            "note": c.get("note"),
         }, prefer="return=representation")
         if not cree:
             continue
