@@ -56,3 +56,8 @@ jobs:
         run: |
           curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels" \
             -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
+
+      - name: Alerte manager (coupons validés)
+        run: |
+          curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels?mode=manager" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
