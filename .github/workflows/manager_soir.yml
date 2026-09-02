@@ -1,0 +1,32 @@
+name: Alerte manager (soir)
+
+on:
+  schedule:
+    - cron: "0 23 * * *"    # 23h00 Dakar — après les matchs européens
+  workflow_dispatch:
+
+jobs:
+  alerte:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pandas numpy requests
+
+      # on vérifie d'abord les résultats des coupons du jour…
+      - name: Vérification des coupons
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python generer_coupons.py --verifier-seulement
+
+      # … puis on alerte le manager des coupons validés
+      - name: Alerte manager
+        run: |
+          curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels?mode=manager" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
