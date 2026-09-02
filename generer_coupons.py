@@ -373,15 +373,17 @@ def construire(pool, categories=None):
     coupons, deja_pris = [], set()
     verdicts, usages = {}, {}
 
-    # avec peu de matchs, on publie moins de coupons plutôt que du remplissage
+    # avec peu de matchs, on publie moins de coupons plutôt que du remplissage,
+    # en tenant compte de la taille réelle des coupons de chaque catégorie
     nb_matchs = len({s["fixture_id"] for s in pool})
-    plafond_par_cat = max(1, nb_matchs // 4)
+    def plafond_cat(cle):
+        return max(1, nb_matchs // max(2, TAILLE_MINI.get(cle, 3)))
 
     tours = max(c[6] for c in cats)
     epuisees = set()
     for numero in range(1, tours + 1):
         for cle, cible, plancher, plafond, taille, nmax, combien in cats:
-            if cle in epuisees or numero > min(combien, plafond_par_cat):
+            if cle in epuisees or numero > min(combien, plafond_cat(cle)):
                 continue
             sel, total = batir(pool, cible, plancher, plafond, taille, nmax,
                                deja_pris, verdicts, usages, TAILLE_MINI.get(cle, 1))
@@ -547,6 +549,10 @@ def main():
 
     print("→ Vérification des coupons précédents")
     verifier()
+
+    if "--verifier-seulement" in sys.argv:
+        print("✓ vérification terminée (pas de nouveaux coupons)")
+        return
 
     demain = "--demain" in sys.argv
     jour = (datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)).isoformat()
