@@ -1,0 +1,20 @@
+{
+  "_commentaire": "Pays des clubs dont le championnat n'est PAS collecte. Sert de prior quand l'equipe a peu de matchs europeens. Ecris le nom EXACTEMENT comme API-Football le renvoie (verifie dans histo_api.csv). Ajoute une ligne des qu'un club inconnu apparait au tirage.",
+  "Shakhtar Donetsk": "Ukraine",
+  "Dynamo Kyiv": "Ukraine",
+  "Slavia Praha": "Tchequie",
+  "Sparta Praha": "Tchequie",
+  "Viktoria Plzen": "Tchequie",
+  "Slovan Bratislava": "Slovaquie",
+  "Sabah": "Azerbaidjan",
+  "Qarabag": "Azerbaidjan",
+  "Dinamo Zagreb": "Croatie",
+  "Crvena Zvezda": "Serbie",
+  "Ludogorets": "Bulgarie",
+  "Maccabi Tel Aviv": "Israel",
+  "Legia Warszawa": "Pologne",
+  "Ferencvaros": "Hongrie",
+  "FCSB": "Roumanie",
+  "Pafos": "Chypre",
+  "Astana": "Kazakhstan"
+}
