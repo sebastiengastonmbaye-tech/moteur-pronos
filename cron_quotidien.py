@@ -3,6 +3,10 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V3.2 (08/09/2026) : LIGUES_EUROPE — championnats des clubs européens hors
+périmètre (Slovaquie, Ukraine, Tchéquie, Azerbaïdjan, Croatie…) collectés pour
+que TOUS les matchs de C1/C2 soient analysables.
+
 V3.1 (08/09/2026) : les coupes d'Europe (C1/C2) sont analysées avec un
 moteur entraîné sur TOUS les championnats collectés + les matchs européens
 eux-mêmes. Avant, le moteur C1 ne voyait que les matchs de C1 : en début de
@@ -97,6 +101,27 @@ LIGUES_SUIVI = {
     239: "Colombie Primera A",
 }
 
+# Championnats collectés UNIQUEMENT pour que leurs clubs soient analysables en
+# coupe d'Europe (Slovan Bratislava, Shakhtar, Sabah, Slavia Praha, Dinamo
+# Zagreb…). Aucun prono publié sur ces championnats eux-mêmes.
+# Pour ajouter un pays : python verifier_ligues.py <id> confirme l'identifiant.
+LIGUES_EUROPE = {
+    332: "Slovaquie Super Liga",
+    333: "Ukraine Premier League",
+    345: "Tchéquie Chance Liga",
+    419: "Azerbaïdjan Premyer Liqa",
+    210: "Croatie HNL",
+    286: "Serbie Super Liga",
+    106: "Pologne Ekstraklasa",
+    383: "Israël Ligat ha'Al",
+    318: "Chypre First Division",
+    271: "Hongrie NB I",
+    283: "Roumanie Liga I",
+    172: "Bulgarie First League",
+    389: "Kazakhstan Premier League",
+    373: "Slovénie 1. SNL",
+}
+
 # Coupes d'Europe : les deux équipes viennent de championnats différents.
 # Leur moteur s'entraîne sur un VIVIER EUROPÉEN = tous les championnats
 # collectés (D1, D2, coupons, Norvège, Suède) + les matchs de C1/C2 des
@@ -163,7 +188,7 @@ def importer_historique():
         histo, deja = pd.DataFrame(), set()
 
     nouveaux = []
-    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_SUIVI}
+    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI}
     for lid in a_historiser:
         for saison in SAISONS_HISTO:
             if (lid, saison) in deja:
@@ -173,7 +198,7 @@ def importer_historique():
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_SUIVI}
+    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI}
     for lid in toutes:
         print(f"   ↻ {toutes[lid]} {SAISON_COURANTE}")
         rep = appel("fixtures", {"league": lid, "season": SAISON_COURANTE})
@@ -277,7 +302,7 @@ def publier(histo):
     def obtenir_moteur_europe():
         if moteur_europe["m"] is None and moteur_europe["erreur"] is None:
             pool = (set(LIGUES) | set(NOMS_D2) | set(LIGUES_COUPONS)
-                    | set(LIGUES_SUIVI)) - LIGUES_SANS_LIEN_EUROPE
+                    | set(LIGUES_EUROPE) | set(LIGUES_SUIVI)) - LIGUES_SANS_LIEN_EUROPE
             passe = histo[histo.ligue_id.isin(pool) & (histo.statut == "FT")].dropna(
                 subset=["buts_dom", "buts_ext"])
             print(f"   🌍 vivier européen : {len(passe):,} matchs, "
