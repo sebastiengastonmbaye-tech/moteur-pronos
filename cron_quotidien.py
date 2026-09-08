@@ -3,6 +3,7 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V3.3 (08/09/2026) : LIGUES_EUROPE (le log affiche pays + nom renvoyés par l'API)
 V3.2 (08/09/2026) : LIGUES_EUROPE — championnats des clubs européens hors
 périmètre (Slovaquie, Ukraine, Tchéquie, Azerbaïdjan, Croatie…) collectés pour
 que TOUS les matchs de C1/C2 soient analysables.
@@ -195,6 +196,13 @@ def importer_historique():
                 continue
             print(f"   ↓ {a_historiser[lid]} {saison}")
             rep = appel("fixtures", {"league": lid, "season": saison})
+            if lid in LIGUES_EUROPE and rep:
+                # auto-vérification : ce que l'API dit de cet identifiant
+                l = rep[0]["league"]
+                print(f"      ↳ API : {l.get('country', '?')} — {l.get('name', '?')} "
+                      f"({len(rep)} matchs)")
+            elif lid in LIGUES_EUROPE:
+                print(f"      ↳ ❌ identifiant {lid} : aucun match renvoyé, à vérifier")
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
