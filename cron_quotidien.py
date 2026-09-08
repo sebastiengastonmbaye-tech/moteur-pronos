@@ -3,6 +3,11 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V3.1 (08/09/2026) : les coupes d'Europe (C1/C2) sont analysées avec un
+moteur entraîné sur TOUS les championnats collectés + les matchs européens
+eux-mêmes. Avant, le moteur C1 ne voyait que les matchs de C1 : en début de
+phase de ligue, Barcelone ou Liverpool étaient « sans données récentes ».
+
 V3 : capture des logos d'équipes (URL API-Football) et de l'heure
 de coup d'envoi, pour affichage dans l'app.
 
@@ -91,6 +96,14 @@ LIGUES_SUIVI = {
     262: "Liga MX",
     239: "Colombie Primera A",
 }
+
+# Coupes d'Europe : les deux équipes viennent de championnats différents.
+# Leur moteur s'entraîne sur un VIVIER EUROPÉEN = tous les championnats
+# collectés (D1, D2, coupons, Norvège, Suède) + les matchs de C1/C2 des
+# saisons passées, qui relient les championnats entre eux.
+# Les ligues des Amériques et du Japon n'y sont pas : aucun lien avec l'Europe.
+COMPETITIONS_UEFA = {2, 3}
+LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239}
 
 SAISONS_HISTO = [2023, 2024, 2025]
 SAISON_COURANTE = 2026
@@ -257,24 +270,54 @@ def publier(histo):
 
     lignes = []
     ecartes = []          # journal des matchs non publiés
+
+    # --- moteur européen : construit une seule fois, partagé par C1 et C2 ---
+    moteur_europe = {"m": None, "erreur": None}
+
+    def obtenir_moteur_europe():
+        if moteur_europe["m"] is None and moteur_europe["erreur"] is None:
+            pool = (set(LIGUES) | set(NOMS_D2) | set(LIGUES_COUPONS)
+                    | set(LIGUES_SUIVI)) - LIGUES_SANS_LIEN_EUROPE
+            passe = histo[histo.ligue_id.isin(pool) & (histo.statut == "FT")].dropna(
+                subset=["buts_dom", "buts_ext"])
+            print(f"   🌍 vivier européen : {len(passe):,} matchs, "
+                  f"{passe.equipe_dom.nunique()} équipes")
+            try:
+                moteur_europe["m"] = Moteur(passe, date_ref=aujourdhui)
+            except ValueError as e:
+                moteur_europe["erreur"] = str(e)
+                print(f"   ⚠️ moteur européen : {e}")
+        return moteur_europe["m"]
+
     for lid, nom in LIGUES.items():
-        # le vivier d'entraînement inclut la 2e division du même pays :
-        # les équipes promues y ont leur historique, et les équipes qui
-        # font l'aller-retour calibrent l'écart de niveau entre divisions
-        viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
-        passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
-            subset=["buts_dom", "buts_ext"])
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= aujourdhui) & (histo.date < fin)]
-        if len(passe) < 120 or avenir.empty:
-            if not avenir.empty:
+        if avenir.empty:
+            continue
+
+        if lid in COMPETITIONS_UEFA:
+            # coupe d'Europe : les équipes sont notées dans LEUR championnat,
+            # pas dans la coupe elle-même (où elles n'ont rien joué en début
+            # de saison)
+            m = obtenir_moteur_europe()
+            if m is None:
+                ecartes.append((nom, len(avenir), "moteur européen indisponible"))
+                continue
+        else:
+            # championnat : le vivier inclut la 2e division du même pays —
+            # les équipes promues y ont leur historique, et celles qui font
+            # l'aller-retour calibrent l'écart de niveau entre divisions
+            viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
+            passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
+                subset=["buts_dom", "buts_ext"])
+            if len(passe) < 120:
                 ecartes.append((nom, len(avenir), "historique insuffisant pour la ligue"))
-            continue
-        try:
-            m = Moteur(passe, date_ref=aujourdhui)
-        except ValueError as e:
-            print(f"   ⚠️ {nom} : {e}")
-            continue
+                continue
+            try:
+                m = Moteur(passe, date_ref=aujourdhui)
+            except ValueError as e:
+                print(f"   ⚠️ {nom} : {e}")
+                continue
 
         for _, f in avenir.iterrows():
             if f.fixture_id in deja:
