@@ -9,7 +9,21 @@ Tourne dans le cron, après cron_quotidien.py.
 3. Fait avancer la montante en cours (objectif ×15, départ 5 000 F)
 
 Règles : une seule sélection par match · pas deux fois la même sélection
-dans deux coupons différents · priorité V1/V2 puis buts puis double chance.
+dans deux coupons différents · jamais deux codes contradictoires sur un match.
+
+V2 (13/09/2026) — le moteur est ENRICHI (enrichissement.py : blessés et
+suspendus pondérés par le statut de titulaire, repos et enchaînement, expected
+goals des derniers matchs, contexte de classement) et la LOGIQUE DE SÉLECTION
+est déléguée à selection_v2.py :
+  · probabilité fusionnée marché + moteur (le marché est l'ancre, le moteur
+    corrige à hauteur de POIDS_MOTEUR) — fin de l'anti-sélection
+  · minimum de sélections par coupon, cotes individuelles bornées par catégorie
+  · le constructeur maximise la probabilité de passer à cote donnée, et ne
+    publie rien sous le seuil de la catégorie
+  · correctif : les coupes d'Europe sont analysées avec un moteur entraîné sur
+    tous les championnats (comme cron_quotidien.py V3.1) — avant, aucun match
+    de C1/C2 n'entrait dans les coupons
+  · correctif : la cote du nul est récupérée (nécessaire pour retirer la marge)
 
 Variables d'environnement : API_FOOTBALL_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
 """
@@ -24,6 +38,8 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moteur_production import Moteur          # noqa: E402
+import selection_v2 as SEL                     # noqa: E402  (logique v2)
+import enrichissement as ENR                   # noqa: E402  (absences, fatigue, xG, classement)
 
 CLE_API = os.environ.get("API_FOOTBALL_KEY", "")
 URL_SB = os.environ.get("SUPABASE_URL", "").rstrip("/")
@@ -47,6 +63,11 @@ LIGUES_COUPONS = {
 }
 D2_VERS_D1 = {40: 39, 141: 140, 136: 135, 79: 78, 62: 61, 89: 88, 95: 94}
 
+# Coupes d'Europe : moteur entraîné sur TOUT l'historique européen (championnats
+# collectés par le cron + matchs de C1/C2 passés), jamais sur la seule coupe.
+COMPETITIONS_UEFA = {2, 3}
+LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239}
+
 # Championnats joués pendant la nuit africaine (23h → 7h)
 LIGUES_NUIT = {
     71:  "Brésil Série A",
@@ -61,53 +82,10 @@ NUIT_DEBUT, NUIT_FIN = 22, 7      # heures (UTC = heure de Dakar)
 
 # bookmakers préférés, dans l'ordre (partenaires d'abord)
 COTE_MAX_SELECTION = 3.60    # au-delà, c'est un outsider : jamais dans un combiné
-ECART_MAX_MARCHE = 1.85      # écart maximal toléré entre le moteur et le marché
-TAILLE_MINI = {"grosses": 4, "fun": 3, "confiance": 3, "sure": 2, "nuit": 2, "montante": 1}
+# (les anciens ECART_MAX_MARCHE / TAILLE_MINI / CATEGORIES sont remplacés par
+#  selection_v2.CATEGORIES : fourchettes, tailles et seuils par catégorie)
 
 BOOKMAKERS = ["1xbet", "melbet", "betwinner", "1win", "bet365", "pinnacle"]
-
-# (clé, cote visée, plancher, plafond, taille visée, matchs maxi, coupons/jour)
-# ORDRE = ordre de construction : les catégories risquées servent EN PREMIER,
-# sinon les coupons sûrs raflent toutes les sélections à cote moyenne et il ne
-# reste que des cotes à 1,20 pour les grosses cotes.
-# (clé, cote visée, plancher, plafond, taille visée, matchs maxi, coupons/jour)
-CATEGORIES_NUIT = [
-    ("nuit",        3.2,   2.0,   5.0,  2,  4, 3),
-]
-
-CATEGORIES = [
-    ("grosses",    60.0,  20.0, 150.0,  6,  8, 2),
-    ("fun",        15.0,   9.0,  22.0,  5,  6, 2),
-    ("confiance",   6.0,   3.0,  10.0,  4,  5, 3),
-    ("sure",        2.2,   1.7,   2.6,  3,  3, 3),
-    ("montante",    1.7,   1.4,   2.0,  2,  3, 1),
-]
-
-# Issues 1X2 couvertes par chaque code (H = dom, D = nul, A = ext)
-ISSUES = {
-    "1": {"H"}, "2": {"A"}, "1X": {"H", "D"}, "X2": {"D", "A"}, "12": {"H", "A"},
-}
-# Familles exclusives : deux codes d'une même famille se contredisent
-FAMILLES = {"O2.5": "buts", "U2.5": "buts", "BTTS": "btts", "NOBTTS": "btts"}
-
-
-def compatibles(code_a, code_b):
-    """Deux sélections sur LE MÊME match peuvent-elles coexister sans se contredire ?"""
-    if code_a == code_b:
-        return True
-    if code_a in ISSUES and code_b in ISSUES:
-        # il faut au moins une issue commune (ex. « 1 » et « 1X » : oui ; « 1 » et « X2 » : non)
-        return bool(ISSUES[code_a] & ISSUES[code_b])
-    fa, fb = FAMILLES.get(code_a), FAMILLES.get(code_b)
-    if fa and fb and fa == fb:
-        return False          # Plus de 2,5 vs Moins de 2,5 → contradiction
-    return True               # marchés indépendants (résultat vs buts) : compatibles
-
-
-# priorité des marchés voulue par Babs (0 = servi en premier)
-PRIORITE = {"1": 0, "2": 0, "O2.5": 1, "U2.5": 1,
-            "1X": 2, "X2": 2, "12": 2, "BTTS": 3, "NOBTTS": 3}
-
 
 # ==================================================================
 # Outils
@@ -158,18 +136,39 @@ def candidats(demain=False, nuit=False):
         fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
 
     lignes = []
+    moteur_europe = {"m": None, "essaye": False}
+
+    def obtenir_moteur_europe():
+        if not moteur_europe["essaye"]:
+            moteur_europe["essaye"] = True
+            passe = histo[~histo.ligue_id.isin(LIGUES_SANS_LIEN_EUROPE) &
+                          (histo.statut == "FT")].dropna(subset=["buts_dom", "buts_ext"])
+            try:
+                moteur_europe["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()))
+                print(f"   🌍 moteur européen : {len(passe):,} matchs")
+            except ValueError as e:
+                print(f"   ⚠️ moteur européen indisponible : {e}")
+        return moteur_europe["m"]
+
     for lid, nom in (LIGUES_NUIT if nuit else LIGUES_COUPONS).items():
-        viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
-        passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
-            subset=["buts_dom", "buts_ext"])
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= debut) & (histo.date < fin)]
-        if len(passe) < 120 or avenir.empty:
+        if avenir.empty:
             continue
-        try:
-            m = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()))
-        except ValueError:
-            continue
+        if lid in COMPETITIONS_UEFA:
+            m = obtenir_moteur_europe()
+            if m is None:
+                continue
+        else:
+            viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
+            passe = histo[histo.ligue_id.isin(viviers) & (histo.statut == "FT")].dropna(
+                subset=["buts_dom", "buts_ext"])
+            if len(passe) < 120:
+                continue
+            try:
+                m = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()))
+            except ValueError:
+                continue
 
         for _, f in avenir.iterrows():
             fiche = m.analyser(f.equipe_dom, f.equipe_ext)
@@ -179,7 +178,7 @@ def candidats(demain=False, nuit=False):
             # le moteur renvoie des pourcentages (46) : on ramène tout sur 0-1
             ech = lambda v: (float(v) / 100) if float(v) > 1 else float(v)
             lignes.append({
-                "fixture_id": int(f.fixture_id), "ligue": nom,
+                "fixture_id": int(f.fixture_id), "ligue": nom, "ligue_id": int(lid),
                 "dom": f.equipe_dom, "ext": f.equipe_ext,
                 "date_match": f.date.date().isoformat(),
                 "heure": f.get("heure"),
@@ -227,6 +226,7 @@ def cotes_du_match(fixture_id, bookmaker):
                         if v.get("odd")}
                 if nom == "match winner":
                     cotes["1"] = vals.get("home")
+                    cotes["N"] = vals.get("draw")     # nécessaire pour retirer la marge
                     cotes["2"] = vals.get("away")
                 elif nom == "double chance":
                     cotes["1X"] = vals.get("home/draw")
@@ -252,162 +252,46 @@ LIBELLES = {
 
 
 def selections_possibles(matchs, bookmaker):
-    """Une liste de sélections (match + marché) avec probabilité et cote réelle."""
-    out = []
+    """Sélections candidates avec probabilité FUSIONNÉE (marché + moteur) et
+    cote réelle. Les libellés et champs attendus par la base sont ajoutés ici."""
+    entrees = []
     for m in matchs:
         cotes = cotes_du_match(m["fixture_id"], bookmaker)
         time.sleep(0.4)
         if not cotes:
             continue
-        probas = {
-            "1": m["p1"], "2": m["p2"],
-            "1X": m["p1"] + m["pN"], "X2": m["pN"] + m["p2"], "12": m["p1"] + m["p2"],
-            "O2.5": m["pO25"], "U2.5": 1 - m["pO25"],
-            "BTTS": m["btts"], "NOBTTS": 1 - m["btts"],
-        }
-        for code, cote in cotes.items():
-            p = probas.get(code)
-            if p is None or p < 0.35:          # on ne propose rien sous 35 %
-                continue
-            if cote > COTE_MAX_SELECTION:      # pas d'outsider isolé dans un combiné
-                continue
-            # si le moteur s'écarte trop du marché, c'est LUI qui se trompe :
-            # un bookmaker à 9,30 (11 %) contre un modèle à 40 %, c'est une anomalie
-            if p > ECART_MAX_MARCHE * (1 / cote):
-                continue
-            marche, gabarit = LIBELLES[code]
-            out.append({
-                **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
-                                     "heure", "logo_dom", "logo_ext")},
-                "code": code, "marche": marche,
-                "selection": gabarit.format(dom=m["dom"], ext=m["ext"]),
-                "cote": cote, "proba": p, "confiance": round(p * 100),
-                "priorite": PRIORITE[code],
-            })
+        cotes = {k: v for k, v in cotes.items() if k == "N" or v <= COTE_MAX_SELECTION}
+        entrees.append({
+            **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
+                                 "heure", "logo_dom", "logo_ext")},
+            "cotes": cotes,
+            "moteur": {"1": m["p1"], "N": m["pN"], "2": m["p2"],
+                       "O2.5": m["pO25"], "BTTS": m["btts"]},
+        })
+    out = SEL.preparer_selections(entrees)
+    for s in out:
+        marche, gabarit = LIBELLES[s["code"]]
+        s["marche"] = marche
+        s["selection"] = gabarit.format(dom=s["dom"], ext=s["ext"])
+        # « confiance » stockée = probabilité fusionnée (marché + moteur), en %
+        s["confiance"] = round(s["p"] * 100)
     print(f"   {len(out)} sélection(s) disponibles avec cotes réelles")
     return out
 
 
 # ==================================================================
-# 3. Construction des coupons
+# 3. Construction des coupons (logique dans selection_v2.py)
 # ==================================================================
-def batir(pool, cible, plancher, plafond, taille, max_matchs, deja_pris, verdicts, usages, mini=1):
-    """Empile des sélections jusqu'à approcher la cote visée.
-    Deux garde-fous : jamais de sélection qui contredit un autre coupon du jour,
-    et on privilégie les sélections où le moteur voit un écart avec la cote."""
-    # on écarte tout ce qui contredirait un choix déjà fait sur le même match
-    dispo = []
-    for s in pool:
-        deja = verdicts.get(s["fixture_id"], [])
-        if any(not compatibles(s["code"], c) for c in deja):
-            continue
-        if usages.get((s["fixture_id"], s["code"]), 0) >= 1:   # jamais deux fois la même sélection
-            continue
-        dispo.append(s)
-    if not dispo:
-        return None, 0.0
-
-    # cote moyenne nécessaire pour atteindre la cible avec la taille visée
-    moy_visee = cible ** (1 / max(1, taille))
-    # « valeur » = écart entre ce que dit le moteur et ce que paie le bookmaker
-    for s in dispo:
-        s["valeur"] = s["proba"] * s["cote"] - 1
-    # plancher de cote : plus bas pour les coupons sûrs, qui vivent de petites cotes
-    plancher_cote = 1.15 if cible <= 2.5 else 1.20
-    dispo = [s for s in dispo if s["cote"] >= plancher_cote]
-    if not dispo:
-        return None, 0.0
-
-    # on ne retient d'abord que les cotes dans la zone utile pour cette cible
-    zone = [s for s in dispo if 0.7 * moy_visee <= s["cote"] <= 1.7 * moy_visee]
-    candidats_tries = zone or dispo
-    # priorité du marché, puis valeur réelle, puis probabilité, puis fraîcheur
-    candidats_tries.sort(key=lambda s: (s["priorite"], -s["valeur"], -s["proba"]))
-
-    def equilibre(cotes, nouvelle):
-        """Un coupon reste lisible si ses cotes restent du même ordre :
-        la plus forte ne dépasse pas 2,2 fois la plus faible."""
-        toutes = cotes + [nouvelle]
-        return max(toutes) <= 2.2 * min(toutes)
-
-    choisies, matchs_pris, total = [], set(), 1.0
-    for s in candidats_tries:
-        if len(choisies) >= max_matchs or total >= cible:
-            break
-        if s["fixture_id"] in matchs_pris:
-            continue
-        if total * s["cote"] > plafond:
-            continue
-        if not equilibre([x["cote"] for x in choisies], s["cote"]):
-            continue
-        choisies.append(s)
-        matchs_pris.add(s["fixture_id"])
-        total *= s["cote"]
-
-    # si la cote reste sous le plancher, on complète avec les meilleures cotes
-    # restantes (les plus rémunératrices d'abord) plutôt que de renoncer
-    if total < plancher and len(choisies) < max_matchs:
-        reste = [s for s in dispo if s["fixture_id"] not in matchs_pris]
-        reste.sort(key=lambda s: (-s["cote"], -s["valeur"]))
-        for s in reste:
-            if len(choisies) >= max_matchs or total >= cible:
-                break
-            if total * s["cote"] > plafond:
-                continue
-            if not equilibre([x["cote"] for x in choisies], s["cote"]):
-                continue
-            choisies.append(s)
-            matchs_pris.add(s["fixture_id"])
-            total *= s["cote"]
-
-    if not choisies or total < plancher or len(choisies) < mini:
-        return None, 0.0
-    return choisies, round(total, 2)
-
-
-def construire(pool, categories=None):
-    """Sert les catégories EN ROTATION : chacune obtient son premier coupon
-    avant qu'une autre en reçoive un deuxième. Sans ça, les catégories
-    servies en premier épuisent le vivier et les suivantes repartent vides."""
-    cats = categories or CATEGORIES
-    coupons, deja_pris = [], set()
-    verdicts, usages = {}, {}
-
-    # avec peu de matchs, on publie moins de coupons plutôt que du remplissage,
-    # en tenant compte de la taille réelle des coupons de chaque catégorie
-    nb_matchs = len({s["fixture_id"] for s in pool})
-    def plafond_cat(cle):
-        return max(1, nb_matchs // max(2, TAILLE_MINI.get(cle, 3)))
-
-    tours = max(c[6] for c in cats)
-    epuisees = set()
-    for numero in range(1, tours + 1):
-        for cle, cible, plancher, plafond, taille, nmax, combien in cats:
-            if cle in epuisees or numero > min(combien, plafond_cat(cle)):
-                continue
-            sel, total = batir(pool, cible, plancher, plafond, taille, nmax,
-                               deja_pris, verdicts, usages, TAILLE_MINI.get(cle, 1))
-            if not sel:
-                epuisees.add(cle)
-                if numero == 1:
-                    libres = [s for s in pool
-                              if usages.get((s["fixture_id"], s["code"]), 0) == 0
-                              and all(compatibles(s["code"], c) for c in verdicts.get(s["fixture_id"], []))]
-                    print(f"   ⚠️ {cle} : aucun coupon possible "
-                          f"({len(libres)} sélection(s) libres, cible {cible})")
-                continue
-
-            coupons.append({"categorie": cle, "numero": numero,
-                            "selections": sel, "cote_totale": total})
-            for s in sel:
-                deja_pris.add((s["fixture_id"], s["code"]))
-                verdicts.setdefault(s["fixture_id"], [])
-                if s["code"] not in verdicts[s["fixture_id"]]:
-                    verdicts[s["fixture_id"]].append(s["code"])
-                usages[(s["fixture_id"], s["code"])] = usages.get((s["fixture_id"], s["code"]), 0) + 1
-            print(f"   ✅ {cle} #{numero} : {len(sel)} match(s), cote {total}")
-
-    return coupons
+def construire(pool, nuit=False):
+    """Sert les catégories en rotation via selection_v2. Retourne des coupons
+    au format attendu par enregistrer()."""
+    if not pool:
+        return []
+    ordre = SEL.ORDRE_NUIT if nuit else SEL.ORDRE_JOUR
+    coupons = SEL.construire_coupons(pool, ordre=ordre, journal=print)
+    return [{"categorie": c["categorie"], "numero": c["numero"],
+             "selections": c["selections"], "cote_totale": c["cote_totale"]}
+            for c in coupons]
 
 
 # ==================================================================
@@ -561,6 +445,12 @@ def main():
     if len(matchs) < 5:
         print("   (trop peu de matchs : aucun coupon aujourd'hui)")
         return
+    histo_brut = pd.read_csv(F_HISTO)
+    print("→ Enrichissement (absences, fatigue, xG, classement)")
+    matchs = ENR.enrichir(matchs, histo_brut)
+    for m in matchs:
+        if m.get("contexte"):
+            print(f"   · {m['dom']} – {m['ext']} : {m['contexte'][:160]}")
 
     bookmaker = id_bookmaker()
     if not bookmaker:
@@ -580,9 +470,10 @@ def main():
     coupons_nuit = []
     matchs_nuit = candidats(demain, nuit=True)
     if matchs_nuit:
+        matchs_nuit = ENR.enrichir(matchs_nuit, histo_brut)
         pool_nuit = selections_possibles(matchs_nuit, bookmaker)
         if pool_nuit:
-            coupons_nuit = construire(pool_nuit, CATEGORIES_NUIT)
+            coupons_nuit = construire(pool_nuit, nuit=True)
     else:
         print("   (aucun match cette nuit)")
 
