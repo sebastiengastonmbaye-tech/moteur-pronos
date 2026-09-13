@@ -41058,7 +41058,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1546290,2026-05-27,FT,373,1. SNL,2025,Primorje,Nafta,0.0,0.0,16:00,https://media.api-sports.io/football/teams/14007.png,https://media.api-sports.io/football/teams/4376.png
 1546291,2026-05-31,FT,373,1. SNL,2025,Nafta,Primorje,1.0,0.0,15:00,https://media.api-sports.io/football/teams/4376.png,https://media.api-sports.io/football/teams/14007.png
 1384399,2026-05-09,AWD,373,1. SNL,2025,Maribor,Olimpija Ljubljana,0.0,3.0,18:15,https://media.api-sports.io/football/teams/552.png,https://media.api-sports.io/football/teams/677.png
-1557400,2026-09-13,HT,39,Premier League,2026,Coventry,Brighton,0.0,1.0,13:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/51.png
 1557367,2026-08-21,FT,39,Premier League,2026,Arsenal,Coventry,3.0,0.0,19:00,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/1346.png
 1557368,2026-08-22,FT,39,Premier League,2026,Hull City,Manchester United,2.0,0.0,11:30,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/33.png
 1557369,2026-08-22,FT,39,Premier League,2026,Everton,Crystal Palace,2.0,0.0,14:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/52.png
@@ -41438,6 +41437,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1557738,2027-05-30,NS,39,Premier League,2026,Aston Villa,Tottenham,,,15:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/47.png
 1557746,2027-05-30,NS,39,Premier League,2026,Sunderland,Manchester City,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/50.png
 1557740,2027-05-30,NS,39,Premier League,2026,Coventry,Nottingham Forest,,,15:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/65.png
+1557400,2026-09-13,2H,39,Premier League,2026,Coventry,Brighton,0.0,1.0,13:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/51.png
 1570333,2026-08-15,FT,140,La Liga,2026,Alaves,Getafe,3.0,0.0,17:30,https://media.api-sports.io/football/teams/542.png,https://media.api-sports.io/football/teams/546.png
 1570341,2026-08-15,FT,140,La Liga,2026,Sevilla,Rayo Vallecano,2.0,1.0,19:30,https://media.api-sports.io/football/teams/536.png,https://media.api-sports.io/football/teams/728.png
 1570339,2026-08-16,FT,140,La Liga,2026,Racing Santander,Villarreal,2.0,2.0,15:00,https://media.api-sports.io/football/teams/4665.png,https://media.api-sports.io/football/teams/533.png
@@ -41484,6 +41484,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1570377,2026-09-12,FT,140,La Liga,2026,Osasuna,Espanyol,0.0,2.0,14:15,https://media.api-sports.io/football/teams/727.png,https://media.api-sports.io/football/teams/540.png
 1570373,2026-09-12,FT,140,La Liga,2026,Athletic Club,Elche,1.0,1.0,16:30,https://media.api-sports.io/football/teams/531.png,https://media.api-sports.io/football/teams/797.png
 1570379,2026-09-12,FT,140,La Liga,2026,Real Madrid,Rayo Vallecano,4.0,1.0,19:00,https://media.api-sports.io/football/teams/541.png,https://media.api-sports.io/football/teams/728.png
+1570374,2026-09-13,FT,140,La Liga,2026,Celta Vigo,Malaga,1.0,1.0,12:00,https://media.api-sports.io/football/teams/538.png,https://media.api-sports.io/football/teams/535.png
 1570376,2026-09-13,NS,140,La Liga,2026,Levante,Barcelona,,,14:15,https://media.api-sports.io/football/teams/539.png,https://media.api-sports.io/football/teams/529.png
 1570375,2026-09-13,NS,140,La Liga,2026,Getafe,Deportivo La Coruna,,,16:30,https://media.api-sports.io/football/teams/546.png,https://media.api-sports.io/football/teams/544.png
 1570380,2026-09-13,NS,140,La Liga,2026,Real Sociedad,Atletico Madrid,,,19:00,https://media.api-sports.io/football/teams/548.png,https://media.api-sports.io/football/teams/530.png
@@ -41817,7 +41818,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1570712,2027-05-30,NS,140,La Liga,2026,Real Sociedad,Villarreal,,,15:00,https://media.api-sports.io/football/teams/548.png,https://media.api-sports.io/football/teams/533.png
 1570710,2027-05-30,NS,140,La Liga,2026,Osasuna,Valencia,,,15:00,https://media.api-sports.io/football/teams/727.png,https://media.api-sports.io/football/teams/532.png
 1570705,2027-05-30,NS,140,La Liga,2026,Elche,Racing Santander,,,15:00,https://media.api-sports.io/football/teams/797.png,https://media.api-sports.io/football/teams/4665.png
-1570374,2026-09-13,2H,140,La Liga,2026,Celta Vigo,Malaga,1.0,1.0,12:00,https://media.api-sports.io/football/teams/538.png,https://media.api-sports.io/football/teams/535.png
 1550122,2026-09-13,HT,135,Serie A,2026,Lecce,Monza,3.0,1.0,13:00,https://media.api-sports.io/football/teams/867.png,https://media.api-sports.io/football/teams/1579.png
 1550095,2026-08-22,FT,135,Serie A,2026,Udinese,Como,1.0,1.0,16:30,https://media.api-sports.io/football/teams/494.png,https://media.api-sports.io/football/teams/895.png
 1550092,2026-08-22,FT,135,Serie A,2026,Inter,Monza,4.0,1.0,16:30,https://media.api-sports.io/football/teams/505.png,https://media.api-sports.io/football/teams/1579.png
@@ -42198,7 +42198,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550463,2027-05-30,NS,135,Serie A,2026,Lecce,Venezia,,,16:30,https://media.api-sports.io/football/teams/867.png,https://media.api-sports.io/football/teams/517.png
 1550460,2027-05-30,NS,135,Serie A,2026,Como,Genoa,,,16:30,https://media.api-sports.io/football/teams/895.png,https://media.api-sports.io/football/teams/495.png
 1550464,2027-05-30,NS,135,Serie A,2026,Monza,Torino,,,16:30,https://media.api-sports.io/football/teams/1579.png,https://media.api-sports.io/football/teams/503.png
-1575159,2026-09-13,1H,78,Bundesliga,2026,RB Leipzig,Hamburger SV,1.0,0.0,13:30,https://media.api-sports.io/football/teams/173.png,https://media.api-sports.io/football/teams/175.png
+1575159,2026-09-13,1H,78,Bundesliga,2026,RB Leipzig,Hamburger SV,2.0,0.0,13:30,https://media.api-sports.io/football/teams/173.png,https://media.api-sports.io/football/teams/175.png
 1575140,2026-08-28,FT,78,Bundesliga,2026,Bayern München,VfB Stuttgart,5.0,1.0,18:30,https://media.api-sports.io/football/teams/157.png,https://media.api-sports.io/football/teams/172.png
 1575146,2026-08-29,FT,78,Bundesliga,2026,FSV Mainz 05,SC Paderborn 07,0.0,0.0,13:30,https://media.api-sports.io/football/teams/164.png,https://media.api-sports.io/football/teams/185.png
 1575147,2026-08-29,FT,78,Bundesliga,2026,RB Leipzig,Borussia Mönchengladbach,3.0,0.0,13:30,https://media.api-sports.io/football/teams/173.png,https://media.api-sports.io/football/teams/163.png
@@ -42504,7 +42504,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1575442,2027-05-22,NS,78,Bundesliga,2026,Union Berlin,Borussia Mönchengladbach,,,13:30,https://media.api-sports.io/football/teams/182.png,https://media.api-sports.io/football/teams/163.png
 1575443,2027-05-22,NS,78,Bundesliga,2026,1. FC Köln,SC Paderborn 07,,,13:30,https://media.api-sports.io/football/teams/192.png,https://media.api-sports.io/football/teams/185.png
 1575445,2027-05-22,NS,78,Bundesliga,2026,SV Elversberg,Werder Bremen,,,13:30,https://media.api-sports.io/football/teams/1660.png,https://media.api-sports.io/football/teams/162.png
-1552760,2026-09-13,HT,61,Ligue 1,2026,Lille,Estac Troyes,1.0,0.0,13:00,https://media.api-sports.io/football/teams/79.png,https://media.api-sports.io/football/teams/110.png
 1552733,2026-08-21,FT,61,Ligue 1,2026,Marseille,Strasbourg,4.0,0.0,18:45,https://media.api-sports.io/football/teams/81.png,https://media.api-sports.io/football/teams/95.png
 1552732,2026-08-22,FT,61,Ligue 1,2026,Lens,Auxerre,5.0,2.0,15:15,https://media.api-sports.io/football/teams/116.png,https://media.api-sports.io/football/teams/108.png
 1552734,2026-08-22,FT,61,Ligue 1,2026,Nice,Lorient,0.0,0.0,18:45,https://media.api-sports.io/football/teams/84.png,https://media.api-sports.io/football/teams/97.png
@@ -42810,6 +42809,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1553034,2027-05-29,NS,61,Ligue 1,2026,Strasbourg,Nice,,,19:00,https://media.api-sports.io/football/teams/95.png,https://media.api-sports.io/football/teams/84.png
 1553027,2027-05-29,NS,61,Ligue 1,2026,Stade Brestois 29,Lens,,,19:00,https://media.api-sports.io/football/teams/106.png,https://media.api-sports.io/football/teams/116.png
 1553026,2027-05-29,NS,61,Ligue 1,2026,Auxerre,Le Havre,,,19:00,https://media.api-sports.io/football/teams/108.png,https://media.api-sports.io/football/teams/111.png
+1552760,2026-09-13,2H,61,Ligue 1,2026,Lille,Estac Troyes,1.0,0.0,13:00,https://media.api-sports.io/football/teams/79.png,https://media.api-sports.io/football/teams/110.png
 1552117,2026-08-07,FT,88,Eredivisie,2026,Cambuur,Excelsior,0.0,4.0,18:00,https://media.api-sports.io/football/teams/420.png,https://media.api-sports.io/football/teams/196.png
 1552118,2026-08-08,FT,88,Eredivisie,2026,NEC Nijmegen,Telstar,1.0,2.0,14:30,https://media.api-sports.io/football/teams/413.png,https://media.api-sports.io/football/teams/427.png
 1552119,2026-08-08,FT,88,Eredivisie,2026,GO Ahead Eagles,Willem II,4.0,1.0,16:45,https://media.api-sports.io/football/teams/410.png,https://media.api-sports.io/football/teams/195.png
@@ -46572,6 +46572,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1576741,2027-05-16,NS,95,Segunda Liga,2026,Felgueiras 1932,Sporting CP B,,,15:00,https://media.api-sports.io/football/teams/4744.png,https://media.api-sports.io/football/teams/761.png
 1576742,2027-05-16,NS,95,Segunda Liga,2026,Lusitânia Lourosa,Leixoes,,,15:00,https://media.api-sports.io/football/teams/6358.png,https://media.api-sports.io/football/teams/244.png
 1576737,2027-05-16,NS,95,Segunda Liga,2026,AVS,Torreense,,,15:00,https://media.api-sports.io/football/teams/21595.png,https://media.api-sports.io/football/teams/4799.png
+1558632,2026-09-13,1H,144,Jupiler Pro League,2026,Genk,Gent,0.0,0.0,14:00,https://media.api-sports.io/football/teams/742.png,https://media.api-sports.io/football/teams/631.png
 1558581,2026-08-07,FT,144,Jupiler Pro League,2026,Club Brugge KV,Kortrijk,3.0,0.0,18:45,https://media.api-sports.io/football/teams/569.png,https://media.api-sports.io/football/teams/734.png
 1558583,2026-08-08,FT,144,Jupiler Pro League,2026,Standard Liege,Cercle Brugge,2.0,2.0,16:15,https://media.api-sports.io/football/teams/733.png,https://media.api-sports.io/football/teams/741.png
 1558585,2026-08-08,FT,144,Jupiler Pro League,2026,KVC Westerlo,Union St. Gilloise,1.0,5.0,18:45,https://media.api-sports.io/football/teams/261.png,https://media.api-sports.io/football/teams/1393.png
@@ -46623,7 +46624,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1558629,2026-09-12,FT,144,Jupiler Pro League,2026,OH Leuven,Cercle Brugge,1.0,1.0,18:45,https://media.api-sports.io/football/teams/260.png,https://media.api-sports.io/football/teams/741.png
 1558630,2026-09-12,FT,144,Jupiler Pro League,2026,Union St. Gilloise,Lommel United,5.0,0.0,18:45,https://media.api-sports.io/football/teams/1393.png,https://media.api-sports.io/football/teams/259.png
 1558631,2026-09-13,FT,144,Jupiler Pro League,2026,Club Brugge KV,Antwerp,3.0,1.0,11:30,https://media.api-sports.io/football/teams/569.png,https://media.api-sports.io/football/teams/740.png
-1558632,2026-09-13,NS,144,Jupiler Pro League,2026,Genk,Gent,,,14:00,https://media.api-sports.io/football/teams/742.png,https://media.api-sports.io/football/teams/631.png
 1558633,2026-09-13,NS,144,Jupiler Pro League,2026,Zulte Waregem,Charleroi,,,16:30,https://media.api-sports.io/football/teams/600.png,https://media.api-sports.io/football/teams/736.png
 1558634,2026-09-13,NS,144,Jupiler Pro League,2026,RAAL La Louvière,Kortrijk,,,17:15,https://media.api-sports.io/football/teams/5902.png,https://media.api-sports.io/football/teams/734.png
 1558635,2026-09-18,NS,144,Jupiler Pro League,2026,Gent,Standard Liege,,,18:45,https://media.api-sports.io/football/teams/631.png,https://media.api-sports.io/football/teams/733.png
@@ -46878,6 +46878,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1558881,2027-05-22,NS,144,Jupiler Pro League,2026,Genk,KV Mechelen,,,15:00,https://media.api-sports.io/football/teams/742.png,https://media.api-sports.io/football/teams/266.png
 1558886,2027-05-22,NS,144,Jupiler Pro League,2026,Union St. Gilloise,Charleroi,,,15:00,https://media.api-sports.io/football/teams/1393.png,https://media.api-sports.io/football/teams/736.png
 1558885,2027-05-22,NS,144,Jupiler Pro League,2026,RAAL La Louvière,Anderlecht,,,15:00,https://media.api-sports.io/football/teams/5902.png,https://media.api-sports.io/football/teams/554.png
+1584409,2026-09-13,1H,203,Süper Lig,2026,Gençlerbirliği S.K.,Kasımpaşa,0.0,0.0,14:00,https://media.api-sports.io/football/teams/997.png,https://media.api-sports.io/football/teams/1004.png
 1584370,2026-08-14,FT,203,Süper Lig,2026,Galatasaray,Çorum FK,2.0,2.0,18:30,https://media.api-sports.io/football/teams/645.png,https://media.api-sports.io/football/teams/6343.png
 1584374,2026-08-15,FT,203,Süper Lig,2026,Konyaspor,Rizespor,0.0,1.0,16:00,https://media.api-sports.io/football/teams/607.png,https://media.api-sports.io/football/teams/1007.png
 1584373,2026-08-15,FT,203,Süper Lig,2026,Kasımpaşa,Trabzonspor,1.0,1.0,16:00,https://media.api-sports.io/football/teams/1004.png,https://media.api-sports.io/football/teams/998.png
@@ -46919,7 +46920,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1584411,2026-09-12,FT,203,Süper Lig,2026,Samsunspor,Çorum FK,1.0,5.0,14:00,https://media.api-sports.io/football/teams/3603.png,https://media.api-sports.io/football/teams/6343.png
 1584410,2026-09-12,FT,203,Süper Lig,2026,Konyaspor,Trabzonspor,1.0,0.0,17:00,https://media.api-sports.io/football/teams/607.png,https://media.api-sports.io/football/teams/998.png
 1584403,2026-09-12,FT,203,Süper Lig,2026,Alanyaspor,Göztepe,2.0,2.0,17:00,https://media.api-sports.io/football/teams/996.png,https://media.api-sports.io/football/teams/994.png
-1584409,2026-09-13,NS,203,Süper Lig,2026,Gençlerbirliği S.K.,Kasımpaşa,,,14:00,https://media.api-sports.io/football/teams/997.png,https://media.api-sports.io/football/teams/1004.png
 1584407,2026-09-13,NS,203,Süper Lig,2026,Galatasaray,Kocaelispor,,,17:00,https://media.api-sports.io/football/teams/645.png,https://media.api-sports.io/football/teams/7411.png
 1584404,2026-09-13,NS,203,Süper Lig,2026,Amed,Başakşehir,,,17:00,https://media.api-sports.io/football/teams/3579.png,https://media.api-sports.io/football/teams/564.png
 1584408,2026-09-14,NS,203,Süper Lig,2026,Gaziantep FK,Fenerbahçe,,,17:00,https://media.api-sports.io/football/teams/3573.png,https://media.api-sports.io/football/teams/611.png
@@ -47513,7 +47513,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1562022,2027-02-27,NS,218,Bundesliga,2026,Lask Linz,Austria Lustenau,,,16:00,https://media.api-sports.io/football/teams/1026.png,https://media.api-sports.io/football/teams/1399.png
 1562025,2027-02-27,NS,218,Bundesliga,2026,WSG Wattens,Wolfsberger AC,,,16:00,https://media.api-sports.io/football/teams/1398.png,https://media.api-sports.io/football/teams/1025.png
 1561925,2026-09-13,2H,218,Bundesliga,2026,Austria Vienna,Austria Lustenau,0.0,1.0,12:30,https://media.api-sports.io/football/teams/601.png,https://media.api-sports.io/football/teams/1399.png
-1561928,2026-09-13,2H,218,Bundesliga,2026,WSG Wattens,TSV Hartberg,0.0,2.0,12:30,https://media.api-sports.io/football/teams/1398.png,https://media.api-sports.io/football/teams/1072.png
+1561928,2026-09-13,2H,218,Bundesliga,2026,WSG Wattens,TSV Hartberg,1.0,2.0,12:30,https://media.api-sports.io/football/teams/1398.png,https://media.api-sports.io/football/teams/1072.png
 1555347,2026-07-25,FT,207,Super League,2026,Lausanne,Grasshoppers,1.0,1.0,16:00,https://media.api-sports.io/football/teams/1014.png,https://media.api-sports.io/football/teams/1013.png
 1555348,2026-07-25,FT,207,Super League,2026,Servette FC,FC Basel 1893,0.0,1.0,16:00,https://media.api-sports.io/football/teams/2184.png,https://media.api-sports.io/football/teams/551.png
 1555349,2026-07-25,FT,207,Super League,2026,FC Luzern,FC Thun,1.0,3.0,18:30,https://media.api-sports.io/football/teams/644.png,https://media.api-sports.io/football/teams/1012.png
@@ -47646,6 +47646,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1555476,2027-02-06,NS,207,Super League,2026,FC Thun,FC Vaduz,,,16:00,https://media.api-sports.io/football/teams/1012.png,https://media.api-sports.io/football/teams/660.png
 1555473,2027-02-06,NS,207,Super League,2026,Lausanne,FC Luzern,,,16:00,https://media.api-sports.io/football/teams/1014.png,https://media.api-sports.io/football/teams/644.png
 1555474,2027-02-06,NS,207,Super League,2026,Servette FC,FC Lugano,,,16:00,https://media.api-sports.io/football/teams/2184.png,https://media.api-sports.io/football/teams/606.png
+1549020,2026-09-13,1H,119,Superliga,2026,Randers FC,Odense,0.0,0.0,14:00,https://media.api-sports.io/football/teams/401.png,https://media.api-sports.io/football/teams/405.png
 1548974,2026-07-24,FT,119,Superliga,2026,Viborg,Odense,1.0,0.0,17:00,https://media.api-sports.io/football/teams/2070.png,https://media.api-sports.io/football/teams/405.png
 1548975,2026-07-25,FT,119,Superliga,2026,Aarhus,Brondby,1.0,1.0,16:00,https://media.api-sports.io/football/teams/406.png,https://media.api-sports.io/football/teams/407.png
 1548976,2026-07-26,FT,119,Superliga,2026,Sonderjyske,FC Midtjylland,2.0,3.0,12:00,https://media.api-sports.io/football/teams/396.png,https://media.api-sports.io/football/teams/397.png
@@ -47689,8 +47690,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549014,2026-09-06,FT,119,Superliga,2026,Brondby,Randers FC,0.0,3.0,16:00,https://media.api-sports.io/football/teams/407.png,https://media.api-sports.io/football/teams/401.png
 1549015,2026-09-07,FT,119,Superliga,2026,FC Midtjylland,FC Nordsjaelland,2.0,2.0,17:00,https://media.api-sports.io/football/teams/397.png,https://media.api-sports.io/football/teams/398.png
 1549016,2026-09-11,FT,119,Superliga,2026,FC Copenhagen,AC Horsens,2.0,0.0,17:00,https://media.api-sports.io/football/teams/400.png,https://media.api-sports.io/football/teams/404.png
+1549017,2026-09-13,FT,119,Superliga,2026,Lyngby,Sonderjyske,1.0,1.0,12:00,https://media.api-sports.io/football/teams/625.png,https://media.api-sports.io/football/teams/396.png
 1549021,2026-09-13,FT,119,Superliga,2026,Silkeborg,Viborg,1.0,1.0,12:00,https://media.api-sports.io/football/teams/2073.png,https://media.api-sports.io/football/teams/2070.png
-1549020,2026-09-13,NS,119,Superliga,2026,Randers FC,Odense,,,14:00,https://media.api-sports.io/football/teams/401.png,https://media.api-sports.io/football/teams/405.png
 1549019,2026-09-13,NS,119,Superliga,2026,FC Nordsjaelland,Aarhus,,,16:00,https://media.api-sports.io/football/teams/398.png,https://media.api-sports.io/football/teams/406.png
 1549018,2026-09-14,NS,119,Superliga,2026,FC Midtjylland,Brondby,,,17:00,https://media.api-sports.io/football/teams/397.png,https://media.api-sports.io/football/teams/407.png
 1549024,2026-09-18,NS,119,Superliga,2026,Lyngby,Silkeborg,,,17:00,https://media.api-sports.io/football/teams/625.png,https://media.api-sports.io/football/teams/2073.png
@@ -47777,7 +47778,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549100,2027-03-21,NS,119,Superliga,2026,Brondby,AC Horsens,,,17:00,https://media.api-sports.io/football/teams/407.png,https://media.api-sports.io/football/teams/404.png
 1549101,2027-03-21,NS,119,Superliga,2026,Lyngby,FC Copenhagen,,,17:00,https://media.api-sports.io/football/teams/625.png,https://media.api-sports.io/football/teams/400.png
 1549105,2027-03-21,NS,119,Superliga,2026,Silkeborg,Sonderjyske,,,17:00,https://media.api-sports.io/football/teams/2073.png,https://media.api-sports.io/football/teams/396.png
-1549017,2026-09-13,2H,119,Superliga,2026,Lyngby,Sonderjyske,1.0,1.0,12:00,https://media.api-sports.io/football/teams/625.png,https://media.api-sports.io/football/teams/396.png
 1593289,2026-08-22,FT,197,Super League 1,2026,AEK Athens FC,Iraklis 1908,4.0,0.0,17:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/17991.png
 1593290,2026-08-22,FT,197,Super League 1,2026,Kalamata,Aris Thessalonikis,2.0,3.0,17:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/1123.png
 1593292,2026-08-22,FT,197,Super League 1,2026,Olympiakos Piraeus,Atromitos,1.0,0.0,18:30,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/12260.png
@@ -48333,7 +48333,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1565672,2027-06-04,NS,333,Premier League,2026,Livyi Bereh,Veres Rivne,,,15:00,https://media.api-sports.io/football/teams/17162.png,https://media.api-sports.io/football/teams/6501.png
 1565671,2027-06-04,NS,333,Premier League,2026,Kudrivka,Zorya Luhansk,,,15:00,https://media.api-sports.io/football/teams/21953.png,https://media.api-sports.io/football/teams/599.png
 1560021,2026-09-13,HT,345,Czech Liga,2026,Plzen,Sigma Olomouc,1.0,2.0,13:00,https://media.api-sports.io/football/teams/567.png,https://media.api-sports.io/football/teams/2250.png
-1560024,2026-09-13,HT,345,Czech Liga,2026,Zlin,Hradec Králové,1.0,1.0,13:00,https://media.api-sports.io/football/teams/603.png,https://media.api-sports.io/football/teams/3723.png
 1559965,2026-07-25,FT,345,Czech Liga,2026,Plzen,Slovan Liberec,1.0,3.0,15:00,https://media.api-sports.io/football/teams/567.png,https://media.api-sports.io/football/teams/782.png
 1559968,2026-07-25,FT,345,Czech Liga,2026,Zlin,Baník Ostrava,0.0,1.0,15:00,https://media.api-sports.io/football/teams/603.png,https://media.api-sports.io/football/teams/3713.png
 1559967,2026-07-25,FT,345,Czech Liga,2026,Teplice,Bohemians 1905,3.0,1.0,15:00,https://media.api-sports.io/football/teams/3720.png,https://media.api-sports.io/football/teams/3714.png
@@ -48572,7 +48571,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1560193,2027-04-24,NS,345,Czech Liga,2026,Bohemians 1905,Teplice,,,13:00,https://media.api-sports.io/football/teams/3714.png,https://media.api-sports.io/football/teams/3720.png
 1560199,2027-04-24,NS,345,Czech Liga,2026,Slovácko,Slavia Praha,,,13:00,https://media.api-sports.io/football/teams/3719.png,https://media.api-sports.io/football/teams/560.png
 1560194,2027-04-24,NS,345,Czech Liga,2026,Pardubice,Hradec Králové,,,13:00,https://media.api-sports.io/football/teams/3724.png,https://media.api-sports.io/football/teams/3723.png
-1601891,2026-09-13,2H,419,Premyer Liqa,2026,Araz,Turan,1.0,1.0,12:30,https://media.api-sports.io/football/teams/11238.png,https://media.api-sports.io/football/teams/5499.png
+1560024,2026-09-13,2H,345,Czech Liga,2026,Zlin,Hradec Králové,1.0,2.0,13:00,https://media.api-sports.io/football/teams/603.png,https://media.api-sports.io/football/teams/3723.png
+1601891,2026-09-13,2H,419,Premyer Liqa,2026,Araz,Turan,1.0,2.0,12:30,https://media.api-sports.io/football/teams/11238.png,https://media.api-sports.io/football/teams/5499.png
 1600295,2026-08-14,FT,419,Premyer Liqa,2026,Turan,Qabala,1.0,0.0,15:30,https://media.api-sports.io/football/teams/5499.png,https://media.api-sports.io/football/teams/627.png
 1600291,2026-08-15,FT,419,Premyer Liqa,2026,Araz,Imisli FK,0.0,0.0,14:30,https://media.api-sports.io/football/teams/11238.png,https://media.api-sports.io/football/teams/5570.png
 1600292,2026-08-15,FT,419,Premyer Liqa,2026,Sabah FA,Kapaz,2.0,0.0,16:45,https://media.api-sports.io/football/teams/13976.png,https://media.api-sports.io/football/teams/5490.png
@@ -48950,6 +48950,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1548673,2027-05-22,NS,210,HNL,2026,Istra 1961,NK Osijek,,,15:00,https://media.api-sports.io/football/teams/1016.png,https://media.api-sports.io/football/teams/616.png
 1548675,2027-05-22,NS,210,HNL,2026,Rudes,HNK Gorica,,,15:00,https://media.api-sports.io/football/teams/1019.png,https://media.api-sports.io/football/teams/1068.png
 1548676,2027-05-22,NS,210,HNL,2026,NK Varazdin,NK Lokomotiva Zagreb,,,15:00,https://media.api-sports.io/football/teams/1483.png,https://media.api-sports.io/football/teams/1017.png
+1553868,2026-09-13,1H,286,Super Liga,2026,Radnicki NIS,OFK Beograd,0.0,0.0,14:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/2633.png
 1553808,2026-07-17,FT,286,Super Liga,2026,FK Crvena Zvezda,Macva,5.0,0.0,18:00,https://media.api-sports.io/football/teams/598.png,https://media.api-sports.io/football/teams/2637.png
 1553813,2026-07-17,FT,286,Super Liga,2026,Železničar Pančevo,Radnicki NIS,2.0,1.0,18:00,https://media.api-sports.io/football/teams/12360.png,https://media.api-sports.io/football/teams/2254.png
 1553814,2026-07-18,FT,286,Super Liga,2026,Zemun,FK Partizan,2.0,2.0,18:00,https://media.api-sports.io/football/teams/2642.png,https://media.api-sports.io/football/teams/573.png
@@ -49009,7 +49010,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1553820,2026-07-26,PST,286,Super Liga,2026,Radnicki 1923,Železničar Pančevo,,,18:30,https://media.api-sports.io/football/teams/2644.png,https://media.api-sports.io/football/teams/12360.png
 1553834,2026-08-08,PST,286,Super Liga,2026,Radnicki NIS,FK Partizan,,,15:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/573.png
 1553841,2026-08-15,PST,286,Super Liga,2026,Železničar Pančevo,FK Crvena Zvezda,,,18:00,https://media.api-sports.io/football/teams/12360.png,https://media.api-sports.io/football/teams/598.png
-1553868,2026-09-13,NS,286,Super Liga,2026,Radnicki NIS,OFK Beograd,,,14:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/2633.png
 1553866,2026-09-13,NS,286,Super Liga,2026,FK Partizan,Vojvodina,,,15:00,https://media.api-sports.io/football/teams/573.png,https://media.api-sports.io/football/teams/702.png
 1553865,2026-09-13,NS,286,Super Liga,2026,IMT Novi Beograd,FK Crvena Zvezda,,,17:00,https://media.api-sports.io/football/teams/12316.png,https://media.api-sports.io/football/teams/598.png
 1553870,2026-09-14,NS,286,Super Liga,2026,Zemun,Radnik Surdulica,,,17:00,https://media.api-sports.io/football/teams/2642.png,https://media.api-sports.io/football/teams/2657.png
@@ -49437,7 +49437,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1553401,2027-05-22,NS,106,Ekstraklasa,2026,Lech Poznan,Motor Lublin,,,16:00,https://media.api-sports.io/football/teams/347.png,https://media.api-sports.io/football/teams/14562.png
 1553403,2027-05-22,NS,106,Ekstraklasa,2026,Raków Częstochowa,Radomiak Radom,,,16:00,https://media.api-sports.io/football/teams/3491.png,https://media.api-sports.io/football/teams/4248.png
 1553405,2027-05-22,NS,106,Ekstraklasa,2026,Widzew Łódź,Cracovia Krakow,,,16:00,https://media.api-sports.io/football/teams/6962.png,https://media.api-sports.io/football/teams/350.png
-1553166,2026-09-13,2H,106,Ekstraklasa,2026,Pogon Szczecin,Wieczysta Kraków,0.0,0.0,12:45,https://media.api-sports.io/football/teams/348.png,https://media.api-sports.io/football/teams/17115.png
+1553166,2026-09-13,2H,106,Ekstraklasa,2026,Pogon Szczecin,Wieczysta Kraków,1.0,0.0,12:45,https://media.api-sports.io/football/teams/348.png,https://media.api-sports.io/football/teams/17115.png
 1555484,2026-08-22,FT,383,Ligat Ha'al,2026,Maccabi Petah Tikva,Ironi Kiryat Shmona,2.0,1.0,17:00,https://media.api-sports.io/football/teams/4495.png,https://media.api-sports.io/football/teams/4510.png
 1555482,2026-08-22,FT,383,Ligat Ha'al,2026,Ironi Tiberias,Hapoel Petah Tikva,1.0,0.0,17:00,https://media.api-sports.io/football/teams/6181.png,https://media.api-sports.io/football/teams/4488.png
 1555483,2026-08-22,FT,383,Ligat Ha'al,2026,Maccabi Haifa,Hapoel Ramat Gan,2.0,1.0,17:30,https://media.api-sports.io/football/teams/4195.png,https://media.api-sports.io/football/teams/4489.png
@@ -50067,6 +50067,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1565248,2026-09-11,FT,283,Liga I,2026,Csikszereda,Dinamo Bucuresti,1.0,3.0,18:00,https://media.api-sports.io/football/teams/6230.png,https://media.api-sports.io/football/teams/635.png
 1565253,2026-09-12,FT,283,Liga I,2026,Sepsi OSK Sfantu Gheorghe,CFR 1907 Cluj,3.0,1.0,15:30,https://media.api-sports.io/football/teams/2585.png,https://media.api-sports.io/football/teams/2246.png
 1565251,2026-09-12,FT,283,Liga I,2026,Rapid,FC Voluntari,2.0,1.0,18:30,https://media.api-sports.io/football/teams/6231.png,https://media.api-sports.io/football/teams/2578.png
+1565250,2026-09-13,FT,283,Liga I,2026,Arges Pitesti,FC Botosani,1.0,1.0,12:00,https://media.api-sports.io/football/teams/2592.png,https://media.api-sports.io/football/teams/2581.png
 1565247,2026-09-13,NS,283,Liga I,2026,Corvinul Hunedoara,Universitatea Craiova,,,17:30,https://media.api-sports.io/football/teams/20034.png,https://media.api-sports.io/football/teams/632.png
 1565254,2026-09-14,NS,283,Liga I,2026,Universitatea Cluj,Oţelul,,,15:00,https://media.api-sports.io/football/teams/2599.png,https://media.api-sports.io/football/teams/6886.png
 1565252,2026-09-14,NS,283,Liga I,2026,FCSB,Petrolul Ploiesti,,,18:00,https://media.api-sports.io/football/teams/559.png,https://media.api-sports.io/football/teams/2598.png
@@ -50239,7 +50240,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1565417,2027-03-13,NS,283,Liga I,2026,Rapid,Farul Constanta,,,18:00,https://media.api-sports.io/football/teams/6231.png,https://media.api-sports.io/football/teams/2596.png
 1565419,2027-03-13,NS,283,Liga I,2026,Oţelul,FC Botosani,,,18:00,https://media.api-sports.io/football/teams/6886.png,https://media.api-sports.io/football/teams/2581.png
 1565415,2027-03-13,NS,283,Liga I,2026,Corvinul Hunedoara,FCSB,,,18:00,https://media.api-sports.io/football/teams/20034.png,https://media.api-sports.io/football/teams/559.png
-1565250,2026-09-13,2H,283,Liga I,2026,Arges Pitesti,FC Botosani,1.0,1.0,12:00,https://media.api-sports.io/football/teams/2592.png,https://media.api-sports.io/football/teams/2581.png
 1551053,2026-07-17,FT,172,First League,2026,Spartak Varna,CSKA 1948,2.0,2.0,16:00,https://media.api-sports.io/football/teams/4660.png,https://media.api-sports.io/football/teams/1426.png
 1551049,2026-07-17,FT,172,First League,2026,Levski Sofia,Dunav Ruse,2.0,1.0,18:15,https://media.api-sports.io/football/teams/646.png,https://media.api-sports.io/football/teams/683.png
 1551051,2026-07-18,FT,172,First League,2026,Septemvri Sofia,Arda Kardzhali,1.0,1.0,16:00,https://media.api-sports.io/football/teams/856.png,https://media.api-sports.io/football/teams/1430.png
@@ -50298,6 +50298,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1551105,2026-09-11,FT,172,First League,2026,Cherno More Varna,Lokomotiv Sofia,2.0,2.0,18:00,https://media.api-sports.io/football/teams/851.png,https://media.api-sports.io/football/teams/1416.png
 1551106,2026-09-12,FT,172,First League,2026,CSKA 1948,Dunav Ruse,2.0,1.0,16:00,https://media.api-sports.io/football/teams/1426.png,https://media.api-sports.io/football/teams/683.png
 1551107,2026-09-12,FT,172,First League,2026,CSKA Sofia,Arda Kardzhali,4.0,1.0,18:15,https://media.api-sports.io/football/teams/853.png,https://media.api-sports.io/football/teams/1430.png
+1551109,2026-09-13,FT,172,First League,2026,Slavia Sofia,Spartak Varna,0.0,0.0,12:15,https://media.api-sports.io/football/teams/854.png,https://media.api-sports.io/football/teams/4660.png
 1551086,2026-09-16,PST,172,First League,2026,Lokomotiv Sofia,CSKA Sofia,,,16:00,https://media.api-sports.io/football/teams/1416.png,https://media.api-sports.io/football/teams/853.png
 1551104,2026-09-13,NS,172,First League,2026,Botev Vratsa,Levski Sofia,,,14:45,https://media.api-sports.io/football/teams/859.png,https://media.api-sports.io/football/teams/646.png
 1551103,2026-09-13,NS,172,First League,2026,Botev Plovdiv,Lokomotiv Plovdiv,,,17:30,https://media.api-sports.io/football/teams/634.png,https://media.api-sports.io/football/teams/858.png
@@ -50421,7 +50422,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1551228,2027-04-17,NS,172,First League,2026,Lokomotiv Sofia,Septemvri Sofia,,,15:00,https://media.api-sports.io/football/teams/1416.png,https://media.api-sports.io/football/teams/856.png
 1551224,2027-04-17,NS,172,First League,2026,CSKA 1948,Ludogorets,,,15:00,https://media.api-sports.io/football/teams/1426.png,https://media.api-sports.io/football/teams/566.png
 1551222,2027-04-17,NS,172,First League,2026,Arda Kardzhali,Spartak Varna,,,15:00,https://media.api-sports.io/football/teams/1430.png,https://media.api-sports.io/football/teams/4660.png
-1551109,2026-09-13,2H,172,First League,2026,Slavia Sofia,Spartak Varna,0.0,0.0,12:15,https://media.api-sports.io/football/teams/854.png,https://media.api-sports.io/football/teams/4660.png
+1528093,2026-09-13,1H,389,Premier League,2026,Kairat Almaty,FK Tobol Kostanay,0.0,0.0,14:00,https://media.api-sports.io/football/teams/664.png,https://media.api-sports.io/football/teams/2259.png
 1527892,2026-03-07,FT,389,Premier League,2026,Okzhetpes,Yelimay Semey,1.0,1.0,09:00,https://media.api-sports.io/football/teams/4558.png,https://media.api-sports.io/football/teams/21011.png
 1527893,2026-03-07,FT,389,Premier League,2026,Altay,Kairat Almaty,0.0,1.0,11:00,https://media.api-sports.io/football/teams/4544.png,https://media.api-sports.io/football/teams/664.png
 1527894,2026-03-07,FT,389,Premier League,2026,Aktobe,FK Tobol Kostanay,4.0,1.0,12:00,https://media.api-sports.io/football/teams/4563.png,https://media.api-sports.io/football/teams/2259.png
@@ -50619,7 +50620,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1528094,2026-09-12,FT,389,Premier League,2026,Kaisar,Atyrau,1.0,0.0,15:00,https://media.api-sports.io/football/teams/4562.png,https://media.api-sports.io/football/teams/4564.png
 1528092,2026-09-13,FT,389,Premier League,2026,Irtysh,Okzhetpes,2.0,1.0,11:00,https://media.api-sports.io/football/teams/4565.png,https://media.api-sports.io/football/teams/4558.png
 1528097,2026-09-13,FT,389,Premier League,2026,Ulytau,Altay,0.0,3.0,12:00,https://media.api-sports.io/football/teams/21010.png,https://media.api-sports.io/football/teams/4544.png
-1528093,2026-09-13,NS,389,Premier League,2026,Kairat Almaty,FK Tobol Kostanay,,,14:00,https://media.api-sports.io/football/teams/664.png,https://media.api-sports.io/football/teams/2259.png
 1528106,2026-09-17,NS,389,Premier League,2026,FK Tobol Kostanay,Yelimay Semey,,,13:00,https://media.api-sports.io/football/teams/2259.png,https://media.api-sports.io/football/teams/21011.png
 1528103,2026-09-17,NS,389,Premier League,2026,FC Astana,Kairat Almaty,,,14:00,https://media.api-sports.io/football/teams/562.png,https://media.api-sports.io/football/teams/664.png
 1528102,2026-09-17,NS,389,Premier League,2026,Atyrau,Ordabasy,,,15:00,https://media.api-sports.io/football/teams/4564.png,https://media.api-sports.io/football/teams/692.png
@@ -50662,7 +50662,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1528130,2026-10-31,NS,389,Premier League,2026,Zhenys,Kaisar,,,10:00,https://media.api-sports.io/football/teams/16611.png,https://media.api-sports.io/football/teams/4562.png
 1528128,2026-10-31,NS,389,Premier League,2026,Ulytau,Atyrau,,,10:00,https://media.api-sports.io/football/teams/21010.png,https://media.api-sports.io/football/teams/4564.png
 1528129,2026-10-31,NS,389,Premier League,2026,Yelimay Semey,Okzhetpes,,,10:00,https://media.api-sports.io/football/teams/21011.png,https://media.api-sports.io/football/teams/4558.png
-1558012,2026-09-13,HT,373,1. SNL,2026,Mura,Aluminij,0.0,3.0,13:00,https://media.api-sports.io/football/teams/4197.png,https://media.api-sports.io/football/teams/4358.png
+1558012,2026-09-13,2H,373,1. SNL,2026,Mura,Aluminij,0.0,3.0,13:00,https://media.api-sports.io/football/teams/4197.png,https://media.api-sports.io/football/teams/4358.png
 1557971,2026-07-17,FT,373,1. SNL,2026,Nafta,Koper,0.0,2.0,16:00,https://media.api-sports.io/football/teams/4376.png,https://media.api-sports.io/football/teams/4374.png
 1557970,2026-07-17,FT,373,1. SNL,2026,Celje,Mura,2.0,2.0,18:15,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/4197.png
 1557973,2026-07-18,FT,373,1. SNL,2026,Radomlje,Brinje-Grosuplje,0.0,2.0,16:00,https://media.api-sports.io/football/teams/4378.png,https://media.api-sports.io/football/teams/12744.png
