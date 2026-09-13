@@ -80,7 +80,11 @@ class Moteur:
         self.vus = np.bincount(hi, w, n) + np.bincount(ai, w, n)
 
     # ---------------- prédiction ----------------
-    def analyser(self, dom: str, ext: str) -> dict:
+    def analyser(self, dom: str, ext: str, ajustements: dict = None) -> dict:
+        """ajustements (optionnel, fourni par enrichissement.py) : multiplicateurs
+        sur les buts attendus — att_dom, def_dom, att_ext, def_ext — et un
+        texte « contexte ». Ils s'appliquent AVANT le choix du prono, du badge
+        et des scores : tout reste cohérent."""
         for e in (dom, ext):
             if e not in self.idx:
                 return {"erreur": f"Équipe inconnue : {e}"}
@@ -90,6 +94,11 @@ class Moteur:
         i, j = self.idx[dom], self.idx[ext]
         mu_h = self.gamma * self.att[i] * self.dfn[j] * MOY_BUTS
         mu_a = self.att[j] * self.dfn[i] * MOY_BUTS
+        a = ajustements or {}
+        # def_ext > 1 = défense extérieure affaiblie → plus de buts pour dom
+        mu_h *= a.get("att_dom", 1.0) * a.get("def_ext", 1.0)
+        mu_a *= a.get("att_ext", 1.0) * a.get("def_dom", 1.0)
+        mu_h, mu_a = max(mu_h, 0.05), max(mu_a, 0.05)
 
         k = np.arange(MAX_BUTS+1)
         lf = np.array([lgamma(x+1) for x in k])
@@ -142,6 +151,7 @@ class Moteur:
              "detail": f"{dom} {self.dfn[i]:.2f} · {ext} {self.dfn[j]:.2f} (plus bas = plus solide)"},
             {"titre": "Buts attendus",
              "detail": f"{dom} {mu_h:.2f} — {ext} {mu_a:.2f}"},
+            *([{"titre": "Contexte", "detail": a["contexte"]}] if a.get("contexte") else []),
             {"titre": "Simulation des scores",
              "detail": f"{(MAX_BUTS+1)**2} scénarios de score évalués"},
             {"titre": "Verdict",
@@ -159,6 +169,7 @@ class Moteur:
             # affichage facultatif côté front
             "_probas": {"1": round(p1*100,1), "N": round(pN*100,1),
                         "2": round(p2*100,1), "O2.5": round(pO25*100,1)},
+            "contexte": a.get("contexte", ""),
         }
 
 
