@@ -140,7 +140,8 @@ def id_equipe_depuis_logo(url):
 def titulaires_recents(api, team_id, histo_equipe):
     """Ensemble des ids de joueurs apparus dans le XI de départ sur les 3
     derniers matchs joués (cache 5 jours)."""
-    fixtures = list(histo_equipe.sort_values("date", ascending=False).head(3).fixture_id)
+    joues = histo_equipe[histo_equipe["statut"] == "FT"]
+    fixtures = list(joues.sort_values("date", ascending=False).head(3).fixture_id)
     titulaires, n = set(), 0
     for fid in fixtures:
         rep = api.get("fixtures/lineups", {"fixture": int(fid)}, f"lineups_{fid}", None)
@@ -204,7 +205,8 @@ def facteur_absences(api, fixture_id, team_id, histo_equipe):
 # 2. FATIGUE
 # ---------------------------------------------------------------------------
 def facteur_fatigue(histo_equipe, date_match, competitions_uefa=(2, 3)):
-    passes = histo_equipe[histo_equipe["date"] < date_match].sort_values("date")
+    passes = histo_equipe[(histo_equipe["date"] < date_match) &
+                          (~histo_equipe["statut"].isin(["PST", "CANC", "ABD", "TBD"]))].sort_values("date")
     if passes.empty:
         return 0.0, ""
     dernier = passes.iloc[-1]
@@ -353,25 +355,27 @@ def lambdas_depuis_probas(p1, p2, pO):
 # ---------------------------------------------------------------------------
 # POINT D'ENTRÉE
 # ---------------------------------------------------------------------------
-def enrichir(matchs, histo, journal=print):
+def calculer_facteurs(matchs, histo, journal=print, api=None):
     """
     matchs : liste de dicts avec fixture_id, ligue_id (optionnel), dom, ext,
-             logo_dom, logo_ext, date_match (str), p1, pN, p2, pO25, btts
-    histo  : DataFrame histo_api.csv (colonnes du cron), date en datetime
-    Modifie p1/pN/p2/pO25/btts EN PLACE et ajoute une clé "contexte" lisible.
+             logo_dom, logo_ext, date_match (str ou datetime)
+    histo  : DataFrame histo_api.csv (colonnes du cron)
+    Retourne {fixture_id: {"att_dom","def_dom","att_ext","def_ext","contexte"}}
+    — les multiplicateurs à passer à Moteur.analyser(..., ajustements=…).
+    Un match sans facteur n'apparaît pas dans le résultat.
     """
-    api = Api()
+    api = api or Api()
     histo = histo.copy()
     histo["date"] = pd.to_datetime(histo["date"], errors="coerce")
     histo["tid_dom"] = histo["logo_dom"].map(id_equipe_depuis_logo)
     histo["tid_ext"] = histo["logo_ext"].map(id_equipe_depuis_logo)
-    tables = {}
-    n_ok = 0
+    tables, facteurs = {}, {}
 
     for mt in matchs:
         try:
             date_match = pd.Timestamp(mt["date_match"])
-            tid_d, tid_e = id_equipe_depuis_logo(mt.get("logo_dom")), id_equipe_depuis_logo(mt.get("logo_ext"))
+            tid_d = id_equipe_depuis_logo(mt.get("logo_dom"))
+            tid_e = id_equipe_depuis_logo(mt.get("logo_ext"))
             if not tid_d or not tid_e:
                 continue
             h_d = histo[(histo.tid_dom == tid_d) | (histo.tid_ext == tid_d)]
@@ -382,45 +386,44 @@ def enrichir(matchs, histo, journal=print):
             table = tables.get(lid, {})
 
             notes = []
-            mult = {"att_d": 1.0, "def_d": 1.0, "att_e": 1.0, "def_e": 1.0}
-
-            # absences
-            for cote, tid, h in (("d", tid_d, h_d), ("e", tid_e, h_e)):
+            mult = {"att_dom": 1.0, "def_dom": 1.0, "att_ext": 1.0, "def_ext": 1.0}
+            for cote, tid, h in (("dom", tid_d, h_d), ("ext", tid_e, h_e)):
                 a, d, desc = facteur_absences(api, mt["fixture_id"], tid, h)
                 if a or d:
                     mult[f"att_{cote}"] *= (1 - a); mult[f"def_{cote}"] *= (1 + d)
-                    notes.append(f"{'dom' if cote == 'd' else 'ext'} absents : {desc}")
-                # fatigue
+                    notes.append(f"{cote} absents : {desc}")
                 f, desc = facteur_fatigue(h, date_match)
                 if f:
                     mult[f"att_{cote}"] *= (1 - f); mult[f"def_{cote}"] *= (1 + f * 0.5)
-                    notes.append(f"{'dom' if cote == 'd' else 'ext'} fatigue : {desc}")
-                # xG
+                    notes.append(f"{cote} fatigue : {desc}")
                 ca, cd, desc = facteur_xg(api, tid, h, date_match)
                 if desc:
                     mult[f"att_{cote}"] *= ca; mult[f"def_{cote}"] *= cd
-                    notes.append(f"{'dom' if cote == 'd' else 'ext'} {desc}")
-                # enjeu
+                    notes.append(f"{cote} {desc}")
                 e, desc = facteur_enjeu(table, tid)
                 if e:
                     mult[f"att_{cote}"] *= (1 + e); mult[f"def_{cote}"] *= (1 - e * 0.5)
-                    notes.append(f"{'dom' if cote == 'd' else 'ext'} {desc}")
-
-            if all(abs(v - 1) < 1e-9 for v in mult.values()):
-                mt["contexte"] = ""
-                continue
-
-            # recalcul : buts attendus corrigés → probabilités corrigées
-            lh, la = lambdas_depuis_probas(mt["p1"], mt["p2"], mt["pO25"])
-            lh2 = lh * mult["att_d"] * mult["def_e"]     # def_e > 1 = défense ext affaiblie
-            la2 = la * mult["att_e"] * mult["def_d"]
-            p = probas_depuis_lambdas(lh2, la2)
-            mt.update({"p1": p["1"], "pN": p["N"], "p2": p["2"], "pO25": p["O2.5"], "btts": p["BTTS"]})
-            mt["contexte"] = " | ".join(notes)
-            n_ok += 1
-        except Exception as exc:      # jamais bloquant
-            mt["contexte"] = ""
+                    notes.append(f"{cote} {desc}")
+            if any(abs(v - 1) > 1e-9 for v in mult.values()):
+                mult["contexte"] = " | ".join(notes)
+                facteurs[mt["fixture_id"]] = mult
+        except Exception as exc:
             journal(f"   ⚠️ enrichissement {mt.get('dom')} – {mt.get('ext')} : {exc}")
 
-    journal(f"   🔎 enrichissement : {n_ok} match(s) ajustés, {api.appels} appel(s) API")
+    journal(f"   🔎 enrichissement : {len(facteurs)} match(s) avec contexte, {api.appels} appel(s) API")
+    return facteurs
+
+
+def enrichir(matchs, histo, journal=print):
+    """Ancienne voie (sans accès au moteur) : recalcule les probabilités à partir
+    des buts attendus retrouvés. Conservée pour compatibilité."""
+    facteurs = calculer_facteurs(matchs, histo, journal)
+    for mt in matchs:
+        f = facteurs.get(mt["fixture_id"])
+        mt["contexte"] = f["contexte"] if f else ""
+        if not f:
+            continue
+        lh, la = lambdas_depuis_probas(mt["p1"], mt["p2"], mt["pO25"])
+        p = probas_depuis_lambdas(lh * f["att_dom"] * f["def_ext"], la * f["att_ext"] * f["def_dom"])
+        mt.update({"p1": p["1"], "pN": p["N"], "p2": p["2"], "pO25": p["O2.5"], "btts": p["BTTS"]})
     return matchs
