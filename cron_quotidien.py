@@ -3,6 +3,9 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V4 (13/09/2026) : MOTEUR ENRICHI — les pronos sont calculés avec les facteurs
+de contexte d'enrichissement.py (blessés/suspendus, fatigue calendrier, expected
+goals, classement), appliqués sur les buts attendus avant le choix du prono.
 V3.3 (08/09/2026) : LIGUES_EUROPE (le log affiche pays + nom renvoyés par l'API)
 V3.2 (08/09/2026) : LIGUES_EUROPE — championnats des clubs européens hors
 périmètre (Slovaquie, Ukraine, Tchéquie, Azerbaïdjan, Croatie…) collectés pour
@@ -33,6 +36,7 @@ import pandas as pd
 from datetime import datetime, timedelta, timezone
 
 from moteur_production import Moteur
+import enrichissement as ENR   # absences, fatigue, xG, classement (facteurs sur les buts attendus)
 
 # ------------------------------------------------------------------
 CLE = os.environ.get("API_FOOTBALL_KEY")
@@ -303,6 +307,8 @@ def publier(histo):
 
     lignes = []
     ecartes = []          # journal des matchs non publiés
+    api_enr = ENR.Api()   # budget d'appels commun à toute l'exécution
+    n_contexte = 0
 
     # --- moteur européen : construit une seule fois, partagé par C1 et C2 ---
     moteur_europe = {"m": None, "erreur": None}
@@ -352,13 +358,24 @@ def publier(histo):
                 print(f"   ⚠️ {nom} : {e}")
                 continue
 
-        for _, f in avenir.iterrows():
-            if f.fixture_id in deja:
-                continue
-            fiche = m.analyser(f.equipe_dom, f.equipe_ext)
+        a_publier = avenir[~avenir.fixture_id.isin(deja)]
+        if a_publier.empty:
+            continue
+        facteurs = ENR.calculer_facteurs([{
+            "fixture_id": int(f.fixture_id), "ligue_id": int(lid),
+            "dom": f.equipe_dom, "ext": f.equipe_ext,
+            "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
+            "date_match": f.date.date().isoformat(),
+        } for _, f in a_publier.iterrows()], histo, journal=lambda *a: None, api=api_enr)
+
+        for _, f in a_publier.iterrows():
+            fiche = m.analyser(f.equipe_dom, f.equipe_ext,
+                               ajustements=facteurs.get(int(f.fixture_id)))
             if "erreur" in fiche:
                 ecartes.append((nom, f"{f.equipe_dom} – {f.equipe_ext}", fiche["erreur"]))
                 continue
+            if fiche.get("contexte"):
+                n_contexte += 1
             lignes.append({
                 "publie_le": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                 "fixture_id": f.fixture_id,
@@ -382,6 +399,7 @@ def publier(histo):
                 "buts_gagne": None, "verifie": False,
             })
 
+    print(f"   🔎 enrichissement : {n_contexte} prono(s) avec contexte, {api_enr.appels} appel(s) API")
     if ecartes:
         print(f"   ⚠️ {len(ecartes)} match(s) non publiés :")
         for ligue, quoi, motif in ecartes[:40]:
