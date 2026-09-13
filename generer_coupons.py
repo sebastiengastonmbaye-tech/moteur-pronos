@@ -414,6 +414,19 @@ def enregistrer(coupons, jour, nuit=False):
         if n:
             print(f"   ↻ {cat} : {n} ancien(s) coupon(s) remplacé(s)")
 
+    # numéros déjà pris dans la journée (coupons gagnés/perdus conservés) :
+    # un coupon terminé garde son numéro, les nouveaux prennent les suivants
+    pris = {}
+    for cat in cats:
+        existants = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cat}&select=numero")
+        pris[cat] = {e["numero"] for e in (existants if isinstance(existants, list) else [])}
+    for c in coupons:
+        n = 1
+        while n in pris[c["categorie"]]:
+            n += 1
+        c["numero"] = n
+        pris[c["categorie"]].add(n)
+
     for c in coupons:
         # garde-fou : aucune sélection en dehors de la journée visée
         hors = [s for s in c["selections"] if s["date_match"] not in autorises]
