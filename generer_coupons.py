@@ -97,17 +97,29 @@ def api(chemin, params):
     return r.json().get("response", [])
 
 
-def sb(chemin, methode="GET", corps=None, prefer=None):
+def sb(chemin, methode="GET", corps=None, prefer=None, essais=3):
+    """Appel Supabase REST. Les erreurs 5xx (504 Gateway Timeout…) sont
+    retentées avec une pause croissante ; les 4xx sont remontées telles quelles."""
     entetes = {"apikey": CLE_SB, "Authorization": f"Bearer {CLE_SB}",
                "Content-Type": "application/json"}
     if prefer:
         entetes["Prefer"] = prefer
-    r = requests.request(methode, f"{URL_SB}/rest/v1/{chemin}", headers=entetes,
-                         data=json.dumps(corps) if corps is not None else None, timeout=30)
-    if not r.ok:
-        print(f"   ⚠️ Supabase {r.status_code} sur {chemin} : {r.text[:180]}")
-        return []
-    return r.json() if r.text.strip() else []
+    for essai in range(essais):
+        try:
+            r = requests.request(methode, f"{URL_SB}/rest/v1/{chemin}", headers=entetes,
+                                 data=json.dumps(corps) if corps is not None else None, timeout=60)
+        except requests.RequestException as e:
+            print(f"   ⚠️ Supabase réseau sur {chemin} : {e}")
+            time.sleep(3 * (essai + 1)); continue
+        if r.status_code >= 500:
+            print(f"   ⏳ Supabase {r.status_code} sur {chemin}, nouvelle tentative…")
+            time.sleep(3 * (essai + 1)); continue
+        if not r.ok:
+            print(f"   ⚠️ Supabase {r.status_code} sur {chemin} : {r.text[:180]}")
+            return None
+        return r.json() if r.text.strip() else []
+    print(f"   ❌ Supabase injoignable sur {chemin} après {essais} tentatives")
+    return None
 
 
 # ==================================================================
@@ -380,15 +392,27 @@ def enregistrer(coupons, jour, nuit=False):
 
     # on efface d'abord les coupons du jour encore en cours : une nouvelle
     # exécution doit toujours refléter la logique la plus récente
+    def supprimer_coupon(cid):
+        """Supprime un coupon et ses dépendances, puis VÉRIFIE qu'il a disparu."""
+        for _ in range(2):
+            sb(f"coupon_selections?coupon_id=eq.{cid}", "DELETE")
+            sb(f"montante?coupon_id=eq.{cid}", "DELETE")
+            sb(f"coupons?id=eq.{cid}", "DELETE")
+            reste = sb(f"coupons?id=eq.{cid}&select=id")
+            if isinstance(reste, list) and not reste:
+                return True
+            time.sleep(2)
+        print(f"   ❌ coupon {cid} toujours présent après suppression")
+        return False
+
     cats = {c["categorie"] for c in coupons}
     for cat in cats:
         anciens = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cat}&statut=eq.en_cours&select=id")
+        n = 0
         for a in (anciens if isinstance(anciens, list) else []):
-            sb(f"coupon_selections?coupon_id=eq.{a['id']}", "DELETE")
-            sb(f"montante?coupon_id=eq.{a['id']}", "DELETE")
-            sb(f"coupons?id=eq.{a['id']}", "DELETE")
-        if anciens:
-            print(f"   ↻ {cat} : {len(anciens)} ancien(s) coupon(s) remplacé(s)")
+            n += supprimer_coupon(a["id"])
+        if n:
+            print(f"   ↻ {cat} : {n} ancien(s) coupon(s) remplacé(s)")
 
     for c in coupons:
         # garde-fou : aucune sélection en dehors de la journée visée
@@ -398,11 +422,17 @@ def enregistrer(coupons, jour, nuit=False):
                   f"{jour} → coupon annulé")
             continue
         cle, numero = c["categorie"], c["numero"]
-        cree = sb("coupons", "POST", {
-            "jour": jour, "categorie": cle, "numero": numero,
-            "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"]),
-        }, prefer="return=representation")
+        corps = {"jour": jour, "categorie": cle, "numero": numero,
+                 "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"])}
+        cree = sb("coupons", "POST", corps, prefer="return=representation")
         if not cree:
+            # clé en double : un ancien coupon en cours a survécu → on l'enlève et on réessaie
+            doublon = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cle}&numero=eq.{numero}"
+                         f"&statut=eq.en_cours&select=id")
+            if isinstance(doublon, list) and doublon and supprimer_coupon(doublon[0]["id"]):
+                cree = sb("coupons", "POST", corps, prefer="return=representation")
+        if not cree:
+            print(f"   ❌ {cle} #{numero} : impossible d'enregistrer le coupon")
             continue
         cid = cree[0]["id"]
         rep_sel = sb("coupon_selections", "POST", [{
@@ -450,7 +480,7 @@ def main():
     matchs = ENR.enrichir(matchs, histo_brut)
     for m in matchs:
         if m.get("contexte"):
-            print(f"   · {m['dom']} – {m['ext']} : {m['contexte'][:160]}")
+            print(f"   · {m['dom']} – {m['ext']} : {m['contexte'][:260]}")
 
     bookmaker = id_bookmaker()
     if not bookmaker:
