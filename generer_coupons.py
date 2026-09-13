@@ -148,6 +148,7 @@ def candidats(demain=False, nuit=False):
         fin = datetime.combine(maintenant.date() + timedelta(days=1), datetime.min.time())
 
     lignes = []
+    api_enr = ENR.Api()               # un seul budget d'appels pour toute l'analyse
     moteur_europe = {"m": None, "essaye": False}
 
     def obtenir_moteur_europe():
@@ -182,10 +183,21 @@ def candidats(demain=False, nuit=False):
             except ValueError:
                 continue
 
+        # facteurs de contexte (absences, fatigue, xG, classement) pour ces matchs
+        facteurs = ENR.calculer_facteurs([{
+            "fixture_id": int(f.fixture_id), "ligue_id": int(lid),
+            "dom": f.equipe_dom, "ext": f.equipe_ext,
+            "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
+            "date_match": f.date.date().isoformat(),
+        } for _, f in avenir.iterrows()], histo, journal=lambda *a: None, api=api_enr)
+
         for _, f in avenir.iterrows():
-            fiche = m.analyser(f.equipe_dom, f.equipe_ext)
+            fiche = m.analyser(f.equipe_dom, f.equipe_ext,
+                               ajustements=facteurs.get(int(f.fixture_id)))
             if "erreur" in fiche:
                 continue
+            if fiche.get("contexte"):
+                print(f"   · {f.equipe_dom} – {f.equipe_ext} : {fiche['contexte'][:260]}")
             p = fiche["_probas"]
             # le moteur renvoie des pourcentages (46) : on ramène tout sur 0-1
             ech = lambda v: (float(v) / 100) if float(v) > 1 else float(v)
@@ -198,7 +210,8 @@ def candidats(demain=False, nuit=False):
                 "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
                 "btts": ech(fiche["bonus"]["btts_oui"]),
             })
-    print(f"   {len(lignes)} match(s) analysés{' (nuit)' if nuit else ''}")
+    print(f"   {len(lignes)} match(s) analysés{' (nuit)' if nuit else ''}, "
+          f"{api_enr.appels} appel(s) API d'enrichissement")
     return lignes
 
 
@@ -483,17 +496,12 @@ def main():
 
     demain = "--demain" in sys.argv
     jour = (datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)).isoformat()
-    print(f"→ Analyse des matchs du {jour}" + (" (préparation de demain)" if demain else ""))
+    print(f"→ Analyse des matchs du {jour} (moteur enrichi : absences, fatigue, xG, classement)"
+          + (" — préparation de demain" if demain else ""))
     matchs = candidats(demain)
     if len(matchs) < 5:
         print("   (trop peu de matchs : aucun coupon aujourd'hui)")
         return
-    histo_brut = pd.read_csv(F_HISTO)
-    print("→ Enrichissement (absences, fatigue, xG, classement)")
-    matchs = ENR.enrichir(matchs, histo_brut)
-    for m in matchs:
-        if m.get("contexte"):
-            print(f"   · {m['dom']} – {m['ext']} : {m['contexte'][:260]}")
 
     bookmaker = id_bookmaker()
     if not bookmaker:
@@ -513,7 +521,6 @@ def main():
     coupons_nuit = []
     matchs_nuit = candidats(demain, nuit=True)
     if matchs_nuit:
-        matchs_nuit = ENR.enrichir(matchs_nuit, histo_brut)
         pool_nuit = selections_possibles(matchs_nuit, bookmaker)
         if pool_nuit:
             coupons_nuit = construire(pool_nuit, nuit=True)
