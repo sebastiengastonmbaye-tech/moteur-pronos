@@ -172,7 +172,15 @@ def facteur_absences(api, fixture_id, team_id, histo_equipe):
     rep = api.get("injuries", {"fixture": fixture_id}, f"injuries_{fixture_id}", 6)
     if rep is None:
         return 0.0, 0.0, ""
-    absents = [x for x in rep if x.get("team", {}).get("id") == team_id]
+    # l'API renvoie parfois le même joueur plusieurs fois : un seul compte
+    absents, vus = [], set()
+    for x in rep:
+        if x.get("team", {}).get("id") != team_id:
+            continue
+        pid = x.get("player", {}).get("id") or x.get("player", {}).get("name")
+        if pid in vus:
+            continue
+        vus.add(pid); absents.append(x)
     if not absents:
         return 0.0, 0.0, ""
     postes = postes_effectif(api, team_id)
