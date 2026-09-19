@@ -3,6 +3,8 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V4.2 (19/09/2026) : Ligue des Nations + qualifs CAN PUBLIÉES dans la liste
+principale (LIGUES_NATIONS_ACCUEIL) ; amicaux et qualifs CdM restent coupons seulement.
 V4.1 (19/09/2026) : LIGUES_NATIONS (Ligue des Nations, qualifs CAN/CdM, amicaux)
 collectées pour les coupons pendant les trêves internationales.
 V4 (13/09/2026) : MOTEUR ENRICHI — les pronos sont calculés avec les facteurs
@@ -143,6 +145,10 @@ LIGUES_NATIONS = {
 }
 SAISONS_NATIONS = [2022, 2023, 2024, 2025, 2026, 2027]   # l'API date les qualifs CAN de l'année du tournoi
 PARAMS_NATIONS = {"min_matchs": 2.5, "xi": 0.003}
+# Parmi elles, celles PUBLIÉES dans la liste principale de l'app (Accueil) —
+# décision Babs 19/09 : Ligue des Nations + qualifications CAN, pour que
+# l'Accueil ne soit pas vide pendant la trêve. Amicaux et qualifs CdM : coupons seulement.
+LIGUES_NATIONS_ACCUEIL = {5: "Ligue des Nations", 36: "CAN — qualifications"}
 
 # Coupes d'Europe : les deux équipes viennent de championnats différents.
 # Leur moteur s'entraîne sur un VIVIER EUROPÉEN = tous les championnats
@@ -349,7 +355,22 @@ def publier(histo):
                 print(f"   ⚠️ moteur européen : {e}")
         return moteur_europe["m"]
 
-    for lid, nom in LIGUES.items():
+    # --- moteur équipes nationales : toutes les compétitions nationales collectées ---
+    moteur_nations = {"m": None, "erreur": None}
+
+    def obtenir_moteur_nations():
+        if moteur_nations["m"] is None and moteur_nations["erreur"] is None:
+            passe = histo[histo.ligue_id.isin(LIGUES_NATIONS) & (histo.statut == "FT")].dropna(
+                subset=["buts_dom", "buts_ext"])
+            print(f"   🌐 vivier équipes nationales : {len(passe):,} matchs")
+            try:
+                moteur_nations["m"] = Moteur(passe, date_ref=aujourdhui, **PARAMS_NATIONS)
+            except ValueError as e:
+                moteur_nations["erreur"] = str(e)
+                print(f"   ⚠️ moteur équipes nationales : {e}")
+        return moteur_nations["m"]
+
+    for lid, nom in {**LIGUES, **LIGUES_NATIONS_ACCUEIL}.items():
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= aujourdhui) & (histo.date < fin)]
         if avenir.empty:
@@ -362,6 +383,11 @@ def publier(histo):
             m = obtenir_moteur_europe()
             if m is None:
                 ecartes.append((nom, len(avenir), "moteur européen indisponible"))
+                continue
+        elif lid in LIGUES_NATIONS:
+            m = obtenir_moteur_nations()
+            if m is None:
+                ecartes.append((nom, len(avenir), "moteur équipes nationales indisponible"))
                 continue
         else:
             # championnat : le vivier inclut la 2e division du même pays —
