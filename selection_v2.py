@@ -50,35 +50,42 @@ POIDS_MOTEUR = 0.40
 # max_coupons       : coupons par catégorie et par jour (plafonné aussi par le
 #                     nombre de matchs disponibles, voir construire_coupons)
 CATEGORIES = {
+    # SÛRE et MONTANTE : uniquement des sélections de QUALITÉ « PRONO SIGNÉ »,
+    # c'est-à-dire celles que le moteur signerait dans la liste principale
+    # (victoire ≥ 70 %, double chance ≥ 80 %, buts/BTTS ≥ 70 %). Ce sont les
+    # mêmes analyses que celles qui font 85 % au palmarès. Deux sélections de
+    # ce niveau, c'est le maximum de fiabilité possible pour un combiné.
     "sure": dict(
-        cote_min=1.60, cote_max=2.60, legs_min=2, legs_max=3,
-        cote_sel_min=1.15, cote_sel_max=1.75, p_sel_min=0.55,
-        p_coupon_min=0.38, max_coupons=3),
+        cote_min=1.45, cote_max=2.40, legs_min=2, legs_max=2,
+        cote_sel_min=1.12, cote_sel_max=1.60, p_sel_min=0.62,
+        moteur_min=0.70, moteur_min_dc=0.80,
+        p_coupon_min=0.42, max_coupons=3),
     "confiance": dict(
         cote_min=3.00, cote_max=10.0, legs_min=2, legs_max=4,
         cote_sel_min=1.25, cote_sel_max=2.20, p_sel_min=0.45,
-        p_coupon_min=0.12, max_coupons=3),
+        p_coupon_min=0.12, max_coupons=3, cibles=[3.0, 4.5, 6.0]),
     "fun": dict(
         cote_min=10.0, cote_max=22.0, legs_min=3, legs_max=5,
         cote_sel_min=1.30, cote_sel_max=2.60, p_sel_min=0.38,
-        p_coupon_min=0.05, max_coupons=2, valeur=True),
+        p_coupon_min=0.05, max_coupons=2, valeur=True, cibles=[10.0, 15.0]),
+    # GROSSES COTES : le 1er coupon vise ≥ 35, le 2e ≥ 70 (fourchette 30-150)
     "grosses": dict(
-        cote_min=30.0, cote_max=150.0, legs_min=3, legs_max=6,
+        cote_min=30.0, cote_max=150.0, legs_min=3, legs_max=7,
         cote_sel_min=1.40, cote_sel_max=3.00, p_sel_min=0.33,
-        p_coupon_min=0.008, max_coupons=2, valeur=True),
+        p_coupon_min=0.006, max_coupons=2, valeur=True, cibles=[35.0, 70.0]),
     "montante": dict(
         cote_min=1.40, cote_max=1.80, legs_min=1, legs_max=2,
-        cote_sel_min=1.15, cote_sel_max=1.60, p_sel_min=0.62,
-        p_coupon_min=0.50, max_coupons=1),
+        cote_sel_min=1.15, cote_sel_max=1.60, p_sel_min=0.65,
+        moteur_min=0.70, moteur_min_dc=0.80,
+        p_coupon_min=0.55, max_coupons=1),
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=3,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
         p_coupon_min=0.20, max_coupons=3),
 }
-# NB : le constructeur se place toujours au plus près de cote_min (c'est là que
-# les chances sont maximales). Pour des grosses cotes plus hautes, monter
-# cote_min de « grosses » — en sachant que chaque doublement de la cote divise
-# les chances par deux.
+# NB : le constructeur se place toujours au plus près de la cible (c'est là que
+# les chances sont maximales). « cibles » échelonne les coupons d'une même
+# catégorie : le 1er vise la 1re valeur, le 2e la 2e, etc.
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
 ORDRE_JOUR = ["sure", "confiance", "fun", "grosses", "montante"]
@@ -176,10 +183,17 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
                 continue                      # le nul sec n'est jamais proposé
             s = {k: mt.get(k) for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
                                           "heure", "logo_dom", "logo_ext")}
+            pm_code = mot.get(code)
+            if code in CODES_DC and all(mot.get(k) for k in CODES_DC[code]):
+                pm_code = mot[CODES_DC[code][0]] + mot[CODES_DC[code][1]]
+            elif code == "U2.5" and mot.get("O2.5"):
+                pm_code = 1 - mot["O2.5"]
+            elif code == "NOBTTS" and mot.get("BTTS"):
+                pm_code = 1 - mot["BTTS"]
             s.update({
                 "code": code, "famille": FAMILLE[code],
                 "cote": float(cotes[code]), "p": float(p),
-                "p_moteur": mot.get(code),
+                "p_moteur": pm_code,
                 "valeur": float(p) * float(cotes[code]),   # > 1 : le marché sous-paie
             })
             selections.append(s)
@@ -223,6 +237,10 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
             continue
         if s["p"] < r["p_sel_min"]:
             continue
+        if r.get("moteur_min"):
+            seuil = r["moteur_min_dc"] if s["code"] in CODES_DC else r["moteur_min"]
+            if s.get("p_moteur") is None or s["p_moteur"] < seuil:
+                continue
         if (s["fixture_id"], s["code"]) in utilises:
             continue
         deja = codes_par_match.get((s["fixture_id"], s["famille"]))
@@ -317,11 +335,13 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
     while len(epuisees) < len(ordre):
         progres = False
         for cat in ordre:
-            r = CATEGORIES[cat]
+            r = dict(CATEGORIES[cat])
             if cat in epuisees:
                 continue
             if compte[cat] >= plafond(cat):
                 epuisees.add(cat); continue
+            if r.get("cibles"):           # 1er coupon vise la 1re cible, 2e la 2e…
+                r["cote_min"] = r["cibles"][min(compte[cat], len(r["cibles"]) - 1)]
             cands = _eligibles(selections, cat, r, utilises, codes_par_match)
             coupon = construire_un_coupon(cands, r)
             if coupon is None:

@@ -3,6 +3,8 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V4.1 (19/09/2026) : LIGUES_NATIONS (Ligue des Nations, qualifs CAN/CdM, amicaux)
+collectées pour les coupons pendant les trêves internationales.
 V4 (13/09/2026) : MOTEUR ENRICHI — les pronos sont calculés avec les facteurs
 de contexte d'enrichissement.py (blessés/suspendus, fatigue calendrier, expected
 goals, classement), appliqués sur les buts attendus avant le choix du prono.
@@ -127,13 +129,28 @@ LIGUES_EUROPE = {
     373: "Slovénie 1. SNL",
 }
 
+# ÉQUIPES NATIONALES — collectées pour que les coupons continuent pendant les
+# trêves internationales (Ligue des Nations, qualifications CAN et Coupe du
+# monde, amicaux). Aucun prono publié dans la liste principale ; le moteur des
+# coupons s'entraîne sur l'ensemble de ces compétitions avec des réglages
+# adaptés (peu de matchs par an → seuil plus bas, oubli plus lent).
+LIGUES_NATIONS = {
+    5:  "UEFA Nations League",
+    36: "CAN — qualifications",
+    29: "Coupe du monde — qualifications Afrique",
+    32: "Coupe du monde — qualifications Europe",
+    10: "Amicaux internationaux",
+}
+SAISONS_NATIONS = [2022, 2023, 2024, 2025, 2026, 2027]   # l'API date les qualifs CAN de l'année du tournoi
+PARAMS_NATIONS = {"min_matchs": 2.5, "xi": 0.003}
+
 # Coupes d'Europe : les deux équipes viennent de championnats différents.
 # Leur moteur s'entraîne sur un VIVIER EUROPÉEN = tous les championnats
 # collectés (D1, D2, coupons, Norvège, Suède) + les matchs de C1/C2 des
 # saisons passées, qui relient les championnats entre eux.
 # Les ligues des Amériques et du Japon n'y sont pas : aucun lien avec l'Europe.
 COMPETITIONS_UEFA = {2, 3}
-LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239}
+LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 
 SAISONS_HISTO = [2023, 2024, 2025]
 SAISON_COURANTE = 2026
@@ -193,14 +210,16 @@ def importer_historique():
         histo, deja = pd.DataFrame(), set()
 
     nouveaux = []
-    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI}
+    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS}
     for lid in a_historiser:
-        for saison in SAISONS_HISTO:
+        for saison in (SAISONS_NATIONS if lid in LIGUES_NATIONS else SAISONS_HISTO):
             if (lid, saison) in deja:
                 continue
             print(f"   ↓ {a_historiser[lid]} {saison}")
             rep = appel("fixtures", {"league": lid, "season": saison})
-            if lid in LIGUES_EUROPE and rep:
+            if lid in LIGUES_NATIONS and not rep:
+                deja.add((lid, saison)); continue          # saison inexistante pour cette compétition
+            if lid in (LIGUES_EUROPE | LIGUES_NATIONS) and rep:
                 # auto-vérification : ce que l'API dit de cet identifiant
                 l = rep[0]["league"]
                 print(f"      ↳ API : {l.get('country', '?')} — {l.get('name', '?')} "
@@ -210,12 +229,14 @@ def importer_historique():
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI}
+    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS}
     for lid in toutes:
-        print(f"   ↻ {toutes[lid]} {SAISON_COURANTE}")
-        rep = appel("fixtures", {"league": lid, "season": SAISON_COURANTE})
-        nouveaux += [plat(f) for f in rep]
-        time.sleep(1)
+        saisons = [SAISON_COURANTE, SAISON_COURANTE + 1] if lid in LIGUES_NATIONS else [SAISON_COURANTE]
+        for saison in saisons:
+            print(f"   ↻ {toutes[lid]} {saison}")
+            rep = appel("fixtures", {"league": lid, "season": saison})
+            nouveaux += [plat(f) for f in rep]
+            time.sleep(1)
 
     if nouveaux:
         neuf = pd.DataFrame(nouveaux)

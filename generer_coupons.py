@@ -11,6 +11,10 @@ Tourne dans le cron, après cron_quotidien.py.
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
 
+V2.1 (19/09/2026) — montante en 15 PALIERS (plus d'objectif ×15) ; Sûre et
+Montante n'acceptent que des sélections de qualité « prono signé » ; grosses
+cotes échelonnées (35 puis 70) ; équipes nationales (Ligue des Nations, qualifs
+CAN/CdM, amicaux) pour les trêves internationales.
 V2 (13/09/2026) — le moteur est ENRICHI (enrichissement.py : blessés et
 suspendus pondérés par le statut de titulaire, repos et enchaînement, expected
 goals des derniers matchs, contexte de classement) et la LOGIQUE DE SÉLECTION
@@ -50,7 +54,7 @@ F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
 FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
 MISE_DEPART = 5000        # montante : mise de départ en F CFA
-OBJECTIF_MONTANTE = 15    # ×15 puis on repart à zéro
+PALIERS_MONTANTE = 15     # une série = 15 paliers gagnés d'affilée, puis on repart à 5 000 F
 
 # compétitions retenues pour les coupons (principales + complément)
 LIGUES_COUPONS = {
@@ -63,10 +67,19 @@ LIGUES_COUPONS = {
 }
 D2_VERS_D1 = {40: 39, 141: 140, 136: 135, 79: 78, 62: 61, 89: 88, 95: 94}
 
+# Équipes nationales (trêves internationales) : un seul moteur entraîné sur
+# toutes ces compétitions, avec des réglages adaptés au peu de matchs par an.
+LIGUES_NATIONS = {
+    5: "UEFA Nations League", 36: "CAN — qualifications",
+    29: "CdM — qualifications Afrique", 32: "CdM — qualifications Europe",
+    10: "Amicaux internationaux",
+}
+PARAMS_NATIONS = {"min_matchs": 2.5, "xi": 0.003}
+
 # Coupes d'Europe : moteur entraîné sur TOUT l'historique européen (championnats
 # collectés par le cron + matchs de C1/C2 passés), jamais sur la seule coupe.
 COMPETITIONS_UEFA = {2, 3}
-LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239}
+LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 
 # Championnats joués pendant la nuit africaine (23h → 7h)
 LIGUES_NUIT = {
@@ -163,13 +176,32 @@ def candidats(demain=False, nuit=False):
                 print(f"   ⚠️ moteur européen indisponible : {e}")
         return moteur_europe["m"]
 
-    for lid, nom in (LIGUES_NUIT if nuit else LIGUES_COUPONS).items():
+    moteur_nations = {"m": None, "essaye": False}
+
+    def obtenir_moteur_nations():
+        if not moteur_nations["essaye"]:
+            moteur_nations["essaye"] = True
+            passe = histo[histo.ligue_id.isin(LIGUES_NATIONS) &
+                          (histo.statut == "FT")].dropna(subset=["buts_dom", "buts_ext"])
+            try:
+                moteur_nations["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()), **PARAMS_NATIONS)
+                print(f"   🌐 moteur équipes nationales : {len(passe):,} matchs")
+            except ValueError as e:
+                print(f"   ⚠️ moteur équipes nationales indisponible : {e}")
+        return moteur_nations["m"]
+
+    pool_ligues = LIGUES_NUIT if nuit else {**LIGUES_COUPONS, **LIGUES_NATIONS}
+    for lid, nom in pool_ligues.items():
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= debut) & (histo.date < fin)]
         if avenir.empty:
             continue
         if lid in COMPETITIONS_UEFA:
             m = obtenir_moteur_europe()
+            if m is None:
+                continue
+        elif lid in LIGUES_NATIONS:
+            m = obtenir_moteur_nations()
             if m is None:
                 continue
         else:
@@ -376,9 +408,8 @@ def avancer_montante(coupon_id, cote, jour):
     if paliers:
         d = paliers[0]
         if d["statut"] == "gagne":
-            atteint = float(d["gain_vise"]) / MISE_DEPART
-            if atteint >= OBJECTIF_MONTANTE:
-                serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART   # objectif atteint → nouvelle série
+            if d["palier"] >= PALIERS_MONTANTE:
+                serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART   # 15 paliers passés → nouvelle série
             else:
                 serie, palier, mise = d["serie"], d["palier"] + 1, float(d["gain_vise"])
         elif d["statut"] == "perdu":
@@ -392,7 +423,7 @@ def avancer_montante(coupon_id, cote, jour):
         "serie": serie, "palier": palier, "coupon_id": coupon_id,
         "mise": mise, "gain_vise": round(mise * cote, 2), "jour": jour,
     }, prefer="return=minimal")
-    print(f"   Montante série {serie} · palier {palier} : {int(mise)} F → {int(mise*cote)} F")
+    print(f"   Montante série {serie} · palier {palier}/{PALIERS_MONTANTE} : {int(mise)} F → {int(mise*cote)} F")
 
 
 # ==================================================================

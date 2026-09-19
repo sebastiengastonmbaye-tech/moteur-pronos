@@ -40,8 +40,13 @@ def _badge(p):
             return {"icone": ico, "niveau": nom, "confiance": round(p*100)}
 
 class Moteur:
-    def __init__(self, historique: pd.DataFrame, date_ref=None):
-        """historique : colonnes date, equipe_dom, equipe_ext, buts_dom, buts_ext"""
+    def __init__(self, historique: pd.DataFrame, date_ref=None,
+                 min_matchs: float = MIN_MATCHS, xi: float = XI):
+        """historique : colonnes date, equipe_dom, equipe_ext, buts_dom, buts_ext
+        min_matchs / xi : seuil de données récentes et vitesse d'oubli. Les équipes
+        NATIONALES jouent ~10 matchs par an : on leur passe un seuil plus bas et
+        un oubli plus lent (voir cron_quotidien.PARAMS_NATIONS)."""
+        self.min_matchs, self.xi = min_matchs, xi
         h = historique.dropna(subset=["buts_dom", "buts_ext"]).copy()
         h["date"] = pd.to_datetime(h["date"])
         date_ref = pd.to_datetime(date_ref) if date_ref is not None else h.date.max()
@@ -62,7 +67,7 @@ class Moteur:
         gh = h.buts_dom.values.astype(float)
         ga = h.buts_ext.values.astype(float)
         age = (self.date_ref - h.date).dt.days.values
-        w = np.exp(-XI * age)
+        w = np.exp(-self.xi * age)
 
         att = np.ones(n); dfn = np.ones(n); gamma = 1.25
         for _ in range(n_iter):
@@ -88,7 +93,7 @@ class Moteur:
         for e in (dom, ext):
             if e not in self.idx:
                 return {"erreur": f"Équipe inconnue : {e}"}
-            if self.vus[self.idx[e]] < MIN_MATCHS:
+            if self.vus[self.idx[e]] < self.min_matchs:
                 return {"erreur": f"Pas assez de données récentes sur {e}"}
 
         i, j = self.idx[dom], self.idx[ext]
