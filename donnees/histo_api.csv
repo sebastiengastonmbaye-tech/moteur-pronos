@@ -44300,36 +44300,36 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1557447,2026-10-31,NS,39,Premier League,2026,Aston Villa,Fulham,,,20:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/36.png
 1557453,2026-11-01,NS,39,Premier League,2026,Liverpool,Arsenal,,,16:30,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/42.png
 1557455,2026-11-02,NS,39,Premier League,2026,Newcastle,Everton,,,20:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/45.png
-1557464,2026-11-07,NS,39,Premier League,2026,Manchester United,Aston Villa,,,15:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/66.png
+1557460,2026-11-06,NS,39,Premier League,2026,Everton,Coventry,,,20:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/1346.png
+1557463,2026-11-07,NS,39,Premier League,2026,Leeds,Tottenham,,,12:30,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/47.png
 1557461,2026-11-07,NS,39,Premier League,2026,Fulham,Newcastle,,,15:00,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/34.png
 1557457,2026-11-07,NS,39,Premier League,2026,Arsenal,Hull City,,,15:00,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/64.png
-1557460,2026-11-07,NS,39,Premier League,2026,Everton,Coventry,,,15:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/1346.png
-1557458,2026-11-07,NS,39,Premier League,2026,Brighton,Brentford,,,15:00,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/55.png
-1557459,2026-11-07,NS,39,Premier League,2026,Crystal Palace,Liverpool,,,15:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/40.png
-1557462,2026-11-07,NS,39,Premier League,2026,Ipswich,Bournemouth,,,15:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/35.png
-1557463,2026-11-07,NS,39,Premier League,2026,Leeds,Tottenham,,,15:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/47.png
-1557465,2026-11-07,NS,39,Premier League,2026,Nottingham Forest,Manchester City,,,15:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/50.png
-1557466,2026-11-07,NS,39,Premier League,2026,Sunderland,Chelsea,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/49.png
-1557475,2026-11-21,NS,39,Premier League,2026,Newcastle,Arsenal,,,15:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/42.png
+1557465,2026-11-07,NS,39,Premier League,2026,Nottingham Forest,Manchester City,,,17:30,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/50.png
+1557458,2026-11-08,NS,39,Premier League,2026,Brighton,Brentford,,,14:00,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/55.png
+1557459,2026-11-08,NS,39,Premier League,2026,Crystal Palace,Liverpool,,,14:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/40.png
+1557462,2026-11-08,NS,39,Premier League,2026,Ipswich,Bournemouth,,,14:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/35.png
+1557466,2026-11-08,NS,39,Premier League,2026,Sunderland,Chelsea,,,14:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/49.png
+1557464,2026-11-08,NS,39,Premier League,2026,Manchester United,Aston Villa,,,16:30,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/66.png
+1557474,2026-11-21,NS,39,Premier League,2026,Manchester City,Fulham,,,12:30,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/36.png
 1557468,2026-11-21,NS,39,Premier League,2026,Bournemouth,Nottingham Forest,,,15:00,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/65.png
-1557473,2026-11-21,NS,39,Premier League,2026,Liverpool,Manchester United,,,15:00,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/33.png
 1557476,2026-11-21,NS,39,Premier League,2026,Tottenham,Ipswich,,,15:00,https://media.api-sports.io/football/teams/47.png,https://media.api-sports.io/football/teams/57.png
 1557470,2026-11-21,NS,39,Premier League,2026,Chelsea,Leeds,,,15:00,https://media.api-sports.io/football/teams/49.png,https://media.api-sports.io/football/teams/63.png
-1557474,2026-11-21,NS,39,Premier League,2026,Manchester City,Fulham,,,15:00,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/36.png
-1557469,2026-11-21,NS,39,Premier League,2026,Brentford,Everton,,,15:00,https://media.api-sports.io/football/teams/55.png,https://media.api-sports.io/football/teams/45.png
-1557472,2026-11-21,NS,39,Premier League,2026,Hull City,Brighton,,,15:00,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/51.png
 1557467,2026-11-21,NS,39,Premier League,2026,Aston Villa,Sunderland,,,15:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/746.png
 1557471,2026-11-21,NS,39,Premier League,2026,Coventry,Crystal Palace,,,15:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/52.png
+1557475,2026-11-21,NS,39,Premier League,2026,Newcastle,Arsenal,,,17:30,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/42.png
+1557472,2026-11-22,NS,39,Premier League,2026,Hull City,Brighton,,,14:00,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/51.png
+1557473,2026-11-22,NS,39,Premier League,2026,Liverpool,Manchester United,,,16:30,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/33.png
+1557469,2026-11-23,NS,39,Premier League,2026,Brentford,Everton,,,20:00,https://media.api-sports.io/football/teams/55.png,https://media.api-sports.io/football/teams/45.png
+1557485,2026-11-27,NS,39,Premier League,2026,Nottingham Forest,Chelsea,,,20:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/49.png
 1557484,2026-11-28,NS,39,Premier League,2026,Manchester United,Brentford,,,15:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/55.png
-1557481,2026-11-28,NS,39,Premier League,2026,Fulham,Bournemouth,,,15:00,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/35.png
-1557477,2026-11-28,NS,39,Premier League,2026,Arsenal,Manchester City,,,15:00,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/50.png
-1557480,2026-11-28,NS,39,Premier League,2026,Everton,Liverpool,,,15:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/40.png
-1557478,2026-11-28,NS,39,Premier League,2026,Brighton,Newcastle,,,15:00,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/34.png
-1557479,2026-11-28,NS,39,Premier League,2026,Crystal Palace,Hull City,,,15:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/64.png
-1557482,2026-11-28,NS,39,Premier League,2026,Ipswich,Aston Villa,,,15:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/66.png
 1557483,2026-11-28,NS,39,Premier League,2026,Leeds,Coventry,,,15:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/1346.png
-1557485,2026-11-28,NS,39,Premier League,2026,Nottingham Forest,Chelsea,,,15:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/49.png
-1557486,2026-11-28,NS,39,Premier League,2026,Sunderland,Tottenham,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/47.png
+1557482,2026-11-28,NS,39,Premier League,2026,Ipswich,Aston Villa,,,17:30,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/66.png
+1557480,2026-11-29,NS,39,Premier League,2026,Everton,Liverpool,,,12:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/40.png
+1557481,2026-11-29,NS,39,Premier League,2026,Fulham,Bournemouth,,,14:05,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/35.png
+1557478,2026-11-29,NS,39,Premier League,2026,Brighton,Newcastle,,,14:05,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/34.png
+1557479,2026-11-29,NS,39,Premier League,2026,Crystal Palace,Hull City,,,14:05,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/64.png
+1557486,2026-11-29,NS,39,Premier League,2026,Sunderland,Tottenham,,,14:05,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/47.png
+1557477,2026-11-29,NS,39,Premier League,2026,Arsenal,Manchester City,,,16:30,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/50.png
 1557495,2026-12-02,NS,39,Premier League,2026,Newcastle,Manchester United,,,20:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/33.png
 1557488,2026-12-02,NS,39,Premier League,2026,Bournemouth,Brighton,,,20:00,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/51.png
 1557493,2026-12-02,NS,39,Premier League,2026,Liverpool,Sunderland,,,20:00,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/746.png
@@ -44370,46 +44370,46 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1557522,2026-12-19,NS,39,Premier League,2026,Leeds,Fulham,,,15:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/36.png
 1557525,2026-12-19,NS,39,Premier League,2026,Nottingham Forest,Everton,,,15:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/45.png
 1557526,2026-12-19,NS,39,Premier League,2026,Sunderland,Crystal Palace,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/52.png
-1557534,2026-12-26,NS,39,Premier League,2026,Manchester United,Nottingham Forest,,,15:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/65.png
-1557535,2026-12-26,NS,39,Premier League,2026,Newcastle,Manchester City,,,15:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/50.png
+1557527,2026-12-26,NS,39,Premier League,2026,Aston Villa,Leeds,,,12:30,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/63.png
 1557531,2026-12-26,NS,39,Premier League,2026,Fulham,Brighton,,,15:00,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/51.png
 1557530,2026-12-26,NS,39,Premier League,2026,Everton,Sunderland,,,15:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/746.png
 1557536,2026-12-26,NS,39,Premier League,2026,Tottenham,Bournemouth,,,15:00,https://media.api-sports.io/football/teams/47.png,https://media.api-sports.io/football/teams/35.png
-1557529,2026-12-26,NS,39,Premier League,2026,Crystal Palace,Arsenal,,,15:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/42.png
 1557533,2026-12-26,NS,39,Premier League,2026,Ipswich,Brentford,,,15:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/55.png
-1557532,2026-12-26,NS,39,Premier League,2026,Hull City,Liverpool,,,15:00,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/40.png
-1557527,2026-12-26,NS,39,Premier League,2026,Aston Villa,Leeds,,,15:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/63.png
-1557528,2026-12-26,NS,39,Premier League,2026,Coventry,Chelsea,,,15:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/49.png
-1557544,2026-12-30,NS,39,Premier League,2026,Manchester United,Sunderland,,,20:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/746.png
-1557545,2026-12-30,NS,39,Premier League,2026,Newcastle,Nottingham Forest,,,20:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/65.png
-1557541,2026-12-30,NS,39,Premier League,2026,Fulham,Arsenal,,,20:00,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/42.png
-1557540,2026-12-30,NS,39,Premier League,2026,Everton,Manchester City,,,20:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/50.png
-1557546,2026-12-30,NS,39,Premier League,2026,Tottenham,Brighton,,,20:00,https://media.api-sports.io/football/teams/47.png,https://media.api-sports.io/football/teams/51.png
-1557539,2026-12-30,NS,39,Premier League,2026,Crystal Palace,Bournemouth,,,20:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/35.png
-1557543,2026-12-30,NS,39,Premier League,2026,Ipswich,Chelsea,,,20:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/49.png
-1557542,2026-12-30,NS,39,Premier League,2026,Hull City,Leeds,,,20:00,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/63.png
-1557537,2026-12-30,NS,39,Premier League,2026,Aston Villa,Liverpool,,,20:00,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/40.png
-1557538,2026-12-30,NS,39,Premier League,2026,Coventry,Brentford,,,20:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/55.png
-1557548,2027-01-02,NS,39,Premier League,2026,Bournemouth,Aston Villa,,,15:00,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/66.png
+1557532,2026-12-26,NS,39,Premier League,2026,Hull City,Liverpool,,,17:30,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/40.png
+1557535,2026-12-26,NS,39,Premier League,2026,Newcastle,Manchester City,,,20:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/50.png
+1557528,2026-12-27,NS,39,Premier League,2026,Coventry,Chelsea,,,14:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/49.png
+1557534,2026-12-27,NS,39,Premier League,2026,Manchester United,Nottingham Forest,,,16:30,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/65.png
+1557529,2026-12-27,NS,39,Premier League,2026,Crystal Palace,Arsenal,,,19:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/42.png
+1557546,2026-12-29,NS,39,Premier League,2026,Tottenham,Brighton,,,19:30,https://media.api-sports.io/football/teams/47.png,https://media.api-sports.io/football/teams/51.png
+1557542,2026-12-29,NS,39,Premier League,2026,Hull City,Leeds,,,19:30,https://media.api-sports.io/football/teams/64.png,https://media.api-sports.io/football/teams/63.png
+1557540,2026-12-29,NS,39,Premier League,2026,Everton,Manchester City,,,20:15,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/50.png
+1557544,2026-12-30,NS,39,Premier League,2026,Manchester United,Sunderland,,,19:30,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/746.png
+1557545,2026-12-30,NS,39,Premier League,2026,Newcastle,Nottingham Forest,,,19:30,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/65.png
+1557541,2026-12-30,NS,39,Premier League,2026,Fulham,Arsenal,,,19:30,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/42.png
+1557539,2026-12-30,NS,39,Premier League,2026,Crystal Palace,Bournemouth,,,19:30,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/35.png
+1557538,2026-12-30,NS,39,Premier League,2026,Coventry,Brentford,,,19:30,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/55.png
+1557543,2026-12-30,NS,39,Premier League,2026,Ipswich,Chelsea,,,20:15,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/49.png
+1557537,2026-12-30,NS,39,Premier League,2026,Aston Villa,Liverpool,,,20:15,https://media.api-sports.io/football/teams/66.png,https://media.api-sports.io/football/teams/40.png
+1557552,2027-01-01,NS,39,Premier League,2026,Leeds,Everton,,,20:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/45.png
+1557550,2027-01-02,NS,39,Premier League,2026,Brighton,Manchester United,,,12:30,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/33.png
 1557553,2027-01-02,NS,39,Premier League,2026,Liverpool,Coventry,,,15:00,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/1346.png
 1557547,2027-01-02,NS,39,Premier League,2026,Arsenal,Ipswich,,,15:00,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/57.png
-1557551,2027-01-02,NS,39,Premier League,2026,Chelsea,Newcastle,,,15:00,https://media.api-sports.io/football/teams/49.png,https://media.api-sports.io/football/teams/34.png
-1557554,2027-01-02,NS,39,Premier League,2026,Manchester City,Tottenham,,,15:00,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/47.png
-1557550,2027-01-02,NS,39,Premier League,2026,Brighton,Manchester United,,,15:00,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/33.png
 1557549,2027-01-02,NS,39,Premier League,2026,Brentford,Crystal Palace,,,15:00,https://media.api-sports.io/football/teams/55.png,https://media.api-sports.io/football/teams/52.png
-1557552,2027-01-02,NS,39,Premier League,2026,Leeds,Everton,,,15:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/45.png
 1557555,2027-01-02,NS,39,Premier League,2026,Nottingham Forest,Fulham,,,15:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/36.png
 1557556,2027-01-02,NS,39,Premier League,2026,Sunderland,Hull City,,,15:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/64.png
-1557564,2027-01-06,NS,39,Premier League,2026,Manchester United,Newcastle,,,20:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/34.png
-1557561,2027-01-06,NS,39,Premier League,2026,Fulham,Tottenham,,,20:00,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/47.png
-1557557,2027-01-06,NS,39,Premier League,2026,Arsenal,Brentford,,,20:00,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/55.png
-1557560,2027-01-06,NS,39,Premier League,2026,Everton,Aston Villa,,,20:00,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/66.png
-1557558,2027-01-06,NS,39,Premier League,2026,Brighton,Bournemouth,,,20:00,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/35.png
-1557559,2027-01-06,NS,39,Premier League,2026,Crystal Palace,Chelsea,,,20:00,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/49.png
-1557562,2027-01-06,NS,39,Premier League,2026,Ipswich,Coventry,,,20:00,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/1346.png
-1557563,2027-01-06,NS,39,Premier League,2026,Leeds,Manchester City,,,20:00,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/50.png
-1557565,2027-01-06,NS,39,Premier League,2026,Nottingham Forest,Hull City,,,20:00,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/64.png
-1557566,2027-01-06,NS,39,Premier League,2026,Sunderland,Liverpool,,,20:00,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/40.png
+1557548,2027-01-02,NS,39,Premier League,2026,Bournemouth,Aston Villa,,,17:30,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/66.png
+1557551,2027-01-03,NS,39,Premier League,2026,Chelsea,Newcastle,,,14:00,https://media.api-sports.io/football/teams/49.png,https://media.api-sports.io/football/teams/34.png
+1557554,2027-01-03,NS,39,Premier League,2026,Manchester City,Tottenham,,,16:30,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/47.png
+1557557,2027-01-05,NS,39,Premier League,2026,Arsenal,Brentford,,,19:30,https://media.api-sports.io/football/teams/42.png,https://media.api-sports.io/football/teams/55.png
+1557560,2027-01-05,NS,39,Premier League,2026,Everton,Aston Villa,,,19:30,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/66.png
+1557558,2027-01-05,NS,39,Premier League,2026,Brighton,Bournemouth,,,19:30,https://media.api-sports.io/football/teams/51.png,https://media.api-sports.io/football/teams/35.png
+1557565,2027-01-05,NS,39,Premier League,2026,Nottingham Forest,Hull City,,,19:30,https://media.api-sports.io/football/teams/65.png,https://media.api-sports.io/football/teams/64.png
+1557566,2027-01-05,NS,39,Premier League,2026,Sunderland,Liverpool,,,20:15,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/40.png
+1557561,2027-01-06,NS,39,Premier League,2026,Fulham,Tottenham,,,19:30,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/47.png
+1557559,2027-01-06,NS,39,Premier League,2026,Crystal Palace,Chelsea,,,19:30,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/49.png
+1557562,2027-01-06,NS,39,Premier League,2026,Ipswich,Coventry,,,19:30,https://media.api-sports.io/football/teams/57.png,https://media.api-sports.io/football/teams/1346.png
+1557563,2027-01-06,NS,39,Premier League,2026,Leeds,Manchester City,,,20:15,https://media.api-sports.io/football/teams/63.png,https://media.api-sports.io/football/teams/50.png
+1557564,2027-01-07,NS,39,Premier League,2026,Manchester United,Newcastle,,,20:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/34.png
 1557575,2027-01-16,NS,39,Premier League,2026,Newcastle,Fulham,,,15:00,https://media.api-sports.io/football/teams/34.png,https://media.api-sports.io/football/teams/36.png
 1557568,2027-01-16,NS,39,Premier League,2026,Bournemouth,Ipswich,,,15:00,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/57.png
 1557573,2027-01-16,NS,39,Premier League,2026,Liverpool,Crystal Palace,,,15:00,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/52.png
@@ -56140,7 +56140,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550974,2026-09-21,FT,262,Liga MX,2026,Club Queretaro,Leon,1.0,1.0,02:10,https://media.api-sports.io/football/teams/2290.png,https://media.api-sports.io/football/teams/2289.png
 1550975,2026-09-26,NS,262,Liga MX,2026,Atlante FC,Monterrey,,,01:00,https://media.api-sports.io/football/teams/2312.png,https://media.api-sports.io/football/teams/2282.png
 1550976,2026-09-26,NS,262,Liga MX,2026,Club Tijuana,Atlas,,,03:00,https://media.api-sports.io/football/teams/2280.png,https://media.api-sports.io/football/teams/2283.png
-1550980,2026-09-26,NS,262,Liga MX,2026,Cruz Azul,Toluca,,,23:00,https://media.api-sports.io/football/teams/2295.png,https://media.api-sports.io/football/teams/2281.png
+1550980,2026-09-26,NS,262,Liga MX,2026,Cruz Azul,Toluca,,,22:50,https://media.api-sports.io/football/teams/2295.png,https://media.api-sports.io/football/teams/2281.png
 1550977,2026-09-26,NS,262,Liga MX,2026,Guadalajara Chivas,Club Queretaro,,,23:07,https://media.api-sports.io/football/teams/2278.png,https://media.api-sports.io/football/teams/2290.png
 1550979,2026-09-27,NS,262,Liga MX,2026,Tigres UANL,Puebla,,,01:00,https://media.api-sports.io/football/teams/2279.png,https://media.api-sports.io/football/teams/2291.png
 1550978,2026-09-27,NS,262,Liga MX,2026,Santos Laguna,CF Pachuca,,,01:00,https://media.api-sports.io/football/teams/2285.png,https://media.api-sports.io/football/teams/2292.png
@@ -56509,13 +56509,13 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549785,2026-09-20,FT,239,Primera A,2026,Bucaramanga,Internacional de Bogota,2.0,0.0,21:05,https://media.api-sports.io/football/teams/1131.png,https://media.api-sports.io/football/teams/1134.png
 1549787,2026-09-20,FT,239,Primera A,2026,Deportes Tolima,America de Cali,1.0,1.0,23:10,https://media.api-sports.io/football/teams/1142.png,https://media.api-sports.io/football/teams/1138.png
 1549791,2026-09-21,FT,239,Primera A,2026,Llaneros,Atletico Nacional,2.0,0.0,01:15,https://media.api-sports.io/football/teams/1464.png,https://media.api-sports.io/football/teams/1137.png
-1549790,2026-09-22,NS,239,Primera A,2026,Independiente Medellin,Jaguares,,,23:00,https://media.api-sports.io/football/teams/1128.png,https://media.api-sports.io/football/teams/1133.png
-1549802,2026-09-23,NS,239,Primera A,2026,Santa Fe,Deportivo Cali,,,01:00,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1127.png
+1549790,2026-09-22,FT,239,Primera A,2026,Independiente Medellin,Jaguares,2.0,1.0,23:00,https://media.api-sports.io/football/teams/1128.png,https://media.api-sports.io/football/teams/1133.png
+1549802,2026-09-23,FT,239,Primera A,2026,Santa Fe,Deportivo Cali,0.0,1.0,01:00,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1127.png
 1549793,2026-09-24,NS,239,Primera A,2026,America de Cali,Águilas Doradas,,,00:30,https://media.api-sports.io/football/teams/1138.png,https://media.api-sports.io/football/teams/1144.png
 1549794,2026-09-25,NS,239,Primera A,2026,Atletico Nacional,Millonarios,,,00:30,https://media.api-sports.io/football/teams/1137.png,https://media.api-sports.io/football/teams/1125.png
 1549795,2026-09-25,NS,239,Primera A,2026,Chico,Deportivo Pasto,,,23:10,https://media.api-sports.io/football/teams/1132.png,https://media.api-sports.io/football/teams/1126.png
 1549800,2026-09-26,NS,239,Primera A,2026,Once Caldas,Bucaramanga,,,01:15,https://media.api-sports.io/football/teams/1136.png,https://media.api-sports.io/football/teams/1131.png
-1549801,2026-09-26,NS,239,Primera A,2026,Deportivo Pereira,Internacional de Bogota,,,21:10,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1134.png
+1549801,2026-09-26,NS,239,Primera A,2026,Deportivo Pereira,Internacional de Bogota,,,21:00,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1134.png
 1549796,2026-09-26,NS,239,Primera A,2026,Cucuta,Llaneros,,,23:15,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1464.png
 1549799,2026-09-27,NS,239,Primera A,2026,Junior,Independiente Medellin,,,01:20,https://media.api-sports.io/football/teams/1135.png,https://media.api-sports.io/football/teams/1128.png
 1549798,2026-09-27,NS,239,Primera A,2026,Jaguares,Alianza Valledupar,,,21:00,https://media.api-sports.io/football/teams/1133.png,https://media.api-sports.io/football/teams/1141.png
