@@ -56606,13 +56606,14 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549872,2026-11-12,NS,239,Primera A,2026,Deportivo Pereira,America de Cali,,,21:00,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1138.png
 1549870,2026-11-12,NS,239,Primera A,2026,Llaneros,Chico,,,21:00,https://media.api-sports.io/football/teams/1464.png,https://media.api-sports.io/football/teams/1132.png
 1549866,2026-11-12,NS,239,Primera A,2026,Cucuta,Jaguares,,,21:00,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1133.png
-1528863,2026-09-24,NS,5,UEFA Nations League,2026,Serbia,Greece,,,18:45,https://media.api-sports.io/football/teams/14.png,https://media.api-sports.io/football/teams/1117.png
-1528864,2026-09-24,NS,5,UEFA Nations League,2026,Portugal,Wales,,,18:45,https://media.api-sports.io/football/teams/27.png,https://media.api-sports.io/football/teams/767.png
-1528878,2026-09-24,NS,5,UEFA Nations League,2026,Austria,Israel,,,18:45,https://media.api-sports.io/football/teams/775.png,https://media.api-sports.io/football/teams/1116.png
-1528865,2026-09-24,NS,5,UEFA Nations League,2026,Norway,Denmark,,,18:45,https://media.api-sports.io/football/teams/1090.png,https://media.api-sports.io/football/teams/21.png
-1528880,2026-09-24,NS,5,UEFA Nations League,2026,Liechtenstein,Lithuania,,,18:45,https://media.api-sports.io/football/teams/1107.png,https://media.api-sports.io/football/teams/1097.png
-1528879,2026-09-24,NS,5,UEFA Nations League,2026,Kosovo,Rep. Of Ireland,,,18:45,https://media.api-sports.io/football/teams/1111.png,https://media.api-sports.io/football/teams/776.png
-1528862,2026-09-24,NS,5,UEFA Nations League,2026,Netherlands,Germany,,,18:45,https://media.api-sports.io/football/teams/1118.png,https://media.api-sports.io/football/teams/25.png
+1545601,2026-09-24,FT,5,UEFA Nations League,2026,Andorra,Malta,1.0,2.0,16:00,https://media.api-sports.io/football/teams/1110.png,https://media.api-sports.io/football/teams/1112.png
+1528863,2026-09-24,FT,5,UEFA Nations League,2026,Serbia,Greece,1.0,2.0,18:45,https://media.api-sports.io/football/teams/14.png,https://media.api-sports.io/football/teams/1117.png
+1528864,2026-09-24,FT,5,UEFA Nations League,2026,Portugal,Wales,1.0,0.0,18:45,https://media.api-sports.io/football/teams/27.png,https://media.api-sports.io/football/teams/767.png
+1528878,2026-09-24,FT,5,UEFA Nations League,2026,Austria,Israel,3.0,1.0,18:45,https://media.api-sports.io/football/teams/775.png,https://media.api-sports.io/football/teams/1116.png
+1528865,2026-09-24,FT,5,UEFA Nations League,2026,Norway,Denmark,3.0,2.0,18:45,https://media.api-sports.io/football/teams/1090.png,https://media.api-sports.io/football/teams/21.png
+1528880,2026-09-24,FT,5,UEFA Nations League,2026,Liechtenstein,Lithuania,0.0,2.0,18:45,https://media.api-sports.io/football/teams/1107.png,https://media.api-sports.io/football/teams/1097.png
+1528879,2026-09-24,FT,5,UEFA Nations League,2026,Kosovo,Rep. Of Ireland,1.0,0.0,18:45,https://media.api-sports.io/football/teams/1111.png,https://media.api-sports.io/football/teams/776.png
+1528862,2026-09-24,FT,5,UEFA Nations League,2026,Netherlands,Germany,1.0,1.0,18:45,https://media.api-sports.io/football/teams/1118.png,https://media.api-sports.io/football/teams/25.png
 1545602,2026-09-25,NS,5,UEFA Nations League,2026,Armenia,Latvia,,,16:00,https://media.api-sports.io/football/teams/1094.png,https://media.api-sports.io/football/teams/1092.png
 1528881,2026-09-25,NS,5,UEFA Nations League,2026,Georgia,Northern Ireland,,,16:00,https://media.api-sports.io/football/teams/1104.png,https://media.api-sports.io/football/teams/771.png
 1528886,2026-09-25,NS,5,UEFA Nations League,2026,Sweden,Romania,,,18:45,https://media.api-sports.io/football/teams/5.png,https://media.api-sports.io/football/teams/774.png
@@ -56761,7 +56762,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1528997,2026-11-17,NS,5,UEFA Nations League,2026,Rep. Of Ireland,Kosovo,,,19:45,https://media.api-sports.io/football/teams/776.png,https://media.api-sports.io/football/teams/1111.png
 1528999,2026-11-17,NS,5,UEFA Nations League,2026,Bosnia & Herzegovina,Romania,,,19:45,https://media.api-sports.io/football/teams/1113.png,https://media.api-sports.io/football/teams/774.png
 1528996,2026-11-17,NS,5,UEFA Nations League,2026,Israel,Austria,,,19:45,https://media.api-sports.io/football/teams/1116.png,https://media.api-sports.io/football/teams/775.png
-1545601,2026-09-24,2H,5,UEFA Nations League,2026,Andorra,Malta,1.0,2.0,16:00,https://media.api-sports.io/football/teams/1110.png,https://media.api-sports.io/football/teams/1112.png
 1537364,2026-03-31,PEN,36,Africa Cup of Nations - Qualification,2027,Mauritius,Somalia,0.0,0.0,15:00,https://media.api-sports.io/football/teams/1497.png,https://media.api-sports.io/football/teams/8050.png
 1537365,2026-03-31,FT,36,Africa Cup of Nations - Qualification,2027,Eswatini,Eritrea,1.0,2.0,14:00,https://media.api-sports.io/football/teams/2995.png,https://media.api-sports.io/football/teams/1498.png
 1537366,2026-03-31,FT,36,Africa Cup of Nations - Qualification,2027,Ethiopia,Sao Tome and Principe,1.0,0.0,13:00,https://media.api-sports.io/football/teams/1506.png,https://media.api-sports.io/football/teams/1494.png
@@ -56776,28 +56776,28 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1537375,2026-03-25,FT,36,Africa Cup of Nations - Qualification,2027,Eritrea,Eswatini,2.0,0.0,16:00,https://media.api-sports.io/football/teams/1498.png,https://media.api-sports.io/football/teams/2995.png
 1545814,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Algeria,Zambia,,,19:00,https://media.api-sports.io/football/teams/1532.png,https://media.api-sports.io/football/teams/1507.png
 1545815,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Burkina Faso,Benin,,,19:00,https://media.api-sports.io/football/teams/1502.png,https://media.api-sports.io/football/teams/1516.png
-1545816,2026-09-24,NS,36,Africa Cup of Nations - Qualification,2027,Cameroon,Comoros,,,19:00,https://media.api-sports.io/football/teams/1530.png,https://media.api-sports.io/football/teams/1524.png
-1545817,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Congo DR,Equatorial Guinea,2.0,0.0,16:00,https://media.api-sports.io/football/teams/1508.png,https://media.api-sports.io/football/teams/1521.png
+1545816,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Cameroon,Comoros,3.0,1.0,19:00,https://media.api-sports.io/football/teams/1530.png,https://media.api-sports.io/football/teams/1524.png
+1545817,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Congo DR,Equatorial Guinea,2.0,0.0,16:00,https://media.api-sports.io/football/teams/1508.png,https://media.api-sports.io/football/teams/1521.png
 1545818,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Egypt,Angola,,,19:00,https://media.api-sports.io/football/teams/32.png,https://media.api-sports.io/football/teams/1529.png
 1545819,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Gambia,Somalia,,,16:00,https://media.api-sports.io/football/teams/1492.png,https://media.api-sports.io/football/teams/8050.png
-1545820,2026-09-24,NS,36,Africa Cup of Nations - Qualification,2027,Ivory Coast,Ghana,,,19:00,https://media.api-sports.io/football/teams/1501.png,https://media.api-sports.io/football/teams/1504.png
+1545820,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Ivory Coast,Ghana,2.0,0.0,19:00,https://media.api-sports.io/football/teams/1501.png,https://media.api-sports.io/football/teams/1504.png
 1545821,2026-09-26,NS,36,Africa Cup of Nations - Qualification,2027,Kenya,Eritrea,,,13:00,https://media.api-sports.io/football/teams/1511.png,https://media.api-sports.io/football/teams/1498.png
-1545822,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Libya,Botswana,0.0,2.0,16:00,https://media.api-sports.io/football/teams/1526.png,https://media.api-sports.io/football/teams/1520.png
+1545822,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Libya,Botswana,2.0,2.0,16:00,https://media.api-sports.io/football/teams/1526.png,https://media.api-sports.io/football/teams/1520.png
 1545823,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Malawi,South Sudan,,,16:00,https://media.api-sports.io/football/teams/1495.png,https://media.api-sports.io/football/teams/1496.png
 1545824,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Mali,Cape Verde Islands,,,19:00,https://media.api-sports.io/football/teams/1500.png,https://media.api-sports.io/football/teams/1533.png
-1545825,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Mauritania,Central African Republic,3.0,1.0,16:00,https://media.api-sports.io/football/teams/1491.png,https://media.api-sports.io/football/teams/1527.png
+1545825,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Mauritania,Central African Republic,3.0,1.0,16:00,https://media.api-sports.io/football/teams/1491.png,https://media.api-sports.io/football/teams/1527.png
 1545826,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Morocco,Gabon,,,19:00,https://media.api-sports.io/football/teams/31.png,https://media.api-sports.io/football/teams/1503.png
 1545827,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Namibia,Congo,1.0,0.0,13:00,https://media.api-sports.io/football/teams/1493.png,https://media.api-sports.io/football/teams/1517.png
 1545828,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Niger,Lesotho,,,15:00,https://media.api-sports.io/football/teams/1505.png,https://media.api-sports.io/football/teams/1518.png
 1545829,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Nigeria,Madagascar,,,16:00,https://media.api-sports.io/football/teams/19.png,https://media.api-sports.io/football/teams/1490.png
 1545830,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Rwanda,Liberia,,,16:00,https://media.api-sports.io/football/teams/1514.png,https://media.api-sports.io/football/teams/1525.png
 1545831,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Mozambique,Senegal,,,13:00,https://media.api-sports.io/football/teams/1512.png,https://media.api-sports.io/football/teams/13.png
-1545832,2026-09-24,NS,36,Africa Cup of Nations - Qualification,2027,Sierra Leone,Zimbabwe,,,19:00,https://media.api-sports.io/football/teams/1499.png,https://media.api-sports.io/football/teams/1522.png
+1545832,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Sierra Leone,Zimbabwe,2.0,3.0,19:00,https://media.api-sports.io/football/teams/1499.png,https://media.api-sports.io/football/teams/1522.png
 1545833,2026-09-26,NS,36,Africa Cup of Nations - Qualification,2027,South Africa,Guinea,,,13:00,https://media.api-sports.io/football/teams/1531.png,https://media.api-sports.io/football/teams/1509.png
 1545834,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Sudan,Ethiopia,,,16:00,https://media.api-sports.io/football/teams/1510.png,https://media.api-sports.io/football/teams/1506.png
 1545835,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Tanzania,Guinea-Bissau,,,13:00,https://media.api-sports.io/football/teams/1489.png,https://media.api-sports.io/football/teams/1513.png
 1545836,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Togo,Burundi,,,16:00,https://media.api-sports.io/football/teams/1534.png,https://media.api-sports.io/football/teams/1528.png
-1545837,2026-09-24,NS,36,Africa Cup of Nations - Qualification,2027,Tunisia,Uganda,,,19:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1519.png
+1545837,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Tunisia,Uganda,1.0,1.0,19:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1519.png
 1545838,2026-10-06,NS,36,Africa Cup of Nations - Qualification,2027,Angola,Malawi,,,19:00,https://media.api-sports.io/football/teams/1529.png,https://media.api-sports.io/football/teams/1495.png
 1545839,2026-09-29,NS,36,Africa Cup of Nations - Qualification,2027,Benin,Mauritania,,,17:00,https://media.api-sports.io/football/teams/1516.png,https://media.api-sports.io/football/teams/1491.png
 1545840,2026-09-28,NS,36,Africa Cup of Nations - Qualification,2027,Botswana,Tunisia,,,19:00,https://media.api-sports.io/football/teams/1520.png,https://media.api-sports.io/football/teams/28.png
