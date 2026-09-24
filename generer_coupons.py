@@ -142,7 +142,11 @@ def sb(chemin, methode="GET", corps=None, prefer=None, essais=3):
 # ==================================================================
 # 1. Candidats : probabilités du moteur sur les matchs à venir
 # ==================================================================
-def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True):
+STATUTS_LIVE = ("NS", "1H", "HT", "2H", "ET", "BT", "P", "LIVE", "INT")
+
+
+def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
+              statuts=("NS",), depuis_debut=False):
     histo = pd.read_csv(F_HISTO)
     # la colonne « date » ne contient que le jour : on recompose l'horodatage réel
     jours = pd.to_datetime(histo["date"], errors="coerce").dt.normalize()
@@ -151,7 +155,9 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True):
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
     if jour_cible is not None:
         # une journée précise (combinés TikTok à J+1 … J+6), jamais un match commencé
-        debut = max(datetime.combine(jour_cible, datetime.min.time()), maintenant)
+        debut = datetime.combine(jour_cible, datetime.min.time())
+        if not depuis_debut:
+            debut = max(debut, maintenant)
         fin = datetime.combine(jour_cible + timedelta(days=1), datetime.min.time())
     elif nuit:
         # nuit du jour visé : de 22h ce soir-là à 7h le lendemain matin
@@ -200,7 +206,7 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True):
 
     pool_ligues = LIGUES_NUIT if nuit else {**LIGUES_COUPONS, **LIGUES_NATIONS}
     for lid, nom in pool_ligues.items():
-        avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
+        avenir = histo[(histo.ligue_id == lid) & (histo.statut.isin(statuts)) &
                        (histo.date >= debut) & (histo.date < fin)]
         if avenir.empty:
             continue
@@ -575,6 +581,11 @@ def main():
     jour = (datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)).isoformat()
     print(f"→ Analyse des matchs du {jour} (moteur enrichi : absences, fatigue, xG, classement)"
           + (" — préparation de demain" if demain else ""))
+    # prévisions pour LIVE COUPON : tous les matchs de la journée visée, y compris
+    # ceux déjà commencés (une relance le soir doit les couvrir)
+    cible = datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)
+    publier_previsions(candidats(jour_cible=cible, enrichir=False, statuts=STATUTS_LIVE, depuis_debut=True))
+
     matchs = candidats(demain)
     if len(matchs) < 5:
         print("   (trop peu de matchs : aucun coupon aujourd'hui)")
@@ -604,8 +615,8 @@ def main():
     else:
         print("   (aucun match cette nuit)")
 
-    # ----- prévisions pour LIVE COUPON -----
-    publier_previsions(matchs + (matchs_nuit or []))
+    # ----- prévisions live : matchs de la nuit -----
+    publier_previsions(matchs_nuit or [])
 
     # ----- score exact du jour -----
     print(f"→ Score exact du {jour}")
@@ -645,7 +656,7 @@ def publier_previsions(matchs):
 def verifier_live(histo):
     """Vérifie les combinés LIVE générés par les utilisateurs, une fois leurs
     matchs terminés (au plus tôt 2 h 30 après le clic)."""
-    limite = (datetime.now(timezone.utc) - timedelta(hours=2, minutes=30)).isoformat(timespec="seconds")
+    limite = (datetime.now(timezone.utc) - timedelta(hours=2, minutes=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
     en_cours = sb(f"coupons_live?statut=eq.en_cours&cree_le=lte.{limite}&select=id,selections")
     if not isinstance(en_cours, list) or not en_cours:
         return
