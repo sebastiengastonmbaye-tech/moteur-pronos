@@ -56785,7 +56785,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1545822,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Libya,Botswana,0.0,2.0,16:00,https://media.api-sports.io/football/teams/1526.png,https://media.api-sports.io/football/teams/1520.png
 1545823,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Malawi,South Sudan,,,16:00,https://media.api-sports.io/football/teams/1495.png,https://media.api-sports.io/football/teams/1496.png
 1545824,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Mali,Cape Verde Islands,,,19:00,https://media.api-sports.io/football/teams/1500.png,https://media.api-sports.io/football/teams/1533.png
-1545825,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Mauritania,Central African Republic,2.0,1.0,16:00,https://media.api-sports.io/football/teams/1491.png,https://media.api-sports.io/football/teams/1527.png
+1545825,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Mauritania,Central African Republic,3.0,1.0,16:00,https://media.api-sports.io/football/teams/1491.png,https://media.api-sports.io/football/teams/1527.png
 1545826,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Morocco,Gabon,,,19:00,https://media.api-sports.io/football/teams/31.png,https://media.api-sports.io/football/teams/1503.png
 1545827,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Namibia,Congo,1.0,0.0,13:00,https://media.api-sports.io/football/teams/1493.png,https://media.api-sports.io/football/teams/1517.png
 1545828,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Niger,Lesotho,,,15:00,https://media.api-sports.io/football/teams/1505.png,https://media.api-sports.io/football/teams/1518.png
