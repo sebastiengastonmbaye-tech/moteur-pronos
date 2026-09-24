@@ -11,6 +11,9 @@ Tourne dans le cron, après cron_quotidien.py.
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
 
+V2.2 (24/09/2026) — SCORE EXACT (catégorie « score », 1-2 scores par match, les
+plus nets du jour, gagné dès qu'un score tombe) + COMBINÉS TIKTOK (catégorie
+« tiktok », 3 par jour, 10-15 matchs, cote ≥ 90, 7 jours glissants, figés à J+2).
 V2.1 (19/09/2026) — montante en 15 PALIERS (plus d'objectif ×15) ; Sûre et
 Montante n'acceptent que des sélections de qualité « prono signé » ; grosses
 cotes échelonnées (35 puis 70) ; équipes nationales (Ligue des Nations, qualifs
@@ -44,6 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moteur_production import Moteur          # noqa: E402
 import selection_v2 as SEL                     # noqa: E402  (logique v2)
 import enrichissement as ENR                   # noqa: E402  (absences, fatigue, xG, classement)
+import extras_coupons as EXT                   # noqa: E402  (score exact, combinés TikTok)
 
 CLE_API = os.environ.get("API_FOOTBALL_KEY", "")
 URL_SB = os.environ.get("SUPABASE_URL", "").rstrip("/")
@@ -138,14 +142,18 @@ def sb(chemin, methode="GET", corps=None, prefer=None, essais=3):
 # ==================================================================
 # 1. Candidats : probabilités du moteur sur les matchs à venir
 # ==================================================================
-def candidats(demain=False, nuit=False):
+def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True):
     histo = pd.read_csv(F_HISTO)
     # la colonne « date » ne contient que le jour : on recompose l'horodatage réel
     jours = pd.to_datetime(histo["date"], errors="coerce").dt.normalize()
     heures = pd.to_timedelta(histo["heure"].fillna("00:00").astype(str) + ":00", errors="coerce")
     histo["date"] = jours + heures.fillna(pd.Timedelta(0))
     maintenant = datetime.now(timezone.utc).replace(tzinfo=None)
-    if nuit:
+    if jour_cible is not None:
+        # une journée précise (combinés TikTok à J+1 … J+6), jamais un match commencé
+        debut = max(datetime.combine(jour_cible, datetime.min.time()), maintenant)
+        fin = datetime.combine(jour_cible + timedelta(days=1), datetime.min.time())
+    elif nuit:
         # nuit du jour visé : de 22h ce soir-là à 7h le lendemain matin
         base = maintenant.date() + timedelta(days=1 if demain else 0)
         debut = datetime.combine(base, datetime.min.time()) + timedelta(hours=NUIT_DEBUT)
@@ -216,7 +224,7 @@ def candidats(demain=False, nuit=False):
                 continue
 
         # facteurs de contexte (absences, fatigue, xG, classement) pour ces matchs
-        facteurs = ENR.calculer_facteurs([{
+        facteurs = {} if not enrichir else ENR.calculer_facteurs([{
             "fixture_id": int(f.fixture_id), "ligue_id": int(lid),
             "dom": f.equipe_dom, "ext": f.equipe_ext,
             "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
@@ -295,7 +303,16 @@ def cotes_du_match(fixture_id, bookmaker):
                 elif nom == "both teams score":
                     cotes["BTTS"] = vals.get("yes")
                     cotes["NOBTTS"] = vals.get("no")
-    return {k: v for k, v in cotes.items() if v and v > 1.01}
+                elif nom in ("exact score", "correct score"):
+                    for val, odd in vals.items():          # "2:1" → "SE:2-1"
+                        if ":" in val:
+                            cotes["SE:" + val.replace(":", "-").strip()] = odd
+    propres = {k: v for k, v in cotes.items() if v and v > 1.01}
+    COTES_BRUTES[fixture_id] = propres
+    return propres
+
+
+COTES_BRUTES = {}   # fixture_id → toutes les cotes lues (dont Score exact)
 
 
 LIBELLES = {
@@ -308,17 +325,23 @@ LIBELLES = {
 }
 
 
-def selections_possibles(matchs, bookmaker):
+def selections_possibles(matchs, bookmaker, estimer_si_absent=False):
     """Sélections candidates avec probabilité FUSIONNÉE (marché + moteur) et
-    cote réelle. Les libellés et champs attendus par la base sont ajoutés ici."""
+    cote réelle. Les libellés et champs attendus par la base sont ajoutés ici.
+    estimer_si_absent : pour les jours lointains (TikTok), un match sans cotes
+    publiées reçoit des cotes déduites du moteur, marquées « estimées »."""
     entrees = []
     for m in matchs:
         cotes = cotes_du_match(m["fixture_id"], bookmaker)
         time.sleep(0.4)
+        estime = False
+        if not cotes and estimer_si_absent:
+            cotes, estime = EXT.cotes_estimees(m), True
         if not cotes:
             continue
-        cotes = {k: v for k, v in cotes.items() if k == "N" or v <= COTE_MAX_SELECTION}
+        cotes = {k: v for k, v in cotes.items() if k == "N" or k.startswith("SE:") or v <= COTE_MAX_SELECTION}
         entrees.append({
+            "estime": estime,
             **{k: m[k] for k in ("fixture_id", "ligue", "dom", "ext", "date_match",
                                  "heure", "logo_dom", "logo_ext")},
             "cotes": cotes,
@@ -326,7 +349,9 @@ def selections_possibles(matchs, bookmaker):
                        "O2.5": m["pO25"], "BTTS": m["btts"]},
         })
     out = SEL.preparer_selections(entrees)
+    estimes = {e["fixture_id"] for e in entrees if e.get("estime")}
     for s in out:
+        s["estime"] = s["fixture_id"] in estimes
         marche, gabarit = LIBELLES[s["code"]]
         s["marche"] = marche
         s["selection"] = gabarit.format(dom=s["dom"], ext=s["ext"])
@@ -364,6 +389,7 @@ def gagnee(code, bd, be):
     if code == "U2.5":   return bd + be < 2.5
     if code == "BTTS":   return bd > 0 and be > 0
     if code == "NOBTTS": return bd == 0 or be == 0
+    if code.startswith("SE:"): return f"{bd}-{be}" == code[3:]
     return None
 
 
@@ -379,7 +405,7 @@ def verifier():
         sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat")
         if not sels:
             continue
-        tous_joues, perdu = True, False
+        tous_joues, perdu, un_gagne = True, False, False
         for s in sels:
             if s["fixture_id"] not in scores:
                 tous_joues = False
@@ -388,10 +414,20 @@ def verifier():
                 ok = gagnee(s["code"], *scores[s["fixture_id"]])
                 sb(f"coupon_selections?id=eq.{s['id']}", "PATCH",
                    {"resultat": "gagne" if ok else "perdu"})
-                if not ok:
-                    perdu = True
-            elif s["resultat"] == "perdu":
+            else:
+                ok = s["resultat"] == "gagne"
+            if ok:
+                un_gagne = True
+            else:
                 perdu = True
+        if c["categorie"] == "score":
+            # score exact : gagné dès qu'un des scores proposés tombe
+            if not tous_joues:
+                continue
+            statut = "gagne" if un_gagne else "perdu"
+            sb(f"coupons?id=eq.{c['id']}", "PATCH", {"statut": statut})
+            print(f"   Coupon score exact du {c['jour']} → {statut}")
+            continue
         if perdu or tous_joues:
             statut = "perdu" if perdu else "gagne"
             sb(f"coupons?id=eq.{c['id']}", "PATCH", {"statut": statut})
@@ -481,6 +517,8 @@ def enregistrer(coupons, jour, nuit=False):
         cle, numero = c["categorie"], c["numero"]
         corps = {"jour": jour, "categorie": cle, "numero": numero,
                  "cote_totale": c["cote_totale"], "nb_matchs": len(c["selections"])}
+        if c.get("note"):
+            corps["note"] = c["note"]
         cree = sb("coupons", "POST", corps, prefer="return=representation")
         if not cree:
             # clé en double : un ancien coupon en cours a survécu → on l'enlève et on réessaie
@@ -558,13 +596,50 @@ def main():
     else:
         print("   (aucun match cette nuit)")
 
-    ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5}
+    # ----- score exact du jour -----
+    print(f"→ Score exact du {jour}")
+    coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
+
+    ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5, "score": 6}
     if coupons:
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
     if coupons_nuit:
         enregistrer(coupons_nuit, jour, nuit=True)
+
+    # ----- combinés TikTok sur 7 jours glissants -----
+    if "--sans-tiktok" not in sys.argv:
+        generer_tiktok(bookmaker)
     print(f"✓ coupons du {jour} terminés")
+
+
+def generer_tiktok(bookmaker):
+    """3 combinés par jour de J+1 à J+6. J+1 : jamais touché. J+2 : dernière
+    reconstruction puis figé. J+3 … J+6 : provisoires, refaits chaque jour."""
+    print("→ Combinés TikTok (7 jours glissants)")
+    auj = datetime.now(timezone.utc).date()
+    for d in range(1, EXT.TIKTOK_JOURS + 1):
+        jour = auj + timedelta(days=d)
+        js = jour.isoformat()
+        existants = sb(f"coupons?jour=eq.{js}&categorie=eq.tiktok&statut=eq.en_cours&select=id,note")
+        existants = existants if isinstance(existants, list) else []
+        if d < EXT.TIKTOK_FIGE_A and existants:
+            continue                                    # J+1 : on ne touche plus
+        if d == EXT.TIKTOK_FIGE_A and existants and all("figé" in (e.get("note") or "") for e in existants):
+            continue                                    # déjà figé
+        matchs = candidats(jour_cible=jour, enrichir=(d <= 2))
+        if len(matchs) < EXT.TIKTOK_MIN_LEGS:
+            print(f"   J+{d} ({js}) : {len(matchs)} match(s), pas assez pour un combiné")
+            continue
+        pool = selections_possibles(matchs, bookmaker, estimer_si_absent=True)
+        coupons = EXT.construire_tiktok(pool)
+        if not coupons:
+            continue
+        etat = "figé" if d <= EXT.TIKTOK_FIGE_A else "provisoire"
+        for c in coupons:
+            c["note"] = f"{etat} · {c['note']}"
+        print(f"   J+{d} ({js}) : {len(coupons)} combiné(s) {etat}")
+        enregistrer(coupons, js)
 
 
 if __name__ == "__main__":

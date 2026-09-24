@@ -279,13 +279,39 @@ def construire_un_coupon(candidats, r):
                     if p > meilleur_p:
                         meilleur, meilleur_p = combo, p
         else:
+            # cote « idéale » par sélection pour atteindre la cible en n matchs :
+            # on privilégie les sélections les plus probables autour de cette cote,
+            # au lieu d'empiler d'abord les plus grosses cotes
+            cible_leg = (r["cote_min"] * 1.25) ** (1.0 / n)
+            def proche(s):
+                return abs(math.log(s["cote"]) - math.log(cible_leg)) <= math.log(1.6)
+            ordre_n = sorted(tri, key=lambda s: (not proche(s), -s["p"]))
             coupon, vus = [], set()
-            for s in tri:
+            for s in ordre_n:
                 if len(coupon) >= n:
                     break
                 if s["fixture_id"] in vus or _cote(coupon) * s["cote"] > r["cote_max"]:
                     continue
                 coupon.append(s); vus.add(s["fixture_id"])
+            # réparation : si la cote cible n'est pas atteinte, on remplace les
+            # sélections à plus petite cote par les meilleures sélections plus cotées
+            essais = 0
+            while len(coupon) == n and _cote(coupon) < r["cote_min"] and essais < 3 * n:
+                essais += 1
+                plus_basse = min(coupon, key=lambda s: s["cote"])
+                autres = {c["fixture_id"] for c in coupon if c is not plus_basse}
+                candidats_hauts = [s for s in tri if s not in coupon and s["fixture_id"] not in autres
+                                   and s["cote"] > plus_basse["cote"] * 1.05]
+                if not candidats_hauts:
+                    break
+                # la plus probable parmi celles qui rapprochent le plus de la cible
+                manque = r["cote_min"] / _cote(coupon) * plus_basse["cote"]
+                candidats_hauts.sort(key=lambda s: (abs(math.log(s["cote"]) - math.log(manque)), -s["p"]))
+                remplacant = candidats_hauts[0]
+                essai = [remplacant if c is plus_basse else c for c in coupon]
+                if _cote(essai) > r["cote_max"]:
+                    break
+                coupon = essai
             if _valide(coupon, r):
                 ameliore = True
                 while ameliore:
