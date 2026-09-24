@@ -249,6 +249,7 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True):
                 "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
                 "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
                 "btts": ech(fiche["bonus"]["btts_oui"]),
+                "scores": fiche.get("scores_probables", []),   # score exact
             })
     print(f"   {len(lignes)} match(s) analysés{' (nuit)' if nuit else ''}, "
           f"{api_enr.appels} appel(s) API d'enrichissement")
