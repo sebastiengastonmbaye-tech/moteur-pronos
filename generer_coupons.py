@@ -391,6 +391,9 @@ def gagnee(code, bd, be):
     if code == "BTTS":   return bd > 0 and be > 0
     if code == "NOBTTS": return bd == 0 or be == 0
     if code.startswith("SE:"): return f"{bd}-{be}" == code[3:]
+    if code[:1] in ("O", "U") and code[1:].replace(".", "", 1).isdigit():
+        ligne = float(code[1:])
+        return (bd + be) > ligne if code[0] == "O" else (bd + be) < ligne
     return None
 
 
@@ -559,6 +562,10 @@ def main():
 
     print("→ Vérification des coupons précédents")
     verifier()
+    try:
+        verifier_live(pd.read_csv(F_HISTO))
+    except Exception as e:
+        print(f"   ⚠️ vérification live : {e}")
 
     if "--verifier-seulement" in sys.argv:
         print("✓ vérification terminée (pas de nouveaux coupons)")
@@ -597,6 +604,9 @@ def main():
     else:
         print("   (aucun match cette nuit)")
 
+    # ----- prévisions pour LIVE COUPON -----
+    publier_previsions(matchs + (matchs_nuit or []))
+
     # ----- score exact du jour -----
     print(f"→ Score exact du {jour}")
     coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
@@ -612,6 +622,58 @@ def main():
     if "--sans-tiktok" not in sys.argv:
         generer_tiktok(bookmaker)
     print(f"✓ coupons du {jour} terminés")
+
+
+def publier_previsions(matchs):
+    """Enregistre les probabilités du moteur pour chaque match analysé : c'est
+    le point de départ de LIVE COUPON (fonction serveur « live »)."""
+    if not matchs:
+        return
+    lignes = [{
+        "fixture_id": int(m["fixture_id"]), "jour": str(m["date_match"]),
+        "ligue": m.get("ligue"), "ligue_id": m.get("ligue_id"),
+        "dom": m["dom"], "ext": m["ext"], "heure": m.get("heure"),
+        "logo_dom": m.get("logo_dom"), "logo_ext": m.get("logo_ext"),
+        "p1": round(m["p1"], 4), "pn": round(m["pN"], 4), "p2": round(m["p2"], 4),
+        "po25": round(m["pO25"], 4), "btts": round(m["btts"], 4),
+        "maj": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    } for m in matchs]
+    r = sb("previsions_jour", "POST", lignes, prefer="resolution=merge-duplicates")
+    print(f"   📡 prévisions live : {len(lignes)} match(s) publiés" if r is not None else "   ⚠️ prévisions live non publiées")
+
+
+def verifier_live(histo):
+    """Vérifie les combinés LIVE générés par les utilisateurs, une fois leurs
+    matchs terminés (au plus tôt 2 h 30 après le clic)."""
+    limite = (datetime.now(timezone.utc) - timedelta(hours=2, minutes=30)).isoformat(timespec="seconds")
+    en_cours = sb(f"coupons_live?statut=eq.en_cours&cree_le=lte.{limite}&select=id,selections")
+    if not isinstance(en_cours, list) or not en_cours:
+        return
+    fini = histo[histo.statut == "FT"].dropna(subset=["buts_dom", "buts_ext"]).set_index("fixture_id")
+    n = 0
+    for c in en_cours:
+        sels = c.get("selections") or []
+        tous_joues, perdu, maj = True, False, []
+        for s in sels:
+            fid = int(s["fixture_id"])
+            if fid not in fini.index:
+                tous_joues = False; maj.append(s); continue
+            m = fini.loc[fid]
+            if isinstance(m, pd.DataFrame):
+                m = m.iloc[0]
+            ok = gagnee(str(s["code"]), int(m.buts_dom), int(m.buts_ext))
+            s = {**s, "resultat": "gagne" if ok else "perdu"}
+            if not ok:
+                perdu = True
+            maj.append(s)
+        if perdu or tous_joues:
+            statut = "perdu" if perdu else "gagne"
+            sb(f"coupons_live?id=eq.{c['id']}", "PATCH",
+               {"statut": statut, "selections": maj,
+                "verifie_le": datetime.now(timezone.utc).isoformat(timespec="seconds")})
+            n += 1
+    if n:
+        print(f"   🔴 combinés live vérifiés : {n}")
 
 
 def generer_tiktok(bookmaker):
