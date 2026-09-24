@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#070B12">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AURA90">
+<title>AURA90' — L'analyse, pas la promesse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#070B12; --surface:#0E1520; --surface2:#141D2B; --ligne:#1E2A3A;
+  --texte:#E8EEF6; --sourdine:#8A97A8;
+  --aura1:#3DE8C8; --aura2:#8B7CFF;
+  --sur:#FFB454; --tres-sur:#3DE8C8; --equilibre:#5BA8F5; --audacieux:#A78BFF;
+  --ok:#3DE8C8; --ko:#FF7A9E;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--surface)}
+html,body{height:100%;overflow-x:hidden;max-width:100%}
+@supports (height:100dvh){ html,body{height:100dvh} }
+body{background:var(--nuit);color:var(--texte);font-family:'Manrope',sans-serif;display:flex;flex-direction:column}
+svg.ic{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.12em}
+@keyframes auraPulse{0%,100%{box-shadow:0 0 18px rgba(61,232,200,.25)}50%{box-shadow:0 0 34px rgba(61,232,200,.55),0 0 60px rgba(139,124,255,.2)}}
+@keyframes pointPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+@keyframes verdictIn{0%{opacity:0;transform:scale(.94) translateY(8px)}60%{opacity:1}100%{opacity:1;transform:none}}
+.live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--sourdine);margin-left:auto;margin-right:12px}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--aura1);box-shadow:0 0 8px var(--aura1);animation:pointPulse 1.6s ease-in-out infinite}
+@media (max-width:370px){.live span-txt,.live{display:none}}
+.cloche{position:relative;background:var(--surface2);border:1px solid var(--ligne);border-radius:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--sourdine);cursor:pointer;margin-right:9px}
+.cloche svg{width:16px;height:16px}
+.pro.actif-pro{border-color:rgba(61,232,200,.65);color:var(--aura1);box-shadow:0 0 12px rgba(61,232,200,.2)}
+.cloche .dot{position:absolute;top:-3px;right:-3px;min-width:15px;height:15px;border-radius:99px;background:var(--ko);color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 3px;font-family:'JetBrains Mono',monospace}
+#panneau-notifs{position:absolute;inset:0;z-index:60;background:var(--nuit);display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+#panneau-notifs.actif{display:flex}
+.notif{margin:0 16px 8px;padding:12px 14px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne)}
+.notif.neuve{border-color:rgba(61,232,200,.45);background:linear-gradient(120deg,rgba(61,232,200,.06),var(--surface))}
+.notif .n-titre{font-size:12.5px;font-weight:800;display:flex;justify-content:space-between;gap:8px}
+.notif .n-date{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--sourdine);white-space:nowrap}
+.notif .n-corps{margin-top:5px;font-size:11.5px;color:var(--sourdine);line-height:1.5}
+.a-prep{opacity:0;transform:translateY(12px)}
+.a-in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+.barre i{width:0;transition:width 1.2s cubic-bezier(.3,0,.2,1)}
+@media (prefers-reduced-motion: reduce){
+  .live i,.bouton-aura,.verdict{animation:none !important}
+  .a-prep{opacity:1;transform:none}
+  .barre i{transition:none}
+}
+#app{flex:1;display:flex;flex-direction:column;max-width:520px;width:100%;margin:0 auto;position:relative;overflow:hidden}
+
+/* ---------- entête ---------- */
+.haut{display:flex;align-items:center;justify-content:space-between;padding:calc(16px + env(safe-area-inset-top,0px)) 18px 10px}
+.marque{font-family:'Unbounded',sans-serif;font-weight:800;font-size:18px}
+.marque .neuf0{background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.marque .apos{color:var(--aura1);text-shadow:0 0 10px var(--aura1)}
+.pro{white-space:nowrap;position:relative;font-family:'Unbounded',sans-serif;font-weight:600;font-size:10px;letter-spacing:.08em;color:var(--texte);padding:7px 14px;border-radius:10px;background:var(--surface2);cursor:pointer;border:none}
+.pro::before{content:'';position:absolute;inset:0;border-radius:10px;padding:1px;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.pro i{font-style:normal;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- pages & nav ---------- */
+.page{flex:1;overflow-y:auto;display:none;flex-direction:column;padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+.page::-webkit-scrollbar{display:none}
+.page.active{display:flex}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:45;display:flex;border-top:1px solid var(--ligne);background:var(--surface);padding:9px 6px calc(5px + env(safe-area-inset-bottom,0px))}
+.nav button{flex:1;text-align:center;font-size:9.5px;color:var(--sourdine);font-weight:700;letter-spacing:.03em;background:none;border:none;font-family:inherit;cursor:pointer}
+.nav button svg{display:block;margin:0 auto 4px;width:19px;height:19px;stroke-width:1.6}
+.nav button.actif{color:var(--aura1)}
+
+/* ---------- composants ---------- */
+.bandeau{margin:4px 16px 14px;padding:13px 16px;border-radius:14px;background:linear-gradient(120deg,rgba(61,232,200,.10),rgba(139,124,255,.10));border:1px solid rgba(61,232,200,.25);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.bandeau .gros{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--aura1)}
+.bandeau small{display:block;color:var(--sourdine);font-size:10px;margin-top:2px;font-family:'Manrope'}
+.bandeau .fleche{color:var(--sourdine);font-size:18px}
+.mdj{margin:0 16px;border-radius:18px;padding:18px;position:relative;overflow:hidden;background:var(--surface2);border:1px solid rgba(61,232,200,.35)}
+.mdj::before{content:'';position:absolute;inset:-40%;background:radial-gradient(circle at 50% 0%,rgba(61,232,200,.14),transparent 55%);pointer-events:none}
+.mdj .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--aura1);letter-spacing:.14em;font-weight:600}
+.dernier-win{margin:0 16px 14px;padding:12px 15px;border-radius:14px;background:linear-gradient(120deg,rgba(61,232,200,.10),var(--surface));border:1px solid rgba(61,232,200,.4);cursor:pointer}
+.dw-haut{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.dw-tag{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:var(--aura1);font-weight:700}
+.dw-date{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--sourdine)}
+.dw-match{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dw-prono{margin-top:6px;font-size:11px;color:var(--sourdine)}
+.dw-prono b{color:var(--texte)}
+.section-titre{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--sourdine);margin:14px 18px 8px;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.section-titre svg{width:13px;height:13px;color:var(--aura1)}
+.duel{display:flex;align-items:center;justify-content:space-between;margin:14px 0 4px;position:relative}
+.camp{display:flex;flex-direction:column;align-items:center;gap:7px;width:40%}
+.camp .nom{font-size:11.5px;font-weight:800;text-align:center;line-height:1.25}
+.heure-c{font-family:'JetBrains Mono',monospace;color:var(--sourdine);font-size:11px;text-align:center}
+.heure-c b{display:block;color:var(--texte);font-size:15px}
+.ecu{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-weight:600;font-size:12px;background:var(--surface);position:relative;overflow:hidden}
+.ecu img{width:72%;height:72%;object-fit:contain}
+.ecu::before{content:'';position:absolute;inset:0;border-radius:50%;padding:1.5px;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ecu.petit{width:30px;height:30px;font-size:8px}
+.bouton-aura{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border:none;border-radius:12px;font-family:'Manrope';font-weight:800;font-size:14px;color:var(--nuit);background:linear-gradient(135deg,var(--aura1),var(--aura2));box-shadow:0 0 24px rgba(61,232,200,.35);cursor:pointer;animation:auraPulse 2.6s ease-in-out infinite}
+.comp-tete{display:flex;align-items:center;gap:8px;margin:12px 18px 6px}
+.comp-tete .nom-c{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--sourdine);text-transform:uppercase}
+.comp-tete .trait{flex:1;height:1px;background:var(--ligne)}
+.match{margin:0 16px 7px;padding:11px 12px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne);display:grid;grid-template-columns:1fr auto auto;gap:11px;align-items:center;cursor:pointer}
+.match .paire{display:flex;flex-direction:column;gap:6px;min-width:0}
+.match .eq{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.match .heure{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sourdine);text-align:center}
+.cadenas{width:28px;height:28px;border-radius:9px;background:var(--surface2);border:1px solid var(--ligne);display:flex;align-items:center;justify-content:center;color:var(--sourdine)}
+.cadenas svg{width:13px;height:13px}
+.cadenas.libre{color:var(--aura1);border-color:rgba(61,232,200,.4)}
+.vide{margin:30px 20px;text-align:center;color:var(--sourdine);font-size:13px;line-height:1.6}
+
+/* ---------- overlay analyse ---------- */
+#overlay{position:fixed;inset:0;background:var(--nuit);display:none;flex-direction:column;z-index:80;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+#overlay.actif{display:flex}
+#overlay .scene{width:100%;max-width:560px;margin:0 auto;padding:0 16px}
+.scene{display:flex;flex-direction:column;align-items:center;padding:16px 22px}
+.scene::-webkit-scrollbar{display:none}
+.affiche{text-align:center;margin-bottom:10px}
+.affiche .duel-mini{display:flex;align-items:center;gap:12px;justify-content:center}
+.affiche .vs{font-size:13.5px;font-weight:800}
+.affiche .comp{color:var(--sourdine);font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:5px}
+.anneau-zone{position:relative;width:180px;height:180px;margin:8px 0 16px;flex-shrink:0}
+.anneau-zone svg.cercle{transform:rotate(-90deg)}
+.anneau-fond{fill:none;stroke:var(--ligne);stroke-width:5}
+.anneau{fill:none;stroke:url(#gradAura);stroke-width:5;stroke-linecap:round;stroke-dasharray:534;stroke-dashoffset:534;filter:drop-shadow(0 0 8px rgba(61,232,200,.8))}
+.anneau-centre{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.anneau-centre .pct{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:28px;color:var(--aura1)}
+.anneau-centre .lbl{font-size:9.5px;color:var(--sourdine);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+@keyframes tourner{to{transform:rotate(360deg)}}
+.orbite{position:absolute;inset:-8px;animation:tourner 3s linear infinite;pointer-events:none}
+.orbite.o2{inset:4px;animation-duration:4.4s;animation-direction:reverse}
+.orbite.o3{inset:-16px;animation-duration:6s}
+.sat{position:absolute;top:0;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:var(--aura1);box-shadow:0 0 9px var(--aura1)}
+.sat.s2{width:5px;height:5px;background:var(--aura2);box-shadow:0 0 8px var(--aura2)}
+.sat.s3{width:4px;height:4px;opacity:.7}
+.anneau-zone.fini::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:2px solid var(--aura1);animation:ringOut .8s ease-out forwards}
+.anneau-zone.fini .pct{animation:boomPop .5s cubic-bezier(.2,0,.2,1)}
+.anneau-zone.fini .orbite{animation-duration:1.1s}
+.etape.visible .txt b{display:inline-block;animation:valPop .55s cubic-bezier(.2,0,.2,1)}
+@keyframes valPop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion: reduce){.orbite{animation:none;display:none}.anneau-zone.fini::after{animation:none}}
+.etapes{width:100%;display:flex;flex-direction:column;gap:7px}
+.etape{display:flex;gap:10px;align-items:baseline;padding:9px 12px;border-radius:11px;background:var(--surface);border:1px solid var(--ligne);opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+.etape.visible{opacity:1;transform:none}
+.etape .num{font-family:'JetBrains Mono',monospace;color:var(--aura2);font-size:10px;font-weight:700}
+.etape .txt{font-size:11.5px;line-height:1.45;min-width:0;overflow-wrap:break-word}
+.etape .txt b{color:var(--aura1);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px}
+.etape .txt small{display:block;color:var(--sourdine);font-size:10px}
+
+/* ---------- fiche ---------- */
+#fiche{display:none;width:100%}
+#fiche.actif{display:block}
+.verdict{margin:8px 0 14px;padding:22px 18px 20px;border-radius:20px;text-align:center;position:relative;overflow:hidden;background:var(--surface2);border:1px solid rgba(61,232,200,.4);animation:verdictIn .6s cubic-bezier(.3,0,.2,1)}
+.verdict::before{content:'';position:absolute;inset:-60% -30%;background:radial-gradient(ellipse at 50% 0%,rgba(61,232,200,.18),rgba(139,124,255,.08) 45%,transparent 65%)}
+.verdict .sur-titre{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--sourdine)}
+.verdict h2{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;margin:10px 0 12px;position:relative;line-height:1.35}
+.badge{display:inline-flex;gap:6px;align-items:center;padding:5px 14px;border-radius:999px;font-size:11.5px;font-weight:800;position:relative}
+.badge svg{width:12px;height:12px}
+.b-sur{background:rgba(255,180,84,.14);color:var(--sur);border:1px solid rgba(255,180,84,.4)}
+.b-tres{background:rgba(61,232,200,.12);color:var(--tres-sur);border:1px solid rgba(61,232,200,.4)}
+.b-equ{background:rgba(127,166,201,.14);color:var(--equilibre);border:1px solid rgba(127,166,201,.4)}
+.b-aud{background:rgba(167,139,255,.12);color:var(--audacieux);border:1px solid rgba(167,139,255,.4)}
+.marche{margin:0 0 8px;padding:12px 14px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne)}
+.m-haut{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.m-lbl{font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.m-lbl svg{width:15px;height:15px;color:var(--aura2);flex-shrink:0}
+.m-lbl small{display:block;font-weight:500;color:var(--sourdine);font-size:9.5px;margin-top:1px}
+.m-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--aura1);font-weight:700;white-space:nowrap}
+.m-barre{height:7px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.m-barre i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--aura1),var(--aura2));box-shadow:0 0 8px rgba(61,232,200,.5);transition:width .95s cubic-bezier(.3,0,.2,1)}
+.scores-ligne{display:flex;gap:8px;margin-top:2px}
+.score-cap{flex:1;text-align:center;background:var(--surface2);border:1px solid var(--ligne);border-radius:11px;padding:11px 4px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:17px}
+.score-cap small{display:block;font-size:8px;color:var(--sourdine);font-weight:400;letter-spacing:.08em;margin-top:4px;text-transform:uppercase}
+.score-cap.top{border-color:rgba(61,232,200,.6);color:var(--aura1);box-shadow:0 0 12px rgba(61,232,200,.15)}
+.carte-marche{margin:0 0 8px;padding:13px 15px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.carte-marche .g{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:9px}
+.carte-marche .g svg{width:16px;height:16px;color:var(--aura2);flex-shrink:0}
+.carte-marche .g small{display:block;font-weight:500;color:var(--sourdine);font-size:10px;margin-top:2px}
+.carte-marche .d{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--aura1);font-weight:600;text-align:right;white-space:nowrap}
+.fermer{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:16px;background:var(--surface2);border:1px solid var(--ligne);color:var(--sourdine);width:32px;height:32px;border-radius:10px;font-size:15px;cursor:pointer;z-index:5}
+.lien-retour{display:block;text-align:center;margin:10px 0;color:var(--sourdine);font-size:12px;background:none;border:none;font-family:inherit;cursor:pointer;text-decoration:underline;width:100%}
+
+/* ---------- installation ---------- */
+
+#panneau-install{position:fixed;inset:0;z-index:70;background:rgba(4,7,12,.8);display:none;align-items:flex-end;justify-content:center}
+#panneau-install.actif{display:flex}
+#panneau-install .etape{opacity:1;transform:none;margin-bottom:8px}
+.carte-install h3{font-family:'Unbounded',sans-serif;font-size:16px;margin:0 0 14px}
+.btn-fermer-install{width:100%;margin-top:14px;padding:13px;border:none;border-radius:12px;background:var(--surface2);color:var(--texte);border:1px solid var(--ligne);font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+.carte-install{background:var(--surface);border:1px solid var(--ligne);border-radius:20px 20px 0 0;padding:22px 20px 30px;width:100%;max-width:520px}
+.carte-install{max-height:70vh;overflow-y:auto}
+.carte-install h3{font-family:'Unbounded',sans-serif;font-size:15px;margin-bottom:14px}
+.btn-fermer-install{margin-top:14px;width:100%;padding:12px;border-radius:11px;border:1px solid var(--ligne);background:var(--surface2);color:var(--texte);font-weight:800;font-size:13px;font-family:inherit;cursor:pointer}
+.carte-install .etape{display:flex;gap:11px;align-items:flex-start;margin-bottom:10px;font-size:13px;color:var(--sourdine);line-height:1.5}
+.carte-install .etape b{color:var(--texte)}
+.carte-install .num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--aura1),var(--aura2));color:#06110E;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ---------- pronos signés ---------- */
+.signe-carte{margin:0 16px 9px;padding:13px 14px;border-radius:15px;background:linear-gradient(120deg,rgba(61,232,200,.09),var(--surface));border:1px solid rgba(61,232,200,.45);display:flex;align-items:center;gap:11px;cursor:pointer;position:relative;overflow:hidden}
+.signe-carte::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(61,232,200,.08),transparent);animation:brillance 3.2s ease-in-out infinite}
+@keyframes brillance{0%,60%{left:-60%}100%{left:120%}}
+.signe-carte .paire{flex:1;min-width:0}
+.sceau-signe{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.1em;color:var(--nuit);background:linear-gradient(135deg,var(--aura1),var(--aura2));padding:4px 8px;border-radius:7px;white-space:nowrap}
+.sceau-mini{font-size:7px;padding:3px 6px;border-radius:6px;letter-spacing:.06em}
+.match .heure{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.note-signe{margin:2px 22px 12px;text-align:center;font-size:9.5px;color:var(--sourdine);line-height:1.5}
+
+/* ---------- coupons ---------- */
+.jours-coupons{display:flex;flex:0 0 auto;gap:8px;padding:0 16px 12px}
+.jours-coupons button{flex:1;padding:11px 8px;border-radius:13px;border:1px solid var(--ligne);background:var(--surface);color:var(--sourdine);font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;transition:all .2s}
+.jours-coupons button.actif{border-color:rgba(61,232,200,.55);background:linear-gradient(120deg,rgba(61,232,200,.13),var(--surface2));color:var(--texte)}
+.jours-coupons button small{display:block;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;color:var(--sourdine);margin-top:3px;letter-spacing:.06em}
+.onglets{display:flex;flex:0 0 auto;gap:7px;overflow-x:auto;padding:2px 16px 14px;margin:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.onglets::-webkit-scrollbar{display:none}
+.onglets button{flex:0 0 auto;padding:9px 15px;border-radius:999px;border:1px solid var(--ligne);background:var(--surface);color:var(--sourdine);font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;transition:all .2s}
+.onglets button.actif{border-color:transparent;color:#06110E;background:linear-gradient(135deg,var(--aura1),var(--aura2))}
+.cp-jour{margin:2px 16px 9px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--sourdine);font-weight:700;display:flex;align-items:center;gap:9px}
+.cp-jour::after{content:'';flex:1;height:1px;background:var(--ligne)}
+.cp-jour.demain{color:var(--aura2)}
+.cp{margin:0 16px 11px;border-radius:16px;background:var(--surface);border:1px solid var(--ligne);overflow:hidden}
+.cp.ouvert{border-color:rgba(61,232,200,.45)}
+.cp-tete{display:flex;align-items:center;gap:11px;padding:14px 15px;cursor:pointer}
+.cp-tete .g{flex:1;min-width:0}
+.cp-nom{font-size:13.5px;font-weight:800}
+.cp-sous{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--sourdine);margin-top:3px;letter-spacing:.04em}
+.cp-cote{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:20px;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.cp-fleche{color:var(--sourdine);font-size:15px;transition:transform .25s}
+.cp.ouvert .cp-fleche{transform:rotate(90deg)}
+.cp-corps{display:none;padding:0 15px 15px}
+.cp.ouvert .cp-corps{display:block}
+.cp-sel{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--ligne)}
+.cp-sel .g{flex:1;min-width:0}
+.cp-sel .lig{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--sourdine);letter-spacing:.08em;text-transform:uppercase}
+.cp-sel .duel{display:flex;align-items:center;gap:7px;margin:5px 0 6px;flex-wrap:wrap}
+.cp-sel .duel .eq{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.cp-sel .duel .vs{color:var(--sourdine);font-size:11px}
+.ecu-m{width:28px;height:28px;border-radius:50%;object-fit:contain;background:var(--surface2);padding:2px;flex-shrink:0;border:1px solid var(--ligne)}
+.ecu-m.vide{display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--sourdine);font-weight:700}
+.cp-sel .pick{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--aura1);font-weight:700;background:rgba(61,232,200,.09);border:1px solid rgba(61,232,200,.28);padding:4px 9px;border-radius:8px}
+.cp-sel .pick .fl{font-size:9px;opacity:.8}
+.cp-sel .c{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;white-space:nowrap;background:var(--surface2);padding:7px 10px;border-radius:9px;border:1px solid var(--ligne)}
+.cp-sel.gagne .c{color:var(--aura1)} .cp-sel.perdu{opacity:.55}
+.cp-sel.perdu .c{color:var(--ko)}
+.cp-note{margin:0 0 4px;padding:10px 12px;border-radius:10px;background:rgba(255,180,84,.10);border:1px solid rgba(255,180,84,.35);color:var(--sur);font-size:11px;line-height:1.5}
+.cp-gain{margin-top:13px;padding:13px;border-radius:13px;background:var(--surface2);display:flex;align-items:center;gap:10px}
+.cp-gain label{font-size:10.5px;color:var(--sourdine);display:block;margin-bottom:4px}
+.cp-gain input{width:100%;padding:9px 10px;border-radius:9px;border:1px solid var(--ligne);background:var(--nuit);color:var(--texte);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none}
+.cp-gain input:focus{border-color:rgba(61,232,200,.6)}
+.cp-gain .res{text-align:right;flex:1}
+.cp-gain .res b{display:block;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--aura1)}
+.cp-actions{display:flex;gap:8px;margin-top:11px}
+.cp-actions button{flex:1;padding:13px;border-radius:12px;border:none;font-family:inherit;font-weight:800;font-size:12.5px;cursor:pointer}
+.cp-jouer{background:linear-gradient(135deg,var(--aura1),var(--aura2));color:#06110E;box-shadow:0 0 18px rgba(61,232,200,.25)}
+.cp-copier{background:var(--surface2);color:var(--texte);border:1px solid var(--ligne)!important}
+.cp-etat{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;padding:4px 8px;border-radius:7px;white-space:nowrap}
+.se-scores{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.se-cap{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:74px;padding:9px 14px;border-radius:12px;border:1px solid rgba(61,232,200,.35);background:rgba(61,232,200,.07)}
+.se-cap b{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.se-cap small{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--sourdine);letter-spacing:.06em}
+.se-cap.gagne{border-color:var(--aura1);background:rgba(61,232,200,.16)}
+.se-cap.perdu{opacity:.45}
+.se-note{font-size:11px;color:var(--sourdine);margin-top:10px;line-height:1.45}
+.lv-tete{background:linear-gradient(135deg,rgba(255,107,138,.14),rgba(139,124,255,.10));border:1px solid rgba(255,107,138,.35);border-radius:18px;padding:16px;margin-bottom:12px}
+.lv-tete .t{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+.lv-tete .t i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ff5c7a;box-shadow:0 0 0 0 rgba(255,92,122,.6);animation:lvp 1.6s infinite}
+@keyframes lvp{0%{box-shadow:0 0 0 0 rgba(255,92,122,.6)}70%{box-shadow:0 0 0 9px rgba(255,92,122,0)}100%{box-shadow:0 0 0 0 rgba(255,92,122,0)}}
+.lv-tete .s{color:var(--sourdine);font-size:12px;margin:6px 0 12px;line-height:1.5}
+.lv-stat{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sourdine);margin-top:8px}
+.lv-min{font-family:'JetBrains Mono',monospace;font-size:9px;color:#ff8fa6;letter-spacing:.06em;margin-left:6px}
+.lv-msg{color:var(--sourdine);font-size:12.5px;text-align:center;padding:18px 10px;line-height:1.5}
+.cp-etat.g{background:rgba(61,232,200,.15);color:var(--aura1)}
+.cp-etat.p{background:rgba(255,107,138,.13);color:var(--ko)}
+/* montante */
+.mt-obj{margin:0 16px 12px;padding:14px 15px;border-radius:15px;background:linear-gradient(120deg,rgba(255,180,84,.10),var(--surface));border:1px solid rgba(255,180,84,.4)}
+.mt-obj .t{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--sur);font-weight:700}
+.mt-obj .v{font-family:'Unbounded',sans-serif;font-size:19px;margin:6px 0 3px}
+.mt-obj .s{font-size:11px;color:var(--sourdine)}
+.mt-barre{height:7px;border-radius:99px;background:var(--surface2);margin-top:10px;overflow:hidden}
+.mt-barre i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sur),var(--aura1));transition:width .9s cubic-bezier(.3,0,.2,1)}
+.mt-palier{margin:0 16px 8px;padding:12px 14px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne);display:flex;align-items:center;gap:11px}
+.mt-palier .n{width:28px;height:28px;flex-shrink:0;border-radius:9px;background:var(--surface2);color:var(--sourdine);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.mt-palier.gagne .n{background:linear-gradient(135deg,var(--aura1),var(--aura2));color:#06110E}
+.mt-palier.perdu .n{background:rgba(255,107,138,.15);color:var(--ko)}
+.mt-palier .g{flex:1}
+.mt-palier .m{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700}
+.mt-palier .d{font-size:10px;color:var(--sourdine);margin-top:2px}
+
+/* ---------- palmarès ---------- */
+.tuiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 16px 12px}
+.tuile{background:var(--surface);border:1px solid var(--ligne);border-radius:13px;padding:12px 8px;text-align:center}
+.tuile .v{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px}
+.tuile .l{font-size:8.5px;color:var(--sourdine);margin-top:4px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.palm-carte{margin:0 16px 9px;padding:13px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--ligne)}
+.pc-haut{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pc-meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--sourdine);letter-spacing:.08em}
+.pc-match{font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pc-score{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--texte);background:var(--surface2);border:1px solid var(--ligne);padding:2px 9px;border-radius:8px}
+.pc-prono{margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px}
+.pc-prono .p{color:var(--sourdine)}
+.pc-prono .p b{color:var(--texte)}
+.pc-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;white-space:nowrap}
+.pc-badge svg{width:11px;height:11px}
+.btn-plus{display:block;margin:4px auto 12px;background:var(--surface);border:1px solid var(--ligne);color:var(--sourdine);font-weight:800;font-size:12px;padding:10px 22px;border-radius:11px;font-family:inherit;cursor:pointer}
+.palm-tete{text-align:center;padding:14px 16px 4px}
+.palm-tete .chiffre{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.palm-tete .sous{color:var(--sourdine);font-size:11px;margin-top:2px;line-height:1.5}
+.preuve{margin:12px 16px;padding:11px 14px;border-radius:12px;font-size:10.5px;line-height:1.5;background:rgba(139,124,255,.08);border:1px solid rgba(139,124,255,.3)}
+.preuve b{color:var(--aura2)}
+.preuve a{color:var(--aura2)}
+.barre-ligne{margin:0 18px 11px}
+.barre-ligne .lgd{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.barre-ligne .lgd b{font-weight:800;display:flex;align-items:center;gap:6px}
+.barre-ligne .lgd b svg{width:12px;height:12px}
+.barre-ligne .lgd span{font-family:'JetBrains Mono',monospace;color:var(--sourdine);font-size:10.5px}
+.barre{height:7px;border-radius:99px;background:var(--ligne);overflow:hidden}
+.barre i{display:block;height:100%;border-radius:99px}
+.histo-item{margin:0 16px 7px;padding:11px 13px;border-radius:12px;background:var(--surface);border:1px solid var(--ligne);display:flex;justify-content:space-between;align-items:center;font-size:11.5px;gap:8px}
+.histo-item .p{font-weight:700;min-width:0}
+.histo-item .p small{display:block;color:var(--sourdine);font-weight:500;font-size:9.5px;margin-top:2px;font-family:'JetBrains Mono',monospace}
+.puce{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.puce.ok{color:var(--ok);background:rgba(61,232,200,.1);border:1px solid rgba(61,232,200,.35)}
+.puce.ko{color:var(--ko);background:rgba(255,122,158,.1);border:1px solid rgba(255,122,158,.35)}
+.puce.att{color:var(--sourdine);border:1px dashed var(--ligne)}
+
+/* ---------- parrainage ---------- */
+.parr-lien{margin:0 16px 8px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface2);border:1px dashed rgba(61,232,200,.35);border-radius:11px;padding:12px 14px;cursor:pointer}
+.parr-lien .lbl{color:var(--sourdine);font-size:10.5px;font-weight:700;flex-shrink:0}
+.parr-lien .val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--aura1);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.parr-tuiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:2px 16px 10px}
+.graphe{margin:0 16px 10px;padding:12px 14px 8px;border-radius:13px;background:var(--surface);border:1px solid var(--ligne)}
+.graphe .g-titre{font-size:9.5px;font-weight:800;letter-spacing:.1em;color:var(--sourdine);text-transform:uppercase;margin-bottom:9px}
+.g-flex{display:flex;gap:7px}
+.g-axe{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;height:76px;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--sourdine);padding-bottom:0}
+.g-corps{flex:1;min-width:0}
+.g-barres{display:flex;align-items:flex-end;gap:4px;height:76px;border-left:1px solid var(--ligne);border-bottom:1px solid var(--ligne);padding-left:4px}
+.g-barres .gcol{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px}
+.g-barres .gf{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--aura1);font-weight:700}
+.g-barres .gb{width:100%;background:linear-gradient(180deg,var(--aura1),var(--aura2));border-radius:4px 4px 0 0;min-height:2px;opacity:.9}
+.g-jours{display:flex;gap:4px;margin-top:4px;padding-left:5px}
+.g-jours span{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--sourdine)}
+
+/* ---------- compte / abo ---------- */
+.offre{gap:10px}
+.radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--ligne);flex-shrink:0;position:relative}
+.offre.choisie{box-shadow:0 0 0 2px var(--aura1) inset, 0 0 18px rgba(61,232,200,.25)}
+.offre.choisie .radio{border-color:var(--aura1)}
+.offre.choisie .radio::after{content:'';position:absolute;inset:4px;border-radius:50%;background:linear-gradient(135deg,var(--aura1),var(--aura2))}
+.recap-paie{margin:2px 16px 8px;display:flex;justify-content:space-between;align-items:center;background:var(--surface2);border-radius:12px;padding:12px 15px;font-size:12px}
+.recap-paie span{color:var(--sourdine);font-weight:700}
+.recap-paie b{font-family:'JetBrains Mono',monospace;color:var(--aura1)}
+.abo-tete{text-align:center;padding:14px 22px 4px}
+.abo-tete h2{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:600;line-height:1.35}
+.abo-tete p{color:var(--sourdine);font-size:11px;margin-top:6px}
+.offre{margin:0 16px 9px;padding:14px 15px;border-radius:15px;background:var(--surface);border:1px solid var(--ligne);display:flex;justify-content:space-between;align-items:center;position:relative}
+.offre .g .nom-o{font-size:13px;font-weight:800}
+.offre .g .eco{font-size:10px;color:var(--sourdine);margin-top:3px}
+.offre .eco b{color:var(--aura1);font-weight:800}
+.offre .prix{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;text-align:right}
+.offre .ancien{display:block;font-size:10.5px;color:var(--ko);text-decoration:line-through;font-weight:700;margin-bottom:1px}
+.offre .prix small{display:block;font-size:9px;color:var(--sourdine);font-weight:400;margin-top:1px}
+.offre.star{background:var(--surface2);border:none;padding:16px 15px}
+.offre.star::before{content:'';position:absolute;inset:0;border-radius:15px;padding:1.5px;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.offre.star .prix{background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.populaire{position:absolute;top:-9px;left:15px;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.1em;color:var(--nuit);background:linear-gradient(135deg,var(--aura1),var(--aura2));padding:3px 9px;border-radius:99px}
+.note-secu{margin:8px 22px;text-align:center;color:var(--sourdine);font-size:9.5px;line-height:1.5}
+.champ{margin:8px 16px;display:flex;gap:8px}
+.champ input{flex:1;background:var(--surface);border:1px solid var(--ligne);border-radius:11px;padding:11px 13px;color:var(--texte);font-family:'JetBrains Mono',monospace;font-size:12px}
+.champ .voir{padding:0 13px;border:1px solid var(--ligne);background:var(--surface);border-radius:11px;color:var(--sourdine);cursor:pointer;display:flex;align-items:center}
+.champ .voir svg{width:16px;height:16px}
+.btn-google{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:11px;border-radius:11px;border:1px solid var(--ligne);background:#fff;color:#1a1a1a;font-weight:800;font-size:13px;font-family:inherit;cursor:pointer}
+.separateur{display:flex;align-items:center;gap:10px;margin:4px 22px;color:var(--sourdine);font-size:10px}
+.separateur::before,.separateur::after{content:'';flex:1;height:1px;background:var(--ligne)}
+.champ button{padding:11px 16px;border:none;border-radius:11px;background:var(--surface2);color:var(--aura1);font-weight:800;font-family:inherit;cursor:pointer;border:1px solid rgba(61,232,200,.35)}
+.statut-ok{margin:8px 16px;padding:11px 14px;border-radius:12px;background:rgba(61,232,200,.08);border:1px solid rgba(61,232,200,.3);font-size:11.5px;color:var(--aura1);font-weight:700;text-align:center}
+.carte-admin{width:calc(100% - 32px);margin:0 16px 12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(61,232,200,.45);background:linear-gradient(120deg,rgba(61,232,200,.12),var(--surface));color:var(--texte);font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:9px;text-align:left}
+.carte-admin span{flex:1}
+.carte-admin b{color:var(--aura1);font-size:17px}
+.note-prolong{margin:8px 16px 0;padding:11px 13px;border-radius:12px;background:rgba(61,232,200,.08);border:1px solid rgba(61,232,200,.3);font-size:11.5px;color:var(--sourdine);line-height:1.55}
+.note-prolong b{color:var(--aura1)}
+.jeu-resp{margin:14px 22px 8px;text-align:center;color:var(--sourdine);font-size:9px;line-height:1.6}
+.avert{margin:4px 16px 10px;color:var(--sourdine);font-size:9.5px;line-height:1.5;text-align:center}
+.chargement{margin:40px auto;text-align:center;color:var(--sourdine);font-size:12px;font-family:'JetBrains Mono',monospace}
+.erreur-cfg{margin:30px 20px;padding:16px;border-radius:14px;background:rgba(255,122,158,.08);border:1px solid rgba(255,122,158,.35);font-size:12px;line-height:1.6}
+/* ---------- onboarding ---------- */
+#onboard{position:fixed;inset:0;z-index:90;background:var(--nuit);display:none;flex-direction:column;padding:calc(20px + env(safe-area-inset-top,0px)) 26px calc(28px + env(safe-area-inset-bottom,0px))}
+#onboard.actif{display:flex}
+.ob-passer{align-self:flex-end;background:none;border:none;color:var(--sourdine);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;padding:6px}
+.ob-slide{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;animation:splashIn .5s ease both}
+.ob-slide.actif{display:flex}
+.ob-ico{width:96px;height:96px;border-radius:28px;background:linear-gradient(135deg,rgba(61,232,200,.14),rgba(139,124,255,.14));border:1px solid rgba(61,232,200,.4);display:flex;align-items:center;justify-content:center;box-shadow:0 0 34px rgba(61,232,200,.2)}
+.ob-ico svg{width:44px;height:44px;color:var(--aura1);stroke-width:1.6}
+.ob-slide h2{font-family:'Unbounded',sans-serif;font-size:21px;line-height:1.3}
+.ob-slide h2 span{background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ob-slide p{color:var(--sourdine);font-size:13.5px;line-height:1.65;max-width:300px}
+.ob-points{display:flex;gap:7px;justify-content:center;margin-bottom:16px}
+.ob-points i{width:7px;height:7px;border-radius:50%;background:var(--ligne);transition:all .3s}
+.ob-points i.actif{width:22px;border-radius:99px;background:linear-gradient(90deg,var(--aura1),var(--aura2))}
+.ob-btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--aura1),var(--aura2));color:#06110E;font-weight:800;font-size:14.5px;font-family:inherit;cursor:pointer;box-shadow:0 0 22px rgba(61,232,200,.3)}
+
+/* ---------- splash ---------- */
+#splash{position:fixed;inset:0;z-index:200;background:var(--nuit);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .45s ease}
+#splash.sortie{opacity:0;pointer-events:none}
+#splash .s-logo{font-family:'Unbounded',sans-serif;font-weight:800;font-size:42px;letter-spacing:.02em;position:relative;z-index:2}
+#splash .s-logo .neuf0{background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#splash .s-logo .apos{color:var(--aura1);text-shadow:0 0 18px var(--aura1)}
+#splash .s-chrono{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:26px;color:var(--aura1);z-index:2;min-width:70px;text-align:center;transition:opacity .38s ease,transform .38s cubic-bezier(.3,0,.2,1)}
+#splash.boom .s-chrono{opacity:0;transform:translateY(-30px) scale(.6)}
+#splash .s-logo{white-space:nowrap}
+#splash .s-logo .s-90{display:inline-block;max-width:0;opacity:0;transform:translateY(34px) scale(.7);transition:max-width .5s cubic-bezier(.2,0,.2,1) .05s,opacity .45s cubic-bezier(.2,0,.2,1) .1s,transform .45s cubic-bezier(.2,0,.2,1) .1s}
+#splash.boom .s-logo .s-90{max-width:160px;opacity:1;transform:none}
+#splash .s-slogan{z-index:2;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.16em;color:var(--sourdine);text-transform:uppercase;text-align:center;padding:0 20px;min-height:16px;transition:transform .55s cubic-bezier(.2,0,.2,1),letter-spacing .55s cubic-bezier(.2,0,.2,1)}
+#splash.boom .s-slogan{font-weight:800;transform:scale(1.08);letter-spacing:.24em;background:linear-gradient(135deg,var(--aura1),var(--aura2));-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes splashIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#splash .s-logo,#splash .s-chrono{animation:splashIn .55s ease both}
+#splash .s-chrono{animation-delay:.15s}
+#splash .s-halo{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(61,232,200,.16),rgba(139,124,255,.07) 55%,transparent 70%);transform:scale(.6);transition:transform 1.4s ease}
+#splash .s-ring{position:absolute;width:200px;height:200px;border-radius:50%;border:2px solid rgba(61,232,200,.6);opacity:0}
+@keyframes ringOut{0%{transform:scale(.5);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+@keyframes boomPop{0%{transform:scale(1)}35%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes boomFlash{0%{opacity:0}18%{opacity:1}100%{opacity:0}}
+#splash.boom .s-halo{transform:scale(1.5)}
+#splash.boom .s-logo{animation:boomPop .55s cubic-bezier(.2,0,.2,1)}
+#splash.boom .s-ring{animation:ringOut .8s ease-out forwards}
+#splash.boom .s-ring:nth-child(2){animation-delay:.12s}
+#splash .s-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,rgba(61,232,200,.28),transparent 60%);opacity:0}
+#splash.boom .s-flash{animation:boomFlash .7s ease-out}
+@media (prefers-reduced-motion: reduce){
+  #splash .s-halo,#splash.boom .s-logo,#splash.boom .s-ring,#splash.boom .s-flash{animation:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- =============== CONFIGURATION =============== -->
+<script>
+const CONFIG = {
+  SUPABASE_URL: "https://nzsvmqyiukxzsfjprpiy.supabase.co",
+  // ⬇️ Colle ici ta clé PUBLISHABLE (sb_publishable_..., PAS la secrète !)
+  SUPABASE_KEY: "sb_publishable_awuEoyd5PGtUz_bKUfeEWA_M1OPhBoW",
+  // Clé publique push (la privée vit dans les secrets Supabase)
+  VAPID_PUBLIC: "BDGot_Oa8VaB2k5JRbfc0mn89LezBeaqxRbhhDky1X_B4ms2c-lpyYMXeGVzdsHW9V1SHKi3bpjt0Mx014oj9Nw",
+  // Repo public = preuve d'antériorité
+  LIEN_PREUVE: "https://github.com/sebastiengastonmbaye-tech/moteur-pronos/commits/main/donnees/pronos_publies.csv"
+};
+</script>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-sceau" viewBox="0 0 24 24"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14 7 22l5-3 5 3-1.5-8"/></symbol>
+  <symbol id="i-eclair" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></symbol>
+  <symbol id="i-graph" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-coupe" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 5H4a3 3 0 0 0 3 5M17 5h3a3 3 0 0 1-3 5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></symbol>
+  <symbol id="i-cadenas" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-bouclier" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3.5 8.5 7 10 3.5-1.5 7-5 7-10V6l-7-3z"/></symbol>
+  <symbol id="i-balance" viewBox="0 0 24 24"><path d="M12 3v18M5 7l7-2 7 2M5 7 3 13a3.5 3.5 0 0 0 7 0L8 7M19 7l-2 6a3.5 3.5 0 0 0 7 0l-2-6M8 21h8"/></symbol>
+  <symbol id="i-ballon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 4.7h-5L8 10l4-3zM12 3v4M4.2 9.4 8 10M19.8 9.4 16 10M6.5 19l3-4.3M17.5 19l-3-4.3"/></symbol>
+  <symbol id="i-grille" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-duo" viewBox="0 0 24 24"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-6z"/><path d="M9 5v14" stroke-dasharray="2 3"/></symbol>
+  <symbol id="i-etoile" viewBox="0 0 24 24"><path d="m12 3 2.7 5.7 6.3.8-4.6 4.3 1.2 6.2L12 17l-5.6 3 1.2-6.2L3 9.5l6.3-.8L12 3z"/></symbol>
+  <symbol id="i-cloche" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9zM10.3 20a2 2 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-oeil" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-sceau" viewBox="0 0 24 24"><circle cx="12" cy="10" r="6"/><path d="m9 15-1.5 6L12 18.5 16.5 21 15 15M12 8v2.5l1.8 1"/></symbol>
+</svg>
+
+<div id="splash">
+  <div class="s-flash"></div>
+  <div class="s-ring"></div>
+  <div class="s-ring"></div>
+  <div class="s-halo"></div>
+  <div class="s-logo">AURA<span class="s-90"><span class="neuf0">90</span><span class="apos">'</span></span></div>
+  <div class="s-chrono" id="s-chrono">0'</div>
+  <div class="s-slogan" id="s-slogan" style="opacity:0">L'IA QUI ANALYSE CHAQUE MATCH</div>
+</div>
+<div id="onboard">
+  <button class="ob-passer" onclick="finOnboard()">Passer</button>
+  <div class="ob-slide actif" id="ob1">
+    <div class="ob-ico"><svg class="ic"><use href="#i-eclair"/></svg></div>
+    <h2>L'IA qui analyse<br><span>chaque match</span></h2>
+    <p>Forme des équipes, tendance de buts, 121 scénarios de score simulés : chaque rencontre passe dans le moteur, tous les jours.</p>
+  </div>
+  <div class="ob-slide" id="ob2">
+    <div class="ob-ico"><svg class="ic"><use href="#i-sceau"/></svg></div>
+    <h2>Le moteur <span>signe</span><br>ses convictions</h2>
+    <p>Il analyse tout, mais ne signe que lorsque sa confiance dépasse ses seuils. Les pronos ⚡ SIGNÉS sont ses meilleures convictions du jour.</p>
+  </div>
+  <div class="ob-slide" id="ob3">
+    <div class="ob-ico"><svg class="ic"><use href="#i-cadenas"/></svg></div>
+    <h2>Un palmarès<br><span>impossible à truquer</span></h2>
+    <p>Chaque prono est publié et daté publiquement AVANT le match. Gagné ou perdu, rien n'est modifiable ni effaçable — même par nous.</p>
+  </div>
+  <div class="ob-points"><i class="actif"></i><i></i><i></i></div>
+  <button class="ob-btn" id="ob-btn" onclick="suivantOnboard()">Suivant</button>
+</div>
+<div id="app">
+  <div class="haut">
+    <div class="marque">AURA<span class="neuf0">90</span><span class="apos">'</span></div>
+    <div class="live"><i></i>MOTEUR ACTIF</div>
+    <button class="cloche" id="btn-cloche" onclick="ouvrirNotifs()" style="display:none"><svg class="ic"><use href="#i-cloche"/></svg><span class="dot" id="notif-dot" style="display:none"></span></button>
+    <button class="pro" id="btn-pro" onclick="allerPage('compte')"><i>◈</i> Passer à PRO</button>
+  </div>
+
+  <!-- ============ ACCUEIL ============ -->
+  <div class="page active" id="page-accueil">
+    <div class="bandeau" onclick="allerPage('palmares')">
+      <div><div class="gros" id="bandeau-chiffre">…</div><small id="bandeau-sous">chargement du palmarès</small></div>
+      <div class="fleche">›</div>
+    </div>
+    <div id="zone-dernier"></div>
+    <div id="zone-mdj"></div>
+
+    <div id="zone-matchs"><div class="chargement">CONNEXION AU MOTEUR…</div></div>
+  </div>
+
+  <!-- ============ PALMARÈS ============ -->
+  <div class="page" id="page-palmares">
+    <div class="palm-tete">
+      <div class="chiffre" id="palm-hero">…</div>
+      <div class="sous" id="palm-sous">chargement…</div>
+    </div>
+    <div class="note-signe">Seuls les <b style="color:var(--aura1)">pronos signés</b> par le moteur comptent ici — ceux où sa confiance dépasse ses seuils.</div>
+    <div class="tuiles">
+      <div class="tuile"><div class="v" id="t-publies">–</div><div class="l">Signés</div></div>
+      <div class="tuile"><div class="v" id="t-verifies">–</div><div class="l">Vérifiés</div></div>
+      <div class="tuile"><div class="v" id="t-annonce">–</div><div class="l">Annoncé</div></div>
+    </div>
+    <div class="section-titre"><svg class="ic"><use href="#i-sceau"/></svg> Réussite vérifiée par niveau</div>
+    <div id="zone-badges"><div class="chargement">…</div></div>
+    <div class="section-titre"><svg class="ic"><use href="#i-graph"/></svg> Derniers pronos vérifiés</div>
+    <div id="zone-histo"><div class="chargement">…</div></div>
+  </div>
+
+  <!-- ============ BOOKMAKERS ============ -->
+  <div class="page" id="page-coupons">
+    <div class="abo-tete"><h2 id="cp-titre">Coupons</h2><p id="cp-sous">Combinés prêts à jouer, construits par le moteur.</p></div>
+    <div class="jours-coupons" id="jours-coupons"></div>
+    <div class="onglets" id="onglets-coupons"></div>
+    <div id="zone-coupons"><div class="chargement">CHARGEMENT DES COUPONS…</div></div>
+  </div>
+
+  <!-- ============ COMPTE / ABO ============ -->
+  <div class="page" id="page-compte">
+    <div class="abo-tete"><h2>Chaque match.<br>Chaque verdict.</h2><p>Analyse illimitée sur toutes les compétitions couvertes.</p></div>
+
+    <!-- ----- non connecté ----- -->
+    <div id="bloc-auth">
+      <div class="section-titre"><svg class="ic"><use href="#i-user"/></svg> <span id="auth-titre">Connexion</span></div>
+      <div class="champ">
+        <button class="btn-google" onclick="connecterGoogle()">
+          <svg width="17" height="17" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.7 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.5 13.2l7.9 6.2C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z"/><path fill="#FBBC05" d="M10.4 28.6a14.5 14.5 0 0 1 0-9.2l-7.9-6.2a24 24 0 0 0 0 21.6l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.7-6c-2.1 1.4-4.7 2.3-7.5 2.3-6.3 0-11.7-4-13.6-9.7l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+          Continuer avec Google
+        </button>
+      </div>
+      <div class="separateur">ou avec un email</div>
+      <div class="champ"><input id="auth-email" type="email" placeholder="Email" autocomplete="email"></div>
+      <div class="champ" id="champ-mdp"><input id="auth-mdp" type="password" placeholder="Mot de passe" autocomplete="current-password"><button class="voir" onclick="basculerMdp('auth-mdp')"><svg class="ic"><use href="#i-oeil"/></svg></button></div>
+      <div class="champ" id="champ-confirm" style="display:none"><input id="auth-mdp2" type="password" placeholder="Confirme le mot de passe"><button class="voir" onclick="basculerMdp('auth-mdp2')"><svg class="ic"><use href="#i-oeil"/></svg></button></div>
+      <div class="champ">
+        <button style="flex:1" onclick="soumettreAuth()" id="btn-principal">Se connecter</button>
+      </div>
+      <button class="lien-retour" onclick="basculerNav()" id="lien-bascule">Pas encore de compte ? <b>Créer un compte</b></button>
+      <button class="lien-retour" onclick="setMode('oubli')" id="lien-oubli">Mot de passe oublié ?</button>
+      <div id="msg-auth"></div>
+    </div>
+
+    <!-- ----- réinitialisation (arrivée depuis l'email) ----- -->
+    <div id="bloc-recovery" style="display:none">
+      <div class="section-titre"><svg class="ic"><use href="#i-cadenas"/></svg> Nouveau mot de passe</div>
+      <div class="champ"><input id="recovery-mdp" type="password" placeholder="Choisis un nouveau mot de passe"><button class="voir" onclick="basculerMdp('recovery-mdp')"><svg class="ic"><use href="#i-oeil"/></svg></button></div>
+      <div class="champ"><button style="flex:1" onclick="validerNouveauMdp()">Enregistrer</button></div>
+      <div id="msg-recovery"></div>
+    </div>
+
+    <!-- ----- connecté ----- -->
+    <div id="bloc-profil" style="display:none">
+      <button id="btn-admin" class="carte-admin" style="display:none" onclick="location.href='admin.html'">
+        🛠️ <span>Panneau d'administration</span> <b>›</b>
+      </button>
+      <div id="statut-acces"></div>
+      </div>
+      <div class="offre star" style="cursor:pointer" onclick="choisirFormule('mois',8000,'1 mois',this)">
+        <div class="populaire">OFFRE DE LANCEMENT</div>
+        <div class="g"><div class="nom-o">Mois</div><div class="eco"><b>−47 %</b> pendant l'offre de lancement</div></div>
+        <div class="prix"><span class="ancien">15 000 F</span>8 000 F<small>CFA / mois</small></div>
+        <div class="radio"></div>
+      </div>
+      <div class="offre" style="cursor:pointer" onclick="choisirFormule('3mois',16000,'3 mois',this)">
+        <div class="g"><div class="nom-o">3 mois</div><div class="eco">soit <b>≈ 5 300 F/mois</b> au lieu de 15 000 F</div></div>
+        <div class="prix"><span class="ancien">35 000 F</span>16 000 F<small>CFA</small></div>
+        <div class="radio"></div>
+      </div>
+      <div class="note-secu">Paiement Wave / Orange Money via PayTech.<br>Prix de lancement, durée limitée — le passage au plein tarif (15 000 F/mois) sera annoncé à l'avance.</div>
+      <div id="zone-paiement" style="display:none">
+        <div class="recap-paie"><span>FORMULE CHOISIE</span><b id="paie-libelle"></b></div>
+        <div class="champ">
+          <input id="code-promo" placeholder="Code promo (optionnel)" autocomplete="off" style="text-transform:uppercase" oninput="verifierCodePromo()">
+        </div>
+        <div id="msg-promo"></div>
+        <div class="champ"><button class="bouton-aura" style="margin:0;flex:1" id="btn-payer" onclick="payerMaintenant()">Payer maintenant</button></div>
+        <div class="avert">Paiement sécurisé Wave / Orange Money via PayTech.</div>
+      </div>
+      <div id="msg-acces"></div>
+
+      <div class="champ"><button style="flex:1" id="btn-push" onclick="activerPush()">🔔 Activer les notifications</button></div>
+      <div id="msg-push"></div>
+
+      <div class="section-titre"><svg class="ic"><use href="#i-duo"/></svg> Parrainage — 1 000 à 2 000 F par filleul VIP</div>
+      <div id="zone-parrainage"><div class="chargement">…</div></div>
+
+      <button class="lien-retour" onclick="deconnecter()">Se déconnecter (<span id="profil-email"></span>)</button>
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 2px">
+      <button class="lien-retour" style="display:inline;width:auto;margin:0;font-size:11px" onclick="location.href='partenaire.html'">💼 Devenir partenaire</button>
+      <span style="color:var(--sourdine);font-size:11px" id="sep-guide-ios" hidden>·</span>
+      <button class="lien-retour" id="guide-ios" style="display:none;width:auto;margin:0;font-size:11px" onclick="ouvrirGuideInstall()">📱 Installer l'app</button>
+    </div>
+
+    <div class="jeu-resp">Interdit aux moins de 18 ans. AURA90 fournit des analyses statistiques,<br>jamais une promesse de gains.</div>
+  </div>
+
+  <div id="panneau-install" onclick="if(event.target===this)this.classList.remove('actif')">
+    <div class="carte-install" id="carte-install"></div>
+  </div>
+
+  <!-- ============ PANNEAU NOTIFICATIONS ============ -->
+  <div id="panneau-notifs">
+    <div class="haut">
+      <div class="marque" style="font-size:15px">Notifications</div>
+      <button class="fermer" style="position:static" onclick="fermerNotifs()">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px" id="liste-notifs"></div>
+  </div>
+
+  <!-- ============ OVERLAY ANALYSE ============ -->
+  <div id="overlay">
+    <button class="fermer" onclick="fermerAnalyse()">✕</button>
+    <div class="scene">
+      <div class="affiche">
+        <div class="duel-mini" id="ov-duel"></div>
+        <div class="comp" id="ov-comp"></div>
+      </div>
+      <div class="anneau-zone" id="ov-anneau-zone">
+        <div class="orbite o1"><span class="sat"></span></div>
+        <div class="orbite o2"><span class="sat s2"></span></div>
+        <div class="orbite o3"><span class="sat s3"></span></div>
+        <svg class="cercle" width="180" height="180">
+          <defs><linearGradient id="gradAura" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3DE8C8"/><stop offset="100%" stop-color="#8B7CFF"/>
+          </linearGradient></defs>
+          <circle class="anneau-fond" cx="90" cy="90" r="85"/>
+          <circle class="anneau" id="anneau" cx="90" cy="90" r="85"/>
+        </svg>
+        <div class="anneau-centre"><div class="pct" id="ov-pct">·</div><div class="lbl" id="ov-lbl">initialisation</div></div>
+      </div>
+      <div class="etapes" id="ov-etapes"></div>
+      <div id="fiche"></div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="actif" data-page="accueil" onclick="allerPage('accueil')"><svg class="ic"><use href="#i-eclair"/></svg>Accueil</button>
+    <button data-page="palmares" onclick="allerPage('palmares')"><svg class="ic"><use href="#i-graph"/></svg>Palmarès</button>
+    <button data-page="coupons" onclick="allerPage('coupons')"><svg class="ic"><use href="#i-ticket"/></svg>Coupons</button>
+    <button data-page="compte" onclick="allerPage('compte')"><svg class="ic"><use href="#i-user"/></svg>Compte</button>
+  </div>
+</div>
+
+<script>
+/* ================= ÉTAT ================= */
+let PRONOS = [];          // pronos à venir
+let SESSION = JSON.parse(localStorage.getItem('aura90_session') || 'null') || { access:null, refresh:null, email:null, fin:null };
+function sauverSession(){ localStorage.setItem('aura90_session', JSON.stringify(SESSION)); }
+const estConnecte = () => !!SESSION.access;
+const estAbonne  = () => SESSION.fin && new Date(SESSION.fin) > new Date();
+const estDeverrouille = () => estAbonne();
+let FORMULE = null;
+// lien d'affiliation ?ref=CODE → mémorisé et pré-rempli au paiement
+(function(){
+  const r = new URLSearchParams(location.search).get('ref');
+  if(r && /^[A-Za-z0-9]{4,10}$/.test(r)) localStorage.setItem('aura90_ref', r.toUpperCase());
+})();
+
+/* ================= OUTILS ================= */
+const $ = id => document.getElementById(id);
+async function sb(chemin){
+  const r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/' + chemin, {
+    headers:{ apikey: CONFIG.SUPABASE_KEY, Authorization: 'Bearer ' + CONFIG.SUPABASE_KEY }
+  });
+  if(!r.ok) throw new Error('Supabase ' + r.status);
+  return r.json();
+}
+function ecu(url, nom, petit){
+  const cls = 'ecu' + (petit ? ' petit' : '');
+  if(url) return `<div class="${cls}"><img src="${url}" alt="" loading="lazy" onerror="this.remove()"></div>`;
+  const ini = (nom||'').split(/\s+/).map(m=>m[0]).join('').slice(0,3).toUpperCase();
+  return `<div class="${cls}">${ini}</div>`;
+}
+const ANIM_OFF = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function setCount(el, val, dec, suf){
+  el.dataset.v = val; el.dataset.d = dec; el.dataset.s = suf || '';
+  countUp(el);
+}
+function countUp(el){
+  const fin = parseFloat(el.dataset.v || 0), dec = parseInt(el.dataset.d || 0), suf = el.dataset.s || '';
+  if(ANIM_OFF || !isFinite(fin)){ el.textContent = fin.toFixed(dec).replace('.',',') + suf; return; }
+  const t0 = performance.now(), duree = 1100;
+  (function pas(t){
+    const p = Math.min(1,(t-t0)/duree), e = 1-Math.pow(1-p,3);
+    el.textContent = (fin*e).toFixed(dec).replace('.',',') + suf;
+    if(p<1) requestAnimationFrame(pas);
+  })(t0);
+}
+function cascade(sel){
+  const els = document.querySelectorAll(sel);
+  els.forEach((e,i)=>{
+    if(ANIM_OFF) return;
+    e.classList.remove('a-in'); e.classList.add('a-prep');
+    setTimeout(()=>e.classList.add('a-in'), 50 + Math.min(i,12)*55);
+  });
+}
+function animerBarres(){
+  document.querySelectorAll('#zone-badges .barre i').forEach(b=>{
+    b.style.width = '0';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ b.style.width = (b.dataset.w||0)+'%'; }));
+  });
+}
+function animerPalmares(){
+  ['palm-hero','t-publies','t-verifies','t-annonce'].forEach(id=>{
+    const el = $(id); if(el && el.dataset.v !== undefined) countUp(el);
+  });
+  animerBarres();
+  cascade('#zone-histo .palm-carte');
+}
+function badgeCls(b){ return b==='Très sûr'?'b-tres':b==='Sûr'?'b-sur':b==='Équilibré'?'b-equ':'b-aud'; }
+function badgeIco(b){ return b==='Très sûr'?'i-cadenas':b==='Sûr'?'i-bouclier':b==='Équilibré'?'i-balance':'i-eclair'; }
+function labelDate(d){
+  const auj = new Date(); auj.setHours(0,0,0,0);
+  const dm = new Date(d+'T00:00:00');
+  const diff = Math.round((dm-auj)/86400000);
+  if(diff===0) return "AUJOURD'HUI";
+  if(diff===1) return "DEMAIN";
+  return dm.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();
+}
+
+/* ================= NAVIGATION ================= */
+function allerPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  $('page-'+p).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('actif', b.dataset.page===p));
+  if(p === 'palmares') animerPalmares();
+  if(p === 'accueil') cascade('#zone-matchs .match');
+  if(p === 'coupons') chargerCoupons();
+}
+
+/* ================= CHARGEMENT ================= */
+async function charger(){
+  if(CONFIG.SUPABASE_KEY.startsWith('COLLE')){
+    $('zone-matchs').innerHTML = `<div class="erreur-cfg"><b>Configuration :</b> ouvre ce fichier et colle ta clé publishable Supabase dans CONFIG.SUPABASE_KEY (tout en haut du fichier).</div>`;
+    return;
+  }
+  try{
+    const auj = new Date().toISOString().slice(0,10);
+    // pronos à venir
+    PRONOS = await sb(`pronos?date_match=gte.${auj}&verifie=eq.false&order=date_match.asc,confiance.desc&select=*`);
+    // palmarès global
+    const g = (await sb('palmares_global?select=*'))[0] || {};
+    if(g.pronos_verifies > 0){
+      setCount($('bandeau-chiffre'), g.reussite_pct, 1, ' %');
+      $('bandeau-sous').textContent = `de réussite vérifiée · ${g.pronos_verifies} pronos`;
+    } else {
+      setCount($('bandeau-chiffre'), g.pronos_publies||0, 0, ' pronos');
+      $('bandeau-sous').textContent = 'publiés · vérification en cours';
+    }
+    afficherAccueil();
+    chargerPalmares(g);
+  chargerDernierGagne();
+  }catch(e){
+    $('zone-matchs').innerHTML = `<div class="erreur-cfg"><b>Connexion impossible.</b> Vérifie ta connexion internet — ou la clé dans CONFIG. (${e.message})</div>`;
+  }
+}
+
+let MDJ = null;           // match du jour (gratuit)
+function afficherAccueil(){
+  if(!PRONOS.length){
+    $('zone-mdj').innerHTML='';
+    $('zone-matchs').innerHTML = `<div class="vide">Aucun match analysé pour les prochains jours.<br>Le moteur publie chaque nuit à 5h — reviens bientôt.</div>`;
+    return;
+  }
+  // match du jour = le plus confiant de la date la plus proche
+  const d0 = PRONOS[0].date_match;
+  MDJ = PRONOS.filter(p=>p.date_match===d0).sort((a,b)=>b.confiance-a.confiance)[0];
+
+  $('zone-mdj').innerHTML = `
+    <div class="section-titre"><svg class="ic"><use href="#i-etoile"/></svg> Match du jour · gratuit</div>
+    <div class="mdj">
+      <div class="tag">${MDJ.ligue.toUpperCase()} · ${labelDate(MDJ.date_match)}${MDJ.heure ? ' · '+MDJ.heure : ''}${MDJ.signe ? ' <span class="sceau-signe sceau-mini" style="margin-left:6px">⚡ SIGNÉ</span>' : ''}</div>
+      <div class="duel">
+        <div class="camp">${ecu(MDJ.logo_dom, MDJ.dom)}<div class="nom">${MDJ.dom}</div></div>
+        <div class="heure-c"><b>${MDJ.heure || '—'}</b>UTC</div>
+        <div class="camp">${ecu(MDJ.logo_ext, MDJ.ext)}<div class="nom">${MDJ.ext}</div></div>
+      </div>
+      <button class="bouton-aura" onclick="lancerAnalyse(${MDJ.id})"><svg class="ic" style="width:15px;height:15px"><use href="#i-eclair"/></svg> Lancer l'analyse</button>
+    </div>`;
+
+  // liste groupée date → ligue
+  let html = '';
+  const parDate = {};
+  PRONOS.forEach(p=>{ if(p.id===MDJ.id) return; (parDate[p.date_match]=parDate[p.date_match]||[]).push(p); });
+  Object.keys(parDate).sort().forEach(d=>{
+    html += `<div class="section-titre">${labelDate(d)}</div>`;
+    const parLigue = {};
+    parDate[d].forEach(p=>{ (parLigue[p.ligue]=parLigue[p.ligue]||[]).push(p); });
+    Object.keys(parLigue).sort().forEach(l=>{
+      html += `<div class="comp-tete"><span class="nom-c">${l}</span><span class="trait"></span></div>`;
+      parLigue[l].forEach(p=>{
+        const libre = estDeverrouille();
+        html += `
+        <div class="match" onclick="lancerAnalyse(${p.id})">
+          <div class="paire">
+            <div class="eq">${ecu(p.logo_dom,p.dom,true)}${p.dom}</div>
+            <div class="eq">${ecu(p.logo_ext,p.ext,true)}${p.ext}</div>
+          </div>
+          <div class="heure">${p.signe?'<span class="sceau-signe sceau-mini">⚡ SIGNÉ</span>':''}<span>${p.heure||''}</span></div>
+          <div class="cadenas ${libre?'libre':''}"><svg class="ic"><use href="#${libre?'i-eclair':'i-cadenas'}"/></svg></div>
+        </div>`;
+      });
+    });
+  });
+  $('zone-matchs').innerHTML = html || `<div class="vide">Un seul match analysé pour l'instant — c'est celui du jour, au-dessus.</div>`;
+  cascade('#zone-matchs .match');
+}
+
+/* ================= ANALYSE ================= */
+let timers = [];
+let SCAN = null;
+function lancerAnalyse(id){
+  const p = PRONOS.find(x=>x.id===id);
+  if(!p) return;
+  const gratuit = MDJ && p.id===MDJ.id;
+  if(!gratuit && !estDeverrouille()){ allerPage('compte'); return; }
+
+  $('overlay').classList.add('actif');
+  $('ov-duel').innerHTML = `${ecu(p.logo_dom,p.dom,true)}<div class="vs">${p.dom} — ${p.ext}</div>${ecu(p.logo_ext,p.ext,true)}`;
+  $('ov-comp').textContent = `${p.ligue.toUpperCase()} · ${labelDate(p.date_match)}${p.heure?' · '+p.heure:''}`;
+  $('ov-anneau-zone').style.display='';
+  $('fiche').classList.remove('actif');
+  $('fiche').innerHTML='';
+
+  const et = $('ov-etapes');
+  et.innerHTML = `
+    <div class="etape" id="et1"><span class="num">01</span><div class="txt">Répartition des issues — <b>1 : ${p.p1}%</b> · <b>N : ${p.pn}%</b> · <b>2 : ${p.p2}%</b><small>calculée sur la forme pondérée des deux équipes</small></div></div>
+    <div class="etape" id="et2"><span class="num">02</span><div class="txt">Tendance de buts — <b>+2,5 : ${p.po25}%</b> · <b>BTTS : ${p.btts}%</b><small>issue de la matrice complète des scores</small></div></div>
+    <div class="etape" id="et3"><span class="num">03</span><div class="txt"><b>121 scénarios</b> de score évalués — tête de liste : <b>${p.scores_top3}</b><small>tous les marchés dérivés du même calcul</small></div></div>`;
+
+  const anneau=$('anneau'), CIRC=534;
+  const conf = Math.max(0, Math.min(100, p.confiance))/100;
+  anneau.style.transition='none'; anneau.style.strokeDashoffset=CIRC;
+  $('ov-pct').textContent='·'; $('ov-lbl').textContent='initialisation';
+  const avance = f => requestAnimationFrame(()=>{ anneau.style.transition='stroke-dashoffset .9s cubic-bezier(.4,0,.2,1)'; anneau.style.strokeDashoffset=CIRC*(1-f); });
+
+  const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  timers.forEach(clearTimeout); timers=[];
+  clearInterval(SCAN);
+  $('ov-anneau-zone').classList.remove('fini');
+  let progression = 0;
+  if(!reduit){
+    SCAN = setInterval(()=>{
+      const bruit = Math.round(progression*p.confiance + (Math.random()*14-7));
+      $('ov-pct').textContent = Math.max(1, Math.min(99, bruit)) + '%';
+    }, 70);
+  }
+  const plan = [
+    [400, ()=>{ $('et1').classList.add('visible'); avance(conf*0.35); progression=0.35; $('ov-lbl').textContent='répartition des issues'; }],
+    [1500,()=>{ $('et2').classList.add('visible'); avance(conf*0.65); progression=0.65; $('ov-lbl').textContent='tendance de buts'; }],
+    [2600,()=>{ $('et3').classList.add('visible'); avance(conf*0.85); progression=0.85; $('ov-lbl').textContent='simulation des scores'; }],
+    [3800,()=>{ clearInterval(SCAN); avance(conf); $('ov-pct').textContent=p.confiance+'%'; $('ov-lbl').textContent='verdict'; $('ov-anneau-zone').classList.add('fini'); }],
+    [4600,()=> montrerFiche(p)]
+  ];
+  if(reduit){ plan.forEach(x=>x[1]()); }
+  else plan.forEach(x=>timers.push(setTimeout(x[1],x[0])));
+}
+
+function montrerFiche(p){
+  $('fiche').innerHTML = `
+    <div class="verdict">
+      <div class="sur-titre">VERDICT</div>
+      <h2>${p.prono_principal}</h2>
+      <span class="badge ${badgeCls(p.badge)}"><svg class="ic"><use href="#${badgeIco(p.badge)}"/></svg> ${p.badge}</span>
+      ${p.signe ? '<div style="margin-top:8px"><span class="sceau-signe">⚡ PRONO SIGNÉ AURA90</span></div>' : ''}
+    </div>
+    <div class="marche">
+      <div class="m-haut"><span class="m-lbl"><svg class="ic"><use href="#i-ballon"/></svg><span>${p.prono_buts}<small>marché +/− 2,5 buts</small></span></span><span class="m-val">${p.confiance_buts}%</span></div>
+      <div class="m-barre"><i data-w="${p.confiance_buts}"></i></div>
+    </div>
+    <div class="marche">
+      <div class="m-haut"><span class="m-lbl"><svg class="ic"><use href="#i-duo"/></svg><span>Les deux équipes marquent<small>marché BTTS</small></span></span><span class="m-val">${p.btts>=50?'OUI':'NON'} · ${p.btts>=50?p.btts:100-p.btts}%</span></div>
+      <div class="m-barre"><i data-w="${p.btts>=50?p.btts:100-p.btts}"></i></div>
+    </div>
+    <div class="marche">
+      <div class="m-haut"><span class="m-lbl"><svg class="ic"><use href="#i-grille"/></svg><span>Scores les plus probables<small>121 scénarios simulés</small></span></span></div>
+      <div class="scores-ligne">${String(p.scores_top3).split('·').map((s,i)=>`<div class="score-cap${i===0?' top':''}">${s.trim()}${i===0?'<small>le + probable</small>':'<small>&nbsp;</small>'}</div>`).join('')}</div>
+    </div>
+    
+    <button class="lien-retour" onclick="fermerAnalyse()">← Analyser une autre rencontre</button>`;
+  $('fiche').classList.add('actif');
+  setTimeout(()=>{ document.querySelectorAll('#fiche .m-barre i').forEach(b=>{ b.style.width = (b.dataset.w||0)+'%'; }); }, 80);
+  $('fiche').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function fermerAnalyse(){
+  clearInterval(SCAN);
+  timers.forEach(clearTimeout); timers=[];
+  $('overlay').classList.remove('actif');
+}
+
+/* ================= PALMARÈS ================= */
+let HISTO_OFFSET = 0;
+async function chargerPalmares(g){
+  if(g.pronos_verifies > 0){
+    setCount($('palm-hero'), g.reussite_pct, 1, ' %');
+    $('palm-sous').innerHTML = `de réussite vérifiée<br>depuis le ${g.depuis ? new Date(g.depuis).toLocaleDateString('fr-FR',{day:'numeric',month:'long'}) : '—'} · tout est public, rien n'est effaçable`;
+  } else {
+    setCount($('palm-hero'), g.pronos_publies || 0, 0, '');
+    $('palm-sous').innerHTML = `pronos publiés — premiers résultats vérifiés sous 72 h`;
+  }
+  setCount($('t-publies'), g.pronos_publies || 0, 0, '');
+  setCount($('t-verifies'), g.pronos_verifies || 0, 0, '');
+  if(g.confiance_annoncee_pct) setCount($('t-annonce'), g.confiance_annoncee_pct, 1, ' %');
+
+  try{
+    const badges = await sb('palmares_badges?select=*');
+    const ordre = ['Très sûr','Sûr','Équilibré','Audacieux'];
+    const coul  = {'Très sûr':'#3DE8C8','Sûr':'#FFB454','Équilibré':'#5BA8F5','Audacieux':'#A78BFF'};
+    const clair = {'Très sûr':'#8FF5E1','Sûr':'#FFD394','Équilibré':'#9CCBFA','Audacieux':'#CDBDFF'};
+    let html='';
+    ordre.forEach(b=>{
+      const x = badges.find(y=>y.badge===b);
+      if(!x || !x.verifies){
+        html += `<div class="barre-ligne"><div class="lgd"><b style="color:${coul[b]}"><svg class="ic"><use href="#${badgeIco(b)}"/></svg>${b}</b><span>en attente</span></div><div class="barre"><i style="width:0"></i></div></div>`;
+        return;
+      }
+      html += `<div class="barre-ligne"><div class="lgd"><b style="color:${coul[b]}"><svg class="ic"><use href="#${badgeIco(b)}"/></svg>${b}</b><span>${x.reussite_pct} % · ${x.verifies} vérifiés</span></div><div class="barre"><i style="background:linear-gradient(90deg,${coul[b]},${clair[b]});box-shadow:0 0 12px ${coul[b]}66" data-w="${x.reussite_pct}"></i></div></div>`;
+    });
+    $('zone-badges').innerHTML = html;
+    animerBarres();
+  }catch(e){ $('zone-badges').innerHTML=''; }
+
+  HISTO_OFFSET = 0;
+  chargerHisto(false);
+}
+
+async function chargerDernierGagne(){
+  try{
+    const recents = await sb(`pronos?verifie=eq.true&order=date_match.desc&limit=40&select=dom,ext,score_reel,scores_top3,prono_principal,prono_gagne,signe,date_match,ligue`);
+    if(!Array.isArray(recents) || !recents.length){ $('zone-dernier').innerHTML=''; return; }
+
+    const meta = d => `${new Date(d.date_match+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'}).toUpperCase()} · ${d.ligue.toUpperCase()}`;
+
+    // priorité 1 : le dernier SCORE EXACT trouvé (le vrai score figurait dans les scores annoncés)
+    const exact = recents.find(p => p.score_reel && p.scores_top3 &&
+      String(p.scores_top3).split('·').map(s=>s.trim()).includes(String(p.score_reel).trim()));
+    if(exact){
+      $('zone-dernier').innerHTML = `
+      <div class="dernier-win" style="border-color:rgba(255,180,84,.55)" onclick="allerPage('palmares')">
+        <div class="dw-haut">
+          <span class="dw-tag" style="color:var(--sur)">🎯 SCORE EXACT TROUVÉ</span>
+          <span class="dw-date">${meta(exact)}</span>
+        </div>
+        <div class="dw-match">${exact.dom} <span class="pc-score" style="color:var(--sur);border-color:rgba(255,180,84,.4)">${exact.score_reel}</span> ${exact.ext}</div>
+        <div class="dw-prono">Le moteur avait mis <b>${exact.score_reel}</b> dans ses scores probables, publié avant le match — voir le palmarès →</div>
+      </div>`;
+      return;
+    }
+
+    // priorité 2 : la dernière victoire signée
+    const gagne = recents.find(p => p.prono_gagne && p.signe);
+    if(!gagne){ $('zone-dernier').innerHTML=''; return; }
+    $('zone-dernier').innerHTML = `
+      <div class="dernier-win" onclick="allerPage('palmares')">
+        <div class="dw-haut">
+          <span class="dw-tag">✓ DERNIÈRE VICTOIRE SIGNÉE</span>
+          <span class="dw-date">${meta(gagne)}</span>
+        </div>
+        <div class="dw-match">${gagne.dom} <span class="pc-score">${gagne.score_reel||''}</span> ${gagne.ext} <span class="puce ok">✓ GAGNÉ</span></div>
+        <div class="dw-prono">Le moteur avait signé : <b>${gagne.prono_principal}</b> — voir tout le palmarès →</div>
+      </div>`;
+  }catch(e){ $('zone-dernier').innerHTML=''; }
+}
+
+const COUL_BADGE = {'Très sûr':'#3DE8C8','Sûr':'#FFB454','Équilibré':'#5BA8F5','Audacieux':'#A78BFF'};
+async function chargerHisto(ajouter){
+  try{
+    const histo = await sb(`pronos?verifie=eq.true&signe=eq.true&order=date_match.desc,confiance.desc&limit=20&offset=${HISTO_OFFSET}&select=prono_principal,ligue,date_match,score_reel,prono_gagne,dom,ext,badge,confiance`);
+    const cartes = histo.map(h=>`
+      <div class="palm-carte">
+        <div class="pc-haut">
+          <span class="pc-meta">${new Date(h.date_match+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'}).toUpperCase()} · ${h.ligue.toUpperCase()}</span>
+          <span class="puce ${h.prono_gagne?'ok':'ko'}">${h.prono_gagne?'✓ GAGNÉ':'✗ PERDU'}</span>
+        </div>
+        <div class="pc-match">${h.dom} <span class="pc-score">${h.score_reel||'–'}</span> ${h.ext}</div>
+        <div class="pc-prono">
+          <span class="p">Prono : <b>${h.prono_principal}</b></span>
+          <span class="pc-badge" style="color:${COUL_BADGE[h.badge]||'var(--sourdine)'}"><svg class="ic"><use href="#${badgeIco(h.badge)}"/></svg>${h.badge}</span>
+        </div>
+      </div>`).join('');
+    const plus = histo.length === 20 ? `<button class="btn-plus" onclick="HISTO_OFFSET+=20;chargerHisto(true)">Afficher plus</button>` : '';
+    if(ajouter){
+      document.querySelector('#zone-histo .btn-plus')?.remove();
+      $('zone-histo').insertAdjacentHTML('beforeend', cartes + plus);
+    } else {
+      $('zone-histo').innerHTML = (cartes || `<div class="vide">Aucun prono vérifié pour l'instant.</div>`) + plus;
+      cascade('#zone-histo .palm-carte');
+    }
+  }catch(e){ if(!ajouter) $('zone-histo').innerHTML=''; }
+}
+
+/* ================= BOOKMAKERS ================= */
+function copierCode(code, el){
+  navigator.clipboard?.writeText(code).then(()=>{
+    const v = el.querySelector('.val'); const t = v.textContent;
+    v.textContent = 'Copié ✓';
+    setTimeout(()=>{ v.textContent = t; }, 1500);
+  });
+}
+
+
+/* ================= AUTH ================= */
+async function authApi(chemin, corps, jeton){
+  const r = await fetch(CONFIG.SUPABASE_URL + '/auth/v1/' + chemin, {
+    method: corps ? 'POST' : 'GET',
+    headers: { 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY,
+               ...(jeton ? { Authorization:'Bearer '+jeton } : {}) },
+    body: corps ? JSON.stringify(corps) : undefined
+  });
+  return { ok: r.ok, data: await r.json().catch(()=>({})) };
+}
+
+let MODE = 'connexion';
+function setMode(m){
+  MODE = m;
+  const ins = m === 'inscription', oub = m === 'oubli';
+  $('auth-titre').textContent = ins ? 'Créer un compte' : oub ? 'Mot de passe oublié' : 'Connexion';
+  $('champ-mdp').style.display = oub ? 'none' : '';
+  $('champ-confirm').style.display = ins ? '' : 'none';
+  $('btn-principal').textContent = ins ? 'Créer mon compte' : oub ? 'Recevoir le lien par email' : 'Se connecter';
+  $('lien-bascule').innerHTML = ins || oub ? '← Retour à la connexion' : 'Pas encore de compte ? <b>Créer un compte</b>';
+  $('lien-oubli').style.display = (ins || oub) ? 'none' : '';
+  msgAuth(oub ? "Entre ton email : on t'envoie un lien pour choisir un nouveau mot de passe." : '');
+}
+function basculerNav(){ setMode(MODE === 'connexion' ? 'inscription' : 'connexion'); }
+function soumettreAuth(){ MODE === 'inscription' ? inscrire() : MODE === 'oubli' ? motDePasseOublie() : connecter(); }
+
+function msgAuth(t, err){ $('msg-auth').innerHTML = t ? `<div class="avert"${err?' style="color:var(--ko)"':''}>${t}</div>` : ''; }
+
+async function inscrire(){
+  const email = $('auth-email').value.trim(), mdp = $('auth-mdp').value;
+  if(!email.includes('@') || mdp.length < 6){ msgAuth('Email valide et mot de passe de 6 caractères minimum.', true); return; }
+  if(mdp !== $('auth-mdp2').value){ msgAuth('Les deux mots de passe ne correspondent pas.', true); return; }
+  $('btn-principal').textContent='…';
+  const { ok, data } = await authApi('signup', { email, password: mdp });
+  $('btn-principal').textContent='Créer mon compte';
+  if(ok && data.access_token){ ouvrirSession(data); }
+  else if(ok){ msgAuth('Compte créé — vérifie ta boîte mail pour confirmer, puis connecte-toi.'); }
+  else msgAuth(data?.msg || data?.error_description || "Inscription impossible (email déjà utilisé ?)", true);
+}
+
+async function connecter(){
+  const email = $('auth-email').value.trim(), mdp = $('auth-mdp').value;
+  if(!email || !mdp){ msgAuth('Entre ton email et ton mot de passe.', true); return; }
+  $('btn-principal').textContent='…';
+  const { ok, data } = await authApi('token?grant_type=password', { email, password: mdp });
+  $('btn-principal').textContent='Se connecter';
+  if(ok && data.access_token){ ouvrirSession(data); }
+  else msgAuth('Email ou mot de passe incorrect.', true);
+}
+
+function ouvrirSession(d){
+  SESSION.access = d.access_token; SESSION.refresh = d.refresh_token;
+  SESSION.email = d.user?.email || SESSION.email; SESSION.uid = d.user?.id || SESSION.uid;
+  sauverSession(); msgAuth('');
+  chargerAbonnement().then(()=>{ majCompte(); afficherAccueil(); });
+}
+
+async function rafraichirSession(){
+  if(!SESSION.refresh) return false;
+  const { ok, data } = await authApi('token?grant_type=refresh_token', { refresh_token: SESSION.refresh });
+  if(ok && data.access_token){
+    SESSION.access = data.access_token; SESSION.refresh = data.refresh_token;
+    SESSION.email = data.user?.email || SESSION.email; SESSION.uid = data.user?.id || SESSION.uid; sauverSession(); return true;
+  }
+  return false;
+}
+
+function deconnecter(){
+  EST_ADMIN = null;
+  SESSION = { access:null, refresh:null, email:null, uid:null, fin:null };
+  sauverSession();
+  location.reload();
+}
+
+async function motDePasseOublie(){
+  const email = $('auth-email').value.trim();
+  if(!email.includes('@')){ msgAuth("Entre un email valide.", true); return; }
+  $('btn-principal').textContent='…';
+  const cible = location.origin + location.pathname;
+  await fetch(CONFIG.SUPABASE_URL + '/auth/v1/recover?redirect_to=' + encodeURIComponent(cible), {
+    method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY },
+    body: JSON.stringify({ email })
+  });
+  $('btn-principal').textContent='Recevoir le lien par email';
+  msgAuth('Email envoyé ✓ — ouvre le lien reçu pour choisir un nouveau mot de passe.');
+}
+
+let RECOVERY_TOKEN = null;
+async function validerNouveauMdp(){
+  const mdp = $('recovery-mdp').value;
+  if(mdp.length < 6){ $('msg-recovery').innerHTML = '<div class="avert" style="color:var(--ko)">6 caractères minimum.</div>'; return; }
+  const r = await fetch(CONFIG.SUPABASE_URL + '/auth/v1/user', {
+    method:'PUT',
+    headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+RECOVERY_TOKEN },
+    body: JSON.stringify({ password: mdp })
+  });
+  if(r.ok){
+    $('bloc-recovery').style.display='none'; $('bloc-auth').style.display='';
+    msgAuth('Mot de passe changé — connecte-toi.');
+  } else {
+    $('msg-recovery').innerHTML = '<div class="avert" style="color:var(--ko)">Lien expiré — refais « mot de passe oublié ».</div>';
+  }
+}
+
+async function chargerAbonnement(){
+  if(!SESSION.access) return;
+  let r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/abonnes?select=actif_jusqua', {
+    headers:{ apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access }
+  });
+  if(r.status === 401 && await rafraichirSession()){
+    r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/abonnes?select=actif_jusqua', {
+      headers:{ apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access }
+    });
+  }
+  if(r.ok){
+    const rows = await r.json();
+    SESSION.fin = rows[0]?.actif_jusqua || null;
+    sauverSession();
+  }
+}
+
+function basculerMdp(id){ const i = $(id); i.type = i.type === 'password' ? 'text' : 'password'; }
+
+function connecterGoogle(){
+  const cible = location.origin + location.pathname;
+  location.href = CONFIG.SUPABASE_URL + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(cible);
+}
+
+
+
+/* ================= COMPTE (affichage) ================= */
+let EST_ADMIN = null;   // null = pas encore vérifié
+let _ADMIN_EN_COURS = null;   // évite deux appels simultanés au serveur
+
+async function majBoutonAdmin(){
+  const b = $('btn-admin'), s = $('sep-admin');
+  if(!b) return;
+  const montrer = v => { b.style.display = v ? 'flex' : 'none'; if(s) s.hidden = !v; };
+
+  if(!estConnecte()){ montrer(false); return; }
+  if(EST_ADMIN !== null){ montrer(EST_ADMIN); return; }
+  if(_ADMIN_EN_COURS){ montrer(await _ADMIN_EN_COURS); return; }
+
+  // on demande au serveur : lui seul sait qui est administrateur.
+  // IMPORTANT : au chargement, le jeton du localStorage est souvent expiré.
+  // On retente donc après rafraîchissement, exactement comme chargerAbonnement(),
+  // et on ne mémorise JAMAIS un « non » venant d'un problème d'authentification :
+  // sinon le bouton reste caché jusqu'au rechargement de la page.
+  _ADMIN_EN_COURS = (async () => {
+    const appel = () => fetch(CONFIG.SUPABASE_URL + '/functions/v1/admin', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY,
+                Authorization:'Bearer ' + SESSION.access },
+      body: JSON.stringify({ action:'stats' })
+    });
+    try{
+      let r = await appel();
+      if(r.status === 401 && await rafraichirSession()) r = await appel();
+      if(r.status === 401 || r.status === 403){
+        // jeton toujours invalide : on ne conclut rien, on réessaiera plus tard
+        if(r.status === 403) EST_ADMIN = false;   // le serveur dit « pas admin » : c'est définitif
+        return EST_ADMIN === true;
+      }
+      const d = await r.json().catch(()=>null);
+      if(r.ok && d && !d.erreur){ EST_ADMIN = true; return true; }
+      if(r.ok){ EST_ADMIN = false; return false; }
+      return false;                                // erreur serveur : on ne mémorise rien
+    }catch(e){
+      return false;                                // réseau coupé : on ne mémorise rien
+    }finally{
+      _ADMIN_EN_COURS = null;
+    }
+  })();
+
+  montrer(await _ADMIN_EN_COURS);
+}
+
+function majBoutonPro(){
+  const b = $('btn-pro'); if(!b) return;
+  if(estAbonne()){
+    const j = Math.max(1, Math.ceil((new Date(SESSION.fin) - Date.now()) / 864e5));
+    b.innerHTML = '<i>◈</i> PRO · J-' + j;
+    b.classList.add('actif-pro');
+  } else {
+    b.innerHTML = '<i>◈</i> Passer à PRO';
+    b.classList.remove('actif-pro');
+  }
+}
+
+function majCompte(){
+  const co = estConnecte();
+  majBoutonPro();
+  majBoutonAdmin();
+  if(co){ chargerParrainage(); chargerNotifs(); majBoutonPush(); }
+  else {
+    $('btn-cloche').style.display='none';
+    $('zone-parrainage').innerHTML='';
+    $('statut-acces').innerHTML='';
+  }
+  $('bloc-auth').style.display = co ? 'none' : '';
+  $('bloc-profil').style.display = co ? '' : 'none';
+  if(co){
+    $('profil-email').textContent = SESSION.email || '';
+    if(estAbonne()){
+      const fin = new Date(SESSION.fin);
+      const jours = Math.max(1, Math.ceil((fin - Date.now()) / 864e5));
+      $('statut-acces').innerHTML = `
+        <div class="statut-ok">◈ Abonnement PRO actif jusqu'au ${fin.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})} · ${jours} jour${jours>1?'s':''} restant${jours>1?'s':''}</div>
+        <div class="note-prolong">Tu peux prolonger dès maintenant : la durée choisie <b>s'ajoute</b> à ta date de fin, tu ne perds aucun jour.</div>`;
+    } else {
+      $('statut-acces').innerHTML = `<div class="avert">Aucun abonnement actif — choisis une formule ci-dessous.</div>`;
+    }
+  }
+}
+
+/* ================= PAIEMENT ================= */
+function choisirFormule(f, prix, libelle, el){
+  if(!estConnecte()){ msgAuth('Connecte-toi ou crée un compte pour t\'abonner.', true); return; }
+  FORMULE = f;
+  document.querySelectorAll('.offre').forEach(o=>o.classList.remove('choisie'));
+  if(el) el.classList.add('choisie');
+  $('paie-libelle').textContent = `${libelle} · ${prix.toLocaleString('fr-FR')} FCFA`;
+  $('zone-paiement').style.display = '';
+  const ref = localStorage.getItem('aura90_ref');
+  if(ref && !$('code-promo').value){ $('code-promo').value = ref; verifierCodePromo(); }
+  $('zone-paiement').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+let PROMO_TIMER = null;
+async function verifierCodePromo(){
+  clearTimeout(PROMO_TIMER);
+  PROMO_TIMER = setTimeout(async ()=>{
+    const c = $('code-promo').value.trim().toUpperCase();
+    if(!/^[A-Z0-9]{4,10}$/.test(c)){ $('msg-promo').innerHTML=''; return; }
+    try{
+      const r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/verifier_code', {
+        method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY,
+          Authorization:'Bearer '+(SESSION.access||CONFIG.SUPABASE_KEY) },
+        body: JSON.stringify({ c })
+      });
+      const ok = await r.json();
+      const red = FORMULE === '3mois' ? 2000 : 1000;
+      $('msg-promo').innerHTML = ok === true
+        ? `<div class="avert" style="color:var(--aura1)">Code ${c} appliqué : −${red.toLocaleString('fr-FR')} F sur ce paiement.</div>`
+        : `<div class="avert" style="color:var(--ko)">Code inconnu — vérifie l'orthographe.</div>`;
+    }catch(e){ $('msg-promo').innerHTML=''; }
+  }, 350);
+}
+
+async function payerMaintenant(){
+  if(!FORMULE) return;
+  $('btn-payer').textContent = 'Redirection…';
+  try{
+    let r = await fetch(CONFIG.SUPABASE_URL + '/functions/v1/paytech-init', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access },
+      body: JSON.stringify({ formule: FORMULE, code_promo: $('code-promo').value.trim() })
+    });
+    if(r.status === 401 && await rafraichirSession()){
+      r = await fetch(CONFIG.SUPABASE_URL + '/functions/v1/paytech-init', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access },
+        body: JSON.stringify({ formule: FORMULE, code_promo: $('code-promo').value.trim() })
+      });
+    }
+    const d = await r.json();
+    if(d.redirect_url){ location.href = d.redirect_url; return; }
+    $('msg-acces').innerHTML = `<div class="avert" style="color:var(--ko)">Paiement indisponible — réessaie dans un instant.</div>`;
+  }catch(e){
+    $('msg-acces').innerHTML = `<div class="avert" style="color:var(--ko)">Connexion impossible — vérifie ton réseau.</div>`;
+  }
+  $('btn-payer').textContent = 'Payer maintenant';
+}
+
+async function verifierApresPaiement(tentative=0){
+  await chargerAbonnement();
+  if(estAbonne()){ majCompte(); afficherAccueil(); allerPage('accueil'); return; }
+  if(tentative < 4){
+    $('msg-acces').innerHTML = `<div class="avert">Activation en cours… (${tentative+1}/5)</div>`;
+    setTimeout(()=>verifierApresPaiement(tentative+1), 4000);
+  } else {
+    $('msg-acces').innerHTML = `<div class="avert" style="color:var(--ko)">Activation non confirmée — si tu as bien payé, réouvre l'app dans une minute.</div>`;
+  }
+}
+
+// retour arrière depuis la page de paiement : remettre le bouton à neuf
+window.addEventListener('pageshow', function(){
+  const b = $('btn-payer'); if(b) b.textContent = 'Payer maintenant';
+});
+
+/* ================= INSTALLATION (guide iPhone uniquement) ================= */
+const estInstallee = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const estIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+function majInstall(){
+  const g = $('guide-ios'), sep = $('sep-guide-ios');
+  const visible = estIOS() && !estInstallee();
+  if(g) g.style.display = visible ? 'inline' : 'none';
+  if(sep) sep.hidden = !visible;
+}
+
+function etapeHtml(num, texte){
+  return '<div class="etape"><span class="num">' + num + '</span><span>' + texte + '</span></div>';
+}
+
+function ouvrirGuideInstall(){
+  let h = '<h3>Installer AURA90\'</h3>';
+  h += etapeHtml('1', 'Touche le bouton <b>Partager</b> (le carré avec la flèche) en bas de Safari');
+  h += etapeHtml('2', 'Choisis <b>« Sur l\'écran d\'accueil »</b>');
+  h += etapeHtml('3', 'Touche <b>Ajouter</b> — l\'icône 90\' apparaît');
+  h += etapeHtml('✓', 'Indispensable sur iPhone pour recevoir les <b>notifications</b>');
+  h += '<button class="btn-fermer-install" onclick="fermerGuideInstall()">Fermer</button>';
+  $('carte-install').innerHTML = h;
+  $('panneau-install').classList.add('actif');
+}
+function fermerGuideInstall(){ $('panneau-install').classList.remove('actif'); }
+
+
+/* ================= COUPONS ================= */
+const CATS = [
+  {cle:'live',      nom:'LIVE',         ico:'🔴'},
+  {cle:'sure',      nom:'Sûre',         ico:'🛡️'},
+  {cle:'score',     nom:'Score exact',  ico:'⚽'},
+  {cle:'confiance', nom:'Confiance',    ico:'🎯'},
+  {cle:'fun',       nom:'Fun',          ico:'🎲'},
+  {cle:'grosses',   nom:'Grosses cotes',ico:'🔥'},
+  {cle:'nuit',      nom:'Nuit',         ico:'🌙'},
+  {cle:'montante',  nom:'Montante',     ico:'📈'},
+];
+let COUPONS = [], SELECTIONS = {}, MONTANTE = [], CAT_ACTIVE = 'sure', COUPONS_CHARGES = false, JOUR_ACTIF = 'auj';
+
+function ecuMini(url, nom){
+  return url ? `<img class="ecu-m" src="${url}" alt="" loading="lazy" onerror="this.style.display='none'">`
+             : `<span class="ecu-m vide">${(nom||'?').slice(0,1)}</span>`;
+}
+
+function jourCourt(d){
+  const j = new Date(d + 'T00:00:00');
+  const auj = new Date(); auj.setHours(0,0,0,0);
+  const ecart = Math.round((j - auj) / 864e5);
+  if(ecart === 0) return "AUJOURD'HUI";
+  if(ecart === 1) return 'DEMAIN';
+  return j.toLocaleDateString('fr-FR', {day:'numeric', month:'short'}).toUpperCase();
+}
+
+const fmtF = n => Math.round(n).toLocaleString('fr-FR').replace(/\u202f|\u00a0/g,' ');
+
+async function sbUser(chemin){
+  const r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/' + chemin, {
+    headers:{ apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer ' + SESSION.access }
+  });
+  if(!r.ok) throw new Error('Supabase ' + r.status);
+  return r.json();
+}
+
+async function chargerCoupons(){
+  const zone = $('zone-coupons');
+  if(!estConnecte()){
+    zone.innerHTML = `<div class="vide">
+      <b style="color:var(--texte);font-size:14px">Les coupons sont réservés aux membres</b><br>
+      Connecte-toi pour voir les combinés du jour construits par le moteur.<br><br>
+      <button class="bouton-aura" style="max-width:260px;margin:0 auto" onclick="allerPage('compte')">Se connecter →</button>
+    </div>`;
+    $('onglets-coupons').innerHTML = ''; return;
+  }
+  if(!estAbonne()){
+    zone.innerHTML = `<div class="vide">
+      <b style="color:var(--aura1);font-size:14px">Réservé aux abonnés PRO</b><br>
+      Chaque matin, le moteur construit ses combinés : sûrs, confiance, fun et grosses cotes.<br><br>
+      <button class="bouton-aura" style="max-width:260px;margin:0 auto" onclick="allerPage('compte')">Passer à PRO →</button>
+    </div>`;
+    $('onglets-coupons').innerHTML = ''; return;
+  }
+  try{
+    const jour = new Date().toISOString().slice(0,10);
+    const [cps, mt] = await Promise.all([
+      sbUser(`coupons?jour=gte.${jour}&order=jour.asc,categorie.asc,numero.asc&select=id,jour,categorie,numero,cote_totale,nb_matchs,statut,note`),
+      sbUser(`montante?order=serie.desc,palier.asc&limit=20&select=serie,palier,coupon_id,mise,gain_vise,statut,jour`)
+    ]);
+    COUPONS = Array.isArray(cps) ? cps : [];
+    MONTANTE = Array.isArray(mt) ? mt : [];
+    if(COUPONS.length){
+      const ids = COUPONS.map(c=>c.id).join(',');
+      const sels = await sbUser(`coupon_selections?coupon_id=in.(${ids})&select=coupon_id,ligue,dom,ext,date_match,heure,logo_dom,logo_ext,marche,selection,cote,confiance,resultat`);
+      SELECTIONS = {};
+      (sels||[]).forEach(s=>{ (SELECTIONS[s.coupon_id] = SELECTIONS[s.coupon_id] || []).push(s); });
+    }
+    COUPONS_CHARGES = true;
+    const auj = new Date().toISOString().slice(0,10);
+    if(!COUPONS.some(c=>c.jour === auj) && COUPONS.some(c=>c.jour > auj)) JOUR_ACTIF = 'demain';
+    dessinerJours();
+    dessinerOnglets();
+    afficherCategorie(CAT_ACTIVE);
+  }catch(e){
+    zone.innerHTML = `<div class="vide">Impossible de charger les coupons pour le moment.</div>`;
+  }
+}
+
+function dessinerJours(){
+  const d = new Date(), dem = new Date(Date.now() + 864e5);
+  const fmt = x => x.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+  $('jours-coupons').innerHTML = `
+    <button class="${JOUR_ACTIF==='auj'?'actif':''}" onclick="choisirJour('auj')">Aujourd'hui<small>${fmt(d).toUpperCase()}</small></button>
+    <button class="${JOUR_ACTIF==='demain'?'actif':''}" onclick="choisirJour('demain')">Demain<small>${fmt(dem).toUpperCase()}</small></button>`;
+}
+
+function choisirJour(j){
+  JOUR_ACTIF = j;
+  dessinerJours();
+  dessinerOnglets();
+  afficherCategorie(CAT_ACTIVE);
+}
+
+function couponsDuJour(){
+  const auj = new Date().toISOString().slice(0,10);
+  return COUPONS.filter(c => JOUR_ACTIF === 'auj' ? c.jour === auj : c.jour > auj);
+}
+
+function dessinerOnglets(){
+  $('onglets-coupons').innerHTML = CATS.map(c=>{
+    const auj0 = new Date().toISOString().slice(0,10);
+    const n = c.cle === 'live' ? 0 : c.cle === 'montante'
+      ? (MONTANTE.some(p => JOUR_ACTIF === 'auj' ? p.jour === auj0 : p.jour > auj0) ? 1 : 0) : couponsDuJour().filter(x=>x.categorie===c.cle && (SELECTIONS[x.id]||[]).length).length;
+    return `<button class="${c.cle===CAT_ACTIVE?'actif':''}" onclick="afficherCategorie('${c.cle}')">${c.ico} ${c.nom}${n?` · ${n}`:''}</button>`;
+  }).join('');
+}
+
+function afficherCategorie(cle){
+  CAT_ACTIVE = cle;
+  document.querySelectorAll('#onglets-coupons button').forEach((b,i)=>b.classList.toggle('actif', CATS[i].cle===cle));
+  if(cle === 'montante'){ afficherMontante(); return; }
+  if(cle === 'live'){ afficherLive(); return; }
+
+  const liste = couponsDuJour().filter(c => c.categorie === cle && (SELECTIONS[c.id]||[]).length);
+
+  const t = $('cp-titre'), st = $('cp-sous');
+  if(t && st){
+    t.textContent = JOUR_ACTIF === 'auj' ? 'Coupons du jour' : 'Coupons de demain';
+    st.textContent = JOUR_ACTIF === 'auj'
+      ? 'Combinés prêts à jouer, construits ce matin par le moteur.'
+      : 'Déjà disponibles — à jouer dès maintenant.';
+  }
+
+  if(!liste.length){
+    const quand = JOUR_ACTIF === 'auj' ? "aujourd'hui" : 'demain';
+    $('zone-coupons').innerHTML = `<div class="vide">Pas de coupon « ${CATS.find(c=>c.cle===cle).nom} » ${quand}.${cle==='nuit'?"<br>Les coupons de nuit couvrent les matchs des Amériques, de 22h à 7h.":"<br>Le moteur publie chaque matin à 5h — et prépare le lendemain en soirée."}</div>`;
+    return;
+  }
+
+  $('zone-coupons').innerHTML = cle === 'score'
+    ? liste.map(c=>carteScore(c)).join('') + `<div class="se-note">Les scores exacts les plus nets du jour selon le moteur. Un match est validé dès qu'un des scores proposés tombe.</div>`
+    : liste.map((c,i)=>carteCoupon(c, i===0)).join('');
+  cascade('#zone-coupons .cp');
+}
+
+let LIVE_DERNIER = 0;   // horodatage du dernier calcul (limite 60 s côté app)
+
+async function afficherLive(){
+  const zone = $('zone-coupons'), t = $('cp-titre'), st = $('cp-sous');
+  if(t && st){ t.textContent = 'Coupons LIVE'; st.textContent = 'Combinés sur les matchs en cours, calculés à l\'instant où tu cliques.'; }
+  let stat = '';
+  try{
+    const p = await sbUser('palmares_live?select=gagnes,verifies');
+    if(p && p[0] && p[0].verifies > 0) stat = `<div class="lv-stat">${p[0].gagnes} validé${p[0].gagnes>1?'s':''} sur ${p[0].verifies} combiné${p[0].verifies>1?'s':''} live vérifié${p[0].verifies>1?'s':''}</div>`;
+  }catch(e){}
+  const reste = Math.max(0, 60 - Math.round((Date.now() - LIVE_DERNIER) / 1000));
+  zone.innerHTML = `
+    <div class="lv-tete">
+      <div class="t"><i></i> LIVE COUPON</div>
+      <div class="s">Le moteur reprend chaque match en cours à la minute et au score actuels, et construit 2 à 3 combinés de 2-3 matchs, cote 1,85 à 3. Une cote live bouge vite : joue-la tout de suite ou recalcule.</div>
+      <button class="bouton-aura" id="lv-btn" onclick="genererLive()" ${reste?'disabled':''}>${reste ? 'Recalcul dans '+reste+' s' : '⚡ Générer mes combinés live'}</button>
+      ${stat}
+    </div>
+    <div id="lv-zone"></div>`;
+  if(reste){ setTimeout(()=>{ if(CAT_ACTIVE==='live') afficherLive(); }, reste*1000); }
+  chargerLiveDuJour();
+}
+
+async function chargerLiveDuJour(){
+  try{
+    const jour = new Date().toISOString().slice(0,10);
+    const rows = await sbUser(`coupons_live?jour=eq.${jour}&order=cree_le.desc,numero.asc&limit=12&select=id,numero,cote_totale,selections,cree_le,statut`);
+    rendreLive(rows, false);
+  }catch(e){}
+}
+
+async function genererLive(){
+  const b = $('lv-btn'); if(!b) return;
+  b.disabled = true; b.textContent = 'Analyse des matchs en cours…';
+  try{
+    let r = await fetch(CONFIG.SUPABASE_URL + '/functions/v1/live', {
+      method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer ' + SESSION.access }, body:'{}'
+    });
+    if(r.status === 401 && await rafraichirSession()){
+      r = await fetch(CONFIG.SUPABASE_URL + '/functions/v1/live', {
+        method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer ' + SESSION.access }, body:'{}'
+      });
+    }
+    const d = await r.json().catch(()=>({erreur:'réponse illisible'}));
+    if(d.erreur){ $('lv-zone').innerHTML = `<div class="lv-msg">${d.erreur}</div>`; b.disabled=false; b.textContent='⚡ Générer mes combinés live'; return; }
+    LIVE_DERNIER = Date.now();
+    if(!d.combos || !d.combos.length){
+      $('lv-zone').innerHTML = `<div class="lv-msg">${d.message || 'Rien à proposer pour l\'instant.'}</div>`;
+    }else{
+      rendreLive(d.combos, true);
+    }
+    afficherLive();
+  }catch(e){
+    $('lv-zone').innerHTML = `<div class="lv-msg">Impossible de joindre le moteur live. Réessaie.</div>`;
+    b.disabled=false; b.textContent='⚡ Générer mes combinés live';
+  }
+}
+
+function rendreLive(rows, nouveaux){
+  const zone = $('lv-zone'); if(!zone || !rows) return;
+  if(!rows.length){ if(nouveaux) zone.innerHTML = `<div class="lv-msg">Aucun combiné live pour l'instant.</div>`; return; }
+  const heure = iso => new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  zone.innerHTML = rows.map(c=>{
+    const sels = c.selections || [];
+    const etat = c.statut==='gagne' ? '<span class="cp-etat g">✓ VALIDÉ</span>' : c.statut==='perdu' ? '<span class="cp-etat p">✗ PERDU</span>' : '<span class="cp-etat">EN COURS</span>';
+    return `
+    <div class="cp ouvert">
+      <div class="cp-tete" onclick="this.parentElement.classList.toggle('ouvert')">
+        <div class="g"><div class="cp-nom">Live ${c.numero} ${etat}</div><div class="cp-sous">${sels.length} MATCHS · calculé à ${heure(c.cree_le)}</div></div>
+        <div class="cp-cote">${Number(c.cote_totale).toFixed(2)}</div>
+      </div>
+      <div class="cp-corps">
+        ${sels.map(s=>`
+        <div class="cp-sel">
+          <div class="g">
+            <div class="lig">${s.ligue||''}<span class="lv-min">${s.minute}' · ${s.score}</span></div>
+            <div class="duel"><span class="eq">${ecuMini(s.logo_dom, s.dom)}<b>${s.dom}</b></span><span class="vs">–</span><span class="eq">${ecuMini(s.logo_ext, s.ext)}<b>${s.ext}</b></span></div>
+            <div class="pick"><span class="fl">▸</span>${s.resultat==='gagne'?'✓ ':s.resultat==='perdu'?'✗ ':''}${s.selection}</div>
+          </div>
+          <div class="c">${Number(s.cote).toFixed(2)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  cascade('#lv-zone .cp');
+}
+
+function carteScore(c){
+  const sels = SELECTIONS[c.id] || [];
+  if(!sels.length) return '';
+  const s0 = sels[0];
+  const etat = c.statut==='gagne' ? '<span class="cp-etat g">✓ TROUVÉ</span>'
+             : c.statut==='perdu' ? '<span class="cp-etat p">✗ RATÉ</span>' : '';
+  return `
+  <div class="cp ouvert" id="cp-${c.id}">
+    <div class="cp-corps" style="padding-top:12px">
+      <div class="cp-sel" style="border-top:0;padding-top:4px">
+        <div class="g">
+          <div class="lig">${s0.ligue||''}${s0.date_match?' · '+jourCourt(s0.date_match):''}${s0.heure?' · '+String(s0.heure).slice(0,5):''} ${etat}</div>
+          <div class="duel">
+            <span class="eq">${ecuMini(s0.logo_dom, s0.dom)}<b>${s0.dom}</b></span>
+            <span class="vs">–</span>
+            <span class="eq">${ecuMini(s0.logo_ext, s0.ext)}<b>${s0.ext}</b></span>
+          </div>
+          <div class="se-scores">
+            ${sels.map(s=>`<span class="se-cap ${s.resultat||''}"><b>${String(s.selection).replace('Score exact ','')}</b><small>${Number(s.cote).toFixed(2)}</small></span>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="cp-actions">
+        <button class="cp-copier" onclick="copierCoupon(${c.id})">Copier</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function carteCoupon(c, ouvert){
+  const sels = SELECTIONS[c.id] || [];
+  const nom = CATS.find(x=>x.cle===c.categorie).nom;
+  const etat = c.statut==='gagne' ? '<span class="cp-etat g">✓ GAGNÉ</span>'
+             : c.statut==='perdu' ? '<span class="cp-etat p">✗ PERDU</span>' : '';
+  return `
+  <div class="cp ${ouvert?'ouvert':''}" id="cp-${c.id}">
+    <div class="cp-tete" onclick="basculerCoupon(${c.id})">
+      <div class="g">
+        <div class="cp-nom">${nom} ${c.numero>1?'#'+c.numero:''} ${etat}</div>
+        <div class="cp-sous">${c.nb_matchs} MATCH${c.nb_matchs>1?'S':''}</div>
+      </div>
+      <div class="cp-cote">${Number(c.cote_totale).toFixed(2)}</div>
+      <span class="cp-fleche">›</span>
+    </div>
+    <div class="cp-corps">
+      ${sels.map(s=>`
+        <div class="cp-sel ${s.resultat||''}">
+          <div class="g">
+            <div class="lig">${s.ligue||''}${s.date_match?' · '+jourCourt(s.date_match):''}${s.heure?' · '+String(s.heure).slice(0,5):''}</div>
+            <div class="duel">
+              <span class="eq">${ecuMini(s.logo_dom, s.dom)}<b>${s.dom}</b></span>
+              <span class="vs">–</span>
+              <span class="eq">${ecuMini(s.logo_ext, s.ext)}<b>${s.ext}</b></span>
+            </div>
+            <div class="pick"><span class="fl">▸</span>${s.selection}</div>
+          </div>
+          <div class="c">${Number(s.cote).toFixed(2)}</div>
+        </div>`).join('')}
+      <div class="cp-gain">
+        <div style="flex:0 0 42%">
+          <label>Ta mise (F)</label>
+          <input type="number" inputmode="numeric" value="1000" oninput="majGain(${c.id}, ${c.cote_totale}, this.value)">
+        </div>
+        <div class="res"><label>Gain potentiel</label><b id="gain-${c.id}">${fmtF(1000*c.cote_totale)} F</b></div>
+      </div>
+      <div class="cp-actions">
+        <button class="cp-copier" onclick="copierCoupon(${c.id})">Copier</button>
+
+      </div>
+    </div>
+  </div>`;
+}
+
+function basculerCoupon(id){ $('cp-'+id).classList.toggle('ouvert'); }
+
+function majGain(id, cote, mise){
+  const m = parseFloat(mise) || 0;
+  $('gain-'+id).textContent = fmtF(m*cote) + ' F';
+}
+
+function copierCoupon(id){
+  const c = COUPONS.find(x=>x.id===id); if(!c) return;
+  const sels = SELECTIONS[id] || [];
+  const nom = CATS.find(x=>x.cle===c.categorie).nom;
+  if(c.categorie === 'score'){
+    const s0 = sels[0];
+    const txt0 = `⚽ SCORE EXACT — AURA90\n\n${s0.dom} – ${s0.ext}\n→ ${sels.map(s=>String(s.selection).replace('Score exact ','')+' ('+Number(s.cote).toFixed(2)+')').join('  ou  ')}\n${location.origin}${location.pathname}`;
+    navigator.clipboard?.writeText(txt0);
+    const b0 = document.querySelector(`#cp-${id} .cp-copier`);
+    if(b0){ const av = b0.textContent; b0.textContent = 'Copié ✓'; setTimeout(()=>b0.textContent = av, 1600); }
+    return;
+  }
+  const txt = `⚡ COUPON ${nom.toUpperCase()}${c.numero>1?' #'+c.numero:''} — AURA90\n\n`
+    + sels.map(s=>`${s.dom} – ${s.ext}\n→ ${s.selection}  (${Number(s.cote).toFixed(2)})`).join('\n\n')
+    + `\n\nCOTE TOTALE : ${Number(c.cote_totale).toFixed(2)}\n${location.origin}${location.pathname}`;
+  navigator.clipboard?.writeText(txt);
+  const b = document.querySelector(`#cp-${id} .cp-copier`);
+  if(b){ const av = b.textContent; b.textContent = 'Copié ✓'; setTimeout(()=>b.textContent = av, 1600); }
+}
+
+function afficherMontante(){
+  const auj = new Date().toISOString().slice(0,10);
+  // on ne montre la montante que le jour où son coupon se joue
+  const pertinents = MONTANTE.filter(p => JOUR_ACTIF === 'auj' ? p.jour === auj : p.jour > auj);
+  if(!pertinents.length){
+    const quand = JOUR_ACTIF === 'auj' ? "aujourd'hui" : 'demain';
+    $('zone-coupons').innerHTML = `<div class="vide">Pas de palier de montante ${quand}.<br>La montante avance d'un palier par jour, tant qu'elle passe — 15 paliers pour boucler une série.</div>`;
+    return;
+  }
+  if(!MONTANTE.length){
+    $('zone-coupons').innerHTML = `<div class="vide">Aucune montante en cours.<br>La prochaine démarre dès que le moteur trouve un coupon à sa main.</div>`;
+    return;
+  }
+  const serie = pertinents[0].serie;
+  const paliers = MONTANTE.filter(p=>p.serie===serie).sort((a,b)=>a.palier-b.palier);
+  const dernier = paliers[paliers.length-1];
+  // Montante en 15 paliers : la série est réussie quand 15 paliers passent d'affilée
+  const PALIERS_MAX = 15;
+  const gagnes = paliers.filter(p=>p.statut==='gagne').length;
+  const pct = Math.min(100, gagnes/PALIERS_MAX*100);
+  const capital = dernier.statut==='gagne' ? dernier.gain_vise : dernier.mise;
+
+  let html = `
+    <div class="mt-obj">
+      <div class="t">MONTANTE N°${serie} — ${PALIERS_MAX} PALIERS</div>
+      <div class="v">${fmtF(capital)} F <span style="color:var(--sourdine);font-size:13px">· palier ${dernier.palier} / ${PALIERS_MAX}</span></div>
+      <div class="s">Départ 5 000 F · ${gagnes} palier${gagnes>1?'s':''} passé${gagnes>1?'s':''}</div>
+      <div class="mt-barre"><i style="width:0%"></i></div>
+    </div>`;
+
+  html += paliers.map(p=>{
+    const c = COUPONS.find(x=>x.id===p.coupon_id);
+    return `
+    <div class="mt-palier ${p.statut}">
+      <div class="n">${p.statut==='gagne'?'✓':p.statut==='perdu'?'✗':p.palier}</div>
+      <div class="g">
+        <div class="m">${fmtF(p.mise)} F → ${fmtF(p.gain_vise)} F</div>
+        <div class="d">Palier ${p.palier} · ${new Date(p.jour+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}${c?` · cote ${Number(c.cote_totale).toFixed(2)}`:''}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const enCours = paliers.find(p=>p.statut==='en_cours');
+  if(enCours){
+    const c = COUPONS.find(x=>x.id===enCours.coupon_id);
+    if(c){
+      html += `<div style="margin:16px 16px 8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--sourdine)">LE COUPON DU PALIER ${enCours.palier}</div>`;
+      html += carteCoupon(c, true);
+    }
+  }
+  $('zone-coupons').innerHTML = html;
+  setTimeout(()=>{ const b = document.querySelector('.mt-barre i'); if(b) b.style.width = pct+'%'; }, 120);
+}
+
+/* ================= PUSH ================= */
+function b64versCle(b64){
+  const pad = '='.repeat((4 - b64.length % 4) % 4);
+  const brut = atob((b64 + pad).replace(/-/g,'+').replace(/_/g,'/'));
+  return Uint8Array.from([...brut].map(c=>c.charCodeAt(0)));
+}
+async function majBoutonPush(){
+  const b = $('btn-push'); if(!b) return;
+  try{
+    if(!('serviceWorker' in navigator) || !('PushManager' in window)){ b.style.display = 'none'; return; }
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if(sub && Notification.permission === 'granted'){
+      b.textContent = '🔔 Notifications activées';
+      // resynchroniser l'enregistrement en base (silencieux)
+      if(SESSION.access && SESSION.uid){
+        const j = sub.toJSON();
+        fetch(CONFIG.SUPABASE_URL + '/rest/v1/push_abonnements?on_conflict=endpoint', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access, Prefer:'resolution=merge-duplicates,return=minimal' },
+          body: JSON.stringify({ user_id: SESSION.uid, endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth })
+        }).catch(()=>{});
+      }
+    } else {
+      b.textContent = '🔔 Activer les notifications';
+    }
+  }catch(e){}
+}
+
+async function activerPush(){
+  const m = $('msg-push');
+  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
+    m.innerHTML = '<div class="avert">Notifications non supportées sur ce navigateur.</div>'; return;
+  }
+  try{
+    const perm = await Notification.requestPermission();
+    if(perm !== 'granted'){ m.innerHTML = '<div class="avert" style="color:var(--ko)">Permission refusée — active-la dans les réglages du navigateur.</div>'; return; }
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: b64versCle(CONFIG.VAPID_PUBLIC) });
+    const j = sub.toJSON();
+    await fetch(CONFIG.SUPABASE_URL + '/rest/v1/push_abonnements?on_conflict=endpoint', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access, Prefer:'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ user_id: SESSION.uid, endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth })
+    });
+    m.innerHTML = '<div class="avert" style="color:var(--aura1)">Notifications activées sur cet appareil ✓</div>';
+    $('btn-push').textContent = '🔔 Notifications activées';
+  }catch(e){
+    m.innerHTML = '<div class="avert" style="color:var(--ko)">Activation impossible — réessaie. (iPhone : installe d\'abord l\'app sur l\'écran d\'accueil.)</div>';
+  }
+}
+
+/* ================= NOTIFICATIONS ================= */
+let NOTIFS = [], LUES = new Set();
+async function chargerNotifs(){
+  if(!estConnecte()){ $('btn-cloche').style.display='none'; return; }
+  try{
+    const h = { apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access };
+    const [rn, rl] = await Promise.all([
+      fetch(CONFIG.SUPABASE_URL + '/rest/v1/notifications?order=cree_le.desc&limit=30&select=id,titre,corps,cree_le', {headers:h}),
+      fetch(CONFIG.SUPABASE_URL + '/rest/v1/notifications_lues?select=notif_id', {headers:h})
+    ]);
+    if(!rn.ok) return;
+    NOTIFS = await rn.json();
+    LUES = new Set((rl.ok ? await rl.json() : []).map(x=>x.notif_id));
+    const nonLues = NOTIFS.filter(n=>!LUES.has(n.id)).length;
+    $('btn-cloche').style.display='';
+    $('notif-dot').style.display = nonLues ? '' : 'none';
+    $('notif-dot').textContent = nonLues > 9 ? '9+' : nonLues;
+  }catch(e){}
+}
+function ouvrirNotifs(){
+  $('liste-notifs').innerHTML = NOTIFS.length ? NOTIFS.map(n=>`
+    <div class="notif ${LUES.has(n.id)?'':'neuve'}">
+      <div class="n-titre"><span>${n.titre}</span><span class="n-date">${new Date(n.cree_le).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</span></div>
+      <div class="n-corps">${n.corps}</div>
+    </div>`).join('') : `<div class="vide">Aucune notification pour l'instant.</div>`;
+  $('panneau-notifs').classList.add('actif');
+  // marquer comme lues
+  const aLire = NOTIFS.filter(n=>!LUES.has(n.id)).map(n=>({ user_id: null, notif_id: n.id }));
+  if(aLire.length){
+    fetch(CONFIG.SUPABASE_URL + '/rest/v1/notifications_lues', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access, Prefer:'return=minimal' },
+      body: JSON.stringify(NOTIFS.filter(n=>!LUES.has(n.id)).map(n=>({ notif_id: n.id, user_id: SESSION.uid })))
+    }).then(()=>{ NOTIFS.forEach(n=>LUES.add(n.id)); $('notif-dot').style.display='none'; }).catch(()=>{});
+  }
+}
+function fermerNotifs(){ $('panneau-notifs').classList.remove('actif'); }
+
+/* ================= PARRAINAGE ================= */
+async function chargerParrainage(){
+  const z = $('zone-parrainage'); if(!z || !estConnecte()) return;
+  try{
+    let r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/stats_parrainage', {
+      method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access },
+      body:'{}'
+    });
+    if(r.status === 401 && await rafraichirSession()){
+      r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/stats_parrainage', {
+        method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access }, body:'{}'
+      });
+    }
+    const s = await r.json();
+    if(!s.code){
+      z.innerHTML = `
+        <div class="avert" style="text-align:left;margin-top:0">Crée ton code (4 à 10 lettres/chiffres). Tu gagnes <b style="color:var(--aura1)">uniquement quand ton filleul paie son abonnement VIP</b> : 1 000 F (mois) ou 2 000 F (3 mois) — et lui bénéficie de la même réduction. Retrait dès 5 000 F.</div>
+        <div class="champ">
+          <input id="nouveau-code" placeholder="TONCODE" maxlength="10" style="text-transform:uppercase" autocomplete="off">
+          <button onclick="creerCode()">Créer</button>
+        </div>
+        <div id="msg-parr"></div>`;
+      return;
+    }
+    const lien = location.origin + location.pathname + '?ref=' + s.code;
+    // graphe 14 jours
+    const jours = {};
+    (s.gains_jour||[]).forEach(g=>{ jours[g.jour] = { v: g.total, f: g.filleuls }; });
+    let barres='', labels='', max=1;
+    const serie=[];
+    for(let i=13;i>=0;i--){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const k = d.toISOString().slice(0,10);
+      const x = jours[k] || { v:0, f:0 };
+      serie.push({ j:d.getDate(), v:x.v, f:x.f });
+      max = Math.max(max, x.v);
+    }
+    serie.forEach(x=>{
+      barres += `<div class="gcol">${x.f ? `<span class="gf">${x.f}</span>` : ''}<div class="gb" style="height:${x.v ? Math.max(6, x.v/max*88) : 2}%" title="${x.v} F · ${x.f} filleul(s)"></div></div>`;
+      labels += `<span>${x.j}</span>`;
+    });
+    const fmtF = n => n >= 1000 ? (n/1000).toLocaleString('fr-FR',{maximumFractionDigits:1}) + 'k' : n;
+    const dispo = s.gains_dispo||0;
+    const retraits = (s.retraits||[]).slice(0,4).map(x=>`
+      <div class="histo-item"><div class="p">${x.montant.toLocaleString('fr-FR')} F<small>${new Date(x.demande_le).toLocaleDateString('fr-FR')}</small></div>
+      <span class="puce ${x.statut==='paye'?'ok':'att'}">${x.statut==='paye'?'✓ PAYÉ':'MARDI'}</span></div>`).join('');
+    z.innerHTML = `
+      <div class="parr-lien" onclick="copierTexte('${s.code}', this)"><span class="lbl">TON CODE</span><span class="val">${s.code}</span></div>
+      <div class="parr-lien" onclick="copierTexte('${lien}', this)"><span class="lbl">TON LIEN</span><span class="val">${lien.replace('https://','')}</span></div>
+      <div class="champ"><button class="bouton-aura" style="margin:0;flex:1" onclick="partagerInvitation('${s.code}')">📤 Inviter et gagner</button></div>
+      <div class="parr-tuiles">
+        <div class="tuile"><div class="v" style="color:var(--aura1)">${dispo.toLocaleString('fr-FR')} F</div><div class="l">Disponible</div></div>
+        <div class="tuile"><div class="v">${(s.gains_total||0).toLocaleString('fr-FR')} F</div><div class="l">Gains totaux</div></div>
+        <div class="tuile"><div class="v">${s.filleuls_mois||0}</div><div class="l">Filleuls · mois</div></div>
+        <div class="tuile"><div class="v">${s.filleuls_3mois||0}</div><div class="l">Filleuls · 3 mois</div></div>
+      </div>
+      <div class="graphe"><div class="g-titre">Gains (F) et filleuls · 14 derniers jours</div>
+        <div class="g-flex">
+          <div class="g-axe"><span>${fmtF(max)}</span><span>${fmtF(Math.round(max/2))}</span><span>0</span></div>
+          <div class="g-corps"><div class="g-barres">${barres}</div><div class="g-jours">${labels}</div></div>
+        </div></div>
+      ${(function(){
+        const lundi = new Date().getDay() === 1;
+        if(dispo >= 5000 && lundi) return `<div class="champ"><input id="num-retrait" placeholder="Numéro Wave pour le versement" inputmode="tel"><button onclick="demanderRetrait()">Effectuer ma demande — ${dispo.toLocaleString('fr-FR')} F</button></div>`;
+        if(dispo >= 5000) return `<div class="avert">💰 <b style="color:var(--aura1)">${dispo.toLocaleString('fr-FR')} F disponibles</b> — les demandes de retrait s'ouvrent chaque <b>lundi</b>, versement le mardi.</div>`;
+        return `<div class="avert">Retrait dès 5 000 F disponibles (gains débloqués 7 jours après chaque paiement). Demandes le lundi, versement le mardi.</div>`;
+      })()}
+      <div id="msg-parr"></div>
+      ${retraits}`;
+  }catch(e){ z.innerHTML = ''; }
+}
+
+async function partagerInvitation(code){
+  const lien = location.origin + location.pathname + '?ref=' + code;
+  const texte = "⚡ Je te recommande AURA90 — l'IA qui analyse chaque match de foot et publie ses pronos AVANT les matchs. Palmarès public, impossible à truquer.\n\n🎁 Inscris-toi avec mon code " + code + " : tu as jusqu'à 2 000 F de réduction sur ton abonnement VIP.\n\n👉 " + lien;
+  if(navigator.share){
+    try{ await navigator.share({ title: 'AURA90', text: texte }); }catch(e){}
+  } else {
+    navigator.clipboard?.writeText(texte).then(()=>{
+      $('msg-parr').innerHTML = '<div class="avert" style="color:var(--aura1)">Message d\'invitation copié ✓ — colle-le où tu veux.</div>';
+    });
+  }
+}
+
+function copierTexte(t, el){
+  navigator.clipboard?.writeText(t).then(()=>{
+    const v = el.querySelector('.val'); const s = v.textContent;
+    v.textContent = 'Copié ✓'; setTimeout(()=>{ v.textContent = s; }, 1400);
+  });
+}
+
+async function creerCode(){
+  const c = $('nouveau-code').value.trim().toUpperCase();
+  const r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/creer_code', {
+    method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access },
+    body: JSON.stringify({ nouveau: c })
+  });
+  const res = await r.json();
+  const msgs = { OK:'', FORMAT:'4 à 10 lettres ou chiffres, sans espace.', PRIS:'Ce code est déjà pris — essaie une variante.', DEJA_UN_CODE:'Tu as déjà un code.' };
+  if(res === 'OK'){ chargerParrainage(); }
+  else $('msg-parr').innerHTML = `<div class="avert" style="color:var(--ko)">${msgs[res]||'Erreur — réessaie.'}</div>`;
+}
+
+async function demanderRetrait(){
+  const num = $('num-retrait').value.trim();
+  if(num.replace(/[^0-9]/g,'').length < 7){ $('msg-parr').innerHTML = `<div class="avert" style="color:var(--ko)">Entre le numéro Wave qui recevra le versement.</div>`; return; }
+  const r = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/demander_retrait', {
+    method:'POST', headers:{ 'Content-Type':'application/json', apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access },
+    body: JSON.stringify({ numero: num })
+  });
+  const res = await r.json();
+  if(res.ok){ $('msg-parr').innerHTML = `<div class="avert" style="color:var(--aura1)">Retrait de ${res.montant.toLocaleString('fr-FR')} F enregistré — versement mardi prochain.</div>`; chargerParrainage(); }
+  else if(res.raison === 'JOUR') $('msg-parr').innerHTML = `<div class="avert" style="color:var(--ko)">Les demandes de retrait s'ouvrent le lundi.</div>`;
+  else $('msg-parr').innerHTML = `<div class="avert" style="color:var(--ko)">Solde insuffisant (minimum 5 000 F).</div>`;
+}
+
+/* ================= ONBOARDING ================= */
+let OB = 1;
+function suivantOnboard(){
+  if(OB >= 3){ finOnboard(); return; }
+  $('ob'+OB).classList.remove('actif');
+  OB++;
+  $('ob'+OB).classList.add('actif');
+  document.querySelectorAll('.ob-points i').forEach((p,i)=>p.classList.toggle('actif', i === OB-1));
+  $('ob-btn').textContent = OB === 3 ? "C'est parti ⚡" : 'Suivant';
+}
+function finOnboard(){
+  localStorage.setItem('aura90_onboard', '1');
+  $('onboard').classList.remove('actif');
+}
+if(!localStorage.getItem('aura90_onboard')){
+  $('onboard').classList.add('actif');   // apparaît à la disparition du splash
+}
+
+/* ================= GO ================= */
+(function(){
+  const sp = $('splash'); if(!sp) return;
+  const chr = $('s-chrono');
+  let fini = false;
+  function terminer(rapide){
+    if(fini) return; fini = true;
+    chr.textContent = "90'";
+    const st = $('s-slogan'); if(st) st.style.opacity = 1;
+    if(rapide){ sp.remove(); return; }
+    sp.classList.add('boom');
+    setTimeout(()=>sp.classList.add('sortie'), 2600);
+    setTimeout(()=>sp.remove(), 3100);
+  }
+  sp.addEventListener('click', ()=>terminer(true));
+  if(ANIM_OFF){ $('s-slogan').style.opacity = 1; setTimeout(()=>terminer(true), 400); return; }
+  const t0 = performance.now() + 350, duree = 1600;
+  requestAnimationFrame(function pas(t){
+    if(fini) return;
+    const p = Math.max(0, Math.min(1,(t-t0)/duree)), e = 1-Math.pow(1-p,2.2);
+    chr.textContent = Math.round(90*e) + "'";
+    sp.querySelector('.s-halo').style.transform = 'scale(' + (0.6 + 0.6*e) + ')';
+    $('s-slogan').style.opacity = e;
+    if(p<1) requestAnimationFrame(pas); else terminer(false);
+  });
+})();
+
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+
+majCompte();
+majInstall();
+charger();
+
+(async function(){
+  // arrivée depuis l'email de réinitialisation ?
+  const h = new URLSearchParams(location.hash.replace(/^#/, ''));
+  if(h.get('access_token') && h.get('type') !== 'recovery'){
+    // retour de connexion Google
+    SESSION.access = h.get('access_token'); SESSION.refresh = h.get('refresh_token');
+    history.replaceState(null,'',location.pathname + location.search);
+    try{
+      const r = await fetch(CONFIG.SUPABASE_URL + '/auth/v1/user', {
+        headers:{ apikey: CONFIG.SUPABASE_KEY, Authorization:'Bearer '+SESSION.access }});
+      const u = await r.json(); SESSION.email = u?.email || null; SESSION.uid = u?.id || null;
+    }catch(_){}
+    sauverSession();
+    await chargerAbonnement();
+    majCompte(); afficherAccueil(); allerPage('compte');
+    return;
+  }
+  if(h.get('type') === 'recovery' && h.get('access_token')){
+    RECOVERY_TOKEN = h.get('access_token');
+    allerPage('compte');
+    $('bloc-auth').style.display='none';
+    $('bloc-recovery').style.display='';
+    history.replaceState(null,'',location.pathname + location.search);
+    return;
+  }
+  // retour de paiement ?
+  const p = new URLSearchParams(location.search).get('paiement');
+  if(p === 'ok'){ allerPage('compte'); if(estConnecte()) verifierApresPaiement(); }
+  else if(p === 'annule'){
+    allerPage('compte');
+    $('msg-acces').innerHTML = `<div class="avert">Paiement annulé — tu peux réessayer quand tu veux.</div>`;
+  }
+  // session existante : rafraîchir + recharger l'abonnement
+  if(estConnecte()){
+    await rafraichirSession();
+    await chargerAbonnement();
+    majCompte(); afficherAccueil();
+  }
+})();
+</script>
+<!-- aura90-v4-sans-jeu · live coupon 25/09 -->
+</body>
+</html>
