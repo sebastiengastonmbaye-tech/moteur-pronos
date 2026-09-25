@@ -52807,83 +52807,83 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1603572,2026-10-11,NS,318,1. Division,2026,AEL,Omonia 29is Maiou,,,16:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/14126.png
 1603577,2026-10-11,NS,318,1. Division,2026,Olympiakos,Aris,,,16:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/3408.png
 1603571,2026-10-12,NS,318,1. Division,2026,AEK Larnaca,Omonia Aradippou,,,16:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3416.png
+1603580,2026-10-17,NS,318,1. Division,2026,Krasava Ypsonas,Karmiotissa,,,15:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3413.png
 1603578,2026-10-17,NS,318,1. Division,2026,Apollon Limassol,Nea Salamis,,,16:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3401.png
-1603581,2026-10-17,NS,318,1. Division,2026,Omonia Nicosia,Olympiakos,,,16:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3415.png
-1603584,2026-10-17,NS,318,1. Division,2026,Pafos,Apoel Nicosia,,,16:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/2247.png
-1603579,2026-10-17,NS,318,1. Division,2026,Aris,AEK Larnaca,,,16:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/614.png
-1603583,2026-10-17,NS,318,1. Division,2026,Omonia Aradippou,AEL,,,16:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3396.png
-1603580,2026-10-17,NS,318,1. Division,2026,Krasava Ypsonas,Karmiotissa,,,16:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3413.png
-1603582,2026-10-17,NS,318,1. Division,2026,Omonia 29is Maiou,Anorthosis,,,16:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/2269.png
-1603585,2026-10-24,NS,318,1. Division,2026,AEK Larnaca,Omonia Nicosia,,,16:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3402.png
-1603588,2026-10-24,NS,318,1. Division,2026,Apoel Nicosia,Omonia 29is Maiou,,,16:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/14126.png
+1603583,2026-10-18,NS,318,1. Division,2026,Omonia Aradippou,AEL,,,15:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3396.png
+1603579,2026-10-18,NS,318,1. Division,2026,Aris,AEK Larnaca,,,16:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/614.png
+1603582,2026-10-18,NS,318,1. Division,2026,Omonia 29is Maiou,Anorthosis,,,16:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/2269.png
+1603584,2026-10-19,NS,318,1. Division,2026,Pafos,Apoel Nicosia,,,15:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/2247.png
+1603581,2026-10-19,NS,318,1. Division,2026,Omonia Nicosia,Olympiakos,,,16:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3415.png
+1603591,2026-10-24,NS,318,1. Division,2026,Olympiakos,Krasava Ypsonas,,,15:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/3424.png
 1603587,2026-10-24,NS,318,1. Division,2026,Anorthosis,Omonia Aradippou,,,16:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3416.png
-1603586,2026-10-24,NS,318,1. Division,2026,AEL,Aris,,,16:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3408.png
-1603590,2026-10-24,NS,318,1. Division,2026,Nea Salamis,Pafos,,,16:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3403.png
-1603589,2026-10-24,NS,318,1. Division,2026,Karmiotissa,Apollon Limassol,,,16:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/602.png
-1603591,2026-10-24,NS,318,1. Division,2026,Olympiakos,Krasava Ypsonas,,,16:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/3424.png
-1603592,2026-10-31,NS,318,1. Division,2026,Apollon Limassol,Pafos,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3403.png
+1603589,2026-10-25,NS,318,1. Division,2026,Karmiotissa,Apollon Limassol,,,15:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/602.png
+1603588,2026-10-25,NS,318,1. Division,2026,Apoel Nicosia,Omonia 29is Maiou,,,16:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/14126.png
+1603586,2026-10-25,NS,318,1. Division,2026,AEL,Aris,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3408.png
+1603590,2026-10-26,NS,318,1. Division,2026,Nea Salamis,Pafos,,,16:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3403.png
+1603585,2026-10-26,NS,318,1. Division,2026,AEK Larnaca,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3402.png
+1603594,2026-10-30,NS,318,1. Division,2026,Karmiotissa,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/3415.png
+1603595,2026-10-31,NS,318,1. Division,2026,Krasava Ypsonas,AEK Larnaca,,,14:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/614.png
+1603592,2026-10-31,NS,318,1. Division,2026,Apollon Limassol,Pafos,,,15:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3403.png
 1603596,2026-10-31,NS,318,1. Division,2026,Omonia Nicosia,AEL,,,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3396.png
-1603593,2026-10-31,NS,318,1. Division,2026,Aris,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/2269.png
-1603594,2026-10-31,NS,318,1. Division,2026,Karmiotissa,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/3415.png
-1603598,2026-10-31,NS,318,1. Division,2026,Omonia Aradippou,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/2247.png
-1603595,2026-10-31,NS,318,1. Division,2026,Krasava Ypsonas,AEK Larnaca,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/614.png
-1603597,2026-10-31,NS,318,1. Division,2026,Omonia 29is Maiou,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3401.png
-1603599,2026-11-07,NS,318,1. Division,2026,AEK Larnaca,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3413.png
-1603602,2026-11-07,NS,318,1. Division,2026,Apoel Nicosia,Aris,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3408.png
-1603601,2026-11-07,NS,318,1. Division,2026,Anorthosis,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3402.png
-1603600,2026-11-07,NS,318,1. Division,2026,AEL,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3424.png
-1603603,2026-11-07,NS,318,1. Division,2026,Nea Salamis,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3416.png
-1603605,2026-11-07,NS,318,1. Division,2026,Pafos,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/14126.png
+1603593,2026-11-01,NS,318,1. Division,2026,Aris,Anorthosis,,,14:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/2269.png
+1603597,2026-11-01,NS,318,1. Division,2026,Omonia 29is Maiou,Nea Salamis,,,15:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3401.png
+1603598,2026-11-01,NS,318,1. Division,2026,Omonia Aradippou,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/2247.png
+1603603,2026-11-06,NS,318,1. Division,2026,Nea Salamis,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3416.png
+1603600,2026-11-07,NS,318,1. Division,2026,AEL,Krasava Ypsonas,,,14:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3424.png
+1603599,2026-11-07,NS,318,1. Division,2026,AEK Larnaca,Karmiotissa,,,15:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3413.png
 1603604,2026-11-07,NS,318,1. Division,2026,Olympiakos,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/602.png
-1603606,2026-11-21,NS,318,1. Division,2026,Apollon Limassol,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/14126.png
-1603611,2026-11-21,NS,318,1. Division,2026,Omonia Nicosia,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/2247.png
+1603601,2026-11-08,NS,318,1. Division,2026,Anorthosis,Omonia Nicosia,,,14:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3402.png
+1603602,2026-11-08,NS,318,1. Division,2026,Apoel Nicosia,Aris,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3408.png
+1603605,2026-11-08,NS,318,1. Division,2026,Pafos,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/14126.png
+1603612,2026-11-21,NS,318,1. Division,2026,Omonia Aradippou,Pafos,,,14:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3403.png
+1603611,2026-11-21,NS,318,1. Division,2026,Omonia Nicosia,Apoel Nicosia,,,15:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/2247.png
 1603607,2026-11-21,NS,318,1. Division,2026,Aris,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/3401.png
-1603608,2026-11-21,NS,318,1. Division,2026,Karmiotissa,AEL,,,17:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/3396.png
-1603610,2026-11-21,NS,318,1. Division,2026,Olympiakos,AEK Larnaca,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/614.png
-1603612,2026-11-21,NS,318,1. Division,2026,Omonia Aradippou,Pafos,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3403.png
-1603609,2026-11-21,NS,318,1. Division,2026,Krasava Ypsonas,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/2269.png
-1603613,2026-11-28,NS,318,1. Division,2026,AEK Larnaca,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/602.png
-1603616,2026-11-28,NS,318,1. Division,2026,Apoel Nicosia,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3424.png
-1603615,2026-11-28,NS,318,1. Division,2026,Anorthosis,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3413.png
-1603614,2026-11-28,NS,318,1. Division,2026,AEL,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3415.png
-1603617,2026-11-28,NS,318,1. Division,2026,Nea Salamis,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3402.png
-1603619,2026-11-28,NS,318,1. Division,2026,Pafos,Aris,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3408.png
-1603618,2026-11-28,NS,318,1. Division,2026,Omonia 29is Maiou,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3416.png
-1603621,2026-12-01,NS,318,1. Division,2026,Apollon Limassol,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3416.png
+1603610,2026-11-22,NS,318,1. Division,2026,Olympiakos,AEK Larnaca,,,13:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/614.png
+1603608,2026-11-22,NS,318,1. Division,2026,Karmiotissa,AEL,,,15:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/3396.png
+1603606,2026-11-22,NS,318,1. Division,2026,Apollon Limassol,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/14126.png
+1603609,2026-11-23,NS,318,1. Division,2026,Krasava Ypsonas,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/2269.png
+1603613,2026-11-27,NS,318,1. Division,2026,AEK Larnaca,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/602.png
+1603614,2026-11-27,NS,318,1. Division,2026,AEL,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/3415.png
+1603618,2026-11-27,NS,318,1. Division,2026,Omonia 29is Maiou,Omonia Aradippou,,,18:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3416.png
+1603616,2026-11-28,NS,318,1. Division,2026,Apoel Nicosia,Krasava Ypsonas,,,16:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3424.png
+1603615,2026-11-28,NS,318,1. Division,2026,Anorthosis,Karmiotissa,,,16:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3413.png
+1603619,2026-11-29,NS,318,1. Division,2026,Pafos,Aris,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3408.png
+1603617,2026-11-30,NS,318,1. Division,2026,Nea Salamis,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3402.png
 1603620,2026-12-01,NS,318,1. Division,2026,AEK Larnaca,AEL,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3396.png
-1603626,2026-12-01,NS,318,1. Division,2026,Omonia Nicosia,Pafos,,,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3403.png
-1603622,2026-12-01,NS,318,1. Division,2026,Aris,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/14126.png
-1603623,2026-12-01,NS,318,1. Division,2026,Karmiotissa,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/2247.png
-1603625,2026-12-01,NS,318,1. Division,2026,Olympiakos,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/2269.png
-1603624,2026-12-01,NS,318,1. Division,2026,Krasava Ypsonas,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3401.png
-1603629,2026-12-05,NS,318,1. Division,2026,Apoel Nicosia,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3415.png
-1603628,2026-12-05,NS,318,1. Division,2026,Anorthosis,AEK Larnaca,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/614.png
-1603627,2026-12-05,NS,318,1. Division,2026,AEL,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/602.png
-1603630,2026-12-05,NS,318,1. Division,2026,Nea Salamis,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3413.png
-1603633,2026-12-05,NS,318,1. Division,2026,Pafos,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3424.png
-1603632,2026-12-05,NS,318,1. Division,2026,Omonia Aradippou,Aris,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3408.png
-1603631,2026-12-05,NS,318,1. Division,2026,Omonia 29is Maiou,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3402.png
-1603636,2026-12-12,NS,318,1. Division,2026,Apollon Limassol,Aris,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3408.png
+1603623,2026-12-02,NS,318,1. Division,2026,Karmiotissa,Apoel Nicosia,,,16:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/2247.png
+1603621,2026-12-02,NS,318,1. Division,2026,Apollon Limassol,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3416.png
+1603625,2026-12-02,NS,318,1. Division,2026,Olympiakos,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/2269.png
+1603622,2026-12-03,NS,318,1. Division,2026,Aris,Omonia 29is Maiou,,,16:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/14126.png
+1603626,2026-12-03,NS,318,1. Division,2026,Omonia Nicosia,Pafos,,,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3403.png
+1603624,2026-12-03,NS,318,1. Division,2026,Krasava Ypsonas,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3401.png
+1603629,2026-12-05,NS,318,1. Division,2026,Apoel Nicosia,Olympiakos,,,16:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/3415.png
+1603633,2026-12-06,NS,318,1. Division,2026,Pafos,Krasava Ypsonas,,,14:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3424.png
+1603627,2026-12-06,NS,318,1. Division,2026,AEL,Apollon Limassol,,,16:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/602.png
+1603632,2026-12-07,NS,318,1. Division,2026,Omonia Aradippou,Aris,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3408.png
+1603628,2026-12-07,NS,318,1. Division,2026,Anorthosis,AEK Larnaca,,,18:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/614.png
+1603631,2026-12-07,NS,318,1. Division,2026,Omonia 29is Maiou,Omonia Nicosia,,,18:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3402.png
+1603630,2026-12-08,NS,318,1. Division,2026,Nea Salamis,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3413.png
+1603638,2026-12-12,NS,318,1. Division,2026,Omonia 29is Maiou,Krasava Ypsonas,,,14:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3424.png
 1603635,2026-12-12,NS,318,1. Division,2026,Apoel Nicosia,AEK Larnaca,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/614.png
-1603634,2026-12-12,NS,318,1. Division,2026,Anorthosis,AEL,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3396.png
-1603637,2026-12-12,NS,318,1. Division,2026,Nea Salamis,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3415.png
-1603640,2026-12-12,NS,318,1. Division,2026,Pafos,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3413.png
-1603639,2026-12-12,NS,318,1. Division,2026,Omonia Aradippou,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3402.png
-1603638,2026-12-12,NS,318,1. Division,2026,Omonia 29is Maiou,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3424.png
-1603641,2026-12-19,NS,318,1. Division,2026,AEK Larnaca,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3401.png
+1603634,2026-12-13,NS,318,1. Division,2026,Anorthosis,AEL,,,14:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3396.png
+1603636,2026-12-13,NS,318,1. Division,2026,Apollon Limassol,Aris,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3408.png
+1603637,2026-12-13,NS,318,1. Division,2026,Nea Salamis,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3415.png
+1603640,2026-12-14,NS,318,1. Division,2026,Pafos,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/3413.png
+1603639,2026-12-15,NS,318,1. Division,2026,Omonia Aradippou,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3402.png
+1603644,2026-12-19,NS,318,1. Division,2026,Karmiotissa,Omonia 29is Maiou,,,15:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/14126.png
 1603643,2026-12-19,NS,318,1. Division,2026,Anorthosis,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/602.png
-1603642,2026-12-19,NS,318,1. Division,2026,AEL,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/2247.png
-1603647,2026-12-19,NS,318,1. Division,2026,Omonia Nicosia,Aris,,,17:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3408.png
-1603644,2026-12-19,NS,318,1. Division,2026,Karmiotissa,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/3413.png,https://media.api-sports.io/football/teams/14126.png
-1603646,2026-12-19,NS,318,1. Division,2026,Olympiakos,Pafos,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/3403.png
-1603645,2026-12-19,NS,318,1. Division,2026,Krasava Ypsonas,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3416.png
-1603649,2027-01-02,NS,318,1. Division,2026,Apollon Limassol,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3402.png
-1603648,2027-01-02,NS,318,1. Division,2026,Apoel Nicosia,Anorthosis,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/2269.png
+1603641,2026-12-20,NS,318,1. Division,2026,AEK Larnaca,Nea Salamis,,,13:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/3401.png
+1603647,2026-12-20,NS,318,1. Division,2026,Omonia Nicosia,Aris,,,15:00,https://media.api-sports.io/football/teams/3402.png,https://media.api-sports.io/football/teams/3408.png
+1603642,2026-12-20,NS,318,1. Division,2026,AEL,Apoel Nicosia,,,17:00,https://media.api-sports.io/football/teams/3396.png,https://media.api-sports.io/football/teams/2247.png
+1603646,2026-12-21,NS,318,1. Division,2026,Olympiakos,Pafos,,,17:00,https://media.api-sports.io/football/teams/3415.png,https://media.api-sports.io/football/teams/3403.png
+1603645,2026-12-21,NS,318,1. Division,2026,Krasava Ypsonas,Omonia Aradippou,,,17:00,https://media.api-sports.io/football/teams/3424.png,https://media.api-sports.io/football/teams/3416.png
+1603648,2027-01-02,NS,318,1. Division,2026,Apoel Nicosia,Anorthosis,,,15:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/2269.png
+1603654,2027-01-02,NS,318,1. Division,2026,Pafos,AEK Larnaca,,,16:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/614.png
 1603651,2027-01-02,NS,318,1. Division,2026,Nea Salamis,AEL,,,17:00,https://media.api-sports.io/football/teams/3401.png,https://media.api-sports.io/football/teams/3396.png
-1603654,2027-01-02,NS,318,1. Division,2026,Pafos,AEK Larnaca,,,17:00,https://media.api-sports.io/football/teams/3403.png,https://media.api-sports.io/football/teams/614.png
-1603650,2027-01-02,NS,318,1. Division,2026,Aris,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/3424.png
-1603653,2027-01-02,NS,318,1. Division,2026,Omonia Aradippou,Karmiotissa,,,17:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3413.png
-1603652,2027-01-02,NS,318,1. Division,2026,Omonia 29is Maiou,Olympiakos,,,17:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3415.png
+1603653,2027-01-03,NS,318,1. Division,2026,Omonia Aradippou,Karmiotissa,,,13:00,https://media.api-sports.io/football/teams/3416.png,https://media.api-sports.io/football/teams/3413.png
+1603652,2027-01-03,NS,318,1. Division,2026,Omonia 29is Maiou,Olympiakos,,,15:00,https://media.api-sports.io/football/teams/14126.png,https://media.api-sports.io/football/teams/3415.png
+1603649,2027-01-03,NS,318,1. Division,2026,Apollon Limassol,Omonia Nicosia,,,17:00,https://media.api-sports.io/football/teams/602.png,https://media.api-sports.io/football/teams/3402.png
+1603650,2027-01-04,NS,318,1. Division,2026,Aris,Krasava Ypsonas,,,17:00,https://media.api-sports.io/football/teams/3408.png,https://media.api-sports.io/football/teams/3424.png
 1603655,2027-01-09,NS,318,1. Division,2026,AEK Larnaca,Omonia 29is Maiou,,,17:00,https://media.api-sports.io/football/teams/614.png,https://media.api-sports.io/football/teams/14126.png
 1603658,2027-01-09,NS,318,1. Division,2026,Apoel Nicosia,Apollon Limassol,,,17:00,https://media.api-sports.io/football/teams/2247.png,https://media.api-sports.io/football/teams/602.png
 1603657,2027-01-09,NS,318,1. Division,2026,Anorthosis,Nea Salamis,,,17:00,https://media.api-sports.io/football/teams/2269.png,https://media.api-sports.io/football/teams/3401.png
@@ -56146,7 +56146,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550979,2026-09-27,NS,262,Liga MX,2026,Tigres UANL,Puebla,,,03:10,https://media.api-sports.io/football/teams/2279.png,https://media.api-sports.io/football/teams/2291.png
 1550981,2026-09-27,NS,262,Liga MX,2026,U.N.A.M. - Pumas,Atletico San Luis,,,18:00,https://media.api-sports.io/football/teams/2286.png,https://media.api-sports.io/football/teams/2314.png
 1550982,2026-09-28,NS,262,Liga MX,2026,Leon,FC Juarez,,,01:00,https://media.api-sports.io/football/teams/2289.png,https://media.api-sports.io/football/teams/2298.png
-1550983,2026-09-28,NS,262,Liga MX,2026,Necaxa,Club America,,,03:00,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2287.png
+1550983,2026-09-28,NS,262,Liga MX,2026,Necaxa,Club America,,,03:10,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2287.png
 1550985,2026-10-10,NS,262,Liga MX,2026,Club Queretaro,Atlante FC,,,01:00,https://media.api-sports.io/football/teams/2290.png,https://media.api-sports.io/football/teams/2312.png
 1550984,2026-10-10,NS,262,Liga MX,2026,Puebla,Leon,,,01:00,https://media.api-sports.io/football/teams/2291.png,https://media.api-sports.io/football/teams/2289.png
 1550986,2026-10-10,NS,262,Liga MX,2026,Tigres UANL,Toluca,,,03:00,https://media.api-sports.io/football/teams/2279.png,https://media.api-sports.io/football/teams/2281.png
@@ -56512,7 +56512,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549790,2026-09-22,FT,239,Primera A,2026,Independiente Medellin,Jaguares,2.0,1.0,23:00,https://media.api-sports.io/football/teams/1128.png,https://media.api-sports.io/football/teams/1133.png
 1549802,2026-09-23,FT,239,Primera A,2026,Santa Fe,Deportivo Cali,0.0,1.0,01:00,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1127.png
 1549793,2026-09-24,FT,239,Primera A,2026,America de Cali,Águilas Doradas,1.0,0.0,00:30,https://media.api-sports.io/football/teams/1138.png,https://media.api-sports.io/football/teams/1144.png
-1549794,2026-09-25,NS,239,Primera A,2026,Atletico Nacional,Millonarios,,,00:30,https://media.api-sports.io/football/teams/1137.png,https://media.api-sports.io/football/teams/1125.png
+1549794,2026-09-25,FT,239,Primera A,2026,Atletico Nacional,Millonarios,1.0,1.0,00:30,https://media.api-sports.io/football/teams/1137.png,https://media.api-sports.io/football/teams/1125.png
 1549795,2026-09-25,NS,239,Primera A,2026,Chico,Deportivo Pasto,,,23:10,https://media.api-sports.io/football/teams/1132.png,https://media.api-sports.io/football/teams/1126.png
 1549800,2026-09-26,NS,239,Primera A,2026,Once Caldas,Bucaramanga,,,01:15,https://media.api-sports.io/football/teams/1136.png,https://media.api-sports.io/football/teams/1131.png
 1549801,2026-09-26,NS,239,Primera A,2026,Deportivo Pereira,Internacional de Bogota,,,21:00,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1134.png
@@ -56776,7 +56776,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1537375,2026-03-25,FT,36,Africa Cup of Nations - Qualification,2027,Eritrea,Eswatini,2.0,0.0,16:00,https://media.api-sports.io/football/teams/1498.png,https://media.api-sports.io/football/teams/2995.png
 1545814,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Algeria,Zambia,,,19:00,https://media.api-sports.io/football/teams/1532.png,https://media.api-sports.io/football/teams/1507.png
 1545815,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Burkina Faso,Benin,,,19:00,https://media.api-sports.io/football/teams/1502.png,https://media.api-sports.io/football/teams/1516.png
-1545816,2026-09-24,2H,36,Africa Cup of Nations - Qualification,2027,Cameroon,Comoros,3.0,1.0,19:00,https://media.api-sports.io/football/teams/1530.png,https://media.api-sports.io/football/teams/1524.png
+1545816,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Cameroon,Comoros,3.0,1.0,19:00,https://media.api-sports.io/football/teams/1530.png,https://media.api-sports.io/football/teams/1524.png
 1545817,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Congo DR,Equatorial Guinea,2.0,0.0,16:00,https://media.api-sports.io/football/teams/1508.png,https://media.api-sports.io/football/teams/1521.png
 1545818,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Egypt,Angola,,,19:00,https://media.api-sports.io/football/teams/32.png,https://media.api-sports.io/football/teams/1529.png
 1545819,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Gambia,Somalia,,,16:00,https://media.api-sports.io/football/teams/1492.png,https://media.api-sports.io/football/teams/8050.png
@@ -56794,7 +56794,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1545831,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Mozambique,Senegal,,,13:00,https://media.api-sports.io/football/teams/1512.png,https://media.api-sports.io/football/teams/13.png
 1545832,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Sierra Leone,Zimbabwe,2.0,3.0,19:00,https://media.api-sports.io/football/teams/1499.png,https://media.api-sports.io/football/teams/1522.png
 1545833,2026-09-26,NS,36,Africa Cup of Nations - Qualification,2027,South Africa,Guinea,,,13:00,https://media.api-sports.io/football/teams/1531.png,https://media.api-sports.io/football/teams/1509.png
-1545834,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Sudan,Ethiopia,,,16:00,https://media.api-sports.io/football/teams/1510.png,https://media.api-sports.io/football/teams/1506.png
+1545834,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Sudan,Ethiopia,,,13:00,https://media.api-sports.io/football/teams/1510.png,https://media.api-sports.io/football/teams/1506.png
 1545835,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Tanzania,Guinea-Bissau,,,13:00,https://media.api-sports.io/football/teams/1489.png,https://media.api-sports.io/football/teams/1513.png
 1545836,2026-09-25,NS,36,Africa Cup of Nations - Qualification,2027,Togo,Burundi,,,16:00,https://media.api-sports.io/football/teams/1534.png,https://media.api-sports.io/football/teams/1528.png
 1545837,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Tunisia,Uganda,1.0,1.0,19:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1519.png
@@ -56918,6 +56918,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1545955,2027-03-28,NS,36,Africa Cup of Nations - Qualification,2027,Tanzania,Madagascar,,,16:00,https://media.api-sports.io/football/teams/1489.png,https://media.api-sports.io/football/teams/1490.png
 1545956,2027-03-28,NS,36,Africa Cup of Nations - Qualification,2027,Togo,Zambia,,,16:00,https://media.api-sports.io/football/teams/1534.png,https://media.api-sports.io/football/teams/1507.png
 1545957,2027-03-28,NS,36,Africa Cup of Nations - Qualification,2027,Tunisia,Botswana,,,16:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1520.png
+1640059,2026-09-25,1H,10,Friendlies,2026,Poland U17,Czechia U17,0.0,0.0,09:00,https://media.api-sports.io/football/teams/17970.png,https://media.api-sports.io/football/teams/17947.png
+1640060,2026-09-25,1H,10,Friendlies,2026,Poland U19,Switzerland U19,0.0,0.0,09:30,https://media.api-sports.io/football/teams/10376.png,https://media.api-sports.io/football/teams/10350.png
 1514456,2026-01-27,CANC,10,Friendlies,2026,Qatar U20,Lusail City,,,13:30,https://media.api-sports.io/football/teams/10300.png,https://media.api-sports.io/football/teams/7527.png
 1514457,2026-01-30,CANC,10,Friendlies,2026,Qatar U20,Pakhtakor,,,13:30,https://media.api-sports.io/football/teams/10300.png,https://media.api-sports.io/football/teams/4220.png
 1514458,2026-02-02,CANC,10,Friendlies,2026,Qatar U20,Pakhtakor,,,13:30,https://media.api-sports.io/football/teams/10300.png,https://media.api-sports.io/football/teams/4220.png
@@ -56965,6 +56967,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550834,2026-07-26,CANC,10,Friendlies,2026,Minnesota United FC,Liberia,,,22:00,https://media.api-sports.io/football/teams/1612.png,https://media.api-sports.io/football/teams/1525.png
 1638590,2026-09-24,CANC,10,Friendlies,2026,Turkmenistan,New Zealand,,,08:30,https://media.api-sports.io/football/teams/1539.png,https://media.api-sports.io/football/teams/4673.png
 1638592,2026-09-28,CANC,10,Friendlies,2026,Turkmenistan,Palestine,,,09:30,https://media.api-sports.io/football/teams/1539.png,https://media.api-sports.io/football/teams/1562.png
+1637604,2026-10-02,CANC,10,Friendlies,2026,China,Turkmenistan,,,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/1539.png
 1501830,2026-01-01,FT,10,Friendlies,2026,Jordan U23,Japan U23,1.0,1.0,13:00,https://media.api-sports.io/football/teams/10938.png,https://media.api-sports.io/football/teams/10176.png
 1503634,2026-01-07,FT,10,Friendlies,2026,UAE U20,Iraq U20,0.0,1.0,12:00,https://media.api-sports.io/football/teams/19632.png,https://media.api-sports.io/football/teams/19626.png
 1503635,2026-01-10,FT,10,Friendlies,2026,UAE U20,Iraq U20,0.0,2.0,12:00,https://media.api-sports.io/football/teams/19632.png,https://media.api-sports.io/football/teams/19626.png
@@ -57534,9 +57537,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1640057,2026-09-24,FT,10,Friendlies,2026,China,Maldives,3.0,0.0,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/1549.png
 1638591,2026-09-24,FT,10,Friendlies,2026,Uzbekistan,Iran,3.0,1.0,14:00,https://media.api-sports.io/football/teams/1568.png,https://media.api-sports.io/football/teams/22.png
 1640503,2026-09-24,FT,10,Friendlies,2026,Romania U19,Hungary U19,1.0,2.0,14:00,https://media.api-sports.io/football/teams/10378.png,https://media.api-sports.io/football/teams/10365.png
-1640058,2026-09-25,NS,10,Friendlies,2026,Finland U17,France U17,,,08:00,https://media.api-sports.io/football/teams/17952.png,https://media.api-sports.io/football/teams/12507.png
-1640059,2026-09-25,NS,10,Friendlies,2026,Poland U17,Czechia U17,,,09:00,https://media.api-sports.io/football/teams/17970.png,https://media.api-sports.io/football/teams/17947.png
-1640060,2026-09-25,NS,10,Friendlies,2026,Poland U19,Switzerland U19,,,09:30,https://media.api-sports.io/football/teams/10376.png,https://media.api-sports.io/football/teams/10350.png
+1640058,2026-09-25,FT,10,Friendlies,2026,Finland U17,France U17,1.0,0.0,08:00,https://media.api-sports.io/football/teams/17952.png,https://media.api-sports.io/football/teams/12507.png
 1583655,2026-09-25,NS,10,Friendlies,2026,Australia,Brazil,,,10:00,https://media.api-sports.io/football/teams/20.png,https://media.api-sports.io/football/teams/6.png
 1640824,2026-09-25,NS,10,Friendlies,2026,Austria U18,Japan U18,,,13:00,https://media.api-sports.io/football/teams/21460.png,https://media.api-sports.io/football/teams/22431.png
 1637600,2026-09-25,NS,10,Friendlies,2026,India,Panama,,,14:00,https://media.api-sports.io/football/teams/1537.png,https://media.api-sports.io/football/teams/11.png
@@ -57581,8 +57582,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1632352,2026-09-30,NS,10,Friendlies,2026,Netherlands U19,Austria U19,,,12:00,https://media.api-sports.io/football/teams/10340.png,https://media.api-sports.io/football/teams/10326.png
 1640070,2026-09-30,NS,10,Friendlies,2026,Seychelles,Sri Lanka,,,13:00,https://media.api-sports.io/football/teams/1515.png,https://media.api-sports.io/football/teams/5166.png
 1610878,2026-09-30,NS,10,Friendlies,2026,Lithuania,Andorra,,,16:00,https://media.api-sports.io/football/teams/1097.png,https://media.api-sports.io/football/teams/1110.png
-1640511,2026-09-30,NS,10,Friendlies,2026,Argentina,Bolivia,,,20:00,https://media.api-sports.io/football/teams/26.png,https://media.api-sports.io/football/teams/2381.png
 1632353,2026-09-30,NS,10,Friendlies,2026,Panama,New Zealand,,,23:10,https://media.api-sports.io/football/teams/11.png,https://media.api-sports.io/football/teams/4673.png
+1640511,2026-10-01,NS,10,Friendlies,2026,Argentina,Bolivia,,,00:00,https://media.api-sports.io/football/teams/26.png,https://media.api-sports.io/football/teams/2381.png
 1640071,2026-10-01,NS,10,Friendlies,2026,Cook Islands,Tahiti,,,02:00,https://media.api-sports.io/football/teams/8174.png,https://media.api-sports.io/football/teams/5167.png
 1640072,2026-10-01,NS,10,Friendlies,2026,Poland U19,Kazakhstan U19,,,09:30,https://media.api-sports.io/football/teams/10376.png,https://media.api-sports.io/football/teams/10367.png
 1638595,2026-10-01,NS,10,Friendlies,2026,Venezuela U17,England U17,,,09:30,https://media.api-sports.io/football/teams/21213.png,https://media.api-sports.io/football/teams/17949.png
@@ -57591,7 +57592,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1640829,2026-10-02,NS,10,Friendlies,2026,Wales U19,Norway U19,,,10:00,https://media.api-sports.io/football/teams/10353.png,https://media.api-sports.io/football/teams/10342.png
 1640513,2026-10-02,NS,10,Friendlies,2026,Hungary U18,Algeria U18,,,10:30,https://media.api-sports.io/football/teams/22498.png,https://media.api-sports.io/football/teams/19068.png
 1629003,2026-10-02,NS,10,Friendlies,2026,South Korea,Venezuela,,,11:00,https://media.api-sports.io/football/teams/17.png,https://media.api-sports.io/football/teams/2379.png
-1637604,2026-10-02,NS,10,Friendlies,2026,China,Turkmenistan,,,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/1539.png
 1637598,2026-10-02,NS,10,Friendlies,2026,China,Palestine,,,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/1562.png
 1640074,2026-10-02,NS,10,Friendlies,2026,Congo DR,Uganda,,,12:00,https://media.api-sports.io/football/teams/1508.png,https://media.api-sports.io/football/teams/1519.png
 1637605,2026-10-02,NS,10,Friendlies,2026,England U19,USA U19,,,14:00,https://media.api-sports.io/football/teams/10332.png,https://media.api-sports.io/football/teams/25282.png
