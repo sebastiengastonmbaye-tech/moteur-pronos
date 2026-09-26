@@ -47584,6 +47584,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563631,2027-05-01,NS,40,Championship,2026,Swansea,Middlesbrough,,,11:30,https://media.api-sports.io/football/teams/76.png,https://media.api-sports.io/football/teams/70.png
 1563626,2027-05-01,NS,40,Championship,2026,Lincoln,Charlton,,,11:30,https://media.api-sports.io/football/teams/1379.png,https://media.api-sports.io/football/teams/1335.png
 1563634,2027-05-01,NS,40,Championship,2026,Wrexham,Bristol City,,,11:30,https://media.api-sports.io/football/teams/1837.png,https://media.api-sports.io/football/teams/56.png
+1569939,2026-09-26,1H,141,Segunda División,2026,AD Ceuta FC,Real Sociedad II,0.0,0.0,12:00,https://media.api-sports.io/football/teams/10139.png,https://media.api-sports.io/football/teams/9585.png
 1569881,2026-08-14,FT,141,Segunda División,2026,Real Sociedad II,Castellón,0.0,1.0,18:30,https://media.api-sports.io/football/teams/9585.png,https://media.api-sports.io/football/teams/5254.png
 1569872,2026-08-15,FT,141,Segunda División,2026,FC Andorra,AD Ceuta FC,5.0,1.0,15:00,https://media.api-sports.io/football/teams/8157.png,https://media.api-sports.io/football/teams/10139.png
 1569880,2026-08-15,FT,141,Segunda División,2026,Oviedo,Granada CF,0.0,0.0,17:00,https://media.api-sports.io/football/teams/718.png,https://media.api-sports.io/football/teams/715.png
@@ -47651,7 +47652,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1569927,2026-09-20,FT,141,Segunda División,2026,Almeria,Celta de Vigo II,2.0,0.0,16:30,https://media.api-sports.io/football/teams/723.png,https://media.api-sports.io/football/teams/9571.png
 1569934,2026-09-20,FT,141,Segunda División,2026,Leganes,Granada CF,3.0,2.0,19:00,https://media.api-sports.io/football/teams/537.png,https://media.api-sports.io/football/teams/715.png
 1569941,2026-09-25,FT,141,Segunda División,2026,Girona,Albacete,2.0,0.0,18:30,https://media.api-sports.io/football/teams/547.png,https://media.api-sports.io/football/teams/722.png
-1569939,2026-09-26,NS,141,Segunda División,2026,AD Ceuta FC,Real Sociedad II,,,12:00,https://media.api-sports.io/football/teams/10139.png,https://media.api-sports.io/football/teams/9585.png
 1569942,2026-09-26,NS,141,Segunda División,2026,Granada CF,FC Andorra,,,14:15,https://media.api-sports.io/football/teams/715.png,https://media.api-sports.io/football/teams/8157.png
 1569946,2026-09-26,NS,141,Segunda División,2026,Tenerife,Cadiz,,,16:30,https://media.api-sports.io/football/teams/719.png,https://media.api-sports.io/football/teams/724.png
 1569938,2026-09-26,NS,141,Segunda División,2026,Celta de Vigo II,Sabadell,,,16:30,https://media.api-sports.io/football/teams/9571.png,https://media.api-sports.io/football/teams/9593.png
