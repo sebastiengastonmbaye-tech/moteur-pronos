@@ -96,7 +96,7 @@ PROFILS_TIKTOK = {
                    cote_sel_min=1.15, cote_sel_max=1.80, p_sel_min=0.55, p_coupon_min=1e-6),
     "mixte":  dict(cote_min=90.0, cote_max=350.0, legs_min=10, legs_max=13,
                    cote_sel_min=1.25, cote_sel_max=2.40, p_sel_min=0.45, p_coupon_min=1e-6),
-    "valeur": dict(cote_min=90.0, cote_max=500.0, legs_min=10, legs_max=12,
+    "valeur": dict(cote_min=90.0, cote_max=200.0, legs_min=10, legs_max=12,
                    cote_sel_min=1.45, cote_sel_max=3.00, p_sel_min=0.38, p_coupon_min=1e-6, valeur=True),
 }
 
