@@ -55,37 +55,74 @@ CATEGORIES = {
     # (victoire ≥ 70 %, double chance ≥ 80 %, buts/BTTS ≥ 70 %). Ce sont les
     # mêmes analyses que celles qui font 85 % au palmarès. Deux sélections de
     # ce niveau, c'est le maximum de fiabilité possible pour un combiné.
+    #
+    # beta : ce que l'optimiseur maximise (voir construire_un_coupon)
+    #   0   → probabilité pure du coupon (catégories prudentes)
+    #   1   → probabilité rapportée à la cote (catégories offensives)
+    # zones : plages de recherche successives (1er coupon, 2e, 3e…), la cible
+    #   n'est qu'un départage final ; table_legs : applique la table cote → matchs
     "sure": dict(
         cote_min=1.45, cote_max=2.40, legs_min=2, legs_max=2,
         cote_sel_min=1.12, cote_sel_max=1.60, p_sel_min=0.62,
         moteur_min=0.70, moteur_min_dc=0.80,
-        p_coupon_min=0.42, max_coupons=3),
+        p_coupon_min=0.42, max_coupons=3, beta=0.0, table_legs=True,
+        repli=dict(p_sel_min=0.66, moteur_min=0.60, moteur_min_dc=0.74,
+                   cote_sel_max=1.55, p_coupon_min=0.40, europe_ok=True)),
     "confiance": dict(
-        cote_min=3.00, cote_max=10.0, legs_min=2, legs_max=4,
+        cote_min=2.60, cote_max=7.50, legs_min=2, legs_max=6,
         cote_sel_min=1.25, cote_sel_max=2.20, p_sel_min=0.45,
-        p_coupon_min=0.12, max_coupons=3, cibles=[3.0, 4.5, 6.0]),
+        p_coupon_min=0.12, max_coupons=3, beta=0.5, table_legs=True,
+        zones=[(2.6, 3.6, 3.0), (3.8, 5.2, 4.5), (5.2, 7.5, 6.0)]),
     "fun": dict(
-        cote_min=10.0, cote_max=22.0, legs_min=3, legs_max=5,
+        cote_min=8.0, cote_max=18.0, legs_min=4, legs_max=7,
         cote_sel_min=1.30, cote_sel_max=2.60, p_sel_min=0.38,
-        p_coupon_min=0.05, max_coupons=2, valeur=True, cibles=[10.0, 15.0]),
-    # GROSSES COTES : le 1er coupon vise ≥ 35, le 2e ≥ 70 (fourchette 30-150)
+        p_coupon_min=0.05, max_coupons=2, valeur=True, beta=1.0, table_legs=True,
+        zones=[(8.0, 12.0, 10.0), (12.0, 18.0, 15.0)]),
+    # GROSSES COTES : 1er coupon dans 30-45, 2e dans 60-90
     "grosses": dict(
-        cote_min=30.0, cote_max=150.0, legs_min=3, legs_max=7,
+        cote_min=30.0, cote_max=90.0, legs_min=7, legs_max=11,
         cote_sel_min=1.40, cote_sel_max=3.00, p_sel_min=0.33,
-        p_coupon_min=0.006, max_coupons=2, valeur=True, cibles=[35.0, 70.0]),
+        p_coupon_min=0.006, max_coupons=2, valeur=True, beta=1.0, table_legs=True,
+        zones=[(30.0, 45.0, 35.0), (60.0, 90.0, 70.0)]),
     "montante": dict(
         cote_min=1.40, cote_max=1.80, legs_min=1, legs_max=2,
         cote_sel_min=1.15, cote_sel_max=1.60, p_sel_min=0.65,
         moteur_min=0.70, moteur_min_dc=0.80,
-        p_coupon_min=0.55, max_coupons=1),
+        p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
+        repli=dict(p_sel_min=0.68, moteur_min=0.60, moteur_min_dc=0.75,
+                   p_coupon_min=0.52, europe_ok=True)),
     "nuit": dict(
-        cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=3,
+        cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
-        p_coupon_min=0.20, max_coupons=3),
+        p_coupon_min=0.20, max_coupons=3, beta=0.0, table_legs=True),
 }
-# NB : le constructeur se place toujours au plus près de la cible (c'est là que
-# les chances sont maximales). « cibles » échelonne les coupons d'une même
-# catégorie : le 1er vise la 1re valeur, le 2e la 2e, etc.
+
+# SÛRE / MONTANTE — palier de REPLI (28/09) : si aucune combinaison ne passe
+# le niveau « prono signé », on accepte des favoris nets pour le marché
+# (probabilité fusionnée ≥ 66-68 %) sur lesquels le moteur n'est pas en
+# désaccord (≥ 60 %, double chance ≥ 74-75 %), coupes d'Europe comprises.
+# Toujours plus strict que Confiance ; jamais de remplissage.
+
+# Nombre de sélections cohérent avec la cote totale (table de Babs, 25/09).
+# Plages de construction : l'optimiseur choisit dans la plage, jamais au-delà.
+TABLE_LEGS = [
+    (0.0,   2.0,   1, 2),
+    (2.0,   3.0,   2, 3),
+    (3.0,   5.0,   3, 4),
+    (5.0,   10.0,  4, 6),
+    (10.0,  20.0,  5, 7),
+    (20.0,  50.0,  7, 9),
+    (50.0,  100.0, 8, 11),
+    (100.0, 150.0, 10, 13),
+    (150.0, 1e9,   10, 15),
+]
+
+
+def plage_legs(cote):
+    for a, b, lo, hi in TABLE_LEGS:
+        if a <= cote < b:
+            return lo, hi
+    return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
 ORDRE_JOUR = ["sure", "confiance", "fun", "grosses", "montante"]
@@ -231,7 +268,7 @@ def _valide(coupon, r):
 def _eligibles(selections, cat, r, utilises, codes_par_match):
     out = []
     for s in selections:
-        if cat in CATEGORIES_PRUDENCE and s["ligue"] in LIGUES_PRUDENCE:
+        if cat in CATEGORIES_PRUDENCE and s["ligue"] in LIGUES_PRUDENCE and not r.get("europe_ok"):
             continue
         if not (r["cote_sel_min"] <= s["cote"] <= r["cote_sel_max"]):
             continue
@@ -250,97 +287,116 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
     return out
 
 
+PAS_LOG = 0.004        # finesse de la grille de cote (0,4 % par case)
+TOLERANCE_EGALITE = 0.97   # scores à moins de 3 % : départage par le nombre de matchs
+MAX_PAR_MATCH = 4          # sélections candidates gardées par match
+
+
 def construire_un_coupon(candidats, r):
     """
-    Combinaison qui MAXIMISE la probabilité de passer dans la fourchette de
-    cote. On commence par le plus petit nombre de sélections : pour n ≤ 3 on
-    énumère les combinaisons des meilleurs candidats ; au-delà, glouton puis
-    amélioration par échanges. On s'arrête au premier n qui donne un coupon
-    valide (moins de sélections = moins de marges payées).
+    Optimiseur de combinaison (remplace l'ancien glouton + « réparation »).
+
+    Parmi les sélections éligibles, cherche la combinaison qui MAXIMISE
+
+        score = P_coupon × cote_totale ^ beta
+
+    sous les contraintes : cote totale dans [cote_min, cote_max], un seul match
+    par coupon, nombre de sélections dans [legs_min, legs_max] ET dans la plage
+    de la table cote → matchs.
+
+      beta = 0  : probabilité pure (Sûre, Montante, Nuit)
+      beta = 1  : probabilité rapportée à la cote (Fun, Grosses). Sans ce
+                  rapport, « maximiser la probabilité dans une plage » revient à
+                  toujours prendre la plus petite cote de la plage.
+
+    Méthode : programmation dynamique exacte sur une grille de cote (sac à dos
+    par groupes : au plus une sélection par match). Tous les nombres de matchs
+    sont comparés entre eux — rien n'est ajouté ni remplacé pour « atteindre »
+    une cote. Départage : score (à 3 % près) → moins de matchs → proximité de
+    la cible. Retourne None si aucune combinaison ne passe les seuils.
     """
     if not candidats:
         return None
+    import numpy as np
 
-    def efficacite(s):        # cote gagnée par unité de probabilité perdue
-        return math.log(s["cote"]) / max(-math.log(s["p"]), 1e-9)
-    if r.get("valeur"):        # catégories offensives : la valeur d'abord
-        tri = sorted(candidats, key=lambda s: (s["valeur"], s["p"]), reverse=True)
-    else:
-        tri = sorted(candidats, key=lambda s: (efficacite(s), s["p"]), reverse=True)
+    beta = float(r.get("beta", 1.0 if r.get("valeur") else 0.0))
+    cmin, cmax = float(r["cote_min"]), float(r["cote_max"])
+    lmin, lmax = int(r["legs_min"]), int(r["legs_max"])
+    cible = float(r.get("cible") or math.sqrt(cmin * cmax))
+    avec_table = bool(r.get("table_legs"))
 
-    meilleur, meilleur_p = None, 0.0
-    for n in range(r["legs_min"], r["legs_max"] + 1):
-        if n <= 3:
-            pool = tri[:20]
-            for combo in combinations(pool, n):
-                combo = list(combo)
-                if _valide(combo, r):
-                    p = _score(combo)
-                    if p > meilleur_p:
-                        meilleur, meilleur_p = combo, p
-        else:
-            # cote « idéale » par sélection pour atteindre la cible en n matchs :
-            # on privilégie les sélections les plus probables autour de cette cote,
-            # au lieu d'empiler d'abord les plus grosses cotes
-            cible_leg = (r["cote_min"] * 1.25) ** (1.0 / n)
-            def proche(s):
-                return abs(math.log(s["cote"]) - math.log(cible_leg)) <= math.log(1.6)
-            ordre_n = sorted(tri, key=lambda s: (not proche(s), -s["p"]))
-            coupon, vus = [], set()
-            for s in ordre_n:
-                if len(coupon) >= n:
-                    break
-                if s["fixture_id"] in vus or _cote(coupon) * s["cote"] > r["cote_max"]:
-                    continue
-                coupon.append(s); vus.add(s["fixture_id"])
-            # réparation : si la cote cible n'est pas atteinte, on remplace les
-            # sélections à plus petite cote par les meilleures sélections plus cotées
-            essais = 0
-            while len(coupon) == n and _cote(coupon) < r["cote_min"] and essais < 3 * n:
-                essais += 1
-                plus_basse = min(coupon, key=lambda s: s["cote"])
-                autres = {c["fixture_id"] for c in coupon if c is not plus_basse}
-                candidats_hauts = [s for s in tri if s not in coupon and s["fixture_id"] not in autres
-                                   and s["cote"] > plus_basse["cote"] * 1.05]
-                if not candidats_hauts:
-                    break
-                # la plus probable parmi celles qui rapprochent le plus de la cible
-                manque = r["cote_min"] / _cote(coupon) * plus_basse["cote"]
-                candidats_hauts.sort(key=lambda s: (abs(math.log(s["cote"]) - math.log(manque)), -s["p"]))
-                remplacant = candidats_hauts[0]
-                essai = [remplacant if c is plus_basse else c for c in coupon]
-                if _cote(essai) > r["cote_max"]:
-                    break
-                coupon = essai
-            if _valide(coupon, r):
-                ameliore = True
-                while ameliore:
-                    ameliore = False
-                    for i in range(len(coupon)):
-                        autres = {c["fixture_id"] for j, c in enumerate(coupon) if j != i}
-                        for s in tri:
-                            if s in coupon or s["fixture_id"] in autres:
-                                continue
-                            essai = coupon[:i] + [s] + coupon[i + 1:]
-                            if _valide(essai, r) and _score(essai) > _score(coupon) * 1.001:
-                                coupon, ameliore = essai, True
-                                break
-                        if ameliore:
-                            break
-                p = _score(coupon)
-                if p > meilleur_p:
-                    meilleur, meilleur_p = coupon, p
-        if meilleur is not None:
-            break
-    if meilleur is None or meilleur_p < r["p_coupon_min"]:
+    # candidats regroupés par match, les meilleurs de chaque match seulement
+    def valeur_leg(s):
+        return math.log(s["p"]) + beta * math.log(s["cote"])
+    groupes = {}
+    for s in candidats:
+        if s["cote"] <= 1.0 or s["p"] <= 0:
+            continue
+        groupes.setdefault(s["fixture_id"], []).append(s)
+    groupes = [sorted(g, key=valeur_leg, reverse=True)[:MAX_PAR_MATCH] for g in groupes.values()]
+    if len(groupes) < lmin:
         return None
-    return {"selections": meilleur, "cote_totale": round(_cote(meilleur), 2),
-            "p_estimee": round(meilleur_p, 4)}
 
+    B = int(math.ceil(math.log(cmax) / PAS_LOG)) + lmax + 2
+    N = lmax
+    NEG = -1e18
+    meilleur = np.full((N + 1, B), NEG)
+    meilleur[0, 0] = 0.0
+    choix = []            # par match : indice de la sélection retenue (0 = aucune)
+    for g in groupes:
+        nouv = meilleur.copy()
+        ch = np.zeros((N + 1, B), dtype=np.int8)
+        for i, s in enumerate(g, 1):
+            w = int(round(math.log(s["cote"]) / PAS_LOG))
+            if w <= 0 or w >= B:
+                continue
+            cand = np.full((N + 1, B), NEG)
+            cand[1:, w:] = meilleur[:-1, :B - w] + valeur_leg(s)
+            masque = cand > nouv
+            nouv[masque] = cand[masque]
+            ch[masque] = i
+        meilleur = nouv
+        choix.append(ch)
 
-# ---------------------------------------------------------------------------
-# 3. TOUS LES COUPONS
-# ---------------------------------------------------------------------------
+    def reconstruire(n, b):
+        sels = []
+        for k in range(len(groupes) - 1, -1, -1):
+            i = int(choix[k][n, b])
+            if i:
+                s = groupes[k][i - 1]
+                sels.append(s)
+                n -= 1
+                b -= int(round(math.log(s["cote"]) / PAS_LOG))
+        return sels[::-1]
+
+    # toutes les solutions optimales par (nombre de matchs, case de cote) dans la plage
+    b_lo = max(0, int(math.floor(math.log(cmin) / PAS_LOG)) - lmax)
+    b_hi = min(B - 1, int(math.ceil(math.log(cmax) / PAS_LOG)) + lmax)
+    valides = []
+    for n in range(max(1, lmin), lmax + 1):
+        lignes = meilleur[n, b_lo:b_hi + 1]
+        for db in np.nonzero(lignes > NEG / 2)[0]:
+            sels = reconstruire(n, b_lo + int(db))
+            if len(sels) != n:
+                continue
+            c, p = _cote(sels), _score(sels)
+            if not (cmin <= c <= cmax):
+                continue
+            if avec_table:
+                lo, hi = plage_legs(c)
+                if not (lo <= n <= hi):
+                    continue
+            if p < r["p_coupon_min"] or not _valide(sels, r):
+                continue
+            valides.append((p * c ** beta, n, abs(math.log(c / cible)), p, c, sels))
+    if not valides:
+        return None
+
+    top = max(v[0] for v in valides)
+    proches = [v for v in valides if v[0] >= top * TOLERANCE_EGALITE]
+    score, n, dist, p, c, sels = min(proches, key=lambda v: (v[1], v[2], -v[0]))
+    return {"selections": sels, "cote_totale": round(c, 2), "p_estimee": round(p, 4)}
+
 
 def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
     """
@@ -366,10 +422,17 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
                 continue
             if compte[cat] >= plafond(cat):
                 epuisees.add(cat); continue
-            if r.get("cibles"):           # 1er coupon vise la 1re cible, 2e la 2e…
-                r["cote_min"] = r["cibles"][min(compte[cat], len(r["cibles"]) - 1)]
+            if r.get("zones"):            # 1er coupon cherche dans la 1re zone, 2e dans la 2e…
+                zmin, zmax, zcible = r["zones"][min(compte[cat], len(r["zones"]) - 1)]
+                r["cote_min"], r["cote_max"], r["cible"] = zmin, zmax, zcible
             cands = _eligibles(selections, cat, r, utilises, codes_par_match)
             coupon = construire_un_coupon(cands, r)
+            if coupon is None and r.get("repli"):
+                r2 = {**r, **r["repli"]}
+                cands = _eligibles(selections, cat, r2, utilises, codes_par_match)
+                coupon = construire_un_coupon(cands, r2)
+                if coupon is not None:
+                    journal(f"   ↪ {cat} : palier de repli (favoris nets du marché)")
             if coupon is None:
                 epuisees.add(cat)
                 if compte[cat] == 0:
