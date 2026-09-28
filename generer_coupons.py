@@ -452,7 +452,33 @@ def verifier():
 # ==================================================================
 # 5. Montante
 # ==================================================================
+def debloquer_montante():
+    """Un palier ne doit jamais rester bloqué « en cours » : sinon la montante
+    ne repart plus. Si le coupon du palier a déjà été tranché, on recopie son
+    statut ; s'il est introuvable ou toujours pas vérifiable 2 jours après
+    (match reporté, annulé…), le palier est annulé et sera rejoué à la même mise."""
+    d = sb("montante?select=serie,palier,coupon_id,statut,jour&order=serie.desc,palier.desc&limit=1")
+    if not isinstance(d, list) or not d or d[0]["statut"] != "en_cours":
+        return
+    d = d[0]
+    c = sb(f"coupons?id=eq.{d['coupon_id']}&select=statut,jour") if d.get("coupon_id") else []
+    c = c[0] if isinstance(c, list) and c else None
+    if c and c["statut"] in ("gagne", "perdu"):
+        sb(f"montante?serie=eq.{d['serie']}&palier=eq.{d['palier']}", "PATCH", {"statut": c["statut"]})
+        print(f"   Montante série {d['serie']} · palier {d['palier']} → {c['statut']} (rattrapage)")
+        return
+    try:
+        age = (datetime.now(timezone.utc).date() - datetime.fromisoformat(str(d["jour"])[:10]).date()).days
+    except Exception:
+        age = 0
+    if (c is None and age >= 1) or age >= 2:
+        sb(f"montante?serie=eq.{d['serie']}&palier=eq.{d['palier']}", "DELETE")
+        print(f"   Montante série {d['serie']} · palier {d['palier']} du {d['jour']} annulé "
+              f"({'coupon introuvable' if c is None else 'non vérifiable'}) — il sera rejoué")
+
+
 def avancer_montante(coupon_id, cote, jour):
+    debloquer_montante()
     paliers = sb("montante?select=serie,palier,mise,gain_vise,statut&order=serie.desc,palier.desc&limit=1")
     if paliers:
         d = paliers[0]
@@ -571,6 +597,10 @@ def main():
 
     print("→ Vérification des coupons précédents")
     verifier()
+    try:
+        debloquer_montante()
+    except Exception as e:
+        print(f"   ⚠️ montante : {e}")
     try:
         verifier_live(pd.read_csv(F_HISTO))
     except Exception as e:
