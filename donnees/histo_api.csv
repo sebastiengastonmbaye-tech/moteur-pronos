@@ -47655,11 +47655,11 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1569942,2026-09-26,FT,141,Segunda División,2026,Granada CF,FC Andorra,2.0,3.0,14:15,https://media.api-sports.io/football/teams/715.png,https://media.api-sports.io/football/teams/8157.png
 1569946,2026-09-26,FT,141,Segunda División,2026,Tenerife,Cadiz,1.0,1.0,16:30,https://media.api-sports.io/football/teams/719.png,https://media.api-sports.io/football/teams/724.png
 1569938,2026-09-26,FT,141,Segunda División,2026,Celta de Vigo II,Sabadell,1.0,1.0,16:30,https://media.api-sports.io/football/teams/9571.png,https://media.api-sports.io/football/teams/9593.png
-1569947,2026-09-27,NS,141,Segunda División,2026,Valladolid,Cordoba,,,12:00,https://media.api-sports.io/football/teams/720.png,https://media.api-sports.io/football/teams/713.png
-1569944,2026-09-27,NS,141,Segunda División,2026,Mallorca,Almeria,,,14:15,https://media.api-sports.io/football/teams/798.png,https://media.api-sports.io/football/teams/723.png
-1569940,2026-09-27,NS,141,Segunda División,2026,Eibar,Las Palmas,,,16:30,https://media.api-sports.io/football/teams/545.png,https://media.api-sports.io/football/teams/534.png
-1569937,2026-09-27,NS,141,Segunda División,2026,Burgos,Eldense,,,16:30,https://media.api-sports.io/football/teams/9580.png,https://media.api-sports.io/football/teams/9692.png
-1569945,2026-09-27,NS,141,Segunda División,2026,Oviedo,Sporting Gijon,,,19:00,https://media.api-sports.io/football/teams/718.png,https://media.api-sports.io/football/teams/731.png
+1569947,2026-09-27,FT,141,Segunda División,2026,Valladolid,Cordoba,3.0,1.0,12:00,https://media.api-sports.io/football/teams/720.png,https://media.api-sports.io/football/teams/713.png
+1569944,2026-09-27,FT,141,Segunda División,2026,Mallorca,Almeria,0.0,1.0,14:15,https://media.api-sports.io/football/teams/798.png,https://media.api-sports.io/football/teams/723.png
+1569940,2026-09-27,FT,141,Segunda División,2026,Eibar,Las Palmas,3.0,2.0,16:30,https://media.api-sports.io/football/teams/545.png,https://media.api-sports.io/football/teams/534.png
+1569937,2026-09-27,FT,141,Segunda División,2026,Burgos,Eldense,1.0,0.0,16:30,https://media.api-sports.io/football/teams/9580.png,https://media.api-sports.io/football/teams/9692.png
+1569945,2026-09-27,FT,141,Segunda División,2026,Oviedo,Sporting Gijon,2.0,0.0,19:00,https://media.api-sports.io/football/teams/718.png,https://media.api-sports.io/football/teams/731.png
 1569943,2026-09-28,NS,141,Segunda División,2026,Leganes,Castellón,,,18:30,https://media.api-sports.io/football/teams/537.png,https://media.api-sports.io/football/teams/5254.png
 1569953,2026-10-02,NS,141,Segunda División,2026,Eldense,Oviedo,,,18:30,https://media.api-sports.io/football/teams/9692.png,https://media.api-sports.io/football/teams/718.png
 1569948,2026-10-03,NS,141,Segunda División,2026,Albacete,Eibar,,,12:00,https://media.api-sports.io/football/teams/722.png,https://media.api-sports.io/football/teams/545.png
@@ -49119,7 +49119,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1551813,2026-09-26,FT,89,Eerste Divisie,2026,MVV,Helmond Sport,2.0,0.0,18:00,https://media.api-sports.io/football/teams/412.png,https://media.api-sports.io/football/teams/424.png
 1551815,2026-09-26,FT,89,Eerste Divisie,2026,Roda,Waalwijk,2.0,0.0,18:00,https://media.api-sports.io/football/teams/414.png,https://media.api-sports.io/football/teams/417.png
 1551812,2026-09-26,FT,89,Eerste Divisie,2026,FC Volendam,VVV Venlo,3.0,2.0,18:00,https://media.api-sports.io/football/teams/416.png,https://media.api-sports.io/football/teams/204.png
-1551816,2026-09-27,NS,89,Eerste Divisie,2026,De Graafschap,Den Bosch,,,12:30,https://media.api-sports.io/football/teams/199.png,https://media.api-sports.io/football/teams/421.png
+1551816,2026-09-27,FT,89,Eerste Divisie,2026,De Graafschap,Den Bosch,1.0,0.0,12:30,https://media.api-sports.io/football/teams/199.png,https://media.api-sports.io/football/teams/421.png
 1551819,2026-10-02,NS,89,Eerste Divisie,2026,Helmond Sport,Heracles,,,19:00,https://media.api-sports.io/football/teams/424.png,https://media.api-sports.io/football/teams/206.png
 1551820,2026-10-03,NS,89,Eerste Divisie,2026,Vitesse,NAC Breda,,,14:30,https://media.api-sports.io/football/teams/200.png,https://media.api-sports.io/football/teams/203.png
 1551824,2026-10-03,NS,89,Eerste Divisie,2026,FC OSS,MVV,,,14:30,https://media.api-sports.io/football/teams/423.png,https://media.api-sports.io/football/teams/412.png
@@ -55270,8 +55270,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1490509,2026-09-27,FT,253,Major League Soccer,2026,San Jose Earthquakes,Portland Timbers,3.0,1.0,02:30,https://media.api-sports.io/football/teams/1596.png,https://media.api-sports.io/football/teams/1617.png
 1490508,2026-09-27,FT,253,Major League Soccer,2026,Vancouver Whitecaps,DC United,3.0,3.0,02:30,https://media.api-sports.io/football/teams/1603.png,https://media.api-sports.io/football/teams/1615.png
 1490507,2026-09-27,FT,253,Major League Soccer,2026,Los Angeles Galaxy,Colorado Rapids,3.0,2.0,02:30,https://media.api-sports.io/football/teams/1605.png,https://media.api-sports.io/football/teams/1610.png
-1490500,2026-09-30,PST,253,Major League Soccer,2026,New York Red Bulls,St. Louis City,,,23:30,https://media.api-sports.io/football/teams/1602.png,https://media.api-sports.io/football/teams/20787.png
-1490510,2026-09-27,NS,253,Major League Soccer,2026,Columbus Crew,Inter Miami,,,23:00,https://media.api-sports.io/football/teams/1613.png,https://media.api-sports.io/football/teams/9568.png
+1490510,2026-09-27,FT,253,Major League Soccer,2026,Columbus Crew,Inter Miami,2.0,1.0,23:00,https://media.api-sports.io/football/teams/1613.png,https://media.api-sports.io/football/teams/9568.png
+1490500,2026-09-30,NS,253,Major League Soccer,2026,New York Red Bulls,St. Louis City,,,23:30,https://media.api-sports.io/football/teams/1602.png,https://media.api-sports.io/football/teams/20787.png
 1490463,2026-10-02,NS,253,Major League Soccer,2026,Seattle Sounders,Sporting Kansas City,,,01:30,https://media.api-sports.io/football/teams/1595.png,https://media.api-sports.io/football/teams/1611.png
 1490326,2026-10-07,NS,253,Major League Soccer,2026,Chicago Fire,Vancouver Whitecaps,,,00:30,https://media.api-sports.io/football/teams/1607.png,https://media.api-sports.io/football/teams/1603.png
 1490512,2026-10-10,NS,253,Major League Soccer,2026,Toronto FC,CF Montreal,,,17:00,https://media.api-sports.io/football/teams/1601.png,https://media.api-sports.io/football/teams/1614.png
@@ -56144,9 +56144,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550977,2026-09-26,FT,262,Liga MX,2026,Guadalajara Chivas,Club Queretaro,0.0,2.0,23:07,https://media.api-sports.io/football/teams/2278.png,https://media.api-sports.io/football/teams/2290.png
 1550978,2026-09-27,FT,262,Liga MX,2026,Santos Laguna,CF Pachuca,1.0,0.0,03:05,https://media.api-sports.io/football/teams/2285.png,https://media.api-sports.io/football/teams/2292.png
 1550979,2026-09-27,FT,262,Liga MX,2026,Tigres UANL,Puebla,1.0,0.0,03:10,https://media.api-sports.io/football/teams/2279.png,https://media.api-sports.io/football/teams/2291.png
-1550981,2026-09-27,NS,262,Liga MX,2026,U.N.A.M. - Pumas,Atletico San Luis,,,18:00,https://media.api-sports.io/football/teams/2286.png,https://media.api-sports.io/football/teams/2314.png
-1550982,2026-09-28,NS,262,Liga MX,2026,Leon,FC Juarez,,,01:00,https://media.api-sports.io/football/teams/2289.png,https://media.api-sports.io/football/teams/2298.png
-1550983,2026-09-28,NS,262,Liga MX,2026,Necaxa,Club America,,,03:10,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2287.png
+1550981,2026-09-27,FT,262,Liga MX,2026,U.N.A.M. - Pumas,Atletico San Luis,2.0,3.0,18:00,https://media.api-sports.io/football/teams/2286.png,https://media.api-sports.io/football/teams/2314.png
+1550982,2026-09-28,FT,262,Liga MX,2026,Leon,FC Juarez,2.0,1.0,01:00,https://media.api-sports.io/football/teams/2289.png,https://media.api-sports.io/football/teams/2298.png
+1550983,2026-09-28,FT,262,Liga MX,2026,Necaxa,Club America,2.0,4.0,03:10,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2287.png
 1550985,2026-10-10,NS,262,Liga MX,2026,Club Queretaro,Atlante FC,,,01:00,https://media.api-sports.io/football/teams/2290.png,https://media.api-sports.io/football/teams/2312.png
 1550984,2026-10-10,NS,262,Liga MX,2026,Puebla,Leon,,,01:00,https://media.api-sports.io/football/teams/2291.png,https://media.api-sports.io/football/teams/2289.png
 1550986,2026-10-10,NS,262,Liga MX,2026,Tigres UANL,Toluca,,,03:00,https://media.api-sports.io/football/teams/2279.png,https://media.api-sports.io/football/teams/2281.png
@@ -56518,9 +56518,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549801,2026-09-26,FT,239,Primera A,2026,Deportivo Pereira,Internacional de Bogota,0.0,0.0,21:00,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1134.png
 1549796,2026-09-26,FT,239,Primera A,2026,Cucuta,Llaneros,2.0,1.0,23:15,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1464.png
 1549799,2026-09-27,FT,239,Primera A,2026,Junior,Independiente Medellin,2.0,0.0,01:20,https://media.api-sports.io/football/teams/1135.png,https://media.api-sports.io/football/teams/1128.png
-1549798,2026-09-27,NS,239,Primera A,2026,Jaguares,Alianza Valledupar,,,21:00,https://media.api-sports.io/football/teams/1133.png,https://media.api-sports.io/football/teams/1141.png
-1549797,2026-09-27,NS,239,Primera A,2026,Fortaleza FC,Deportes Tolima,,,23:05,https://media.api-sports.io/football/teams/1147.png,https://media.api-sports.io/football/teams/1142.png
-1549706,2026-09-28,NS,239,Primera A,2026,Deportivo Cali,Águilas Doradas,,,01:10,https://media.api-sports.io/football/teams/1127.png,https://media.api-sports.io/football/teams/1144.png
+1549798,2026-09-27,FT,239,Primera A,2026,Jaguares,Alianza Valledupar,1.0,2.0,21:00,https://media.api-sports.io/football/teams/1133.png,https://media.api-sports.io/football/teams/1141.png
+1549797,2026-09-27,FT,239,Primera A,2026,Fortaleza FC,Deportes Tolima,2.0,2.0,23:05,https://media.api-sports.io/football/teams/1147.png,https://media.api-sports.io/football/teams/1142.png
+1549706,2026-09-28,FT,239,Primera A,2026,Deportivo Cali,Águilas Doradas,2.0,0.0,01:10,https://media.api-sports.io/football/teams/1127.png,https://media.api-sports.io/football/teams/1144.png
 1549712,2026-09-29,NS,239,Primera A,2026,Deportivo Pereira,Santa Fe,,,20:30,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1139.png
 1549719,2026-09-30,NS,239,Primera A,2026,Independiente Medellin,Millonarios,,,01:05,https://media.api-sports.io/football/teams/1128.png,https://media.api-sports.io/football/teams/1125.png
 1549703,2026-10-01,NS,239,Primera A,2026,Atletico Nacional,Junior,,,01:00,https://media.api-sports.io/football/teams/1137.png,https://media.api-sports.io/football/teams/1135.png
@@ -56632,14 +56632,14 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1528894,2026-09-26,FT,5,UEFA Nations League,2026,Slovakia,Moldova,2.0,0.0,18:45,https://media.api-sports.io/football/teams/773.png,https://media.api-sports.io/football/teams/1114.png
 1528893,2026-09-26,FT,5,UEFA Nations League,2026,Albania,Belarus,2.0,0.0,18:45,https://media.api-sports.io/football/teams/778.png,https://media.api-sports.io/football/teams/1100.png
 1545656,2026-09-26,FT,5,UEFA Nations League,2026,FYR Macedonia,Switzerland,0.0,3.0,18:45,https://media.api-sports.io/football/teams/1105.png,https://media.api-sports.io/football/teams/15.png
-1528895,2026-09-27,NS,5,UEFA Nations League,2026,Lithuania,Azerbaijan,,,13:00,https://media.api-sports.io/football/teams/1097.png,https://media.api-sports.io/football/teams/1096.png
-1528896,2026-09-27,NS,5,UEFA Nations League,2026,Serbia,Netherlands,,,16:00,https://media.api-sports.io/football/teams/14.png,https://media.api-sports.io/football/teams/1118.png
-1528897,2026-09-27,NS,5,UEFA Nations League,2026,Denmark,Wales,,,16:00,https://media.api-sports.io/football/teams/21.png,https://media.api-sports.io/football/teams/767.png
-1528898,2026-09-27,NS,5,UEFA Nations League,2026,Austria,Kosovo,,,16:00,https://media.api-sports.io/football/teams/775.png,https://media.api-sports.io/football/teams/1111.png
-1545604,2026-09-27,NS,5,UEFA Nations League,2026,Gibraltar,Andorra,,,16:00,https://media.api-sports.io/football/teams/1093.png,https://media.api-sports.io/football/teams/1110.png
-1528899,2026-09-27,NS,5,UEFA Nations League,2026,Germany,Greece,,,18:45,https://media.api-sports.io/football/teams/25.png,https://media.api-sports.io/football/teams/1117.png
-1528900,2026-09-27,NS,5,UEFA Nations League,2026,Norway,Portugal,,,18:45,https://media.api-sports.io/football/teams/1090.png,https://media.api-sports.io/football/teams/27.png
-1528901,2026-09-27,NS,5,UEFA Nations League,2026,Israel,Rep. Of Ireland,,,18:45,https://media.api-sports.io/football/teams/1116.png,https://media.api-sports.io/football/teams/776.png
+1528895,2026-09-27,FT,5,UEFA Nations League,2026,Lithuania,Azerbaijan,1.0,1.0,13:00,https://media.api-sports.io/football/teams/1097.png,https://media.api-sports.io/football/teams/1096.png
+1528896,2026-09-27,FT,5,UEFA Nations League,2026,Serbia,Netherlands,1.0,2.0,16:00,https://media.api-sports.io/football/teams/14.png,https://media.api-sports.io/football/teams/1118.png
+1528897,2026-09-27,FT,5,UEFA Nations League,2026,Denmark,Wales,2.0,0.0,16:00,https://media.api-sports.io/football/teams/21.png,https://media.api-sports.io/football/teams/767.png
+1528898,2026-09-27,FT,5,UEFA Nations League,2026,Austria,Kosovo,3.0,1.0,16:00,https://media.api-sports.io/football/teams/775.png,https://media.api-sports.io/football/teams/1111.png
+1545604,2026-09-27,FT,5,UEFA Nations League,2026,Gibraltar,Andorra,0.0,0.0,16:00,https://media.api-sports.io/football/teams/1093.png,https://media.api-sports.io/football/teams/1110.png
+1528899,2026-09-27,FT,5,UEFA Nations League,2026,Germany,Greece,0.0,1.0,18:45,https://media.api-sports.io/football/teams/25.png,https://media.api-sports.io/football/teams/1117.png
+1528900,2026-09-27,FT,5,UEFA Nations League,2026,Norway,Portugal,1.0,2.0,18:45,https://media.api-sports.io/football/teams/1090.png,https://media.api-sports.io/football/teams/27.png
+1528901,2026-09-27,FT,5,UEFA Nations League,2026,Israel,Rep. Of Ireland,0.0,3.0,18:45,https://media.api-sports.io/football/teams/1116.png,https://media.api-sports.io/football/teams/776.png
 1545605,2026-09-28,NS,5,UEFA Nations League,2026,Latvia,Cyprus,,,16:00,https://media.api-sports.io/football/teams/1092.png,https://media.api-sports.io/football/teams/1106.png
 1528903,2026-09-28,NS,5,UEFA Nations League,2026,Armenia,Montenegro,,,16:00,https://media.api-sports.io/football/teams/1094.png,https://media.api-sports.io/football/teams/1109.png
 1528902,2026-09-28,NS,5,UEFA Nations League,2026,Georgia,Ukraine,,,16:00,https://media.api-sports.io/football/teams/1104.png,https://media.api-sports.io/football/teams/772.png
@@ -56800,7 +56800,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1545837,2026-09-24,FT,36,Africa Cup of Nations - Qualification,2027,Tunisia,Uganda,1.0,1.0,19:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1519.png
 1545838,2026-10-06,NS,36,Africa Cup of Nations - Qualification,2027,Angola,Malawi,,,19:00,https://media.api-sports.io/football/teams/1529.png,https://media.api-sports.io/football/teams/1495.png
 1545839,2026-09-29,NS,36,Africa Cup of Nations - Qualification,2027,Benin,Mauritania,,,17:00,https://media.api-sports.io/football/teams/1516.png,https://media.api-sports.io/football/teams/1491.png
-1545840,2026-09-28,NS,36,Africa Cup of Nations - Qualification,2027,Botswana,Tunisia,,,19:00,https://media.api-sports.io/football/teams/1520.png,https://media.api-sports.io/football/teams/28.png
+1545840,2026-09-28,NS,36,Africa Cup of Nations - Qualification,2027,Tunisia,Botswana,,,19:00,https://media.api-sports.io/football/teams/28.png,https://media.api-sports.io/football/teams/1520.png
 1545841,2026-09-29,NS,36,Africa Cup of Nations - Qualification,2027,Burundi,Algeria,,,13:00,https://media.api-sports.io/football/teams/1528.png,https://media.api-sports.io/football/teams/1532.png
 1545842,2026-09-29,NS,36,Africa Cup of Nations - Qualification,2027,Cape Verde Islands,Rwanda,,,16:00,https://media.api-sports.io/football/teams/1533.png,https://media.api-sports.io/football/teams/1514.png
 1545843,2026-09-28,NS,36,Africa Cup of Nations - Qualification,2027,Central African Republic,Burkina Faso,,,16:00,https://media.api-sports.io/football/teams/1527.png,https://media.api-sports.io/football/teams/1502.png
@@ -57551,18 +57551,18 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1640505,2026-09-27,FT,10,Friendlies,2026,Vanuatu,New Caledonia,4.0,1.0,04:00,https://media.api-sports.io/football/teams/5170.png,https://media.api-sports.io/football/teams/5163.png
 1640062,2026-09-27,FT,10,Friendlies,2026,Cook Islands,Tahiti,1.0,3.0,04:00,https://media.api-sports.io/football/teams/8174.png,https://media.api-sports.io/football/teams/5167.png
 1640506,2026-09-27,FT,10,Friendlies,2026,Fiji,Papua New Guinea,2.0,0.0,07:00,https://media.api-sports.io/football/teams/5160.png,https://media.api-sports.io/football/teams/8175.png
-1640063,2026-09-27,NS,10,Friendlies,2026,Poland U17,Republic of Ireland U17,,,09:00,https://media.api-sports.io/football/teams/17970.png,https://media.api-sports.io/football/teams/17972.png
-1637601,2026-09-27,NS,10,Friendlies,2026,China,New Zealand,,,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/4673.png
-1640064,2026-09-27,NS,10,Friendlies,2026,Seychelles,Sri Lanka,,,12:00,https://media.api-sports.io/football/teams/1515.png,https://media.api-sports.io/football/teams/5166.png
-1640065,2026-09-27,NS,10,Friendlies,2026,Ukraine U18,Austria U18,,,12:00,https://media.api-sports.io/football/teams/22343.png,https://media.api-sports.io/football/teams/21460.png
-1640826,2026-09-27,NS,10,Friendlies,2026,France U21,Japan U18,,,16:00,https://media.api-sports.io/football/teams/8194.png,https://media.api-sports.io/football/teams/22431.png
-1628998,2026-09-27,NS,10,Friendlies,2026,Malta,Liechtenstein,,,16:30,https://media.api-sports.io/football/teams/1112.png,https://media.api-sports.io/football/teams/1107.png
-1640066,2026-09-27,NS,10,Friendlies,2026,Jordan,Syria,,,17:00,https://media.api-sports.io/football/teams/1548.png,https://media.api-sports.io/football/teams/1565.png
-1637602,2026-09-27,NS,10,Friendlies,2026,Bolivia,Paraguay,,,20:30,https://media.api-sports.io/football/teams/2381.png,https://media.api-sports.io/football/teams/2380.png
+1640063,2026-09-27,FT,10,Friendlies,2026,Poland U17,Republic of Ireland U17,2.0,1.0,09:00,https://media.api-sports.io/football/teams/17970.png,https://media.api-sports.io/football/teams/17972.png
+1637601,2026-09-27,FT,10,Friendlies,2026,China,New Zealand,0.0,3.0,11:35,https://media.api-sports.io/football/teams/1566.png,https://media.api-sports.io/football/teams/4673.png
+1640064,2026-09-27,FT,10,Friendlies,2026,Seychelles,Sri Lanka,0.0,3.0,12:00,https://media.api-sports.io/football/teams/1515.png,https://media.api-sports.io/football/teams/5166.png
+1640065,2026-09-27,FT,10,Friendlies,2026,Ukraine U18,Austria U18,4.0,1.0,12:00,https://media.api-sports.io/football/teams/22343.png,https://media.api-sports.io/football/teams/21460.png
+1640826,2026-09-27,FT,10,Friendlies,2026,France U21,Japan U18,1.0,3.0,16:00,https://media.api-sports.io/football/teams/8194.png,https://media.api-sports.io/football/teams/22431.png
+1628998,2026-09-27,FT,10,Friendlies,2026,Malta,Liechtenstein,2.0,0.0,16:30,https://media.api-sports.io/football/teams/1112.png,https://media.api-sports.io/football/teams/1107.png
+1640066,2026-09-27,FT,10,Friendlies,2026,Jordan,Syria,1.0,1.0,17:00,https://media.api-sports.io/football/teams/1548.png,https://media.api-sports.io/football/teams/1565.png
+1637602,2026-09-27,FT,10,Friendlies,2026,Bolivia,Paraguay,0.0,2.0,20:30,https://media.api-sports.io/football/teams/2381.png,https://media.api-sports.io/football/teams/2380.png
 1629000,2026-09-28,NS,10,Friendlies,2026,Japan,Venezuela,,,10:25,https://media.api-sports.io/football/teams/12.png,https://media.api-sports.io/football/teams/2379.png
 1628999,2026-09-28,NS,10,Friendlies,2026,South Korea,Uruguay,,,11:00,https://media.api-sports.io/football/teams/17.png,https://media.api-sports.io/football/teams/7.png
 1638596,2026-09-28,NS,10,Friendlies,2026,Tajikistan,Palestine,,,12:00,https://media.api-sports.io/football/teams/1536.png,https://media.api-sports.io/football/teams/1562.png
-1640507,2026-09-28,NS,10,Friendlies,2026,Kyrgyzstan,Lebanon,,,12:00,https://media.api-sports.io/football/teams/1554.png,https://media.api-sports.io/football/teams/1551.png
+1640067,2026-09-28,NS,10,Friendlies,2026,Kyrgyzstan,Maldives,,,14:00,https://media.api-sports.io/football/teams/1554.png,https://media.api-sports.io/football/teams/1549.png
 1638593,2026-09-28,NS,10,Friendlies,2026,England U17,Israel U17,,,14:00,https://media.api-sports.io/football/teams/17949.png,https://media.api-sports.io/football/teams/18914.png
 1640827,2026-09-28,NS,10,Friendlies,2026,Serbia U18,Russia U18,,,14:00,https://media.api-sports.io/football/teams/22437.png,https://media.api-sports.io/football/teams/25280.png
 1640068,2026-09-28,NS,10,Friendlies,2026,Slovakia U19,Poland U19,,,15:00,https://media.api-sports.io/football/teams/10347.png,https://media.api-sports.io/football/teams/10376.png
@@ -57582,9 +57582,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1632352,2026-09-30,NS,10,Friendlies,2026,Netherlands U19,Austria U19,,,12:00,https://media.api-sports.io/football/teams/10340.png,https://media.api-sports.io/football/teams/10326.png
 1640070,2026-09-30,NS,10,Friendlies,2026,Seychelles,Sri Lanka,,,13:00,https://media.api-sports.io/football/teams/1515.png,https://media.api-sports.io/football/teams/5166.png
 1610878,2026-09-30,NS,10,Friendlies,2026,Lithuania,Andorra,,,16:00,https://media.api-sports.io/football/teams/1097.png,https://media.api-sports.io/football/teams/1110.png
-1632353,2026-09-30,NS,10,Friendlies,2026,Panama,New Zealand,,,23:10,https://media.api-sports.io/football/teams/11.png,https://media.api-sports.io/football/teams/4673.png
 1640511,2026-10-01,NS,10,Friendlies,2026,Argentina,Bolivia,,,00:00,https://media.api-sports.io/football/teams/26.png,https://media.api-sports.io/football/teams/2381.png
 1640071,2026-10-01,NS,10,Friendlies,2026,Cook Islands,Tahiti,,,02:00,https://media.api-sports.io/football/teams/8174.png,https://media.api-sports.io/football/teams/5167.png
+1632353,2026-10-01,NS,10,Friendlies,2026,Panama,New Zealand,,,06:10,https://media.api-sports.io/football/teams/11.png,https://media.api-sports.io/football/teams/4673.png
 1640072,2026-10-01,NS,10,Friendlies,2026,Poland U19,Kazakhstan U19,,,09:30,https://media.api-sports.io/football/teams/10376.png,https://media.api-sports.io/football/teams/10367.png
 1638595,2026-10-01,NS,10,Friendlies,2026,Venezuela U17,England U17,,,09:30,https://media.api-sports.io/football/teams/21213.png,https://media.api-sports.io/football/teams/17949.png
 1640073,2026-10-01,NS,10,Friendlies,2026,Maldives,Lebanon,,,12:00,https://media.api-sports.io/football/teams/1549.png,https://media.api-sports.io/football/teams/1551.png
@@ -57608,16 +57608,16 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1640514,2026-10-04,NS,10,Friendlies,2026,Argentina,Burkina Faso,,,00:00,https://media.api-sports.io/football/teams/26.png,https://media.api-sports.io/football/teams/1502.png
 1629004,2026-10-04,NS,10,Friendlies,2026,USA,Mexico,,,02:00,https://media.api-sports.io/football/teams/2384.png,https://media.api-sports.io/football/teams/16.png
 1638600,2026-10-04,NS,10,Friendlies,2026,Germany U17,England U17,,,10:00,https://media.api-sports.io/football/teams/17954.png,https://media.api-sports.io/football/teams/17949.png
-1640067,2026-10-04,NS,10,Friendlies,2026,Kyrgyzstan,Maldives,,,12:00,https://media.api-sports.io/football/teams/1554.png,https://media.api-sports.io/football/teams/1549.png
+1640507,2026-10-04,NS,10,Friendlies,2026,Kyrgyzstan,Lebanon,,,12:00,https://media.api-sports.io/football/teams/1554.png,https://media.api-sports.io/football/teams/1551.png
 1640830,2026-10-04,NS,10,Friendlies,2026,Comoros,Senegal,,,13:00,https://media.api-sports.io/football/teams/1524.png,https://media.api-sports.io/football/teams/13.png
 1640515,2026-10-04,NS,10,Friendlies,2026,Morocco,Ghana,,,18:00,https://media.api-sports.io/football/teams/31.png,https://media.api-sports.io/football/teams/1504.png
 1638601,2026-10-04,NS,10,Friendlies,2026,Egypt,South Africa,,,18:00,https://media.api-sports.io/football/teams/32.png,https://media.api-sports.io/football/teams/1531.png
 1640516,2026-10-05,NS,10,Friendlies,2026,Hungary U18,Italy U18,,,08:30,https://media.api-sports.io/football/teams/22498.png,https://media.api-sports.io/football/teams/19071.png
 1640831,2026-10-05,NS,10,Friendlies,2026,Wales U19,Northern Ireland U19,,,10:00,https://media.api-sports.io/football/teams/10353.png,https://media.api-sports.io/football/teams/10375.png
 1637606,2026-10-05,NS,10,Friendlies,2026,England U19,Belgium U19,,,11:00,https://media.api-sports.io/football/teams/10332.png,https://media.api-sports.io/football/teams/10327.png
-1638602,2026-10-05,NS,10,Friendlies,2026,Mauritius,Sri Lanka,,,12:00,https://media.api-sports.io/football/teams/1497.png,https://media.api-sports.io/football/teams/5166.png
 1640078,2026-10-05,NS,10,Friendlies,2026,Uganda,Congo DR,,,12:00,https://media.api-sports.io/football/teams/1519.png,https://media.api-sports.io/football/teams/1508.png
 1640832,2026-10-05,NS,10,Friendlies,2026,Ukraine U21,Albania U21,,,13:30,https://media.api-sports.io/football/teams/8228.png,https://media.api-sports.io/football/teams/8177.png
+1638602,2026-10-05,NS,10,Friendlies,2026,Mauritius,Sri Lanka,,,15:00,https://media.api-sports.io/football/teams/1497.png,https://media.api-sports.io/football/teams/5166.png
 1610880,2026-10-05,NS,10,Friendlies,2026,Liechtenstein,Gibraltar,,,18:45,https://media.api-sports.io/football/teams/1107.png,https://media.api-sports.io/football/teams/1093.png
 1640079,2026-10-06,NS,10,Friendlies,2026,Poland U18,Uruguay U18,,,09:00,https://media.api-sports.io/football/teams/21476.png,https://media.api-sports.io/football/teams/27068.png
 1629005,2026-10-06,NS,10,Friendlies,2026,South Korea,Uzbekistan,,,11:00,https://media.api-sports.io/football/teams/17.png,https://media.api-sports.io/football/teams/1568.png
