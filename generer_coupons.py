@@ -11,6 +11,9 @@ Tourne dans le cron, après cron_quotidien.py.
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
 
+V2.3 (28/09/2026) — le passage de 5h publie AUSSI les coupons de demain
+(onglet « Demain » rempli toute la journée ; 18h les met à jour). Sûre et
+Montante ont un palier de repli (selection_v2.py) pour ne plus rester vides.
 V2.2 (24/09/2026) — SCORE EXACT (catégorie « score », 1-2 scores par match, les
 plus nets du jour, gagné dès qu'un score tombe) + COMBINÉS TIKTOK (catégorie
 « tiktok », 3 par jour, 10-15 matchs, cote ≥ 90, 7 jours glissants, figés à J+2).
@@ -577,7 +580,30 @@ def main():
         print("✓ vérification terminée (pas de nouveaux coupons)")
         return
 
-    demain = "--demain" in sys.argv
+    bookmaker = id_bookmaker()
+    if not bookmaker:
+        print("   ❌ aucun bookmaker disponible")
+        return
+
+    if "--demain" in sys.argv:
+        # passage du soir (18h) : on met à jour les coupons de demain
+        generer_journee(True, bookmaker)
+    else:
+        # passage du matin (5h) : coupons du jour ET de demain, pour que
+        # l'onglet « Demain » soit rempli toute la journée (le passage de 18h
+        # les remet à jour avec les dernières cotes et compositions)
+        generer_journee(False, bookmaker)
+        if "--sans-demain" not in sys.argv:
+            generer_journee(True, bookmaker)
+
+    # ----- combinés TikTok sur 7 jours glissants -----
+    if "--sans-tiktok" not in sys.argv:
+        generer_tiktok(bookmaker)
+    print("✓ génération terminée")
+
+
+def generer_journee(demain, bookmaker):
+    """Tous les coupons d'une journée (jour même ou lendemain)."""
     jour = (datetime.now(timezone.utc).date() + timedelta(days=1 if demain else 0)).isoformat()
     print(f"→ Analyse des matchs du {jour} (moteur enrichi : absences, fatigue, xG, classement)"
           + (" — préparation de demain" if demain else ""))
@@ -588,12 +614,7 @@ def main():
 
     matchs = candidats(demain)
     if len(matchs) < 5:
-        print("   (trop peu de matchs : aucun coupon aujourd'hui)")
-        return
-
-    bookmaker = id_bookmaker()
-    if not bookmaker:
-        print("   ❌ aucun bookmaker disponible")
+        print(f"   (trop peu de matchs le {jour} : aucun coupon)")
         return
 
     pool = selections_possibles(matchs, bookmaker)
@@ -618,7 +639,7 @@ def main():
     # ----- prévisions live : matchs de la nuit -----
     publier_previsions(matchs_nuit or [])
 
-    # ----- score exact du jour -----
+    # ----- score exact -----
     print(f"→ Score exact du {jour}")
     coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
 
@@ -628,11 +649,7 @@ def main():
         enregistrer(coupons, jour)
     if coupons_nuit:
         enregistrer(coupons_nuit, jour, nuit=True)
-
-    # ----- combinés TikTok sur 7 jours glissants -----
-    if "--sans-tiktok" not in sys.argv:
-        generer_tiktok(bookmaker)
-    print(f"✓ coupons du {jour} terminés")
+    print(f"✓ coupons du {jour} enregistrés")
 
 
 def publier_previsions(matchs):
