@@ -91,6 +91,17 @@ CATEGORIES = {
         p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
         repli=dict(p_sel_min=0.68, moteur_min=0.60, moteur_min_dc=0.75,
                    p_coupon_min=0.52, europe_ok=True)),
+    # MONTANTE TURBO (5 paliers, cote 1,90–2,60) : même exigence que la montante
+    # de base — sélections de niveau « prono signé » (repli : favoris nets du
+    # marché). Pour atteindre ~2, l'optimiseur préfère deux favoris solides à
+    # un seul pari à 2 : c'est ce qui passe le plus souvent sur AURA90.
+    "turbo": dict(
+        cote_min=1.90, cote_max=2.60, legs_min=1, legs_max=3,
+        cote_sel_min=1.15, cote_sel_max=2.30, p_sel_min=0.60,
+        moteur_min=0.72, moteur_min_dc=0.82,
+        p_coupon_min=0.40, max_coupons=1, beta=0.0, table_legs=True,
+        repli=dict(p_sel_min=0.56, moteur_min=0.62, moteur_min_dc=0.76,
+                   p_coupon_min=0.38, europe_ok=True)),
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
@@ -125,7 +136,7 @@ def plage_legs(cote):
     return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
-ORDRE_JOUR = ["sure", "confiance", "fun", "grosses", "montante"]
+ORDRE_JOUR = ["sure", "montante", "turbo", "confiance", "fun", "grosses"]
 ORDRE_NUIT = ["nuit"]
 
 # Famille de marché : un seul code par match et par famille, tous coupons
@@ -142,7 +153,8 @@ CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
 # Les coupes d'Europe n'entrent pas dans Sûre ni Montante tant que la
 # calibration inter-ligues n'est pas validée par backtest.
 LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa"}
-CATEGORIES_PRUDENCE = {"sure", "montante"}
+CATEGORIES_PRUDENCE = {"sure", "montante", "turbo"}
+MONTANTES = {"montante", "turbo"}   # jamais le même match dans les deux montantes le même jour
 
 
 # ---------------------------------------------------------------------------
@@ -407,6 +419,7 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
     """
     nb_matchs = len({s["fixture_id"] for s in selections})
     utilises, codes_par_match, coupons = set(), {}, []
+    matchs_montantes = set()
     compte = {c: 0 for c in ordre}
     epuisees = set()
 
@@ -425,11 +438,12 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
             if r.get("zones"):            # 1er coupon cherche dans la 1re zone, 2e dans la 2e…
                 zmin, zmax, zcible = r["zones"][min(compte[cat], len(r["zones"]) - 1)]
                 r["cote_min"], r["cote_max"], r["cible"] = zmin, zmax, zcible
-            cands = _eligibles(selections, cat, r, utilises, codes_par_match)
+            filtre = (lambda l: [x for x in l if x["fixture_id"] not in matchs_montantes]) if cat in MONTANTES else (lambda l: l)
+            cands = filtre(_eligibles(selections, cat, r, utilises, codes_par_match))
             coupon = construire_un_coupon(cands, r)
             if coupon is None and r.get("repli"):
                 r2 = {**r, **r["repli"]}
-                cands = _eligibles(selections, cat, r2, utilises, codes_par_match)
+                cands = filtre(_eligibles(selections, cat, r2, utilises, codes_par_match))
                 coupon = construire_un_coupon(cands, r2)
                 if coupon is not None:
                     journal(f"   ↪ {cat} : palier de repli (favoris nets du marché)")
@@ -442,6 +456,8 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
             compte[cat] += 1
             coupon["categorie"], coupon["numero"] = cat, compte[cat]
             for s in coupon["selections"]:
+                if cat in MONTANTES:
+                    matchs_montantes.add(s["fixture_id"])
                 utilises.add((s["fixture_id"], s["code"]))
                 codes_par_match[(s["fixture_id"], s["famille"])] = s["code"]
             coupons.append(coupon)
