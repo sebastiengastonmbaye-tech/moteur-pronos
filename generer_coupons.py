@@ -6,11 +6,15 @@ Tourne dans le cron, après cron_quotidien.py.
 
 1. Vérifie les coupons de la veille (résultats réels)
 2. Construit les coupons du jour : Sûre · Confiance · Fun · Grosses cotes · Montante
-3. Fait avancer la montante en cours (objectif ×15, départ 5 000 F)
+3. Fait avancer les deux montantes : Montante (12 paliers) et Montante Turbo
+   (5 paliers, cote 1,90–2,60), départ 5 000 F
 
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
 
+V2.4 (29/09/2026) — Montante passée à 12 paliers ; MONTANTE TURBO (catégorie
+« turbo », 5 paliers, cote 1,90–2,60, même exigence d'analyse) ; les deux
+montantes ne partagent jamais un match le même jour.
 V2.3 (28/09/2026) — le passage de 5h publie AUSSI les coupons de demain
 (onglet « Demain » rempli toute la journée ; 18h les met à jour). Sûre et
 Montante ont un palier de repli (selection_v2.py) pour ne plus rester vides.
@@ -61,7 +65,8 @@ F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
 FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
 MISE_DEPART = 5000        # montante : mise de départ en F CFA
-PALIERS_MONTANTE = 15     # une série = 15 paliers gagnés d'affilée, puis on repart à 5 000 F
+PALIERS = {"montante": 12, "turbo": 5}   # paliers par série ; série bouclée → on repart à 5 000 F
+NOMS_MONTANTE = {"montante": "Montante", "turbo": "Montante Turbo"}
 
 # compétitions retenues pour les coupons (principales + complément)
 LIGUES_COUPONS = {
@@ -445,46 +450,47 @@ def verifier():
             statut = "perdu" if perdu else "gagne"
             sb(f"coupons?id=eq.{c['id']}", "PATCH", {"statut": statut})
             print(f"   Coupon {c['categorie']} du {c['jour']} → {statut}")
-            if c["categorie"] == "montante":
+            if c["categorie"] in ("montante", "turbo"):
                 sb(f"montante?coupon_id=eq.{c['id']}", "PATCH", {"statut": statut})
 
 
 # ==================================================================
 # 5. Montante
 # ==================================================================
-def debloquer_montante():
+def debloquer_montante(typ="montante"):
     """Un palier ne doit jamais rester bloqué « en cours » : sinon la montante
     ne repart plus. Si le coupon du palier a déjà été tranché, on recopie son
     statut ; s'il est introuvable ou toujours pas vérifiable 2 jours après
     (match reporté, annulé…), le palier est annulé et sera rejoué à la même mise."""
-    d = sb("montante?select=serie,palier,coupon_id,statut,jour&order=serie.desc,palier.desc&limit=1")
+    d = sb(f"montante?type=eq.{typ}&select=serie,palier,coupon_id,statut,jour&order=serie.desc,palier.desc&limit=1")
     if not isinstance(d, list) or not d or d[0]["statut"] != "en_cours":
         return
     d = d[0]
+    cle = f"montante?type=eq.{typ}&serie=eq.{d['serie']}&palier=eq.{d['palier']}"
     c = sb(f"coupons?id=eq.{d['coupon_id']}&select=statut,jour") if d.get("coupon_id") else []
     c = c[0] if isinstance(c, list) and c else None
     if c and c["statut"] in ("gagne", "perdu"):
-        sb(f"montante?serie=eq.{d['serie']}&palier=eq.{d['palier']}", "PATCH", {"statut": c["statut"]})
-        print(f"   Montante série {d['serie']} · palier {d['palier']} → {c['statut']} (rattrapage)")
+        sb(cle, "PATCH", {"statut": c["statut"]})
+        print(f"   {NOMS_MONTANTE[typ]} série {d['serie']} · palier {d['palier']} → {c['statut']} (rattrapage)")
         return
     try:
         age = (datetime.now(timezone.utc).date() - datetime.fromisoformat(str(d["jour"])[:10]).date()).days
     except Exception:
         age = 0
     if (c is None and age >= 1) or age >= 2:
-        sb(f"montante?serie=eq.{d['serie']}&palier=eq.{d['palier']}", "DELETE")
-        print(f"   Montante série {d['serie']} · palier {d['palier']} du {d['jour']} annulé "
+        sb(cle, "DELETE")
+        print(f"   {NOMS_MONTANTE[typ]} série {d['serie']} · palier {d['palier']} du {d['jour']} annulé "
               f"({'coupon introuvable' if c is None else 'non vérifiable'}) — il sera rejoué")
 
 
-def avancer_montante(coupon_id, cote, jour):
-    debloquer_montante()
-    paliers = sb("montante?select=serie,palier,mise,gain_vise,statut&order=serie.desc,palier.desc&limit=1")
+def avancer_montante(coupon_id, cote, jour, typ="montante"):
+    debloquer_montante(typ)
+    paliers = sb(f"montante?type=eq.{typ}&select=serie,palier,mise,gain_vise,statut&order=serie.desc,palier.desc&limit=1")
     if paliers:
         d = paliers[0]
         if d["statut"] == "gagne":
-            if d["palier"] >= PALIERS_MONTANTE:
-                serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART   # 15 paliers passés → nouvelle série
+            if d["palier"] >= PALIERS[typ]:
+                serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART   # série bouclée → nouvelle série
             else:
                 serie, palier, mise = d["serie"], d["palier"] + 1, float(d["gain_vise"])
         elif d["statut"] == "perdu":
@@ -495,10 +501,10 @@ def avancer_montante(coupon_id, cote, jour):
         serie, palier, mise = 1, 1, MISE_DEPART
 
     sb("montante", "POST", {
-        "serie": serie, "palier": palier, "coupon_id": coupon_id,
+        "type": typ, "serie": serie, "palier": palier, "coupon_id": coupon_id,
         "mise": mise, "gain_vise": round(mise * cote, 2), "jour": jour,
     }, prefer="return=minimal")
-    print(f"   Montante série {serie} · palier {palier}/{PALIERS_MONTANTE} : {int(mise)} F → {int(mise*cote)} F")
+    print(f"   {NOMS_MONTANTE[typ]} série {serie} · palier {palier}/{PALIERS[typ]} : {int(mise)} F → {int(mise*cote)} F")
 
 
 # ==================================================================
@@ -586,8 +592,8 @@ def enregistrer(coupons, jour, nuit=False):
             sb(f"coupons?id=eq.{cid}", "DELETE")
             continue
 
-        if cle == "montante":
-            avancer_montante(cid, c["cote_totale"], jour)   # un seul palier ouvert à la fois
+        if cle in ("montante", "turbo"):
+            avancer_montante(cid, c["cote_totale"], jour, cle)   # un seul palier ouvert à la fois par montante
 
 
 # ==================================================================
@@ -597,10 +603,11 @@ def main():
 
     print("→ Vérification des coupons précédents")
     verifier()
-    try:
-        debloquer_montante()
-    except Exception as e:
-        print(f"   ⚠️ montante : {e}")
+    for typ in PALIERS:
+        try:
+            debloquer_montante(typ)
+        except Exception as e:
+            print(f"   ⚠️ {typ} : {e}")
     try:
         verifier_live(pd.read_csv(F_HISTO))
     except Exception as e:
@@ -673,7 +680,7 @@ def generer_journee(demain, bookmaker):
     print(f"→ Score exact du {jour}")
     coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
 
-    ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5, "score": 6}
+    ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5, "turbo": 6, "score": 7}
     if coupons:
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
         enregistrer(coupons, jour)
