@@ -7,7 +7,7 @@ Tourne dans le cron, après cron_quotidien.py.
 1. Vérifie les coupons de la veille (résultats réels)
 2. Construit les coupons du jour : Sûre · Confiance · Fun · Grosses cotes · Montante
 3. Fait avancer les deux montantes : Montante (12 paliers) et Montante Turbo
-   (5 paliers, cote 1,90–2,60), départ 5 000 F
+   (5 paliers, cote 1,90–2,60), départ 10 000 F
 
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
@@ -64,7 +64,7 @@ BASE_API = "https://v3.football.api-sports.io"
 F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
 FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
-MISE_DEPART = 5000        # montante : mise de départ en F CFA
+MISE_DEPART = 10000       # montantes : mise de départ en F CFA (10 000 F depuis le 29/09/2026)
 PALIERS = {"montante": 12, "turbo": 5}   # paliers par série ; série bouclée → on repart à 5 000 F
 NOMS_MONTANTE = {"montante": "Montante", "turbo": "Montante Turbo"}
 
