@@ -167,15 +167,41 @@ def groupe_marche(code):
     return "autre"
 
 
-def diversifier(legs, cands, regles, part_max=0.40):
-    """Aucun type de pari ne dépasse ~40 % du combiné (au moins 2) : on remplace
-    la sélection la plus faible du type en excès par la meilleure sélection d'un
-    autre type, en restant dans la fourchette de cote."""
+def diversifier(legs, cands, regles, part_max=0.40, part_victoires=0.30):
+    """Aucun type de pari ne dépasse ~40 % du combiné (au moins 2), et au moins
+    ~30 % de victoires sèches (V1/V2) quand le jour en propose : on remplace la
+    sélection la plus faible par la meilleure sélection du type manquant, en
+    restant dans la fourchette de cote."""
     legs = list(legs)
     quota = max(2, math.ceil(part_max * len(legs)))
     poids = regles.get("bonus_poids", 0.0)
     beta = 1.0 if regles.get("valeur") else 0.0
     val = lambda s: math.log(s["p"]) + beta * math.log(s["cote"]) + poids * s.get("bonus", 0.0)
+
+    # 1) plancher de victoires sèches
+    min_v = math.ceil(part_victoires * len(legs))
+    for _ in range(len(legs)):
+        nv = sum(1 for s in legs if groupe_marche(s["code"]) == "victoire")
+        if nv >= min_v:
+            break
+        remplacables = sorted((s for s in legs if groupe_marche(s["code"]) != "victoire"), key=val)
+        fait = False
+        for faible in remplacables:
+            autres = [s for s in legs if s is not faible]
+            pris = {s["fixture_id"] for s in autres}
+            cote_sans = math.prod(s["cote"] for s in autres)
+            options = [c for c in cands if groupe_marche(c["code"]) == "victoire" and c["fixture_id"] not in pris
+                       and regles["cote_min"] <= cote_sans * c["cote"] <= regles["cote_max"]]
+            if options:
+                # d'abord changer de pari sur le MÊME match (on garde l'affiche), sinon un autre match
+                meme = [c for c in options if c["fixture_id"] == faible["fixture_id"]]
+                legs = autres + [max(meme or options, key=val)]
+                fait = True
+                break
+        if not fait:
+            break
+
+    # 2) plafond par type de pari (sans redescendre sous le plancher de victoires)
     for _ in range(3 * len(legs)):
         compte = {}
         for s in legs:
@@ -191,6 +217,7 @@ def diversifier(legs, cands, regles, part_max=0.40):
         options = [c for c in cands
                    if c["fixture_id"] not in pris and groupe_marche(c["code"]) != g
                    and compte.get(groupe_marche(c["code"]), 0) < quota
+                   and not (g == "victoire" and compte.get("victoire", 0) <= min_v)
                    and regles["cote_min"] <= cote_sans * c["cote"] <= regles["cote_max"]]
         if not options:
             break
@@ -215,6 +242,8 @@ def construire_tiktok(pool, journal=print):
             if not (regles["cote_sel_min"] <= s["cote"] <= regles["cote_sel_max"] and s["p"] >= regles["p_sel_min"]):
                 continue
             b = notoriete(s)
+            if groupe_marche(s["code"]) == "victoire":
+                b += 0.15
             b -= 0.35 * deja_match.get(s["fixture_id"], 0)            # match déjà utilisé : découragé
             if (s["fixture_id"], s["code"]) in deja_sel:
                 b -= 0.6                                              # même pari déjà utilisé : fortement découragé
