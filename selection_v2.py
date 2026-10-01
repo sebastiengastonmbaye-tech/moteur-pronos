@@ -338,8 +338,10 @@ def construire_un_coupon(candidats, r):
     avec_table = bool(r.get("table_legs"))
 
     # candidats regroupés par match, les meilleurs de chaque match seulement
+    poids_bonus = float(r.get("bonus_poids", 0.0))   # TikTok : affiche des matchs / variété
+
     def valeur_leg(s):
-        return math.log(s["p"]) + beta * math.log(s["cote"])
+        return math.log(s["p"]) + beta * math.log(s["cote"]) + poids_bonus * s.get("bonus", 0.0)
     groupes = {}
     for s in candidats:
         if s["cote"] <= 1.0 or s["p"] <= 0:
@@ -400,7 +402,8 @@ def construire_un_coupon(candidats, r):
                     continue
             if p < r["p_coupon_min"] or not _valide(sels, r):
                 continue
-            valides.append((p * c ** beta, n, abs(math.log(c / cible)), p, c, sels))
+            bonus = math.exp(poids_bonus * sum(x.get("bonus", 0.0) for x in sels)) if poids_bonus else 1.0
+            valides.append((p * c ** beta * bonus, n, abs(math.log(c / cible)), p, c, sels))
     if not valides:
         return None
 
