@@ -6,7 +6,7 @@ Tourne dans le cron, après cron_quotidien.py.
 
 1. Vérifie les coupons de la veille (résultats réels)
 2. Construit les coupons du jour : Sûre · Confiance · Fun · Grosses cotes · Montante
-3. Fait avancer les deux montantes : Montante (12 paliers) et Montante Turbo
+3. Fait avancer les deux montantes : Montante (10 paliers ; 12 pour la série n°6) et Montante Turbo
    (5 paliers, cote 1,90–2,60), départ 10 000 F
 
 Règles : une seule sélection par match · pas deux fois la même sélection
@@ -68,7 +68,12 @@ F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
 FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
 MISE_DEPART = 10000       # montantes : mise de départ en F CFA (10 000 F depuis le 29/09/2026)
-PALIERS = {"montante": 12, "turbo": 5}   # paliers par série ; série bouclée → on repart à 5 000 F
+PALIERS = {"montante": 10, "turbo": 5}   # paliers par série ; série bouclée → nouvelle série
+PALIERS_EXCEPTIONS = {("montante", 6): 12}   # la série n°6, lancée avant le changement, garde ses 12 paliers
+
+
+def nb_paliers(typ, serie):
+    return PALIERS_EXCEPTIONS.get((typ, serie), PALIERS[typ])
 NOMS_MONTANTE = {"montante": "Montante", "turbo": "Montante Turbo"}
 
 # compétitions retenues pour les coupons (principales + complément)
@@ -503,7 +508,7 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
     if paliers:
         d = paliers[0]
         if d["statut"] == "gagne":
-            if d["palier"] >= PALIERS[typ]:
+            if d["palier"] >= nb_paliers(typ, d["serie"]):
                 serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART   # série bouclée → nouvelle série
             else:
                 serie, palier, mise = d["serie"], d["palier"] + 1, float(d["gain_vise"])
@@ -518,7 +523,7 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
         "type": typ, "serie": serie, "palier": palier, "coupon_id": coupon_id,
         "mise": mise, "gain_vise": round(mise * cote, 2), "jour": jour,
     }, prefer="return=minimal")
-    print(f"   {NOMS_MONTANTE[typ]} série {serie} · palier {palier}/{PALIERS[typ]} : {int(mise)} F → {int(mise*cote)} F")
+    print(f"   {NOMS_MONTANTE[typ]} série {serie} · palier {palier}/{nb_paliers(typ, serie)} : {int(mise)} F → {int(mise*cote)} F")
 
 
 # ==================================================================
