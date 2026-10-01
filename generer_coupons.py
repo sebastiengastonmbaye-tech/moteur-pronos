@@ -12,6 +12,9 @@ Tourne dans le cron, après cron_quotidien.py.
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
 
+V2.5 (01/10/2026) — UN COUPON PUBLIÉ NE BOUGE PLUS : une relance du cron ne
+fait que compléter les catégories vides (--forcer pour régénérer, jamais les
+montantes). Équipes de jeunes et féminines exclues des coupons.
 V2.4 (29/09/2026) — Montante passée à 12 paliers ; MONTANTE TURBO (catégorie
 « turbo », 5 paliers, cote 1,90–2,60, même exigence d'analyse) ; les deux
 montantes ne partagent jamais un match le même jour.
@@ -150,6 +153,16 @@ def sb(chemin, methode="GET", corps=None, prefer=None, essais=3):
 # ==================================================================
 # 1. Candidats : probabilités du moteur sur les matchs à venir
 # ==================================================================
+import re as _re
+_JEUNES = _re.compile(r"\bU-?(1[5-9]|2[0-3])\b|\bwomen\b|\(w\)|\bfemin|\bféminin|\sW$", _re.I)
+
+
+def equipe_jeunes(nom):
+    """Équipes de jeunes (U17, U19, U21…) ou féminines : jamais dans les coupons —
+    le moteur n'a pas de données fiables sur elles."""
+    return bool(_JEUNES.search(str(nom or "")))
+
+
 STATUTS_LIVE = ("NS", "1H", "HT", "2H", "ET", "BT", "P", "LIVE", "INT")
 
 
@@ -245,6 +258,7 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
             "date_match": f.date.date().isoformat(),
         } for _, f in avenir.iterrows()], histo, journal=lambda *a: None, api=api_enr)
 
+        avenir = avenir[~avenir.equipe_dom.map(equipe_jeunes) & ~avenir.equipe_ext.map(equipe_jeunes)]
         for _, f in avenir.iterrows():
             fiche = m.analyser(f.equipe_dom, f.equipe_ext,
                                ajustements=facteurs.get(int(f.fixture_id)))
@@ -510,6 +524,9 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
 # ==================================================================
 # 6. Enregistrement
 # ==================================================================
+CATEGORIES_REMPLACABLES = {"tiktok"}   # seules catégories reconstruites à chaque passage
+
+
 def enregistrer(coupons, jour, nuit=False):
     from datetime import date as _date
     lendemain = (datetime.fromisoformat(jour).date() + timedelta(days=1)).isoformat()
@@ -530,14 +547,33 @@ def enregistrer(coupons, jour, nuit=False):
         print(f"   ❌ coupon {cid} toujours présent après suppression")
         return False
 
+    # RÈGLE (01/10/2026) : un coupon publié ne bouge plus. Des gens misent dessus
+    # dès sa publication — montantes en tête. Une relance du cron ne fait donc
+    # que COMPLÉTER les catégories encore vides pour ce jour-là.
+    #   · exception : les combinés TikTok provisoires (J+3 … J+6), qui suivent
+    #     leurs propres règles de gel (generer_tiktok)
+    #   · --forcer : régénération volontaire, jamais pour les montantes
+    forcer = "--forcer" in sys.argv
     cats = {c["categorie"] for c in coupons}
+    gardees = set()
     for cat in cats:
-        anciens = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cat}&statut=eq.en_cours&select=id")
+        anciens = sb(f"coupons?jour=eq.{jour}&categorie=eq.{cat}&select=id,statut")
+        anciens = anciens if isinstance(anciens, list) else []
+        remplacable = cat in CATEGORIES_REMPLACABLES or (forcer and cat not in ("montante", "turbo"))
+        if anciens and not remplacable:
+            gardees.add(cat)
+            print(f"   🔒 {cat} : {len(anciens)} coupon(s) déjà publié(s) le {jour}, conservé(s)")
+            continue
         n = 0
-        for a in (anciens if isinstance(anciens, list) else []):
-            n += supprimer_coupon(a["id"])
+        for a in anciens:
+            if a.get("statut") == "en_cours":
+                n += supprimer_coupon(a["id"])
         if n:
             print(f"   ↻ {cat} : {n} ancien(s) coupon(s) remplacé(s)")
+    coupons = [c for c in coupons if c["categorie"] not in gardees]
+    cats = cats - gardees
+    if not coupons:
+        return
 
     # numéros déjà pris dans la journée (coupons gagnés/perdus conservés) :
     # un coupon terminé garde son numéro, les nouveaux prennent les suivants
