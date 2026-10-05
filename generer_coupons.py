@@ -451,6 +451,13 @@ def verifier():
                 ok = gagnee(s["code"], *scores[s["fixture_id"]])
                 sb(f"coupon_selections?id=eq.{s['id']}", "PATCH",
                    {"resultat": "gagne" if ok else "perdu"})
+                # score final, pour la page Preuves du panneau admin (facultatif :
+                # un refus éventuel n'empêche jamais la vérification)
+                try:
+                    bd_, be_ = scores[s["fixture_id"]]
+                    sb(f"coupon_selections?id=eq.{s['id']}", "PATCH", {"score": f"{bd_}-{be_}"})
+                except Exception:
+                    pass
             else:
                 ok = s["resultat"] == "gagne"
             if ok:
