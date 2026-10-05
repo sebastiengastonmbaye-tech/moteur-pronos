@@ -66,23 +66,25 @@ CATEGORIES = {
         cote_sel_min=1.12, cote_sel_max=1.60, p_sel_min=0.62,
         moteur_min=0.70, moteur_min_dc=0.80,
         p_coupon_min=0.42, max_coupons=3, beta=0.0, table_legs=True,
-        repli=dict(p_sel_min=0.66, moteur_min=0.60, moteur_min_dc=0.74,
-                   cote_sel_max=1.55, p_coupon_min=0.40, europe_ok=True)),
+        cascade=True, plancher=0.70, europe_ok=True),
     "confiance": dict(
         cote_min=2.60, cote_max=7.50, legs_min=2, legs_max=6,
         cote_sel_min=1.25, cote_sel_max=2.20, p_sel_min=0.45,
         p_coupon_min=0.12, max_coupons=3, beta=0.5, table_legs=True,
+        cascade=True, plancher=0.65,
         zones=[(2.6, 3.6, 3.0), (3.8, 5.2, 4.5), (5.2, 7.5, 6.0)]),
     "fun": dict(
         cote_min=8.0, cote_max=18.0, legs_min=4, legs_max=7,
         cote_sel_min=1.30, cote_sel_max=2.60, p_sel_min=0.38,
         p_coupon_min=0.05, max_coupons=2, valeur=True, beta=1.0, table_legs=True,
+        cascade=True, plancher=0.60,
         zones=[(8.0, 12.0, 10.0), (12.0, 18.0, 15.0)]),
     # GROSSES COTES : 1er coupon dans 30-45, 2e dans 60-90
     "grosses": dict(
         cote_min=30.0, cote_max=90.0, legs_min=7, legs_max=11,
         cote_sel_min=1.40, cote_sel_max=3.00, p_sel_min=0.33,
         p_coupon_min=0.006, max_coupons=2, valeur=True, beta=1.0, table_legs=True,
+        cascade=True, plancher=0.60,
         zones=[(30.0, 45.0, 35.0), (60.0, 90.0, 70.0)]),
     "montante": dict(
         cote_min=1.40, cote_max=1.80, legs_min=1, legs_max=2,
@@ -105,7 +107,8 @@ CATEGORIES = {
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
-        p_coupon_min=0.20, max_coupons=3, beta=0.0, table_legs=True),
+        p_coupon_min=0.20, max_coupons=3, beta=0.0, table_legs=True,
+        cascade=True, plancher=0.65),
 }
 
 # SÛRE / MONTANTE — palier de REPLI (28/09) : si aucune combinaison ne passe
@@ -136,7 +139,7 @@ def plage_legs(cote):
     return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
-ORDRE_JOUR = ["sure", "montante", "turbo", "confiance", "fun", "grosses"]
+ORDRE_JOUR = ["montante", "turbo", "sure", "confiance", "fun", "grosses"]   # les montantes se servent en premier
 ORDRE_NUIT = ["nuit"]
 
 # Famille de marché : un seul code par match et par famille, tous coupons
@@ -154,7 +157,18 @@ CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
 # calibration inter-ligues n'est pas validée par backtest.
 LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa"}
 CATEGORIES_PRUDENCE = {"sure", "montante", "turbo"}
-MONTANTES = {"montante", "turbo"}   # jamais le même match dans les deux montantes le même jour
+MONTANTES = {"montante", "turbo"}   # leurs matchs ne sont repris par AUCUN autre coupon le même jour
+
+# CASCADE DE CONFIANCE (05/10/2026) — même philosophie que les montantes, pour
+# Sûre, Confiance, Fun, Grosses cotes et Nuit : chaque coupon est construit avec
+# les seuls pronos que le moteur juge au moins à X %, en commençant par 95 % et
+# en descendant palier par palier jusqu'au plancher de la catégorie. Le coupon
+# retenu est donc celui du niveau le plus strict qui permet de l'atteindre.
+#   · double chance : seuil +10 points (elles sont naturellement plus probables)
+#   · accord du marché : probabilité fusionnée ≥ seuil − 8 points, sinon c'est
+#     le moteur qui se trompe le plus souvent → sélection écartée
+PALIERS_CONFIANCE = [0.95, 0.90, 0.85, 0.80, 0.75, 0.70, 0.65, 0.60]
+ACCORD_MARCHE = 0.08
 
 
 # ---------------------------------------------------------------------------
@@ -289,6 +303,8 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
         if r.get("moteur_min"):
             seuil = r["moteur_min_dc"] if s["code"] in CODES_DC else r["moteur_min"]
             if s.get("p_moteur") is None or s["p_moteur"] < seuil:
+                continue
+            if r.get("accord") is not None and s["p"] < seuil - r["accord"]:
                 continue
         if (s["fixture_id"], s["code"]) in utilises:
             continue
@@ -441,9 +457,21 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
             if r.get("zones"):            # 1er coupon cherche dans la 1re zone, 2e dans la 2e…
                 zmin, zmax, zcible = r["zones"][min(compte[cat], len(r["zones"]) - 1)]
                 r["cote_min"], r["cote_max"], r["cible"] = zmin, zmax, zcible
-            filtre = (lambda l: [x for x in l if x["fixture_id"] not in matchs_montantes]) if cat in MONTANTES else (lambda l: l)
-            cands = filtre(_eligibles(selections, cat, r, utilises, codes_par_match))
-            coupon = construire_un_coupon(cands, r)
+            filtre = lambda l: [x for x in l if x["fixture_id"] not in matchs_montantes]
+            if r.get("cascade"):
+                coupon, cands = None, []
+                for t in PALIERS_CONFIANCE:
+                    if t < r["plancher"] - 1e-9:
+                        break
+                    rt = {**r, "moteur_min": t, "moteur_min_dc": min(0.97, t + 0.10), "accord": ACCORD_MARCHE}
+                    cands = filtre(_eligibles(selections, cat, rt, utilises, codes_par_match))
+                    coupon = construire_un_coupon(cands, rt)
+                    if coupon is not None:
+                        coupon["niveau"] = t
+                        break
+            else:
+                cands = filtre(_eligibles(selections, cat, r, utilises, codes_par_match))
+                coupon = construire_un_coupon(cands, r)
             if coupon is None and r.get("repli"):
                 r2 = {**r, **r["repli"]}
                 cands = filtre(_eligibles(selections, cat, r2, utilises, codes_par_match))
@@ -453,8 +481,7 @@ def construire_coupons(selections, ordre=ORDRE_JOUR, journal=print):
             if coupon is None:
                 epuisees.add(cat)
                 if compte[cat] == 0:
-                    journal(f"   ⚠️ {cat} : aucun coupon possible "
-                            f"({len(cands)} sélection(s) éligibles)")
+                    journal(f"   ⚠️ {cat} : aucun coupon possible aujourd'hui")
                 continue
             compte[cat] += 1
             coupon["categorie"], coupon["numero"] = cat, compte[cat]
