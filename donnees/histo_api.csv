@@ -50966,83 +50966,83 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1593321,2026-09-20,FT,197,Super League 1,2026,OFI,Asteras Tripolis,2.0,2.0,16:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/955.png
 1593319,2026-09-20,FT,197,Super League 1,2026,Kalamata,Panathinaikos,0.0,1.0,16:30,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/617.png
 1593322,2026-09-20,FT,197,Super League 1,2026,Panetolikos,PAOK,1.0,3.0,18:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/619.png
-1593329,2026-10-10,NS,197,Super League 1,2026,Olympiakos Piraeus,Panathinaikos,,,15:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/617.png
-1593330,2026-10-10,NS,197,Super League 1,2026,PAOK,Kalamata,,,15:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/5046.png
-1593325,2026-10-10,NS,197,Super League 1,2026,Aris Thessalonikis,Volos NFC,,,15:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/2110.png
-1593328,2026-10-10,NS,197,Super League 1,2026,Kifisia,Panetolikos,,,15:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/949.png
-1593327,2026-10-10,NS,197,Super League 1,2026,Iraklis 1908,Levadiakos,,,15:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/957.png
 1593324,2026-10-10,NS,197,Super League 1,2026,AEK Athens FC,OFI,,,16:30,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/1124.png
 1593326,2026-10-10,NS,197,Super League 1,2026,Asteras Tripolis,Atromitos,,,16:30,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/12260.png
-1593335,2026-10-17,NS,197,Super League 1,2026,Panathinaikos,Asteras Tripolis,,,15:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/955.png
-1593337,2026-10-17,NS,197,Super League 1,2026,PAOK,Iraklis 1908,,,15:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/17991.png
-1593336,2026-10-17,NS,197,Super League 1,2026,Panetolikos,Olympiakos Piraeus,,,15:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/553.png
-1593334,2026-10-17,NS,197,Super League 1,2026,Levadiakos,Volos NFC,,,15:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/2110.png
-1593332,2026-10-17,NS,197,Super League 1,2026,Kalamata,OFI,,,15:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/1124.png
-1593333,2026-10-17,NS,197,Super League 1,2026,Kifisia,Aris Thessalonikis,,,15:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/1123.png
-1593331,2026-10-17,NS,197,Super League 1,2026,Atromitos,AEK Athens FC,,,15:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/575.png
-1593343,2026-10-24,NS,197,Super League 1,2026,Olympiakos Piraeus,Kalamata,,,15:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/5046.png
-1593338,2026-10-24,NS,197,Super League 1,2026,AEK Athens FC,Panetolikos,,,15:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/949.png
-1593340,2026-10-24,NS,197,Super League 1,2026,Asteras Tripolis,Levadiakos,,,15:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/957.png
-1593339,2026-10-24,NS,197,Super League 1,2026,Aris Thessalonikis,Atromitos,,,15:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/12260.png
-1593342,2026-10-24,NS,197,Super League 1,2026,OFI,PAOK,,,15:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/619.png
-1593344,2026-10-24,NS,197,Super League 1,2026,Volos NFC,Panathinaikos,,,15:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/617.png
-1593341,2026-10-24,NS,197,Super League 1,2026,Iraklis 1908,Kifisia,,,15:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/5050.png
-1593349,2026-10-31,NS,197,Super League 1,2026,Panathinaikos,AEK Athens FC,,,16:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/575.png
-1593351,2026-10-31,NS,197,Super League 1,2026,PAOK,Asteras Tripolis,,,16:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/955.png
-1593350,2026-10-31,NS,197,Super League 1,2026,Panetolikos,OFI,,,16:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/1124.png
-1593348,2026-10-31,NS,197,Super League 1,2026,Levadiakos,Aris Thessalonikis,,,16:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/1123.png
-1593346,2026-10-31,NS,197,Super League 1,2026,Kalamata,Iraklis 1908,,,16:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/17991.png
-1593347,2026-10-31,NS,197,Super League 1,2026,Kifisia,Olympiakos Piraeus,,,16:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/553.png
-1593345,2026-10-31,NS,197,Super League 1,2026,Atromitos,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/2110.png
-1593357,2026-11-07,NS,197,Super League 1,2026,Olympiakos Piraeus,PAOK,,,16:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/619.png
-1593352,2026-11-07,NS,197,Super League 1,2026,AEK Athens FC,Levadiakos,,,16:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/957.png
-1593354,2026-11-07,NS,197,Super League 1,2026,Asteras Tripolis,Kalamata,,,16:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/5046.png
-1593353,2026-11-07,NS,197,Super League 1,2026,Aris Thessalonikis,Panetolikos,,,16:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/949.png
-1593356,2026-11-07,NS,197,Super League 1,2026,OFI,Atromitos,,,16:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/12260.png
-1593358,2026-11-07,NS,197,Super League 1,2026,Volos NFC,Kifisia,,,16:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/5050.png
-1593355,2026-11-07,NS,197,Super League 1,2026,Iraklis 1908,Panathinaikos,,,16:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/617.png
-1593362,2026-11-21,NS,197,Super League 1,2026,Olympiakos Piraeus,Iraklis 1908,,,16:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/17991.png
-1593363,2026-11-21,NS,197,Super League 1,2026,Panathinaikos,OFI,,,16:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/1124.png
-1593365,2026-11-21,NS,197,Super League 1,2026,PAOK,Kifisia,,,16:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/5050.png
-1593364,2026-11-21,NS,197,Super League 1,2026,Panetolikos,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/2110.png
-1593359,2026-11-21,NS,197,Super League 1,2026,Asteras Tripolis,Aris Thessalonikis,,,16:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/1123.png
-1593361,2026-11-21,NS,197,Super League 1,2026,Levadiakos,Atromitos,,,16:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/12260.png
-1593360,2026-11-21,NS,197,Super League 1,2026,Kalamata,AEK Athens FC,,,16:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/575.png
-1593366,2026-11-28,NS,197,Super League 1,2026,AEK Athens FC,PAOK,,,16:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/619.png
-1593367,2026-11-28,NS,197,Super League 1,2026,Aris Thessalonikis,Olympiakos Piraeus,,,16:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/553.png
-1593371,2026-11-28,NS,197,Super League 1,2026,OFI,Levadiakos,,,16:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/957.png
-1593372,2026-11-28,NS,197,Super League 1,2026,Volos NFC,Asteras Tripolis,,,16:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/955.png
-1593370,2026-11-28,NS,197,Super League 1,2026,Kifisia,Kalamata,,,16:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/5046.png
-1593368,2026-11-28,NS,197,Super League 1,2026,Atromitos,Panathinaikos,,,16:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/617.png
-1593369,2026-11-28,NS,197,Super League 1,2026,Iraklis 1908,Panetolikos,,,16:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/949.png
-1593376,2026-12-05,NS,197,Super League 1,2026,Olympiakos Piraeus,AEK Athens FC,,,16:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/575.png
-1593377,2026-12-05,NS,197,Super League 1,2026,Panathinaikos,Aris Thessalonikis,,,16:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/1123.png
-1593379,2026-12-05,NS,197,Super League 1,2026,PAOK,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/2110.png
-1593378,2026-12-05,NS,197,Super League 1,2026,Panetolikos,Atromitos,,,16:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/12260.png
-1593373,2026-12-05,NS,197,Super League 1,2026,Asteras Tripolis,Kifisia,,,16:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/5050.png
-1593375,2026-12-05,NS,197,Super League 1,2026,OFI,Iraklis 1908,,,16:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/17991.png
-1593374,2026-12-05,NS,197,Super League 1,2026,Kalamata,Levadiakos,,,16:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/957.png
-1593380,2026-12-12,NS,197,Super League 1,2026,AEK Athens FC,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/2110.png
-1593386,2026-12-12,NS,197,Super League 1,2026,PAOK,Panathinaikos,,,16:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/617.png
-1593385,2026-12-12,NS,197,Super League 1,2026,Levadiakos,Asteras Tripolis,,,16:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/955.png
-1593383,2026-12-12,NS,197,Super League 1,2026,Kalamata,Panetolikos,,,16:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/949.png
-1593384,2026-12-12,NS,197,Super League 1,2026,Kifisia,OFI,,,16:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/1124.png
-1593381,2026-12-12,NS,197,Super League 1,2026,Atromitos,Olympiakos Piraeus,,,16:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/553.png
-1593382,2026-12-12,NS,197,Super League 1,2026,Iraklis 1908,Aris Thessalonikis,,,16:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/1123.png
-1593391,2026-12-19,NS,197,Super League 1,2026,Olympiakos Piraeus,Panetolikos,,,16:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/949.png
-1593392,2026-12-19,NS,197,Super League 1,2026,Panathinaikos,Iraklis 1908,,,16:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/17991.png
-1593388,2026-12-19,NS,197,Super League 1,2026,Asteras Tripolis,PAOK,,,16:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/619.png
-1593387,2026-12-19,NS,197,Super League 1,2026,Aris Thessalonikis,AEK Athens FC,,,16:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/575.png
-1593390,2026-12-19,NS,197,Super League 1,2026,OFI,Kalamata,,,16:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/5046.png
-1593393,2026-12-19,NS,197,Super League 1,2026,Volos NFC,Levadiakos,,,16:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/957.png
-1593389,2026-12-19,NS,197,Super League 1,2026,Kifisia,Atromitos,,,16:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/12260.png
-1593394,2027-01-09,NS,197,Super League 1,2026,AEK Athens FC,Atromitos,,,16:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/12260.png
-1593400,2027-01-09,NS,197,Super League 1,2026,Panetolikos,Kifisia,,,16:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/5050.png
-1593396,2027-01-09,NS,197,Super League 1,2026,Asteras Tripolis,Panathinaikos,,,16:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/617.png
-1593399,2027-01-09,NS,197,Super League 1,2026,Levadiakos,OFI,,,16:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/1124.png
-1593395,2027-01-09,NS,197,Super League 1,2026,Aris Thessalonikis,PAOK,,,16:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/619.png
-1593398,2027-01-09,NS,197,Super League 1,2026,Kalamata,Olympiakos Piraeus,,,16:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/553.png
-1593397,2027-01-09,NS,197,Super League 1,2026,Iraklis 1908,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/2110.png
+1593328,2026-10-11,NS,197,Super League 1,2026,Kifisia,Panetolikos,,,14:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/949.png
+1593327,2026-10-11,NS,197,Super League 1,2026,Iraklis 1908,Levadiakos,,,14:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/957.png
+1593325,2026-10-11,NS,197,Super League 1,2026,Aris Thessalonikis,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/2110.png
+1593329,2026-10-11,NS,197,Super League 1,2026,Olympiakos Piraeus,Panathinaikos,,,18:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/617.png
+1593330,2026-10-12,NS,197,Super League 1,2026,PAOK,Kalamata,,,15:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/5046.png
+1593334,2026-10-17,NS,197,Super League 1,2026,Levadiakos,Volos NFC,,,14:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/2110.png
+1593331,2026-10-17,NS,197,Super League 1,2026,Atromitos,AEK Athens FC,,,16:30,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/575.png
+1593332,2026-10-18,NS,197,Super League 1,2026,Kalamata,OFI,,,13:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/1124.png
+1593336,2026-10-18,NS,197,Super League 1,2026,Panetolikos,Olympiakos Piraeus,,,14:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/553.png
+1593335,2026-10-18,NS,197,Super League 1,2026,Panathinaikos,Asteras Tripolis,,,14:30,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/955.png
+1593333,2026-10-18,NS,197,Super League 1,2026,Kifisia,Aris Thessalonikis,,,17:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/1123.png
+1593337,2026-10-18,NS,197,Super League 1,2026,PAOK,Iraklis 1908,,,18:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/17991.png
+1593341,2026-10-24,NS,197,Super League 1,2026,Iraklis 1908,Kifisia,,,16:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/5050.png
+1593340,2026-10-24,NS,197,Super League 1,2026,Asteras Tripolis,Levadiakos,,,16:30,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/957.png
+1593338,2026-10-24,NS,197,Super League 1,2026,AEK Athens FC,Panetolikos,,,17:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/949.png
+1593343,2026-10-25,NS,197,Super League 1,2026,Olympiakos Piraeus,Kalamata,,,14:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/5046.png
+1593344,2026-10-25,NS,197,Super League 1,2026,Volos NFC,Panathinaikos,,,16:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/617.png
+1593339,2026-10-25,NS,197,Super League 1,2026,Aris Thessalonikis,Atromitos,,,17:30,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/12260.png
+1593342,2026-10-25,NS,197,Super League 1,2026,OFI,PAOK,,,18:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/619.png
+1593347,2026-10-31,NS,197,Super League 1,2026,Kifisia,Olympiakos Piraeus,,,17:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/553.png
+1593348,2026-11-01,NS,197,Super League 1,2026,Levadiakos,Aris Thessalonikis,,,15:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/1123.png
+1593350,2026-11-01,NS,197,Super League 1,2026,Panetolikos,OFI,,,16:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/1124.png
+1593349,2026-11-01,NS,197,Super League 1,2026,Panathinaikos,AEK Athens FC,,,17:00,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/575.png
+1593351,2026-11-01,NS,197,Super League 1,2026,PAOK,Asteras Tripolis,,,17:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/955.png
+1593345,2026-11-02,NS,197,Super League 1,2026,Atromitos,Volos NFC,,,16:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/2110.png
+1593346,2026-11-02,NS,197,Super League 1,2026,Kalamata,Iraklis 1908,,,17:30,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/17991.png
+1593358,2026-11-07,NS,197,Super League 1,2026,Volos NFC,Kifisia,,,15:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/5050.png
+1593353,2026-11-07,NS,197,Super League 1,2026,Aris Thessalonikis,Panetolikos,,,17:30,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/949.png
+1593352,2026-11-08,NS,197,Super League 1,2026,AEK Athens FC,Levadiakos,,,15:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/957.png
+1593354,2026-11-08,NS,197,Super League 1,2026,Asteras Tripolis,Kalamata,,,15:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/5046.png
+1593355,2026-11-08,NS,197,Super League 1,2026,Iraklis 1908,Panathinaikos,,,15:30,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/617.png
+1593356,2026-11-08,NS,197,Super League 1,2026,OFI,Atromitos,,,17:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/12260.png
+1593357,2026-11-08,NS,197,Super League 1,2026,Olympiakos Piraeus,PAOK,,,19:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/619.png
+1593360,2026-11-21,NS,197,Super League 1,2026,Kalamata,AEK Athens FC,,,17:30,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/575.png
+1593361,2026-11-22,NS,197,Super League 1,2026,Levadiakos,Atromitos,,,14:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/12260.png
+1593364,2026-11-22,NS,197,Super League 1,2026,Panetolikos,Volos NFC,,,15:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/2110.png
+1593363,2026-11-22,NS,197,Super League 1,2026,Panathinaikos,OFI,,,15:30,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/1124.png
+1593362,2026-11-22,NS,197,Super League 1,2026,Olympiakos Piraeus,Iraklis 1908,,,17:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/17991.png
+1593365,2026-11-22,NS,197,Super League 1,2026,PAOK,Kifisia,,,17:30,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/5050.png
+1593359,2026-11-23,NS,197,Super League 1,2026,Asteras Tripolis,Aris Thessalonikis,,,15:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/1123.png
+1593372,2026-11-28,NS,197,Super League 1,2026,Volos NFC,Asteras Tripolis,,,15:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/955.png
+1593370,2026-11-28,NS,197,Super League 1,2026,Kifisia,Kalamata,,,18:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/5046.png
+1593369,2026-11-28,NS,197,Super League 1,2026,Iraklis 1908,Panetolikos,,,19:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/949.png
+1593368,2026-11-29,NS,197,Super League 1,2026,Atromitos,Panathinaikos,,,15:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/617.png
+1593371,2026-11-29,NS,197,Super League 1,2026,OFI,Levadiakos,,,15:30,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/957.png
+1593367,2026-11-29,NS,197,Super League 1,2026,Aris Thessalonikis,Olympiakos Piraeus,,,17:00,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/553.png
+1593366,2026-11-29,NS,197,Super League 1,2026,AEK Athens FC,PAOK,,,19:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/619.png
+1593376,2026-12-05,NS,197,Super League 1,2026,Olympiakos Piraeus,AEK Athens FC,,,18:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/575.png
+1593374,2026-12-06,NS,197,Super League 1,2026,Kalamata,Levadiakos,,,13:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/957.png
+1593373,2026-12-06,NS,197,Super League 1,2026,Asteras Tripolis,Kifisia,,,14:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/5050.png
+1593377,2026-12-06,NS,197,Super League 1,2026,Panathinaikos,Aris Thessalonikis,,,15:30,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/1123.png
+1593379,2026-12-06,NS,197,Super League 1,2026,PAOK,Volos NFC,,,17:30,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/2110.png
+1593375,2026-12-06,NS,197,Super League 1,2026,OFI,Iraklis 1908,,,18:00,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/17991.png
+1593378,2026-12-07,NS,197,Super League 1,2026,Panetolikos,Atromitos,,,17:00,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/12260.png
+1593383,2026-12-12,NS,197,Super League 1,2026,Kalamata,Panetolikos,,,15:00,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/949.png
+1593385,2026-12-12,NS,197,Super League 1,2026,Levadiakos,Asteras Tripolis,,,17:30,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/955.png
+1593382,2026-12-12,NS,197,Super League 1,2026,Iraklis 1908,Aris Thessalonikis,,,19:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/1123.png
+1593381,2026-12-13,NS,197,Super League 1,2026,Atromitos,Olympiakos Piraeus,,,15:00,https://media.api-sports.io/football/teams/12260.png,https://media.api-sports.io/football/teams/553.png
+1593380,2026-12-13,NS,197,Super League 1,2026,AEK Athens FC,Volos NFC,,,17:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/2110.png
+1593386,2026-12-13,NS,197,Super League 1,2026,PAOK,Panathinaikos,,,17:30,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/617.png
+1593384,2026-12-14,NS,197,Super League 1,2026,Kifisia,OFI,,,17:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/1124.png
+1593393,2026-12-19,NS,197,Super League 1,2026,Volos NFC,Levadiakos,,,15:00,https://media.api-sports.io/football/teams/2110.png,https://media.api-sports.io/football/teams/957.png
+1593388,2026-12-19,NS,197,Super League 1,2026,Asteras Tripolis,PAOK,,,17:30,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/619.png
+1593389,2026-12-19,NS,197,Super League 1,2026,Kifisia,Atromitos,,,18:00,https://media.api-sports.io/football/teams/5050.png,https://media.api-sports.io/football/teams/12260.png
+1593391,2026-12-20,NS,197,Super League 1,2026,Olympiakos Piraeus,Panetolikos,,,15:00,https://media.api-sports.io/football/teams/553.png,https://media.api-sports.io/football/teams/949.png
+1593392,2026-12-20,NS,197,Super League 1,2026,Panathinaikos,Iraklis 1908,,,15:30,https://media.api-sports.io/football/teams/617.png,https://media.api-sports.io/football/teams/17991.png
+1593387,2026-12-20,NS,197,Super League 1,2026,Aris Thessalonikis,AEK Athens FC,,,17:30,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/575.png
+1593390,2026-12-20,NS,197,Super League 1,2026,OFI,Kalamata,,,17:30,https://media.api-sports.io/football/teams/1124.png,https://media.api-sports.io/football/teams/5046.png
+1593399,2027-01-09,NS,197,Super League 1,2026,Levadiakos,OFI,,,15:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/1124.png
+1593394,2027-01-09,NS,197,Super League 1,2026,AEK Athens FC,Atromitos,,,17:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/12260.png
+1593398,2027-01-09,NS,197,Super League 1,2026,Kalamata,Olympiakos Piraeus,,,17:30,https://media.api-sports.io/football/teams/5046.png,https://media.api-sports.io/football/teams/553.png
+1593397,2027-01-09,NS,197,Super League 1,2026,Iraklis 1908,Volos NFC,,,18:00,https://media.api-sports.io/football/teams/17991.png,https://media.api-sports.io/football/teams/2110.png
+1593396,2027-01-10,NS,197,Super League 1,2026,Asteras Tripolis,Panathinaikos,,,15:00,https://media.api-sports.io/football/teams/955.png,https://media.api-sports.io/football/teams/617.png
+1593400,2027-01-10,NS,197,Super League 1,2026,Panetolikos,Kifisia,,,17:30,https://media.api-sports.io/football/teams/949.png,https://media.api-sports.io/football/teams/5050.png
+1593395,2027-01-10,NS,197,Super League 1,2026,Aris Thessalonikis,PAOK,,,17:30,https://media.api-sports.io/football/teams/1123.png,https://media.api-sports.io/football/teams/619.png
 1593401,2027-01-16,NS,197,Super League 1,2026,AEK Athens FC,Kalamata,,,16:00,https://media.api-sports.io/football/teams/575.png,https://media.api-sports.io/football/teams/5046.png
 1593406,2027-01-16,NS,197,Super League 1,2026,PAOK,Olympiakos Piraeus,,,16:00,https://media.api-sports.io/football/teams/619.png,https://media.api-sports.io/football/teams/553.png
 1593404,2027-01-16,NS,197,Super League 1,2026,Levadiakos,Iraklis 1908,,,16:00,https://media.api-sports.io/football/teams/957.png,https://media.api-sports.io/football/teams/17991.png
@@ -51303,8 +51303,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1565490,2026-10-10,NS,333,Premier League,2026,Chornomorets,FC Kharkiv,,,10:00,https://media.api-sports.io/football/teams/3615.png,https://media.api-sports.io/football/teams/3628.png
 1565492,2026-10-10,NS,333,Premier League,2026,Kolos Kovalivka,Epitsentr Dunayivtsi,,,10:00,https://media.api-sports.io/football/teams/3627.png,https://media.api-sports.io/football/teams/14434.png
 1565495,2026-10-10,NS,333,Premier League,2026,Obolon'-Brovar,Kryvbas KR,,,10:00,https://media.api-sports.io/football/teams/3630.png,https://media.api-sports.io/football/teams/6489.png
+1565491,2026-10-11,NS,333,Premier League,2026,Dynamo Kyiv,Karpaty,,,10:00,https://media.api-sports.io/football/teams/572.png,https://media.api-sports.io/football/teams/3617.png
 1565494,2026-10-11,NS,333,Premier League,2026,LNZ Cherkasy,Kudrivka,,,10:00,https://media.api-sports.io/football/teams/17161.png,https://media.api-sports.io/football/teams/21953.png
-1565491,2026-10-11,NS,333,Premier League,2026,Dynamo Kyiv,Karpaty,,,12:30,https://media.api-sports.io/football/teams/572.png,https://media.api-sports.io/football/teams/3617.png
 1565489,2026-10-11,NS,333,Premier League,2026,Bukovyna,Polessya,,,15:00,https://media.api-sports.io/football/teams/6486.png,https://media.api-sports.io/football/teams/6496.png
 1565493,2026-10-12,NS,333,Premier League,2026,Livyi Bereh,Zorya Luhansk,,,10:00,https://media.api-sports.io/football/teams/17162.png,https://media.api-sports.io/football/teams/599.png
 1565502,2026-10-16,NS,333,Premier League,2026,Obolon'-Brovar,Veres Rivne,,,12:30,https://media.api-sports.io/football/teams/3630.png,https://media.api-sports.io/football/teams/6501.png
@@ -52175,11 +52175,11 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1553834,2026-08-08,PST,286,Super Liga,2026,Radnicki NIS,FK Partizan,,,15:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/573.png
 1553879,2026-10-10,NS,286,Super Liga,2026,IMT Novi Beograd,Radnik Surdulica,,,13:00,https://media.api-sports.io/football/teams/12316.png,https://media.api-sports.io/football/teams/2657.png
 1553878,2026-10-10,NS,286,Super Liga,2026,Cukaricki,Macva,,,15:00,https://media.api-sports.io/football/teams/2656.png,https://media.api-sports.io/football/teams/2637.png
-1553881,2026-10-10,NS,286,Super Liga,2026,FK Partizan,Novi Pazar,,,16:00,https://media.api-sports.io/football/teams/573.png,https://media.api-sports.io/football/teams/2643.png
 1553880,2026-10-10,NS,286,Super Liga,2026,Mladost Lucani,OFK Beograd,,,16:00,https://media.api-sports.io/football/teams/699.png,https://media.api-sports.io/football/teams/2633.png
-1553883,2026-10-10,NS,286,Super Liga,2026,Radnicki NIS,Vojvodina,,,16:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/702.png
-1553884,2026-10-10,NS,286,Super Liga,2026,Zemun,Železničar Pančevo,,,16:00,https://media.api-sports.io/football/teams/2642.png,https://media.api-sports.io/football/teams/12360.png
 1553882,2026-10-10,NS,286,Super Liga,2026,Radnicki 1923,FK Crvena Zvezda,,,17:00,https://media.api-sports.io/football/teams/2644.png,https://media.api-sports.io/football/teams/598.png
+1553883,2026-10-11,NS,286,Super Liga,2026,Radnicki NIS,Vojvodina,,,13:00,https://media.api-sports.io/football/teams/2254.png,https://media.api-sports.io/football/teams/702.png
+1553881,2026-10-11,NS,286,Super Liga,2026,FK Partizan,Novi Pazar,,,15:00,https://media.api-sports.io/football/teams/573.png,https://media.api-sports.io/football/teams/2643.png
+1553884,2026-10-11,NS,286,Super Liga,2026,Zemun,Železničar Pančevo,,,17:00,https://media.api-sports.io/football/teams/2642.png,https://media.api-sports.io/football/teams/12360.png
 1553890,2026-10-17,NS,286,Super Liga,2026,Vojvodina,Radnicki 1923,,,16:00,https://media.api-sports.io/football/teams/702.png,https://media.api-sports.io/football/teams/2644.png
 1553887,2026-10-17,NS,286,Super Liga,2026,Macva,OFK Beograd,,,16:00,https://media.api-sports.io/football/teams/2637.png,https://media.api-sports.io/football/teams/2633.png
 1553888,2026-10-17,NS,286,Super Liga,2026,Novi Pazar,IMT Novi Beograd,,,16:00,https://media.api-sports.io/football/teams/2643.png,https://media.api-sports.io/football/teams/12316.png
@@ -52632,7 +52632,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1555519,2026-10-10,NS,383,Ligat Ha'al,2026,Ironi Kiryat Shmona,Hapoel Tel Aviv,,,16:15,https://media.api-sports.io/football/teams/4510.png,https://media.api-sports.io/football/teams/4501.png
 1555520,2026-10-10,NS,383,Ligat Ha'al,2026,Maccabi Tel Aviv,Bnei Sakhnin,,,16:30,https://media.api-sports.io/football/teams/604.png,https://media.api-sports.io/football/teams/4481.png
 1555515,2026-10-10,NS,383,Ligat Ha'al,2026,Hapoel Katamon,Maccabi Haifa,,,17:00,https://media.api-sports.io/football/teams/4486.png,https://media.api-sports.io/football/teams/4195.png
-1555517,2026-10-10,NS,383,Ligat Ha'al,2026,Hapoel Ramat Gan,Beitar Jerusalem,,,17:00,https://media.api-sports.io/football/teams/4489.png,https://media.api-sports.io/football/teams/657.png
+1555517,2026-10-11,NS,383,Ligat Ha'al,2026,Hapoel Ramat Gan,Beitar Jerusalem,,,17:15,https://media.api-sports.io/football/teams/4489.png,https://media.api-sports.io/football/teams/657.png
 1555524,2026-10-17,NS,383,Ligat Ha'al,2026,Hapoel Beer Sheva,Hapoel Katamon,,,17:00,https://media.api-sports.io/football/teams/563.png,https://media.api-sports.io/football/teams/4486.png
 1555521,2026-10-17,NS,383,Ligat Ha'al,2026,Beitar Jerusalem,Maccabi Tel Aviv,,,17:00,https://media.api-sports.io/football/teams/657.png,https://media.api-sports.io/football/teams/604.png
 1555522,2026-10-17,NS,383,Ligat Ha'al,2026,Hapoel Haifa,Hapoel Ramat Gan,,,17:00,https://media.api-sports.io/football/teams/2253.png,https://media.api-sports.io/football/teams/4489.png
@@ -53237,10 +53237,10 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1565269,2026-10-09,NS,283,Liga I,2026,Sepsi OSK Sfantu Gheorghe,Dinamo Bucuresti,,,18:00,https://media.api-sports.io/football/teams/2585.png,https://media.api-sports.io/football/teams/635.png
 1565267,2026-10-10,NS,283,Liga I,2026,FC Botosani,Uta Arad,,,14:15,https://media.api-sports.io/football/teams/2581.png,https://media.api-sports.io/football/teams/2589.png
 1565266,2026-10-10,NS,283,Liga I,2026,Arges Pitesti,CFR 1907 Cluj,,,17:00,https://media.api-sports.io/football/teams/2592.png,https://media.api-sports.io/football/teams/2246.png
-1565265,2026-10-10,NS,283,Liga I,2026,Farul Constanta,Petrolul Ploiesti,,,17:00,https://media.api-sports.io/football/teams/2596.png,https://media.api-sports.io/football/teams/2598.png
 1565270,2026-10-10,NS,283,Liga I,2026,Universitatea Cluj,Rapid,,,17:00,https://media.api-sports.io/football/teams/2599.png,https://media.api-sports.io/football/teams/6231.png
-1565264,2026-10-10,NS,283,Liga I,2026,Csikszereda,Universitatea Craiova,,,17:00,https://media.api-sports.io/football/teams/6230.png,https://media.api-sports.io/football/teams/632.png
 1565268,2026-10-10,NS,283,Liga I,2026,FCSB,Oţelul,,,18:30,https://media.api-sports.io/football/teams/559.png,https://media.api-sports.io/football/teams/6886.png
+1565264,2026-10-11,NS,283,Liga I,2026,Csikszereda,Universitatea Craiova,,,15:00,https://media.api-sports.io/football/teams/6230.png,https://media.api-sports.io/football/teams/632.png
+1565265,2026-10-11,NS,283,Liga I,2026,Farul Constanta,Petrolul Ploiesti,,,18:00,https://media.api-sports.io/football/teams/2596.png,https://media.api-sports.io/football/teams/2598.png
 1565277,2026-10-17,NS,283,Liga I,2026,Universitatea Craiova,Farul Constanta,,,17:00,https://media.api-sports.io/football/teams/632.png,https://media.api-sports.io/football/teams/2596.png
 1565271,2026-10-17,NS,283,Liga I,2026,Dinamo Bucuresti,FC Botosani,,,17:00,https://media.api-sports.io/football/teams/635.png,https://media.api-sports.io/football/teams/2581.png
 1565273,2026-10-17,NS,283,Liga I,2026,FC Voluntari,FCSB,,,17:00,https://media.api-sports.io/football/teams/2578.png,https://media.api-sports.io/football/teams/559.png
@@ -54274,13 +54274,13 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1492380,2026-09-20,FT,71,Serie A,2026,Atletico Paranaense,Bahia,2.0,1.0,22:30,https://media.api-sports.io/football/teams/134.png,https://media.api-sports.io/football/teams/118.png
 1492318,2026-10-02,FT,71,Serie A,2026,Sao Paulo,Santos,1.0,2.0,23:00,https://media.api-sports.io/football/teams/126.png,https://media.api-sports.io/football/teams/128.png
 1492310,2026-10-03,FT,71,Serie A,2026,Atletico-MG,RB Bragantino,1.0,0.0,21:30,https://media.api-sports.io/football/teams/1062.png,https://media.api-sports.io/football/teams/794.png
+1492395,2026-10-07,FT,71,Serie A,2026,Internacional,Corinthians,2.0,1.0,22:30,https://media.api-sports.io/football/teams/119.png,https://media.api-sports.io/football/teams/131.png
+1492392,2026-10-07,FT,71,Serie A,2026,RB Bragantino,Mirassol,1.0,1.0,22:30,https://media.api-sports.io/football/teams/794.png,https://media.api-sports.io/football/teams/7848.png
+1492397,2026-10-07,FT,71,Serie A,2026,Remo,Gremio,1.0,1.0,22:30,https://media.api-sports.io/football/teams/1198.png,https://media.api-sports.io/football/teams/130.png
+1492399,2026-10-07,FT,71,Serie A,2026,Vitoria,Chapecoense-sc,4.0,0.0,23:00,https://media.api-sports.io/football/teams/136.png,https://media.api-sports.io/football/teams/132.png
+1492391,2026-10-07,FT,71,Serie A,2026,Botafogo,Vasco DA Gama,1.0,2.0,23:30,https://media.api-sports.io/football/teams/120.png,https://media.api-sports.io/football/teams/133.png
+1492393,2026-10-08,FT,71,Serie A,2026,Cruzeiro,Sao Paulo,2.0,0.0,00:30,https://media.api-sports.io/football/teams/135.png,https://media.api-sports.io/football/teams/126.png
 1492312,2026-07-29,PST,71,Serie A,2026,Chapecoense-sc,Vasco DA Gama,,,20:00,https://media.api-sports.io/football/teams/132.png,https://media.api-sports.io/football/teams/133.png
-1492395,2026-10-07,NS,71,Serie A,2026,Internacional,Corinthians,,,22:30,https://media.api-sports.io/football/teams/119.png,https://media.api-sports.io/football/teams/131.png
-1492392,2026-10-07,NS,71,Serie A,2026,RB Bragantino,Mirassol,,,22:30,https://media.api-sports.io/football/teams/794.png,https://media.api-sports.io/football/teams/7848.png
-1492397,2026-10-07,NS,71,Serie A,2026,Remo,Gremio,,,22:30,https://media.api-sports.io/football/teams/1198.png,https://media.api-sports.io/football/teams/130.png
-1492399,2026-10-07,NS,71,Serie A,2026,Vitoria,Chapecoense-sc,,,23:00,https://media.api-sports.io/football/teams/136.png,https://media.api-sports.io/football/teams/132.png
-1492391,2026-10-07,NS,71,Serie A,2026,Botafogo,Vasco DA Gama,,,23:30,https://media.api-sports.io/football/teams/120.png,https://media.api-sports.io/football/teams/133.png
-1492393,2026-10-08,NS,71,Serie A,2026,Cruzeiro,Sao Paulo,,,00:30,https://media.api-sports.io/football/teams/135.png,https://media.api-sports.io/football/teams/126.png
 1492398,2026-10-08,NS,71,Serie A,2026,Santos,Flamengo,,,22:30,https://media.api-sports.io/football/teams/128.png,https://media.api-sports.io/football/teams/127.png
 1492390,2026-10-08,NS,71,Serie A,2026,Atletico Paranaense,Atletico-MG,,,23:00,https://media.api-sports.io/football/teams/134.png,https://media.api-sports.io/football/teams/1062.png
 1492396,2026-10-09,NS,71,Serie A,2026,Palmeiras,Bahia,,,00:30,https://media.api-sports.io/football/teams/121.png,https://media.api-sports.io/football/teams/118.png
@@ -56153,9 +56153,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550985,2026-10-10,NS,262,Liga MX,2026,Club Queretaro,Atlante FC,,,23:00,https://media.api-sports.io/football/teams/2290.png,https://media.api-sports.io/football/teams/2312.png
 1550987,2026-10-10,NS,262,Liga MX,2026,FC Juarez,Club Tijuana,,,23:00,https://media.api-sports.io/football/teams/2298.png,https://media.api-sports.io/football/teams/2280.png
 1550988,2026-10-11,NS,262,Liga MX,2026,Atlas,Guadalajara Chivas,,,01:00,https://media.api-sports.io/football/teams/2283.png,https://media.api-sports.io/football/teams/2278.png
-1550989,2026-10-11,NS,262,Liga MX,2026,Club America,Monterrey,,,03:00,https://media.api-sports.io/football/teams/2287.png,https://media.api-sports.io/football/teams/2282.png
-1550991,2026-10-11,NS,262,Liga MX,2026,CF Pachuca,Necaxa,,,23:00,https://media.api-sports.io/football/teams/2292.png,https://media.api-sports.io/football/teams/2288.png
+1550989,2026-10-11,NS,262,Liga MX,2026,Club America,Monterrey,,,03:10,https://media.api-sports.io/football/teams/2287.png,https://media.api-sports.io/football/teams/2282.png
 1550990,2026-10-11,NS,262,Liga MX,2026,Atletico San Luis,Santos Laguna,,,23:00,https://media.api-sports.io/football/teams/2314.png,https://media.api-sports.io/football/teams/2285.png
+1550991,2026-10-11,NS,262,Liga MX,2026,CF Pachuca,Necaxa,,,23:10,https://media.api-sports.io/football/teams/2292.png,https://media.api-sports.io/football/teams/2288.png
 1550992,2026-10-12,NS,262,Liga MX,2026,U.N.A.M. - Pumas,Cruz Azul,,,01:00,https://media.api-sports.io/football/teams/2286.png,https://media.api-sports.io/football/teams/2295.png
 1550993,2026-10-17,NS,262,Liga MX,2026,Necaxa,Atlas,,,01:00,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2283.png
 1550994,2026-10-17,NS,262,Liga MX,2026,Club Tijuana,Puebla,,,03:00,https://media.api-sports.io/football/teams/2280.png,https://media.api-sports.io/football/teams/2291.png
