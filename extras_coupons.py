@@ -84,21 +84,32 @@ def construire_scores_exacts(matchs, cotes_brutes, journal=print):
 
 
 # ----------------------------------------------------------------- TIKTOK
-TIKTOK_MIN_LEGS = 10        # (utilisé par le générateur pour savoir si la journée est jouable)
+TIKTOK_MIN_LEGS = 5         # (utilisé par le générateur pour savoir si la journée est jouable)
 TIKTOK_JOURS = 6            # J+1 … J+6
 TIKTOK_FIGE_A = 2           # figé à partir de J+2
 
 
+# 09/10/2026 (Babs) : 8 matchs maximum par combiné, cote 30 et plus,
+# priorité absolue aux soirées de Ligue des Champions et de Ligue Europa.
 PROFILS_TIKTOK = {
     # même optimiseur que les coupons, avec en plus un bonus « grosse affiche »
     # et une pénalité de répétition (bonus_poids) pour des combinés qui donnent envie
-    "solide": dict(cote_min=90.0, cote_max=350.0, legs_min=12, legs_max=15,
-                   cote_sel_min=1.15, cote_sel_max=1.80, p_sel_min=0.55, p_coupon_min=1e-6, bonus_poids=0.30),
-    "mixte":  dict(cote_min=90.0, cote_max=350.0, legs_min=10, legs_max=13,
-                   cote_sel_min=1.25, cote_sel_max=2.40, p_sel_min=0.45, p_coupon_min=1e-6, bonus_poids=0.30),
-    "valeur": dict(cote_min=90.0, cote_max=200.0, legs_min=10, legs_max=12,
-                   cote_sel_min=1.45, cote_sel_max=3.00, p_sel_min=0.38, p_coupon_min=1e-6, valeur=True, bonus_poids=0.30),
+    "solide": dict(cote_min=30.0, cote_max=80.0, legs_min=6, legs_max=8,
+                   cote_sel_min=1.30, cote_sel_max=2.10, p_sel_min=0.50, p_coupon_min=1e-6, bonus_poids=0.30),
+    "mixte":  dict(cote_min=40.0, cote_max=150.0, legs_min=6, legs_max=8,
+                   cote_sel_min=1.40, cote_sel_max=2.80, p_sel_min=0.40, p_coupon_min=1e-6, bonus_poids=0.30),
+    "valeur": dict(cote_min=60.0, cote_max=300.0, legs_min=5, legs_max=8,
+                   cote_sel_min=1.60, cote_sel_max=3.40, p_sel_min=0.32, p_coupon_min=1e-6, valeur=True, bonus_poids=0.30),
 }
+
+# Coupes d'Europe en priorité : on construit d'abord avec la C1 + C2 seules,
+# puis en ajoutant la C3, et seulement ensuite avec tous les matchs du jour
+# (où les coupes gardent un gros bonus).
+PALIERS_COUPES = [
+    ("C1/C2", {"ligue des champions", "ligue europa"}),
+    ("C1/C2/C3", {"ligue des champions", "ligue europa", "ligue conference"}),
+]
+BONUS_COUPES = {"ligue des champions": 0.8, "ligue europa": 0.7, "ligue conference": 0.35}
 
 # ---------------------------------------------------------------- AFFICHES
 # Notoriété d'un match pour TikTok : ce qui fait cliquer, c'est un Real–Atlético,
@@ -106,7 +117,7 @@ PROFILS_TIKTOK = {
 # des grands clubs, 1 200 avec des petites sélections).
 NOTORIETE_LIGUE = {
     "ligue des champions": 1.0, "premier league": 1.0, "la liga": 0.95, "serie a": 0.9,
-    "bundesliga": 0.9, "ligue 1": 0.95, "ligue europa": 0.8, "uefa nations league": 0.65,
+    "bundesliga": 0.9, "ligue 1": 0.95, "ligue europa": 0.95, "ligue conference": 0.6, "uefa nations league": 0.65,
     "ligue des nations": 0.65, "can — qualifications": 0.75, "cdm — qualifications afrique": 0.75,
     "coupe du monde — qualifications afrique": 0.75, "cdm — qualifications europe": 0.6,
     "coupe du monde — qualifications europe": 0.6, "eredivisie": 0.55, "liga portugal": 0.55,
@@ -147,8 +158,16 @@ def _equipe(nom):
 def notoriete(s):
     """0 (inconnu) à 1 (affiche) : les deux équipes et la compétition."""
     e1, e2 = _equipe(s.get("dom")), _equipe(s.get("ext"))
-    lig = NOTORIETE_LIGUE.get(_norm(s.get("ligue")), 0.3)
+    lig = _NOTO_LIGUE.get(_norm(s.get("ligue")), 0.3)
     return round(0.45 * max(e1, e2) + 0.25 * min(e1, e2) + 0.30 * lig, 3)
+
+
+# clés normalisées (sans accents) : « Süper Lig », « Ligue Conférence »… sont reconnues
+_NOTO_LIGUE = {_norm(k): v for k, v in NOTORIETE_LIGUE.items()}
+
+
+def _coupe(s):
+    return _norm(s.get("ligue")).strip()
 
 
 def _coherent(legs):
@@ -236,20 +255,29 @@ def construire_tiktok(pool, journal=print):
     if not pool:
         return []
     coupons, deja_match, deja_sel = [], {}, set()
+    paliers = [(nom, [s for s in pool if _coupe(s) in ligues]) for nom, ligues in PALIERS_COUPES]
+    paliers.append(("tous", list(pool)))
     for k, (profil, regles) in enumerate(PROFILS_TIKTOK.items(), 1):
-        cands = []
-        for s in pool:
-            if not (regles["cote_sel_min"] <= s["cote"] <= regles["cote_sel_max"] and s["p"] >= regles["p_sel_min"]):
+        res, palier, cands = None, None, []
+        for palier, sous_pool in paliers:
+            if len({s["fixture_id"] for s in sous_pool}) < regles["legs_min"]:
                 continue
-            b = notoriete(s)
-            if groupe_marche(s["code"]) == "victoire":
-                b += 0.15
-            b -= 0.35 * deja_match.get(s["fixture_id"], 0)            # match déjà utilisé : découragé
-            if (s["fixture_id"], s["code"]) in deja_sel:
-                b -= 0.6                                              # même pari déjà utilisé : fortement découragé
-            cands.append({**s, "bonus": b})
-        res = SEL.construire_un_coupon(cands, regles)
-        if res is None or not _coherent(res["selections"]):
+            cands = []
+            for s in sous_pool:
+                if not (regles["cote_sel_min"] <= s["cote"] <= regles["cote_sel_max"] and s["p"] >= regles["p_sel_min"]):
+                    continue
+                b = notoriete(s) + BONUS_COUPES.get(_coupe(s), 0.0)
+                if groupe_marche(s["code"]) == "victoire":
+                    b += 0.15
+                b -= 0.35 * deja_match.get(s["fixture_id"], 0)            # match déjà utilisé : découragé
+                if (s["fixture_id"], s["code"]) in deja_sel:
+                    b -= 0.6                                              # même pari déjà utilisé : fortement découragé
+                cands.append({**s, "bonus": b})
+            res = SEL.construire_un_coupon(cands, regles)
+            if res is not None and _coherent(res["selections"]):
+                break
+            res = None
+        if res is None:
             journal(f"   🎬 tiktok #{k} ({profil}) : impossible avec les matchs disponibles "
                     f"({len(cands)} sélection(s) éligibles)")
             continue
@@ -263,6 +291,7 @@ def construire_tiktok(pool, journal=print):
         legs = [{kk: vv for kk, vv in s.items() if kk != "bonus"} for s in legs]
         n_est = sum(1 for s in legs if s.get("estime"))
         n_aff = sum(1 for s in legs if notoriete(s) >= 0.6)
+        n_cup = sum(1 for s in legs if _coupe(s) in BONUS_COUPES)
         note = profil + (f" · {n_est} cote(s) estimée(s)" if n_est else "")
         coupons.append({"categorie": "tiktok", "numero": k, "selections": legs,
                         "cote_totale": cote, "note": note})
@@ -270,7 +299,7 @@ def construire_tiktok(pool, journal=print):
         for s in legs:
             types[groupe_marche(s["code"])] = types.get(groupe_marche(s["code"]), 0) + 1
         journal(f"   🎬 tiktok #{k} ({profil}) : {len(legs)} matchs, cote {cote}, "
-                f"{n_aff} grosse(s) affiche(s), " + ", ".join(f"{v} {g}" for g, v in types.items())
+                f"{n_aff} grosse(s) affiche(s), {n_cup} coupe(s) d'Europe, " + ", ".join(f"{v} {g}" for g, v in types.items())
                 + (f", {n_est} estimée(s)" if n_est else ""))
     return coupons
 

@@ -155,7 +155,7 @@ CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
 
 # Les coupes d'Europe n'entrent pas dans Sûre ni Montante tant que la
 # calibration inter-ligues n'est pas validée par backtest.
-LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa"}
+LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa", "Ligue Conférence"}
 CATEGORIES_PRUDENCE = {"sure", "montante", "turbo"}
 MONTANTES = {"montante", "turbo"}   # leurs matchs ne sont repris par AUCUN autre coupon le même jour
 

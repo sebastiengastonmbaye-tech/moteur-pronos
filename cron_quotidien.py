@@ -3,6 +3,9 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V4.3 (09/10/2026) : Ligue Conférence (C3, id 848) collectée pour les coupons
+et les combinés TikTok ; ses matchs passés relient aussi les championnats du
+vivier européen.
 V4.2 (19/09/2026) : Ligue des Nations + qualifs CAN PUBLIÉES dans la liste
 principale (LIGUES_NATIONS_ACCUEIL) ; amicaux et qualifs CdM restent coupons seulement.
 V4.1 (19/09/2026) : LIGUES_NATIONS (Ligue des Nations, qualifs CAN/CdM, amicaux)
@@ -94,6 +97,7 @@ LIGUES_COUPONS = {
     207: "Super League Suisse",    # Suisse
     119: "Superliga",              # Danemark
     197: "Super League Grèce",     # Grèce
+    848: "Ligue Conférence",       # UEFA Conference League (C3) — coupons et TikTok
 }
 
 # Compétitions dont on continue de RÉCUPÉRER les résultats, uniquement pour

@@ -80,7 +80,7 @@ NOMS_MONTANTE = {"montante": "Montante", "turbo": "Montante Turbo"}
 LIGUES_COUPONS = {
     39: "Premier League", 140: "La Liga", 135: "Serie A", 78: "Bundesliga",
     61: "Ligue 1", 88: "Eredivisie", 94: "Liga Portugal",
-    2: "Ligue des Champions", 3: "Ligue Europa",
+    2: "Ligue des Champions", 3: "Ligue Europa", 848: "Ligue Conférence",
     144: "Jupiler Pro League", 203: "Süper Lig", 179: "Scottish Premiership",
     218: "Österreich Bundesliga", 207: "Super League Suisse",
     119: "Superliga", 197: "Super League Grèce",
@@ -98,7 +98,7 @@ PARAMS_NATIONS = {"min_matchs": 2.5, "xi": 0.003}
 
 # Coupes d'Europe : moteur entraîné sur TOUT l'historique européen (championnats
 # collectés par le cron + matchs de C1/C2 passés), jamais sur la seule coupe.
-COMPETITIONS_UEFA = {2, 3}
+COMPETITIONS_UEFA = {2, 3, 848}
 LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 
 # Championnats joués pendant la nuit africaine (23h → 7h)
