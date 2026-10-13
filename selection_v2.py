@@ -139,7 +139,8 @@ def plage_legs(cote):
     return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
-ORDRE_JOUR = ["montante", "turbo", "sure", "confiance", "fun", "grosses"]   # les montantes se servent en premier
+ORDRE_JOUR = ["montante", "turbo", "sure", "confiance", "fun"]   # les montantes se servent en premier
+# (13/10/2026 : « Grosses cotes » retirée à la demande de Babs — réglages conservés dans CATEGORIES)
 ORDRE_NUIT = ["nuit"]
 
 # Famille de marché : un seul code par match et par famille, tous coupons
