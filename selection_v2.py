@@ -91,8 +91,8 @@ CATEGORIES = {
         cote_sel_min=1.15, cote_sel_max=1.60, p_sel_min=0.65,
         moteur_min=0.70, moteur_min_dc=0.80,
         p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
-        repli=dict(p_sel_min=0.68, moteur_min=0.60, moteur_min_dc=0.75,
-                   p_coupon_min=0.52, europe_ok=True)),
+        repli=dict(p_sel_min=0.68, moteur_min=0.66, moteur_min_dc=0.78,
+                   p_coupon_min=0.55, europe_ok=True, repli_strict=True)),
     # MONTANTE TURBO (5 paliers, cote 1,90–2,60) : même exigence que la montante
     # de base — sélections de niveau « prono signé » (repli : favoris nets du
     # marché). Pour atteindre ~2, l'optimiseur préfère deux favoris solides à
@@ -102,8 +102,8 @@ CATEGORIES = {
         cote_sel_min=1.15, cote_sel_max=2.30, p_sel_min=0.60,
         moteur_min=0.72, moteur_min_dc=0.82,
         p_coupon_min=0.40, max_coupons=1, beta=0.0, table_legs=True,
-        repli=dict(p_sel_min=0.56, moteur_min=0.62, moteur_min_dc=0.76,
-                   p_coupon_min=0.38, europe_ok=True)),
+        repli=dict(p_sel_min=0.60, moteur_min=0.67, moteur_min_dc=0.79,
+                   p_coupon_min=0.40, europe_ok=True, repli_strict=True)),
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
@@ -116,6 +116,18 @@ CATEGORIES = {
 # (probabilité fusionnée ≥ 66-68 %) sur lesquels le moteur n'est pas en
 # désaccord (≥ 60 %, double chance ≥ 74-75 %), coupes d'Europe comprises.
 # Toujours plus strict que Confiance ; jamais de remplissage.
+#
+# REPLI DURCI (17/10/2026) — bilan depuis le 19/09 : les 3 seuls paliers perdus
+# (Danemark – Portugal, Lens – Sporting +2,5, Le Mans – Toulouse BTTS) venaient
+# tous du repli, qui a par ailleurs gagné 9 paliers sur 12. On le garde, mais :
+#   · seuils moteur relevés (Montante 66 % / DC 78 % ; Turbo 67 % / DC 79 %)
+#   · jamais de match de sélections nationales en repli
+#   · jamais « plus de 2,5 buts » en repli (victoire, double chance, +1,5 seulement)
+# Pas assez de matchs à ce niveau → pas de palier ce jour-là, la série attend.
+LIGUES_NATIONALES = {"UEFA Nations League", "Ligue des Nations", "CAN — qualifications",
+                     "CdM — qualifications Afrique", "CdM — qualifications Europe",
+                     "Amicaux internationaux"}
+REPLI_INTERDITS = {"O2.5"}
 
 # Nombre de sélections cohérent avec la cote totale (table de Babs, 25/09).
 # Plages de construction : l'optimiseur choisit dans la plage, jamais au-delà.
@@ -139,7 +151,9 @@ def plage_legs(cote):
     return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
-ORDRE_JOUR = ["montante", "turbo", "sure", "confiance", "fun"]   # les montantes se servent en premier
+ORDRE_JOUR = ["montante", "turbo", "confiance", "fun"]   # les montantes se servent en premier
+# (17/10/2026 : « Sûre » retirée à la demande de Babs — 6 coupons gagnés sur 17 depuis le 19/09,
+#  la Montante joue déjà ce rôle ; réglages conservés dans CATEGORIES)
 # (13/10/2026 : « Grosses cotes » retirée à la demande de Babs — réglages conservés dans CATEGORIES)
 ORDRE_NUIT = ["nuit"]
 
@@ -338,6 +352,8 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
         if cat in CATEGORIES_PRUDENCE and not _prudent_ok(s):
             continue
         if cat in CATEGORIES_PRUDENCE and s["ligue"] in LIGUES_PRUDENCE and not r.get("europe_ok"):
+            continue
+        if r.get("repli_strict") and (s["code"] in REPLI_INTERDITS or s["ligue"] in LIGUES_NATIONALES):
             continue
         if not (r["cote_sel_min"] <= s["cote"] <= r["cote_sel_max"]):
             continue

@@ -5,7 +5,7 @@ AURA90 — GÉNÉRATEUR DE COUPONS
 Tourne dans le cron, après cron_quotidien.py.
 
 1. Vérifie les coupons de la veille (résultats réels)
-2. Construit les coupons du jour : Sûre · Confiance · Fun · Montante
+2. Construit les coupons du jour : Confiance · Fun · Montante · Turbo (Sûre retirée le 17/10)
 3. Fait avancer les deux montantes : Montante (10 paliers ; 12 pour la série n°6) et Montante Turbo
    (5 paliers, cote 1,90–2,60), départ 10 000 F
 
