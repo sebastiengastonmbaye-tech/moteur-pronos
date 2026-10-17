@@ -255,6 +255,22 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
             except ValueError:
                 continue
 
+        # PROMUS (17/10/2026) : équipe absente de cette ligue la saison passée et
+        # moins de 8 matchs joués cette saison → niveau réel encore inconnu
+        # (son attaque est gonflée par sa saison en 2e division). Écartée des
+        # catégories prudentes (Sûre, Montante, Turbo).
+        promus = {}
+        if lid not in COMPETITIONS_UEFA and lid not in LIGUES_NATIONS and "saison" in histo.columns:
+            lg = histo[histo.ligue_id == lid]
+            avant = set(lg[lg.saison == SAISON - 1].equipe_dom) | set(lg[lg.saison == SAISON - 1].equipe_ext)
+            cette = lg[(lg.saison == SAISON) & (lg.statut == "FT")]
+            if avant:
+                for eq in set(avenir.equipe_dom) | set(avenir.equipe_ext):
+                    if eq not in avant:
+                        joues = int(((cette.equipe_dom == eq) | (cette.equipe_ext == eq)).sum())
+                        if joues < 8:
+                            promus[eq] = joues
+
         # facteurs de contexte (absences, fatigue, xG, classement) pour ces matchs
         facteurs = {} if not enrichir else ENR.calculer_facteurs([{
             "fixture_id": int(f.fixture_id), "ligue_id": int(lid),
@@ -281,6 +297,8 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
                 "heure": f.get("heure"),
                 "logo_dom": f.get("logo_dom"), "logo_ext": f.get("logo_ext"),
                 "p1": ech(p["1"]), "pN": ech(p["N"]), "p2": ech(p["2"]), "pO25": ech(p["O2.5"]),
+                "pO15": ech(p.get("O1.5", 0)) or None, "pU35": ech(p.get("U3.5", 0)) or None,
+                "promu": bool(promus.get(f.equipe_dom) or promus.get(f.equipe_ext)),
                 "btts": ech(fiche["bonus"]["btts_oui"]),
                 "scores": fiche.get("scores_probables", []),   # score exact
             })
@@ -333,7 +351,11 @@ def cotes_du_match(fixture_id, bookmaker):
                     cotes["12"] = vals.get("home/away")
                 elif nom == "goals over/under":
                     cotes["O2.5"] = vals.get("over 2.5")
-                    cotes["U2.5"] = vals.get("under 2.5")
+                    cotes["U2.5"] = vals.get("under 2.5")     # gardée pour retirer la marge, jamais proposée
+                    cotes["O1.5"] = vals.get("over 1.5")
+                    cotes["U1.5"] = vals.get("under 1.5")
+                    cotes["O3.5"] = vals.get("over 3.5")
+                    cotes["U3.5"] = vals.get("under 3.5")
                 elif nom == "both teams score":
                     cotes["BTTS"] = vals.get("yes")
                     cotes["NOBTTS"] = vals.get("no")
@@ -354,6 +376,7 @@ LIBELLES = {
     "1X": ("Double chance", "{dom} ou nul"), "X2": ("Double chance", "Nul ou {ext}"),
     "12": ("Double chance", "{dom} ou {ext} (pas de nul)"),
     "O2.5": ("Buts", "Plus de 2,5 buts"), "U2.5": ("Buts", "Moins de 2,5 buts"),
+    "O1.5": ("Buts", "Plus de 1,5 but"), "U3.5": ("Buts", "Moins de 3,5 buts"),
     "BTTS": ("Buts", "Les deux équipes marquent"),
     "NOBTTS": ("Buts", "Les deux équipes ne marquent pas"),
 }
@@ -380,7 +403,9 @@ def selections_possibles(matchs, bookmaker, estimer_si_absent=False):
                                  "heure", "logo_dom", "logo_ext")},
             "cotes": cotes,
             "moteur": {"1": m["p1"], "N": m["pN"], "2": m["p2"],
-                       "O2.5": m["pO25"], "BTTS": m["btts"]},
+                       "O2.5": m["pO25"], "BTTS": m["btts"],
+                       "O1.5": m.get("pO15"), "U3.5": m.get("pU35")},
+            "promu": m.get("promu", False),
         })
     out = SEL.preparer_selections(entrees)
     estimes = {e["fixture_id"] for e in entrees if e.get("estime")}

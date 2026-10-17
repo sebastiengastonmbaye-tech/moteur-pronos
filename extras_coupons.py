@@ -311,4 +311,6 @@ def cotes_estimees(m, marge=1.06):
     def c(p):
         return round(1 / max(p * marge, 0.02), 2)
     return {"1": c(p1), "N": c(pN), "2": c(p2), "1X": c(p1 + pN), "X2": c(pN + p2),
-            "12": c(p1 + p2), "O2.5": c(pO), "U2.5": c(1 - pO), "BTTS": c(pB), "NOBTTS": c(1 - pB)}
+            "12": c(p1 + p2), "O2.5": c(pO), "BTTS": c(pB), "NOBTTS": c(1 - pB),
+            **({"O1.5": c(m["pO15"])} if m.get("pO15") else {}),
+            **({"U3.5": c(m["pU35"])} if m.get("pU35") else {})}

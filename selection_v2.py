@@ -149,7 +149,8 @@ ORDRE_NUIT = ["nuit"]
 FAMILLE = {
     "1": "resultat", "N": "resultat", "2": "resultat",
     "1X": "resultat", "X2": "resultat", "12": "resultat",
-    "O2.5": "buts", "U2.5": "buts",
+    "O2.5": "buts", "O1.5": "buts15", "U3.5": "buts35",
+    # 17/10/2026 : « Moins de 2,5 buts » retiré partout (passait une fois sur deux)
     "BTTS": "btts", "NOBTTS": "btts",
 }
 CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
@@ -233,6 +234,18 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
                 pe["U2.5"] = 1 - pe["O2.5"]
             pf.update(fusionner(pm, pe, w))
 
+        # plus de 1,5 but / moins de 3,5 buts (17/10/2026)
+        for code, contraire, pe_code in (("O1.5", "U1.5", mot.get("O1.5")), ("U3.5", "O3.5", mot.get("U3.5"))):
+            if not cotes.get(code):
+                continue
+            if cotes.get(contraire):
+                pm = probas_marche({code: cotes[code], contraire: cotes[contraire]})
+            else:
+                pm = {code: min(0.97, (1 / cotes[code]) / 1.06), contraire: None}   # marge estimée
+                pm[contraire] = 1 - pm[code]
+            pe = {code: pe_code, contraire: (1 - pe_code) if pe_code else None} if pe_code else {}
+            pf[code] = fusionner(pm, pe, w).get(code, pm[code]) if pe else pm[code]
+
         # BTTS
         cb = {k: cotes[k] for k in ("BTTS", "NOBTTS") if cotes.get(k)}
         if len(cb) == 2:
@@ -255,6 +268,8 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
             elif code == "NOBTTS" and mot.get("BTTS"):
                 pm_code = 1 - mot["BTTS"]
             s.update({
+                "promu": bool(mt.get("promu")),
+                "p1": pf.get("1"), "p2": pf.get("2"),
                 "code": code, "famille": FAMILLE[code],
                 "cote": float(cotes[code]), "p": float(p),
                 "p_moteur": pm_code,
@@ -292,9 +307,36 @@ def _valide(coupon, r):
     return len(ids) == len(set(ids))          # un seul marché par match
 
 
+# RÈGLES DES CATÉGORIES PRUDENTES (17/10/2026, d'après les résultats réels :
+# doubles chances 31/37, victoires sèches 17/28, BTTS 7/14, moins de 2,5 buts 5/10)
+PRUDENT_INTERDITS = {"BTTS", "NOBTTS", "U2.5", "U3.5"}   # Sûre/Montante/Turbo : victoire de gros favori, double chance, +1,5 ou +2,5 buts
+VICTOIRE_MOTEUR_MIN, VICTOIRE_MARCHE_MIN = 0.75, 0.70   # victoire sèche : très gros favori seulement
+ECART_FAVORI = 0.20                                      # au-delà, on ne joue que le côté du favori
+
+
+def _prudent_ok(s):
+    code = s["code"]
+    if code in PRUDENT_INTERDITS:
+        return False
+    if s.get("promu"):                                   # promu sans recul suffisant
+        return False
+    if code in ("1", "2"):
+        if (s.get("p_moteur") or 0) < VICTOIRE_MOTEUR_MIN or s["p"] < VICTOIRE_MARCHE_MIN:
+            return False                                 # → la double chance de la même équipe reste disponible
+    p1, p2 = s.get("p1"), s.get("p2")
+    if p1 is not None and p2 is not None:
+        if p1 - p2 >= ECART_FAVORI and code in ("2", "X2"):
+            return False                                 # favori à domicile : jamais le côté de l'outsider
+        if p2 - p1 >= ECART_FAVORI and code in ("1", "1X"):
+            return False
+    return True
+
+
 def _eligibles(selections, cat, r, utilises, codes_par_match):
     out = []
     for s in selections:
+        if cat in CATEGORIES_PRUDENCE and not _prudent_ok(s):
+            continue
         if cat in CATEGORIES_PRUDENCE and s["ligue"] in LIGUES_PRUDENCE and not r.get("europe_ok"):
             continue
         if not (r["cote_sel_min"] <= s["cote"] <= r["cote_sel_max"]):

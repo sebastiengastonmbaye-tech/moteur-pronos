@@ -116,6 +116,8 @@ class Moteur:
         p2 = float(np.triu(M, 1).sum())
         tot = np.add.outer(k, k)
         pO25 = float(M[tot >= 3].sum())
+        pO15 = float(M[tot >= 2].sum())      # plus de 1,5 but
+        pU35 = float(M[tot <= 3].sum())      # moins de 3,5 buts
         pBTTS = float(M[1:, 1:].sum())
 
         # ----- prono principal : victoire sèche si nette, sinon double chance -----
@@ -173,7 +175,8 @@ class Moteur:
             # probas complètes : à logger en base pour le palmarès,
             # affichage facultatif côté front
             "_probas": {"1": round(p1*100,1), "N": round(pN*100,1),
-                        "2": round(p2*100,1), "O2.5": round(pO25*100,1)},
+                        "2": round(p2*100,1), "O2.5": round(pO25*100,1),
+                        "O1.5": round(pO15*100,1), "U3.5": round(pU35*100,1)},
             "contexte": a.get("contexte", ""),
         }
 
