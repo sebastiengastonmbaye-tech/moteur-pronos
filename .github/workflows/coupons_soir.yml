@@ -2,7 +2,7 @@ name: Coupons de demain (soir)
 
 on:
   schedule:
-    - cron: "0 18 * * *"    # 18h00 Dakar — les matchs du jour sont lancés
+    - cron: "17 18 * * *"   # ~18h15 Dakar (minute décalée : GitHub retarde moins)
   workflow_dispatch:
 
 jobs:

@@ -2,7 +2,7 @@ name: Montantes (rattrapage)
 
 on:
   schedule:
-    - cron: "0 7,11 * * *"    # 7h et 11h Dakar (9h et 13h Paris) — palier du jour s'il manque
+    - cron: "41 6,10,14 * * *"   # ~7h, 11h et 15h Dakar — palier du jour s'il manque (minute décalée)
   workflow_dispatch:
 
 jobs:

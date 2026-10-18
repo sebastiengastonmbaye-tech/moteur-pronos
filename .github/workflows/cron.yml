@@ -2,7 +2,7 @@ name: Cron quotidien
 
 on:
   schedule:
-    - cron: "0 5 * * *"    # 05h00 UTC = 05h00 Dakar, tous les jours
+    - cron: "23 3 * * *"   # 03h23 UTC (minute décalée : GitHub retarde moins) — pronos et coupons prêts vers 5h-6h Dakar
   workflow_dispatch:        # + lancement manuel
 
 permissions:

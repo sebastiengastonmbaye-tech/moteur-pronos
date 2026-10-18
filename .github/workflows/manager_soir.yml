@@ -2,7 +2,7 @@ name: Alerte manager (soir)
 
 on:
   schedule:
-    - cron: "0 23 * * *"    # 23h00 Dakar — après les matchs européens
+    - cron: "37 22 * * *"   # ~23h Dakar — après les matchs européens
   workflow_dispatch:
 
 jobs:

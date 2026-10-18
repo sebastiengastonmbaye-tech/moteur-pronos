@@ -2,7 +2,7 @@ name: Push du matin (annonce des pronos)
 
 on:
   schedule:
-    - cron: "0 10 * * *"   # 10h00 heure de Dakar (UTC)
+    - cron: "53 9 * * *"    # ~10h Dakar (minute décalée)
   workflow_dispatch:        # bouton "Run workflow" pour tester à la main
 
 jobs:
