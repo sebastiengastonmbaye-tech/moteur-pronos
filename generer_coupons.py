@@ -466,7 +466,7 @@ def verifier():
 
     hier = (datetime.now(timezone.utc).date() - timedelta(days=1)).isoformat()
     for c in en_cours:
-        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat,date_match")
+        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat,date_match,score")
         if not sels:
             continue
         # résultat absent de l'historique local (passage hors cron, import en
@@ -501,6 +501,12 @@ def verifier():
                     pass
             else:
                 ok = s["resultat"] == "gagne"
+                if not s.get("score"):
+                    try:
+                        bd_, be_ = scores[s["fixture_id"]]
+                        sb(f"coupon_selections?id=eq.{s['id']}", "PATCH", {"score": f"{bd_}-{be_}"})
+                    except Exception:
+                        pass
             if ok:
                 un_gagne = True
             else:
@@ -519,6 +525,41 @@ def verifier():
             print(f"   Coupon {c['categorie']} du {c['jour']} → {statut}")
             if c["categorie"] in ("montante", "turbo"):
                 sb(f"montante?coupon_id=eq.{c['id']}", "PATCH", {"statut": statut})
+
+
+def completer_scores(jours=21):
+    """Score final des matchs déjà tranchés qui n'en ont pas encore (coupons des
+    3 dernières semaines) : affiché dans « Validés hier » et dans les Preuves."""
+    depuis = (datetime.now(timezone.utc).date() - timedelta(days=jours)).isoformat()
+    sels = sb(f"coupon_selections?score=is.null&resultat=not.is.null&date_match=gte.{depuis}"
+              f"&select=id,fixture_id&limit=1000")
+    if not isinstance(sels, list) or not sels:
+        return
+    scores = {}
+    try:
+        histo = pd.read_csv(F_HISTO)
+        finis = histo[(histo.statut == "FT")].dropna(subset=["buts_dom", "buts_ext"])
+        scores = {int(r.fixture_id): (int(r.buts_dom), int(r.buts_ext)) for _, r in finis.iterrows()}
+    except Exception:
+        pass
+    manquants = sorted({int(x["fixture_id"]) for x in sels if x.get("fixture_id") and int(x["fixture_id"]) not in scores})
+    for i in range(0, len(manquants), 20):
+        try:
+            rep = api("fixtures", {"ids": "-".join(str(x) for x in manquants[i:i + 20])})
+        except Exception:
+            break
+        for f in rep:
+            g = f.get("goals") or {}
+            if g.get("home") is not None:
+                scores[int(f["fixture"]["id"])] = (int(g["home"]), int(g["away"]))
+    n = 0
+    for x in sels:
+        sc = scores.get(int(x["fixture_id"] or 0))
+        if sc:
+            sb(f"coupon_selections?id=eq.{x['id']}", "PATCH", {"score": f"{sc[0]}-{sc[1]}"})
+            n += 1
+    if n:
+        print(f"   ⚽ scores finaux ajoutés : {n}")
 
 
 # ==================================================================
@@ -727,6 +768,10 @@ def main():
 
     print("→ Vérification des coupons précédents")
     verifier()
+    try:
+        completer_scores()
+    except Exception as e:
+        print(f"   ⚠️ scores finaux : {e}")
     for typ in PALIERS:
         try:
             debloquer_montante(typ)
