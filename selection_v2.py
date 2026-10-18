@@ -67,18 +67,22 @@ CATEGORIES = {
         moteur_min=0.70, moteur_min_dc=0.80,
         p_coupon_min=0.42, max_coupons=3, beta=0.0, table_legs=True,
         cascade=True, plancher=0.70, europe_ok=True),
+    # CONFIANCE et FUN revus le 18/10/2026 (trop de pronos « illogiques » qui
+    # perdaient : BTTS avec un promu sans victoire, double chance du côté de
+    # l'outsider, « pas de nul »…). Ils passent par les règles de bon sens de
+    # _logique_ok() (voir plus bas), des cotes plus raisonnables et moins de matchs.
     "confiance": dict(
-        cote_min=2.60, cote_max=7.50, legs_min=2, legs_max=6,
-        cote_sel_min=1.25, cote_sel_max=2.20, p_sel_min=0.45,
-        p_coupon_min=0.12, max_coupons=3, beta=0.5, table_legs=True,
-        cascade=True, plancher=0.65,
-        zones=[(2.6, 3.6, 3.0), (3.8, 5.2, 4.5), (5.2, 7.5, 6.0)]),
+        cote_min=2.00, cote_max=3.60, legs_min=2, legs_max=3,
+        cote_sel_min=1.15, cote_sel_max=1.90, p_sel_min=0.57,
+        p_coupon_min=0.25, max_coupons=2, beta=0.3, table_legs=True,
+        cascade=True, plancher=0.65, logique=True,
+        zones=[(2.0, 2.8, 2.4), (2.8, 3.6, 3.2)]),
     "fun": dict(
-        cote_min=8.0, cote_max=18.0, legs_min=4, legs_max=7,
-        cote_sel_min=1.30, cote_sel_max=2.60, p_sel_min=0.38,
-        p_coupon_min=0.05, max_coupons=2, valeur=True, beta=1.0, table_legs=True,
-        cascade=True, plancher=0.60,
-        zones=[(8.0, 12.0, 10.0), (12.0, 18.0, 15.0)]),
+        cote_min=4.0, cote_max=8.0, legs_min=3, legs_max=5,
+        cote_sel_min=1.25, cote_sel_max=2.30, p_sel_min=0.52,
+        p_coupon_min=0.11, max_coupons=2, beta=0.5, table_legs=True,
+        cascade=True, plancher=0.60, logique=True,
+        zones=[(4.0, 6.0, 5.0), (6.0, 8.0, 7.0)]),
     # GROSSES COTES : 1er coupon dans 30-45, 2e dans 60-90
     "grosses": dict(
         cote_min=30.0, cote_max=90.0, legs_min=7, legs_max=11,
@@ -346,10 +350,50 @@ def _prudent_ok(s):
     return True
 
 
+# RÈGLES DE BON SENS — CONFIANCE et FUN (18/10/2026)
+# D'après les 1 077 pronos vérifiés depuis juillet (taux réel selon la confiance du moteur) :
+#   · « les deux équipes marquent » : 58-61 % de réussite entre 55 et 70 % → jamais en
+#     Confiance ; en Fun seulement si le moteur est ≥ 70 % et sans équipe promue
+#   · « pas de nul » (12) : passe moins souvent que sa cote ne le laisse croire → retiré
+#   · double chance : toujours du côté du FAVORI (jamais « Malaga ou nul » si la Real Sociedad
+#     est favorite) ; victoire sèche : favori net seulement
+#   · Confiance : aucun match avec une équipe promue (pas assez d'historique fiable)
+LOGIQUE_INTERDITS = {"12", "NOBTTS", "U2.5"}
+
+
+def _logique_ok(s, cat):
+    code, pm, p = s["code"], (s.get("p_moteur") or 0), s["p"]
+    p1, p2 = s.get("p1"), s.get("p2")
+    if code in LOGIQUE_INTERDITS:
+        return False
+    if cat == "confiance" and (s.get("promu") or code in ("BTTS", "U3.5")):
+        return False
+    if code == "BTTS" and (s.get("promu") or pm < 0.70 or p < 0.60):
+        return False
+    if code == "U3.5" and (pm < 0.78 or p < 0.72):
+        return False
+    if code in ("1", "2"):
+        mini_m, mini_p = (0.70, 0.60) if cat == "confiance" else (0.66, 0.55)
+        if pm < mini_m or p < mini_p:
+            return False
+    if p1 is not None and p2 is not None:
+        if code in ("1", "1X") and p1 < p2:
+            return False                                 # on ne soutient jamais l'outsider
+        if code in ("2", "X2") and p2 < p1:
+            return False
+    if code == "O2.5" and pm < 0.70:
+        return False
+    if code == "O1.5" and pm < 0.78:
+        return False
+    return True
+
+
 def _eligibles(selections, cat, r, utilises, codes_par_match):
     out = []
     for s in selections:
         if cat in CATEGORIES_PRUDENCE and not _prudent_ok(s):
+            continue
+        if r.get("logique") and not _logique_ok(s, cat):
             continue
         if cat in CATEGORIES_PRUDENCE and s["ligue"] in LIGUES_PRUDENCE and not r.get("europe_ok"):
             continue
