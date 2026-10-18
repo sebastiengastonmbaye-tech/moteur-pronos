@@ -932,26 +932,71 @@ def publier_previsions(matchs):
     print(f"   📡 prévisions live : {len(lignes)} match(s) publiés" if r is not None else "   ⚠️ prévisions live non publiées")
 
 
+def _scores_api(fids):
+    """Score à la pause et score final de matchs, lus directement chez API-Football
+    (20 matchs par appel). → {fixture_id: (statut, mt_dom, mt_ext, fin_dom, fin_ext)}"""
+    out = {}
+    fids = sorted(set(fids))
+    for i in range(0, len(fids), 20):
+        try:
+            for f in api("fixtures", {"ids": "-".join(str(x) for x in fids[i:i + 20])}):
+                sc = f.get("score") or {}
+                mt, ft = sc.get("halftime") or {}, sc.get("fulltime") or {}
+                out[int(f["fixture"]["id"])] = (f["fixture"]["status"]["short"], mt.get("home"), mt.get("away"),
+                                                ft.get("home") if ft.get("home") is not None else (f.get("goals") or {}).get("home"),
+                                                ft.get("away") if ft.get("away") is not None else (f.get("goals") or {}).get("away"))
+        except Exception as e:
+            print(f"   ⚠️ scores mi-temps : {e}")
+    return out
+
+
+def gagnee_mi_temps(code, info):
+    """Paris live sur une mi-temps : H1_O0.5, H1_U1.5, H2_O0.5… → True/False, ou None si pas encore joué."""
+    statut, md, me, fd, fe = info
+    mt, ligne_txt = code[1], code[3:]
+    sens, ligne = ligne_txt[0], float(ligne_txt[1:])
+    if md is None or me is None:
+        return None
+    if mt == "1":
+        if statut in ("NS", "1H", "TBD"):
+            return None
+        buts = md + me
+    else:
+        if statut not in ("FT", "AET", "PEN") or fd is None or fe is None:
+            return None
+        buts = (fd + fe) - (md + me)
+    return buts > ligne if sens == "O" else buts < ligne
+
+
 def verifier_live(histo):
     """Vérifie les combinés LIVE générés par les utilisateurs, une fois leurs
-    matchs terminés (au plus tôt 2 h 30 après le clic)."""
+    matchs terminés (au plus tôt 2 h 30 après le clic). Les paris « mi-temps »
+    (codes H1_… / H2_…) sont vérifiés avec le score à la pause."""
     limite = (datetime.now(timezone.utc) - timedelta(hours=2, minutes=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
     en_cours = sb(f"coupons_live?statut=eq.en_cours&cree_le=lte.{limite}&select=id,selections")
     if not isinstance(en_cours, list) or not en_cours:
         return
     fini = histo[histo.statut == "FT"].dropna(subset=["buts_dom", "buts_ext"]).set_index("fixture_id")
+    fids_mt = [int(s["fixture_id"]) for c in en_cours for s in (c.get("selections") or [])
+               if str(s.get("code", "")).startswith(("H1_", "H2_"))]
+    scores_mt = _scores_api(fids_mt) if fids_mt else {}
     n = 0
     for c in en_cours:
         sels = c.get("selections") or []
         tous_joues, perdu, maj = True, False, []
         for s in sels:
-            fid = int(s["fixture_id"])
-            if fid not in fini.index:
+            fid, code = int(s["fixture_id"]), str(s["code"])
+            if code.startswith(("H1_", "H2_")):
+                ok = gagnee_mi_temps(code, scores_mt[fid]) if fid in scores_mt else None
+            elif fid in fini.index:
+                m = fini.loc[fid]
+                if isinstance(m, pd.DataFrame):
+                    m = m.iloc[0]
+                ok = gagnee(code, int(m.buts_dom), int(m.buts_ext))
+            else:
+                ok = None
+            if ok is None:
                 tous_joues = False; maj.append(s); continue
-            m = fini.loc[fid]
-            if isinstance(m, pd.DataFrame):
-                m = m.iloc[0]
-            ok = gagnee(str(s["code"]), int(m.buts_dom), int(m.buts_ext))
             s = {**s, "resultat": "gagne" if ok else "perdu"}
             if not ok:
                 perdu = True
