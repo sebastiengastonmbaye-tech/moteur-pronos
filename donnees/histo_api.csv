@@ -57774,8 +57774,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1551008,2026-10-22,NS,262,Liga MX,2026,Toluca,Club Tijuana,,,01:00,https://media.api-sports.io/football/teams/2281.png,https://media.api-sports.io/football/teams/2280.png
 1551006,2026-10-22,NS,262,Liga MX,2026,Atlas,Club America,,,01:00,https://media.api-sports.io/football/teams/2283.png,https://media.api-sports.io/football/teams/2287.png
 1551007,2026-10-22,NS,262,Liga MX,2026,Puebla,Monterrey,,,01:00,https://media.api-sports.io/football/teams/2291.png,https://media.api-sports.io/football/teams/2282.png
-1551010,2026-10-22,NS,262,Liga MX,2026,Santos Laguna,U.N.A.M. - Pumas,,,03:00,https://media.api-sports.io/football/teams/2285.png,https://media.api-sports.io/football/teams/2286.png
 1551009,2026-10-22,NS,262,Liga MX,2026,CF Pachuca,Cruz Azul,,,03:00,https://media.api-sports.io/football/teams/2292.png,https://media.api-sports.io/football/teams/2295.png
+1551010,2026-10-22,NS,262,Liga MX,2026,Santos Laguna,U.N.A.M. - Pumas,,,03:10,https://media.api-sports.io/football/teams/2285.png,https://media.api-sports.io/football/teams/2286.png
 1551011,2026-10-24,NS,262,Liga MX,2026,Necaxa,FC Juarez,,,01:00,https://media.api-sports.io/football/teams/2288.png,https://media.api-sports.io/football/teams/2298.png
 1551012,2026-10-24,NS,262,Liga MX,2026,Atlante FC,Atletico San Luis,,,03:00,https://media.api-sports.io/football/teams/2312.png,https://media.api-sports.io/football/teams/2314.png
 1551013,2026-10-24,NS,262,Liga MX,2026,Leon,Toluca,,,23:00,https://media.api-sports.io/football/teams/2289.png,https://media.api-sports.io/football/teams/2281.png
@@ -58207,7 +58207,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549872,2026-11-12,NS,239,Primera A,2026,Deportivo Pereira,America de Cali,,,21:00,https://media.api-sports.io/football/teams/1462.png,https://media.api-sports.io/football/teams/1138.png
 1549870,2026-11-12,NS,239,Primera A,2026,Llaneros,Chico,,,21:00,https://media.api-sports.io/football/teams/1464.png,https://media.api-sports.io/football/teams/1132.png
 1549866,2026-11-12,NS,239,Primera A,2026,Cucuta,Jaguares,,,21:00,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1133.png
-1549752,2026-10-16,TBD,239,Primera A,2026,Santa Fe,Jaguares,,,01:05,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1133.png
+1549752,2026-10-22,TBD,239,Primera A,2026,Santa Fe,Jaguares,,,01:20,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1133.png
 1545601,2026-09-24,FT,5,UEFA Nations League,2026,Andorra,Malta,1.0,2.0,16:00,https://media.api-sports.io/football/teams/1110.png,https://media.api-sports.io/football/teams/1112.png
 1528863,2026-09-24,FT,5,UEFA Nations League,2026,Serbia,Greece,1.0,2.0,18:45,https://media.api-sports.io/football/teams/14.png,https://media.api-sports.io/football/teams/1117.png
 1528864,2026-09-24,FT,5,UEFA Nations League,2026,Portugal,Wales,1.0,0.0,18:45,https://media.api-sports.io/football/teams/27.png,https://media.api-sports.io/football/teams/767.png
