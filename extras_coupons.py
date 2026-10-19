@@ -26,9 +26,25 @@ import math
 import selection_v2 as SEL
 
 # ----------------------------------------------------------------- SCORE EXACT
+# v2 (19/10/2026) — les scores ne sortent plus « au hasard » :
+#   1. on lit ce que le marché pense du match (cotes 1-N-2 et +/- 2,5 buts) et on
+#      en déduit les buts attendus de chaque équipe ; idem pour le moteur ;
+#   2. on mélange les deux (marché majoritaire : il connaît les équipes de coupe
+#      d'Europe que le moteur voit peu) et on calcule toute la grille des scores
+#      avec la correction Dixon-Coles (0-0, 1-0, 0-1, 1-1 mieux estimés) ;
+#   3. si le bookmaker publie les cotes Score exact, elles corrigent encore la grille ;
+#   4. cohérence : quand une équipe est nettement favorite, on ne propose que des
+#      victoires de cette équipe (fini le 1-0 pour Sabah face à Dortmund) ;
+#   5. un match sans cotes 1-N-2 n'est jamais proposé en score exact.
 SCORE_MAX_MATCHS = 5        # matchs par jour dans la section Score exact
 SCORE_P_MIN = 9.0           # % minimum du meilleur score pour qu'un match soit retenu
 SCORE_RATIO_UN_SEUL = 1.6   # si le 1er score domine le 2e de ce facteur → un seul score
+SCORE_FAVORI_NET = 0.50     # au-delà, seules les victoires du favori sont proposées
+SCORE_VALEUR_MIN = 0.80     # proba × cote minimum (on ne propose pas un score bradé)
+POIDS_MARCHE = 0.65         # part du marché dans les buts attendus (le reste : moteur)
+POIDS_COTES_SE = 0.40       # part des cotes Score exact du bookmaker dans la proba finale
+RHO_DC = -0.08              # correction Dixon-Coles des petits scores
+MAX_B = 8
 MARGE_ESTIMEE = 0.85        # cote estimée = 0,85 / p quand le bookmaker n'a pas de cote
 
 
@@ -36,48 +52,147 @@ def _code_score(sc):
     return "SE:" + sc.replace(":", "-").strip()
 
 
+def _pmf(mu):
+    k = list(range(MAX_B + 1))
+    return [math.exp(-mu) * mu ** x / math.factorial(x) for x in k]
+
+
+def grille_scores(mu_h, mu_a, rho=RHO_DC):
+    """Grille des probabilités de score (Poisson + correction Dixon-Coles)."""
+    ph, pa = _pmf(mu_h), _pmf(mu_a)
+    G = [[ph[i] * pa[j] for j in range(MAX_B + 1)] for i in range(MAX_B + 1)]
+    G[0][0] *= max(1 - mu_h * mu_a * rho, 0.01)
+    G[0][1] *= max(1 + mu_h * rho, 0.01)
+    G[1][0] *= max(1 + mu_a * rho, 0.01)
+    G[1][1] *= max(1 - rho, 0.01)
+    t = sum(sum(r) for r in G)
+    return [[v / t for v in r] for r in G]
+
+
+def _issues(G):
+    p1 = sum(G[i][j] for i in range(MAX_B + 1) for j in range(MAX_B + 1) if i > j)
+    p2 = sum(G[i][j] for i in range(MAX_B + 1) for j in range(MAX_B + 1) if i < j)
+    o25 = sum(G[i][j] for i in range(MAX_B + 1) for j in range(MAX_B + 1) if i + j >= 3)
+    return p1, p2, o25
+
+
+def buts_attendus(p1, p2, o25=None):
+    """Retrouve (buts attendus dom, ext) qui reproduisent p1, p2 (et +2,5 si connu)."""
+    def ecart(mh, ma):
+        a1, a2, ao = _issues(grille_scores(mh, ma))
+        e = (a1 - p1) ** 2 + (a2 - p2) ** 2
+        if o25 is not None:
+            e += 0.6 * (ao - o25) ** 2
+        return e
+    best = (9, 1.3, 1.1)
+    for mh in [x / 10 for x in range(2, 41, 2)]:
+        for ma in [x / 10 for x in range(2, 41, 2)]:
+            e = ecart(mh, ma)
+            if e < best[0]:
+                best = (e, mh, ma)
+    for pas in (0.05, 0.02):
+        _, mh0, ma0 = best
+        for dh in range(-4, 5):
+            for da in range(-4, 5):
+                mh, ma = max(mh0 + dh * pas, 0.1), max(ma0 + da * pas, 0.1)
+                e = ecart(mh, ma)
+                if e < best[0]:
+                    best = (e, mh, ma)
+    return best[1], best[2]
+
+
+def _sans_marge(cotes, codes):
+    inv = {c: 1 / cotes[c] for c in codes if cotes.get(c)}
+    if len(inv) != len(codes):
+        return None
+    t = sum(inv.values())
+    return {c: v / t for c, v in inv.items()}
+
+
+def analyse_scores(m, cotes):
+    """Grille de scores finale d'un match, ou None si le marché n'a pas de cotes 1-N-2."""
+    x12 = _sans_marge(cotes, ["1", "N", "2"])
+    if not x12:
+        return None
+    ou = _sans_marge(cotes, ["O2.5", "U2.5"])
+    mh_m, ma_m = buts_attendus(x12["1"], x12["2"], ou["O2.5"] if ou else None)
+    mh, ma = mh_m, ma_m
+    if m.get("p1") is not None and m.get("p2") is not None:
+        mh_e, ma_e = buts_attendus(float(m["p1"]), float(m["p2"]), m.get("pO25"))
+        # moteur très loin du marché (souvent : équipe de coupe d'Europe peu connue
+        # du moteur) → on suit presque entièrement le marché
+        ecart = max(abs(float(m["p1"]) - x12["1"]), abs(float(m["p2"]) - x12["2"]))
+        w = 0.9 if ecart > 0.15 else POIDS_MARCHE
+        # moyenne géométrique pondérée : le marché pèse plus
+        mh = math.exp(w * math.log(mh_m) + (1 - w) * math.log(mh_e))
+        ma = math.exp(w * math.log(ma_m) + (1 - w) * math.log(ma_e))
+    G = grille_scores(mh, ma)
+    probas = {f"{i}-{j}": G[i][j] for i in range(6) for j in range(6)}
+    se = {k[3:]: v for k, v in cotes.items() if k.startswith("SE:")}
+    if len(se) >= 8:   # assez de cotes Score exact pour en tirer un avis
+        inv = {k: 1 / v for k, v in se.items() if v > 1.01}
+        t = sum(inv.values())
+        for k in probas:
+            if k in inv:
+                probas[k] = (1 - POIDS_COTES_SE) * probas[k] + POIDS_COTES_SE * inv[k] / t
+    p1, p2, _ = _issues(G)
+    return {"probas": probas, "p1": p1, "p2": p2, "mu": (round(mh, 2), round(ma, 2))}
+
+
 def construire_scores_exacts(matchs, cotes_brutes, journal=print):
     """
-    matchs        : sortie de candidats() — chaque match porte "scores"
-                    ([{"score": "2-1", "proba": 14.2}, …], du moteur enrichi)
-    cotes_brutes  : {fixture_id: {"SE:2-1": 7.5, …}} (cotes Score exact du bookmaker)
+    matchs        : sortie de candidats() (p1, pN, p2, pO25 du moteur)
+    cotes_brutes  : {fixture_id: {"1": 1.25, "N": 6.5, "2": 11, "O2.5": 1.45, "SE:2-0": 6.0, …}}
     Retourne des coupons prêts pour enregistrer().
     """
     retenus = []
     for m in matchs:
-        scores = [s for s in (m.get("scores") or []) if s.get("score")]
-        if not scores:
+        cotes = cotes_brutes.get(m["fixture_id"]) or {}
+        a = analyse_scores(m, cotes)
+        if not a:
             continue
-        s1 = scores[0]
-        if float(s1.get("proba", 0)) < SCORE_P_MIN:
+        favori = "1" if a["p1"] >= a["p2"] else "2"
+        p_fav = max(a["p1"], a["p2"])
+        candidats = []
+        for sc, p in sorted(a["probas"].items(), key=lambda t: -t[1]):
+            h, e = map(int, sc.split("-"))
+            issue = "1" if h > e else "2" if e > h else "N"
+            if p_fav >= SCORE_FAVORI_NET and issue != favori:
+                continue                                   # favori net : seulement ses victoires
+            if p_fav >= 0.42 and issue not in (favori, "N"):
+                continue                                   # jamais une victoire de l'outsider
+            cote = cotes.get(_code_score(sc))
+            estimee = not cote
+            if estimee:
+                cote = round(MARGE_ESTIMEE / max(p, 0.02), 2)
+            if p * cote < SCORE_VALEUR_MIN:
+                continue
+            candidats.append({"score": sc, "p": p, "cote": float(cote), "estimee": estimee})
+            if len(candidats) == 2:
+                break
+        if not candidats or candidats[0]["p"] * 100 < SCORE_P_MIN:
             continue
-        retenus.append((float(s1["proba"]), m, scores))
+        retenus.append((candidats[0]["p"], m, candidats, a))
     retenus.sort(key=lambda t: -t[0])
 
     coupons = []
-    for k, (p1, m, scores) in enumerate(retenus[:SCORE_MAX_MATCHS], 1):
-        liste = [scores[0]]
-        if len(scores) > 1 and float(scores[0]["proba"]) < SCORE_RATIO_UN_SEUL * float(scores[1]["proba"]):
-            liste.append(scores[1])
-        sels = []
-        for sc in liste:
-            code = _code_score(sc["score"])
-            cote = (cotes_brutes.get(m["fixture_id"]) or {}).get(code)
-            if not cote:
-                cote = round(MARGE_ESTIMEE / max(float(sc["proba"]) / 100, 0.02), 2)
-            sels.append({
-                **{c: m.get(c) for c in ("fixture_id", "ligue", "dom", "ext", "date_match",
-                                          "heure", "logo_dom", "logo_ext")},
-                "marche": "Score exact",
-                "selection": "Score exact " + sc["score"].replace(":", "-"),
-                "code": code, "cote": float(cote),
-                "confiance": round(float(sc["proba"])),
-                "famille": "score", "p": float(sc["proba"]) / 100,
-            })
+    for k, (p1, m, cands, a) in enumerate(retenus[:SCORE_MAX_MATCHS], 1):
+        liste = [cands[0]]
+        if len(cands) > 1 and cands[0]["p"] < SCORE_RATIO_UN_SEUL * cands[1]["p"]:
+            liste.append(cands[1])
+        sels = [{
+            **{c: m.get(c) for c in ("fixture_id", "ligue", "dom", "ext", "date_match",
+                                      "heure", "logo_dom", "logo_ext")},
+            "marche": "Score exact",
+            "selection": "Score exact " + sc["score"],
+            "code": _code_score(sc["score"]), "cote": sc["cote"],
+            "confiance": round(sc["p"] * 100),
+            "famille": "score", "p": sc["p"],
+        } for sc in liste]
         coupons.append({"categorie": "score", "numero": k, "selections": sels,
                         "cote_totale": sels[0]["cote"]})
-        journal(f"   🎯 score exact #{k} : {m['dom']} – {m['ext']} → "
-                + " / ".join(s["selection"].replace("Score exact ", "") for s in sels))
+        journal(f"   🎯 score exact #{k} : {m['dom']} – {m['ext']} (buts attendus {a['mu'][0]}–{a['mu'][1]}) → "
+                + " / ".join(f"{s['selection'].replace('Score exact ', '')} ({s['confiance']} %)" for s in sels))
     if not coupons:
         journal("   🎯 score exact : aucun match assez net aujourd'hui")
     return coupons
