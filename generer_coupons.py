@@ -58,6 +58,7 @@ from moteur_production import Moteur          # noqa: E402
 import selection_v2 as SEL                     # noqa: E402  (logique v2)
 import enrichissement as ENR                   # noqa: E402  (absences, fatigue, xG, classement)
 import extras_coupons as EXT                   # noqa: E402  (score exact, combinés TikTok)
+SCORE_EXACT_ACTIF = False                       # section Score exact retirée le 21/10/2026
 
 CLE_API = os.environ.get("API_FOOTBALL_KEY", "")
 URL_SB = os.environ.get("SUPABASE_URL", "").rstrip("/")
@@ -901,9 +902,12 @@ def generer_journee(demain, bookmaker):
     # ----- prévisions live : matchs de la nuit -----
     publier_previsions(matchs_nuit or [])
 
-    # ----- score exact -----
-    print(f"→ Score exact du {jour}")
-    coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
+    # ----- score exact : SECTION RETIRÉE le 21/10/2026 (décision Babs, résultats jugés mauvais) -----
+    # Plus aucun coupon « score » n'est publié. Les anciens restent en base et sont toujours vérifiés.
+    # Pour la réactiver : remettre SCORE_EXACT_ACTIF = True.
+    if SCORE_EXACT_ACTIF:
+        print(f"→ Score exact du {jour}")
+        coupons += EXT.construire_scores_exacts(matchs, COTES_BRUTES)
 
     ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5, "turbo": 6, "score": 7}
     if coupons:
