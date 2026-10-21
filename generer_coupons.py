@@ -326,45 +326,98 @@ def id_bookmaker():
     for voulu in BOOKMAKERS:
         for nom, bid in par_nom.items():
             if voulu in nom:
-                print(f"   Cotes fournies par : {nom}")
+                print(f"   Cotes : référence du marché (tous bookmakers, {int(COTE_QUANTILE*100)}e centile) · secours : {nom}")
                 return bid
     nom, bid = next(iter(par_nom.items()))
-    print(f"   Cotes fournies par : {nom} (aucun partenaire disponible)")
+    print(f"   Cotes : référence du marché (tous bookmakers) · secours : {nom}")
     return bid
 
 
-def cotes_du_match(fixture_id, bookmaker):
-    rep = api("odds", {"fixture": fixture_id, "bookmaker": bookmaker})
+# ----- cote de référence (21/10/2026) -----
+# Avant : cotes d'un seul bookmaker (1xBet), parmi les plus hautes du marché →
+# les abonnés trouvaient des cotes nettement plus basses sur leurs sites (Winwin…).
+# Maintenant : pour chaque pari, on lit TOUS les bookmakers du match (même nombre
+# d'appels API) et on retient une cote un peu en dessous de la médiane du marché.
+COTE_QUANTILE = 0.35        # 0.5 = médiane ; 0.35 = un peu plus prudent, sans abuser
+COTE_MIN_BOOKS = 3          # en dessous, on prend la plus basse des cotes disponibles
+STATS_COTES = {"matchs": 0, "books": 0}
+
+
+def _cote_reference(valeurs):
+    v = sorted(x for x in valeurs if x and x > 1.01)
+    if not v:
+        return None
+    if len(v) < COTE_MIN_BOOKS:
+        return v[0]
+    pos = COTE_QUANTILE * (len(v) - 1)
+    bas = int(pos)
+    haut = min(bas + 1, len(v) - 1)
+    return round(v[bas] + (v[haut] - v[bas]) * (pos - bas), 2)
+
+
+def _lire_bookmaker(bk):
+    """Cotes d'UN bookmaker, au format interne (1, N, 2, 1X, O2.5, SE:2-1…)."""
     cotes = {}
+    for pari in bk.get("bets", []):
+        nom = pari.get("name", "").lower()
+        vals = {}
+        for v in pari.get("values", []):
+            try:
+                if v.get("odd"):
+                    vals[str(v["value"]).lower()] = float(v["odd"])
+            except (TypeError, ValueError):
+                pass
+        if nom == "match winner":
+            cotes["1"] = vals.get("home")
+            cotes["N"] = vals.get("draw")     # nécessaire pour retirer la marge
+            cotes["2"] = vals.get("away")
+        elif nom == "double chance":
+            cotes["1X"] = vals.get("home/draw")
+            cotes["X2"] = vals.get("draw/away")
+            cotes["12"] = vals.get("home/away")
+        elif nom == "goals over/under":
+            cotes["O2.5"] = vals.get("over 2.5")
+            cotes["U2.5"] = vals.get("under 2.5")     # gardée pour retirer la marge, jamais proposée
+            cotes["O1.5"] = vals.get("over 1.5")
+            cotes["U1.5"] = vals.get("under 1.5")
+            cotes["O3.5"] = vals.get("over 3.5")
+            cotes["U3.5"] = vals.get("under 3.5")
+        elif nom == "both teams score":
+            cotes["BTTS"] = vals.get("yes")
+            cotes["NOBTTS"] = vals.get("no")
+        elif nom in ("exact score", "correct score"):
+            for val, odd in vals.items():          # "2:1" → "SE:2-1"
+                if ":" in val:
+                    cotes["SE:" + val.replace(":", "-").strip()] = odd
+    return {k: v for k, v in cotes.items() if v and v > 1.01}
+
+
+def cotes_du_match(fixture_id, bookmaker):
+    """Cote de référence du marché pour chaque pari du match.
+    `bookmaker` ne sert plus que de secours si l'API ne renvoie pas le marché complet."""
+    rep = api("odds", {"fixture": fixture_id})
+    par_cle = {}
+    nb_books = 0
     for bloc in rep:
         for bk in bloc.get("bookmakers", []):
-            for pari in bk.get("bets", []):
-                nom = pari.get("name", "").lower()
-                vals = {v["value"].lower(): float(v["odd"]) for v in pari.get("values", [])
-                        if v.get("odd")}
-                if nom == "match winner":
-                    cotes["1"] = vals.get("home")
-                    cotes["N"] = vals.get("draw")     # nécessaire pour retirer la marge
-                    cotes["2"] = vals.get("away")
-                elif nom == "double chance":
-                    cotes["1X"] = vals.get("home/draw")
-                    cotes["X2"] = vals.get("draw/away")
-                    cotes["12"] = vals.get("home/away")
-                elif nom == "goals over/under":
-                    cotes["O2.5"] = vals.get("over 2.5")
-                    cotes["U2.5"] = vals.get("under 2.5")     # gardée pour retirer la marge, jamais proposée
-                    cotes["O1.5"] = vals.get("over 1.5")
-                    cotes["U1.5"] = vals.get("under 1.5")
-                    cotes["O3.5"] = vals.get("over 3.5")
-                    cotes["U3.5"] = vals.get("under 3.5")
-                elif nom == "both teams score":
-                    cotes["BTTS"] = vals.get("yes")
-                    cotes["NOBTTS"] = vals.get("no")
-                elif nom in ("exact score", "correct score"):
-                    for val, odd in vals.items():          # "2:1" → "SE:2-1"
-                        if ":" in val:
-                            cotes["SE:" + val.replace(":", "-").strip()] = odd
-    propres = {k: v for k, v in cotes.items() if v and v > 1.01}
+            c = _lire_bookmaker(bk)
+            if c:
+                nb_books += 1
+            for k, v in c.items():
+                par_cle.setdefault(k, []).append(v)
+    if not par_cle and bookmaker:                      # secours : un seul bookmaker
+        for bloc in api("odds", {"fixture": fixture_id, "bookmaker": bookmaker}):
+            for bk in bloc.get("bookmakers", []):
+                for k, v in _lire_bookmaker(bk).items():
+                    par_cle.setdefault(k, []).append(v)
+    propres = {}
+    for k, vs in par_cle.items():
+        c = _cote_reference(vs)
+        if c and c > 1.01:
+            propres[k] = c
+    if propres:
+        STATS_COTES["matchs"] += 1
+        STATS_COTES["books"] += nb_books
     COTES_BRUTES[fixture_id] = propres
     return propres
 
