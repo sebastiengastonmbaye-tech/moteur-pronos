@@ -520,13 +520,16 @@ def verifier():
 
     hier = (datetime.now(timezone.utc).date() - timedelta(days=1)).isoformat()
     for c in en_cours:
-        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat,date_match,score")
+        if c["categorie"] in ("montante", "turbo") and not est_palier(c["id"]):
+            continue          # coupon réservé (pas encore palier) : il sera adopté ou retiré, jamais vérifié seul
+        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat,date_match,heure,score")
         if not sels:
             continue
         # résultat absent de l'historique local (passage hors cron, import en
         # retard) : on le demande directement à l'API pour les matchs déjà joués
+        # 23/10/2026 : aussi les matchs du jour terminés (début + 1h55) → vérification possible dans la nuit
         manquants = [s["fixture_id"] for s in sels if s["fixture_id"] not in scores
-                     and str(s.get("date_match") or "")[:10] <= hier]
+                     and (str(s.get("date_match") or "")[:10] <= hier or termine_probablement(s))]
         for i in range(0, len(manquants), 20):
             try:
                 rep = api("fixtures", {"ids": "-".join(str(x) for x in manquants[i:i + 20])})
@@ -619,6 +622,81 @@ def completer_scores(jours=21):
 # ==================================================================
 # 5. Montante
 # ==================================================================
+def debut_match(s):
+    """Coup d'envoi (UTC) d'une sélection, ou None."""
+    try:
+        h = str(s.get("heure") or "00:00")[:5]
+        return datetime.fromisoformat(f"{str(s['date_match'])[:10]}T{h}:00+00:00")
+    except Exception:
+        return None
+
+
+def termine_probablement(s):
+    d = debut_match(s)
+    return d is not None and datetime.now(timezone.utc) >= d + timedelta(minutes=115)
+
+
+def est_palier(coupon_id):
+    lien = sb(f"montante?coupon_id=eq.{coupon_id}&select=palier")
+    return isinstance(lien, list) and bool(lien)
+
+
+# ----- RÉSERVATION DES MONTANTES (23/10/2026, demande de Babs) -----
+# Les montantes passent TOUJOURS en premier. Quand le coupon du lendemain est
+# préparé avant de connaître le résultat du palier en cours, le moteur choisit
+# quand même d'abord le coupon Montante / Turbo (meilleurs matchs, meilleures
+# options) et le RÉSERVE : il est enregistré sans palier, donc invisible dans
+# l'app. Les autres coupons sont construits avec les matchs restants.
+# Dès que le palier en cours est vérifié (passages de nuit), le coupon réservé
+# est ADOPTÉ : palier suivant si validé, palier 1 d'une nouvelle série sinon.
+def reserves(typ, jour):
+    """Coupons Montante/Turbo du jour encore en cours et non rattachés à un palier."""
+    l = sb(f"coupons?jour=eq.{jour}&categorie=eq.{typ}&statut=eq.en_cours&select=id,cote_totale")
+    return [c for c in (l if isinstance(l, list) else []) if not est_palier(c["id"])]
+
+
+def deja_commence(coupon_id):
+    sels = sb(f"coupon_selections?coupon_id=eq.{coupon_id}&select=date_match,heure")
+    now = datetime.now(timezone.utc)
+    return any((debut_match(s) or now) <= now for s in (sels if isinstance(sels, list) else []))
+
+
+def adopter_reserves():
+    """Transforme les coupons réservés en vrais paliers dès que c'est possible."""
+    auj = datetime.now(timezone.utc).date()
+    for jour in (auj.isoformat(), (auj + timedelta(days=1)).isoformat()):
+        for typ in PALIERS:
+            res = reserves(typ, jour)
+            if not res:
+                continue
+            for c in res[1:]:                                  # un seul coupon par montante et par jour
+                supprimer_coupon(c["id"])
+            c = res[0]
+            if deja_commence(c["id"]):
+                supprimer_coupon(c["id"])
+                print(f"   ✗ {NOMS_MONTANTE[typ]} : coupon réservé du {jour} retiré (un match a déjà commencé)")
+                continue
+            if not montante_prete(typ, jour):
+                print(f"   ⏸ {NOMS_MONTANTE[typ]} : coupon du {jour} réservé, en attente du résultat du palier en cours")
+                continue
+            if avancer_montante(c["id"], float(c["cote_totale"]), jour, typ):
+                print(f"   ✅ {NOMS_MONTANTE[typ]} : coupon réservé du {jour} publié comme palier")
+
+
+def montantes_presentes(jour):
+    """Types de montante ayant déjà un coupon pour ce jour (palier ou réservé) et leurs matchs."""
+    types, fx = set(), set()
+    for typ in PALIERS:
+        l = sb(f"coupons?jour=eq.{jour}&categorie=eq.{typ}&select=id,statut")
+        for c in (l if isinstance(l, list) else []):
+            if c.get("statut") == "en_cours" and not est_palier(c["id"]) and deja_commence(c["id"]):
+                continue                                       # réservé périmé : sera retiré
+            types.add(typ)
+            s = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=fixture_id")
+            fx |= {x["fixture_id"] for x in (s if isinstance(s, list) else [])}
+    return types, fx
+
+
 def debloquer_montante(typ="montante"):
     """Un palier ne doit jamais rester bloqué « en cours » : sinon la montante
     ne repart plus. Si le coupon du palier a déjà été tranché, on recopie son
@@ -680,7 +758,7 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
         elif d["statut"] == "perdu":
             serie, palier, mise = d["serie"] + 1, 1, MISE_DEPART
         else:
-            return   # palier encore en cours : on n'en ouvre pas un second
+            return False   # palier encore en cours : on n'en ouvre pas un second
     else:
         serie, palier, mise = 1, 1, MISE_DEPART
 
@@ -689,6 +767,7 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
         "mise": mise, "gain_vise": round(mise * cote, 2), "jour": jour,
     }, prefer="return=minimal")
     print(f"   {NOMS_MONTANTE[typ]} série {serie} · palier {palier}/{nb_paliers(typ, serie)} : {int(mise)} F → {int(mise*cote)} F")
+    return True
 
 
 # ==================================================================
@@ -697,25 +776,24 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
 CATEGORIES_REMPLACABLES = {"tiktok"}   # seules catégories reconstruites à chaque passage
 
 
-def enregistrer(coupons, jour, nuit=False):
+def supprimer_coupon(cid):
+    """Supprime un coupon et ses dépendances, puis VÉRIFIE qu'il a disparu."""
+    for _ in range(2):
+        sb(f"coupon_selections?coupon_id=eq.{cid}", "DELETE")
+        sb(f"montante?coupon_id=eq.{cid}", "DELETE")
+        sb(f"coupons?id=eq.{cid}", "DELETE")
+        reste = sb(f"coupons?id=eq.{cid}&select=id")
+        if isinstance(reste, list) and not reste:
+            return True
+        time.sleep(2)
+    print(f"   ❌ coupon {cid} toujours présent après suppression")
+    return False
+
+
+def enregistrer(coupons, jour, nuit=False, reserve=()):
     from datetime import date as _date
     lendemain = (datetime.fromisoformat(jour).date() + timedelta(days=1)).isoformat()
     autorises = {jour, lendemain} if nuit else {jour}
-
-    # on efface d'abord les coupons du jour encore en cours : une nouvelle
-    # exécution doit toujours refléter la logique la plus récente
-    def supprimer_coupon(cid):
-        """Supprime un coupon et ses dépendances, puis VÉRIFIE qu'il a disparu."""
-        for _ in range(2):
-            sb(f"coupon_selections?coupon_id=eq.{cid}", "DELETE")
-            sb(f"montante?coupon_id=eq.{cid}", "DELETE")
-            sb(f"coupons?id=eq.{cid}", "DELETE")
-            reste = sb(f"coupons?id=eq.{cid}&select=id")
-            if isinstance(reste, list) and not reste:
-                return True
-            time.sleep(2)
-        print(f"   ❌ coupon {cid} toujours présent après suppression")
-        return False
 
     # RÈGLE (01/10/2026) : un coupon publié ne bouge plus. Des gens misent dessus
     # dès sa publication — montantes en tête. Une relance du cron ne fait donc
@@ -733,14 +811,14 @@ def enregistrer(coupons, jour, nuit=False):
             # coupon de montante publié trop tôt (palier précédent pas encore
             # vérifié) : il n'est rattaché à aucun palier, donc invisible dans
             # l'app → on le retire pour publier le vrai palier
+            # coupon RÉSERVÉ (sans palier) : gardé tant qu'aucun de ses matchs n'a commencé
             orphelins = []
             for a in anciens:
-                lien = sb(f"montante?coupon_id=eq.{a['id']}&select=palier")
-                if a.get("statut") == "en_cours" and isinstance(lien, list) and not lien:
+                if a.get("statut") == "en_cours" and not est_palier(a["id"]) and deja_commence(a["id"]):
                     orphelins.append(a)
             for a in orphelins:
                 if supprimer_coupon(a["id"]):
-                    print(f"   ↻ {cat} : coupon du {jour} publié avant la validation du palier précédent, remplacé")
+                    print(f"   ↻ {cat} : coupon réservé du {jour} périmé (match commencé), retiré")
             anciens = [a for a in anciens if a not in orphelins]
         remplacable = cat in CATEGORIES_REMPLACABLES or (forcer and cat not in ("montante", "turbo"))
         if anciens and not remplacable:
@@ -812,7 +890,10 @@ def enregistrer(coupons, jour, nuit=False):
             continue
 
         if cle in ("montante", "turbo"):
-            avancer_montante(cid, c["cote_totale"], jour, cle)   # un seul palier ouvert à la fois par montante
+            if cle in reserve:
+                print(f"   🔒 {NOMS_MONTANTE[cle]} : coupon du {jour} RÉSERVÉ (publié dès la vérification du palier en cours)")
+            else:
+                avancer_montante(cid, c["cote_totale"], jour, cle)   # un seul palier ouvert à la fois par montante
 
 
 # ==================================================================
@@ -835,6 +916,10 @@ def main():
         verifier_live(pd.read_csv(F_HISTO))
     except Exception as e:
         print(f"   ⚠️ vérification live : {e}")
+    try:
+        adopter_reserves()
+    except Exception as e:
+        print(f"   ⚠️ adoption des coupons réservés : {e}")
 
     if "--montantes" in sys.argv:
         # passage de rattrapage (9h, 13h) : uniquement les montantes du jour
@@ -875,6 +960,8 @@ def generer_montantes(bookmaker):
     publie tout de suite le palier du jour (Montante et/ou Turbo). Ne touche à
     aucun autre coupon."""
     jour = datetime.now(timezone.utc).date().isoformat()
+    print("→ Coupons réservés : adoption")
+    adopter_reserves()
     print(f"→ Montantes du {jour} (rattrapage)")
     besoin = []
     for typ in PALIERS:
@@ -882,6 +969,8 @@ def generer_montantes(bookmaker):
         if isinstance(deja, list) and deja:
             print(f"   ✓ {NOMS_MONTANTE[typ]} : palier du jour déjà publié")
             continue
+        if reserves(typ, jour):
+            continue                                   # un coupon réservé attend déjà ce palier
         if montante_prete(typ, jour):
             besoin.append(typ)
     if not besoin:
@@ -904,11 +993,9 @@ def generer_montantes(bookmaker):
         pris = {x["fixture_id"] for x in (sels if isinstance(sels, list) else [])}
     libre = [x for x in pool if x["fixture_id"] not in pris]
 
+    # 23/10/2026 : plus JAMAIS de match déjà joué par un autre coupon (cohérence) ;
+    # pas assez de matchs libres → pas de palier aujourd'hui, la série attend
     coupons = SEL.construire_coupons(libre, ordre=besoin, journal=print)
-    manque = [t for t in besoin if t not in {c["categorie"] for c in coupons}]
-    if manque and len(libre) < len(pool):
-        # pas assez de matchs libres : on autorise les matchs déjà pris
-        coupons += SEL.construire_coupons(pool, ordre=manque, journal=print)
     coupons = [{"categorie": c["categorie"], "numero": c["numero"],
                 "selections": c["selections"], "cote_totale": c["cote_totale"]} for c in coupons]
     if coupons:
@@ -937,9 +1024,12 @@ def generer_journee(demain, bookmaker):
         print("   (pas assez de cotes disponibles)")
         return
 
-    print("→ Construction des coupons")
+    print("→ Construction des coupons (Montante et Turbo servies en premier)")
     en_attente = {typ for typ in PALIERS if not montante_prete(typ, jour)}
-    coupons = construire(pool, sans=en_attente)
+    presentes, pris_mt = montantes_presentes(jour)            # déjà publiées ou réservées : on garde, matchs exclus
+    if presentes:
+        pool = [x for x in pool if x["fixture_id"] not in pris_mt]
+    coupons = construire(pool, sans=presentes)
 
     # ----- coupons de la nuit (Amériques) -----
     print(f"→ Coupons de la nuit du {jour} (22h → 7h)")
@@ -965,7 +1055,7 @@ def generer_journee(demain, bookmaker):
     ordre = {"sure": 0, "confiance": 1, "fun": 2, "grosses": 3, "nuit": 4, "montante": 5, "turbo": 6, "score": 7}
     if coupons:
         coupons.sort(key=lambda c: (ordre.get(c["categorie"], 9), c["numero"]))
-        enregistrer(coupons, jour)
+        enregistrer(coupons, jour, reserve=en_attente)
     if coupons_nuit:
         enregistrer(coupons_nuit, jour, nuit=True)
     print(f"✓ coupons du {jour} enregistrés")
