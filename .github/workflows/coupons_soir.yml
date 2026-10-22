@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "17 18 * * *"   # ~18h15 Dakar (minute décalée : GitHub retarde moins)
   workflow_dispatch:
+    inputs:
+      forcer:
+        description: "Recalculer les coupons de demain déjà publiés (Montante/Turbo en priorité)"
+        type: boolean
+        default: false
 
 jobs:
   coupons:
@@ -22,4 +27,4 @@ jobs:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python generer_coupons.py --demain
+        run: python generer_coupons.py --demain ${{ inputs.forcer && '--forcer' || '' }}
