@@ -178,6 +178,10 @@ CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
 LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa", "Ligue Conférence"}
 CATEGORIES_PRUDENCE = {"sure", "montante", "turbo"}
 MONTANTES = {"montante", "turbo"}   # leurs matchs ne sont repris par AUCUN autre coupon le même jour
+# 23/10/2026 (décision Babs) : la Ligue Conférence n'entre JAMAIS dans une montante, même en repli
+# (clubs de petits championnats, données moins fiables ; 3/5 seulement en Montante/Turbo).
+# Elle reste possible dans Confiance, Fun et les autres coupons.
+LIGUES_EXCLUES_MONTANTES = {"Ligue Conférence"}
 
 # CASCADE DE CONFIANCE (05/10/2026) — même philosophie que les montantes, pour
 # Sûre, Confiance, Fun, Grosses cotes et Nuit : chaque coupon est construit avec
@@ -392,6 +396,8 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
     out = []
     for s in selections:
         if cat in CATEGORIES_PRUDENCE and not _prudent_ok(s):
+            continue
+        if cat in MONTANTES and s["ligue"] in LIGUES_EXCLUES_MONTANTES:
             continue
         if r.get("logique") and not _logique_ok(s, cat):
             continue
