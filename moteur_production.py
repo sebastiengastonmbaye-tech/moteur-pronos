@@ -24,7 +24,22 @@ import pandas as pd
 from math import lgamma
 
 # ----- Réglages (validés par backtest sur 30 714 matchs, 2016-2026) -----
+# XI/RHO par défaut = réglages des COUPONS (inchangés, ils marchent).
+# Les pronos de l'ACCUEIL utilisent XI_ACCUEIL / RHO_ACCUEIL (V5, 24/10/2026) :
+# backtest semaine par semaine sur 2 868 matchs des 7 championnats (08/2025 → 10/2026)
+# + 601 matchs de C1/C2 : réussite du prono principal 69,3 % → 71,1 %,
+# log-loss 1X2 1,006 → 0,987 (championnats) et 0,991 → 0,957 (coupes d'Europe).
 XI = 0.0065        # pondération récence (demi-vie ~107 jours)
+XI_ACCUEIL = 0.0015   # oubli plus lent (demi-vie ~460 j) : une série en D2 ne fait plus d'une promue un favori
+RHO_ACCUEIL = -0.08   # correction Dixon-Coles des petits scores (0-0, 1-0, 0-1, 1-1)
+
+# Clubs renommés par l'API d'une saison à l'autre : sans ça, le club repart de
+# zéro et le moteur ne voit que quelques matchs (bug Vitória SC – Maritimo, 23/10).
+ALIAS = {
+    "Vitória SC": "Guimaraes",
+}
+def canon(nom):
+    return ALIAS.get(nom, nom)
 FENETRE = 1095     # jours d'historique utilisés
 PSEUDO = 3.0       # régularisation équipes peu connues
 MOY_BUTS = 1.35
@@ -41,13 +56,15 @@ def _badge(p):
 
 class Moteur:
     def __init__(self, historique: pd.DataFrame, date_ref=None,
-                 min_matchs: float = MIN_MATCHS, xi: float = XI):
+                 min_matchs: float = MIN_MATCHS, xi: float = XI, rho: float = 0.0):
         """historique : colonnes date, equipe_dom, equipe_ext, buts_dom, buts_ext
         min_matchs / xi : seuil de données récentes et vitesse d'oubli. Les équipes
         NATIONALES jouent ~10 matchs par an : on leur passe un seuil plus bas et
         un oubli plus lent (voir cron_quotidien.PARAMS_NATIONS)."""
-        self.min_matchs, self.xi = min_matchs, xi
+        self.min_matchs, self.xi, self.rho = min_matchs, xi, rho
         h = historique.dropna(subset=["buts_dom", "buts_ext"]).copy()
+        h["equipe_dom"] = h["equipe_dom"].map(canon)
+        h["equipe_ext"] = h["equipe_ext"].map(canon)
         h["date"] = pd.to_datetime(h["date"])
         date_ref = pd.to_datetime(date_ref) if date_ref is not None else h.date.max()
         h = h[(h.date <= date_ref) &
@@ -90,13 +107,13 @@ class Moteur:
         sur les buts attendus — att_dom, def_dom, att_ext, def_ext — et un
         texte « contexte ». Ils s'appliquent AVANT le choix du prono, du badge
         et des scores : tout reste cohérent."""
-        for e in (dom, ext):
+        for e in (canon(dom), canon(ext)):
             if e not in self.idx:
                 return {"erreur": f"Équipe inconnue : {e}"}
             if self.vus[self.idx[e]] < self.min_matchs:
                 return {"erreur": f"Pas assez de données récentes sur {e}"}
 
-        i, j = self.idx[dom], self.idx[ext]
+        i, j = self.idx[canon(dom)], self.idx[canon(ext)]
         mu_h = self.gamma * self.att[i] * self.dfn[j] * MOY_BUTS
         mu_a = self.att[j] * self.dfn[i] * MOY_BUTS
         a = ajustements or {}
@@ -109,6 +126,10 @@ class Moteur:
         lf = np.array([lgamma(x+1) for x in k])
         M = np.outer(np.exp(k*np.log(mu_h)-mu_h-lf),
                      np.exp(k*np.log(mu_a)-mu_a-lf))
+        if self.rho:   # Dixon-Coles : corrige la fréquence des petits scores
+            r = self.rho
+            M[0, 0] *= max(1 - mu_h*mu_a*r, 0); M[0, 1] *= max(1 + mu_h*r, 0)
+            M[1, 0] *= max(1 + mu_a*r, 0);      M[1, 1] *= max(1 - r, 0)
         M /= M.sum()
 
         p1 = float(np.tril(M, -1).sum())
@@ -125,10 +146,9 @@ class Moteur:
             gagnant = dom if p1 > p2 else ext
             prono = {"marche": "Victoire", "selection": f"Victoire {gagnant}",
                      "code": "1" if p1 > p2 else "2", **_badge(max(p1, p2))}
-        elif pN >= max(p1, p2):
-            prono = {"marche": "Résultat", "selection": "Match nul",
-                     "code": "N", **_badge(pN)}
         else:
+            # V5 : plus de « Match nul » sec (25 % de réussite au backtest) —
+            # double chance du côté le plus probable
             if p1 >= p2:
                 prono = {"marche": "Double chance",
                          "selection": f"{dom} ou nul (1X)", "code": "1X",
@@ -139,10 +159,16 @@ class Moteur:
                          **_badge(pN+p2)}
 
         # ----- prono buts -----
+        # V5 : quand le moteur penche vers peu de buts, on propose « Moins de 3,5 »
+        # et non plus « Moins de 2,5 » : 53 % de réussite pour -2,5 contre 75 %
+        # pour -3,5 sur les mêmes 920 matchs du backtest. La confiance annoncée
+        # est légèrement resserrée (×0,9 autour de 50 %) car le moteur la
+        # surestimait de ~2 points sur ce marché.
         if pO25 >= 0.5:
             buts = {"selection": "Plus de 2,5 buts", "code": "O2.5", **_badge(pO25)}
         else:
-            buts = {"selection": "Moins de 2,5 buts", "code": "U2.5", **_badge(1-pO25)}
+            buts = {"selection": "Moins de 3,5 buts", "code": "U3.5",
+                    **_badge(0.5 + 0.9*(pU35 - 0.5))}
 
         # ----- top 3 scores -----
         flat = M.ravel()

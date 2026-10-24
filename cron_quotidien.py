@@ -3,6 +3,11 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V5 (24/10/2026) : pronos de l'Accueil recalibrés après audit des 1 150 pronos
+vérifiés — oubli plus lent (XI_ACCUEIL), correction Dixon-Coles, plus de nul sec,
+« Moins de 3,5 buts » au lieu de « Moins de 2,5 », alias des clubs renommés
+(Vitória SC = Guimaraes) et alerte quand un club de D1 arrive sans historique.
+Les coupons ne sont PAS touchés (ils gardent les réglages par défaut du moteur).
 V4.3 (09/10/2026) : Ligue Conférence (C3, id 848) collectée pour les coupons
 et les combinés TikTok ; ses matchs passés relient aussi les championnats du
 vivier européen.
@@ -42,7 +47,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 
-from moteur_production import Moteur
+from moteur_production import Moteur, XI_ACCUEIL, RHO_ACCUEIL, canon
 import enrichissement as ENR   # absences, fatigue, xG, classement (facteurs sur les buts attendus)
 
 # ------------------------------------------------------------------
@@ -280,6 +285,8 @@ def verifier(histo):
         bd, be = int(m.buts_dom), int(m.buts_ext)
         res = "1" if bd > be else ("N" if bd == be else "2")
         over = (bd + be) >= 3
+        buts_ok = {"O2.5": over, "U2.5": not over,
+                   "U3.5": (bd + be) <= 3, "O1.5": (bd + be) >= 2}
 
         gagne = {
             "1":  res == "1", "2": res == "2", "N": res == "N",
@@ -289,7 +296,7 @@ def verifier(histo):
 
         p.at[i, "score_reel"] = f"{bd}-{be}"
         p.at[i, "prono_gagne"] = bool(gagne)
-        p.at[i, "buts_gagne"] = bool({"O2.5": over, "U2.5": not over}.get(row.code_buts))
+        p.at[i, "buts_gagne"] = bool(buts_ok.get(row.code_buts))
         p.at[i, "verifie"] = True
         n += 1
     p.to_csv(F_PRONOS, index=False)
@@ -353,7 +360,8 @@ def publier(histo):
             print(f"   🌍 vivier européen : {len(passe):,} matchs, "
                   f"{passe.equipe_dom.nunique()} équipes")
             try:
-                moteur_europe["m"] = Moteur(passe, date_ref=aujourdhui)
+                moteur_europe["m"] = Moteur(passe, date_ref=aujourdhui,
+                                            xi=XI_ACCUEIL, rho=RHO_ACCUEIL)
             except ValueError as e:
                 moteur_europe["erreur"] = str(e)
                 print(f"   ⚠️ moteur européen : {e}")
@@ -368,7 +376,8 @@ def publier(histo):
                 subset=["buts_dom", "buts_ext"])
             print(f"   🌐 vivier équipes nationales : {len(passe):,} matchs")
             try:
-                moteur_nations["m"] = Moteur(passe, date_ref=aujourdhui, **PARAMS_NATIONS)
+                moteur_nations["m"] = Moteur(passe, date_ref=aujourdhui, rho=RHO_ACCUEIL,
+                                             **PARAMS_NATIONS)
             except ValueError as e:
                 moteur_nations["erreur"] = str(e)
                 print(f"   ⚠️ moteur équipes nationales : {e}")
@@ -404,7 +413,7 @@ def publier(histo):
                 ecartes.append((nom, len(avenir), "historique insuffisant pour la ligue"))
                 continue
             try:
-                m = Moteur(passe, date_ref=aujourdhui)
+                m = Moteur(passe, date_ref=aujourdhui, xi=XI_ACCUEIL, rho=RHO_ACCUEIL)
             except ValueError as e:
                 print(f"   ⚠️ {nom} : {e}")
                 continue
@@ -470,6 +479,29 @@ def publier(histo):
 
 
 # ==================================================================
+# 2ter. ALERTE CLUBS RENOMMÉS
+# ==================================================================
+def alerter_clubs_sans_passe(histo):
+    """Un club de D1 qui a déjà joué 3 matchs cette saison mais n'a AUCUN match
+    les saisons d'avant (ni en D1 ni en D2) est presque toujours un club que
+    l'API a renommé. Il faut l'ajouter à ALIAS dans moteur_production.py."""
+    h = histo.copy()
+    h["equipe_dom"] = h["equipe_dom"].map(canon); h["equipe_ext"] = h["equipe_ext"].map(canon)
+    for lid, nom in LIGUES.items():
+        if lid in COMPETITIONS_UEFA:
+            continue
+        viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
+        cour = h[(h.ligue_id == lid) & (h.saison == SAISON_COURANTE) & (h.statut == "FT")]
+        avant = h[h.ligue_id.isin(viviers) & (h.saison < SAISON_COURANTE)]
+        connus = set(avant.equipe_dom) | set(avant.equipe_ext)
+        joues = pd.concat([cour.equipe_dom, cour.equipe_ext]).value_counts()
+        for club, n in joues.items():
+            if n >= 3 and club not in connus:
+                print(f"   🚨 {nom} : « {club} » n'a aucun historique — club renommé ? "
+                      f"(à ajouter dans ALIAS, moteur_production.py)")
+
+
+# ==================================================================
 def palmares():
     if not os.path.exists(F_PRONOS):
         return
@@ -490,5 +522,6 @@ def palmares():
 if __name__ == "__main__":
     print("1️⃣  IMPORT");   histo = importer_historique()
     print("2️⃣  VÉRIFICATION"); verifier(histo); completer_metadonnees(histo)
+    alerter_clubs_sans_passe(histo)
     print("3️⃣  PUBLICATION");  publier(histo)
     palmares()
