@@ -97,17 +97,19 @@ CATEGORIES = {
         p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
         repli=dict(p_sel_min=0.68, moteur_min=0.66, moteur_min_dc=0.78,
                    p_coupon_min=0.55, europe_ok=True, repli_strict=True)),
-    # MONTANTE TURBO (5 paliers, cote 1,90–2,60) : même exigence que la montante
-    # de base — sélections de niveau « prono signé » (repli : favoris nets du
-    # marché). Pour atteindre ~2, l'optimiseur préfère deux favoris solides à
-    # un seul pari à 2 : c'est ce qui passe le plus souvent sur AURA90.
+    # MONTANTE TURBO — V2 (24/10/2026, décision Babs) : 6 paliers à cote 1,75–1,90
+    # au lieu de 5 paliers à 1,90–2,60. Même gain au bout de la série (1,82⁶ ≈ 2,05⁵
+    # ≈ ×36) mais chaque palier passe plus souvent. Bilan qui a motivé le changement :
+    # paliers Turbo à 2 matchs 9/11 gagnés, à 3 matchs 2/4 seulement → 2 matchs max.
+    # Exigence du moteur relevée : 75 % (victoire / buts), 85 % (double chance),
+    # coupon ≥ 50 % de chances ; sinon pas de palier ce jour-là, la série attend.
     "turbo": dict(
-        cote_min=1.90, cote_max=2.60, legs_min=1, legs_max=3,
-        cote_sel_min=1.15, cote_sel_max=2.30, p_sel_min=0.60,
-        moteur_min=0.72, moteur_min_dc=0.82,
-        p_coupon_min=0.40, max_coupons=1, beta=0.0, table_legs=True,
-        repli=dict(p_sel_min=0.60, moteur_min=0.67, moteur_min_dc=0.79,
-                   p_coupon_min=0.40, europe_ok=True, repli_strict=True)),
+        cote_min=1.75, cote_max=1.90, legs_min=1, legs_max=2,
+        cote_sel_min=1.15, cote_sel_max=1.80, p_sel_min=0.62,
+        moteur_min=0.75, moteur_min_dc=0.85,
+        p_coupon_min=0.50, max_coupons=1, beta=0.0, table_legs=True,
+        repli=dict(p_sel_min=0.64, moteur_min=0.70, moteur_min_dc=0.82,
+                   p_coupon_min=0.50, europe_ok=True, repli_strict=True)),
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,

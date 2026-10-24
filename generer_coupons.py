@@ -7,7 +7,7 @@ Tourne dans le cron, après cron_quotidien.py.
 1. Vérifie les coupons de la veille (résultats réels)
 2. Construit les coupons du jour : Confiance · Fun · Montante · Turbo (Sûre retirée le 17/10)
 3. Fait avancer les deux montantes : Montante (10 paliers ; 12 pour la série n°6) et Montante Turbo
-   (5 paliers, cote 1,90–2,60), départ 10 000 F
+   (6 paliers, cote 1,75–1,90 depuis la série n°6 ; 5 paliers à 1,90–2,60 avant), départ 10 000 F
 
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
@@ -16,7 +16,7 @@ V2.5 (01/10/2026) — UN COUPON PUBLIÉ NE BOUGE PLUS : une relance du cron ne
 fait que compléter les catégories vides (--forcer pour régénérer, jamais les
 montantes). Équipes de jeunes et féminines exclues des coupons.
 V2.4 (29/09/2026) — Montante passée à 12 paliers ; MONTANTE TURBO (catégorie
-« turbo », 5 paliers, cote 1,90–2,60, même exigence d'analyse) ; les deux
+« turbo », 6 paliers, cote 1,75–1,90, exigence renforcée) ; les deux
 montantes ne partagent jamais un match le même jour.
 V2.3 (28/09/2026) — le passage de 5h publie AUSSI les coupons de demain
 (onglet « Demain » rempli toute la journée ; 18h les met à jour). Sûre et
@@ -69,8 +69,9 @@ F_HISTO = "donnees/histo_api.csv"
 SAISON = 2026
 FIN_DE_JOURNEE = True     # on ne retient que les matchs du jour même
 MISE_DEPART = 10000       # montantes : mise de départ en F CFA (10 000 F depuis le 29/09/2026)
-PALIERS = {"montante": 10, "turbo": 5}   # paliers par série ; série bouclée → nouvelle série
-PALIERS_EXCEPTIONS = {("montante", 6): 12}   # la série n°6, lancée avant le changement, garde ses 12 paliers
+PALIERS = {"montante": 10, "turbo": 6}   # paliers par série ; série bouclée → nouvelle série
+PALIERS_EXCEPTIONS = {("montante", 6): 12,   # la série n°6, lancée avant le changement, garde ses 12 paliers
+                      **{("turbo", n): 5 for n in range(1, 6)}}   # Turbo : séries 1 à 5 en 5 paliers (format d'avant le 24/10)
 
 
 def nb_paliers(typ, serie):
