@@ -179,7 +179,8 @@ CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
 # calibration inter-ligues n'est pas validée par backtest.
 LIGUES_PRUDENCE = {"Ligue des Champions", "Ligue Europa", "Ligue Conférence"}
 CATEGORIES_PRUDENCE = {"sure", "montante", "turbo"}
-MONTANTES = {"montante", "turbo"}   # leurs matchs ne sont repris par AUCUN autre coupon le même jour
+MONTANTES = {"montante", "turbo"}
+ECART_MAX_MOTEUR_MARCHE = 0.15     # montantes : moteur au plus 15 points au-dessus du marché   # leurs matchs ne sont repris par AUCUN autre coupon le même jour
 # 23/10/2026 (décision Babs) : la Ligue Conférence n'entre JAMAIS dans une montante, même en repli
 # (clubs de petits championnats, données moins fiables ; 3/5 seulement en Montante/Turbo).
 # Elle reste possible dans Confiance, Fun et les autres coupons.
@@ -238,21 +239,25 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
     for mt in matchs:
         cotes, mot = mt["cotes"], mt["moteur"]
         pf = {}                              # probabilité fusionnée par code
+        pmar = {}                            # probabilité du MARCHÉ seul (sans marge), par code
 
         # 1X2 : marché de référence
         c1x2 = {k: cotes[k] for k in ("1", "N", "2") if cotes.get(k)}
         if len(c1x2) == 3:
             pm = probas_marche(c1x2)
+            pmar.update(pm)
             pf.update(fusionner(pm, {k: mot.get(k) for k in c1x2}, w))
             # double chance DÉRIVÉE du 1X2 fusionné (cohérence garantie)
             for dc, (a, b) in CODES_DC.items():
                 if cotes.get(dc):
                     pf[dc] = pf[a] + pf[b]
+                    pmar[dc] = pm[a] + pm[b]
 
         # buts
         cou = {k: cotes[k] for k in ("O2.5", "U2.5") if cotes.get(k)}
         if len(cou) == 2:
             pm = probas_marche(cou)
+            pmar.update(pm)
             pe = {"O2.5": mot.get("O2.5")}
             if pe["O2.5"]:
                 pe["U2.5"] = 1 - pe["O2.5"]
@@ -267,6 +272,7 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
             else:
                 pm = {code: min(0.97, (1 / cotes[code]) / 1.06), contraire: None}   # marge estimée
                 pm[contraire] = 1 - pm[code]
+            pmar[code] = pm[code]
             pe = {code: pe_code, contraire: (1 - pe_code) if pe_code else None} if pe_code else {}
             pf[code] = fusionner(pm, pe, w).get(code, pm[code]) if pe else pm[code]
 
@@ -274,6 +280,7 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
         cb = {k: cotes[k] for k in ("BTTS", "NOBTTS") if cotes.get(k)}
         if len(cb) == 2:
             pm = probas_marche(cb)
+            pmar.update(pm)
             pe = {"BTTS": mot.get("BTTS")}
             if pe["BTTS"]:
                 pe["NOBTTS"] = 1 - pe["BTTS"]
@@ -297,6 +304,7 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
                 "code": code, "famille": FAMILLE[code],
                 "cote": float(cotes[code]), "p": float(p),
                 "p_moteur": pm_code,
+                "p_marche": pmar.get(code),
                 "valeur": float(p) * float(cotes[code]),   # > 1 : le marché sous-paie
             })
             selections.append(s)
@@ -400,6 +408,11 @@ def _eligibles(selections, cat, r, utilises, codes_par_match):
         if cat in CATEGORIES_PRUDENCE and not _prudent_ok(s):
             continue
         if cat in MONTANTES and s["ligue"] in LIGUES_EXCLUES_MONTANTES:
+            continue
+        # 24/10/2026 : moteur beaucoup plus optimiste que les bookmakers → pari écarté des
+        # montantes (quand les deux divergent fortement, c'est presque toujours le marché qui a raison)
+        if cat in MONTANTES and s.get("p_moteur") and s.get("p_marche") \
+                and s["p_moteur"] - s["p_marche"] > ECART_MAX_MOTEUR_MARCHE:
             continue
         if r.get("logique") and not _logique_ok(s, cat):
             continue

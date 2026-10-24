@@ -54,7 +54,10 @@ import pandas as pd
 import requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from moteur_production import Moteur          # noqa: E402
+from moteur_production import Moteur, XI_ACCUEIL, RHO_ACCUEIL   # noqa: E402
+# 24/10/2026 : les coupons passent aux réglages validés de l'Accueil (oubli plus lent +
+# Dixon-Coles). Avant, le moteur s'emballait sur les premières journées (ex. Real Sociedad –
+# Levante : +2,5 à 79 % pour lui, 59 % pour le marché ; 64 % avec les nouveaux réglages).
 import selection_v2 as SEL                     # noqa: E402  (logique v2)
 import enrichissement as ENR                   # noqa: E402  (absences, fatigue, xG, classement)
 import extras_coupons as EXT                   # noqa: E402  (score exact, combinés TikTok)
@@ -212,7 +215,8 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
             passe = histo[~histo.ligue_id.isin(LIGUES_SANS_LIEN_EUROPE) &
                           (histo.statut == "FT")].dropna(subset=["buts_dom", "buts_ext"])
             try:
-                moteur_europe["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()))
+                moteur_europe["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()),
+                                            xi=XI_ACCUEIL, rho=RHO_ACCUEIL)
                 print(f"   🌍 moteur européen : {len(passe):,} matchs")
             except ValueError as e:
                 print(f"   ⚠️ moteur européen indisponible : {e}")
@@ -226,7 +230,8 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
             passe = histo[histo.ligue_id.isin(LIGUES_NATIONS) &
                           (histo.statut == "FT")].dropna(subset=["buts_dom", "buts_ext"])
             try:
-                moteur_nations["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()), **PARAMS_NATIONS)
+                moteur_nations["m"] = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()),
+                                             rho=RHO_ACCUEIL, **PARAMS_NATIONS)
                 print(f"   🌐 moteur équipes nationales : {len(passe):,} matchs")
             except ValueError as e:
                 print(f"   ⚠️ moteur équipes nationales indisponible : {e}")
@@ -253,7 +258,7 @@ def candidats(demain=False, nuit=False, jour_cible=None, enrichir=True,
             if len(passe) < 120:
                 continue
             try:
-                m = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()))
+                m = Moteur(passe, date_ref=pd.Timestamp(maintenant.date()), xi=XI_ACCUEIL, rho=RHO_ACCUEIL)
             except ValueError:
                 continue
 
@@ -1024,6 +1029,15 @@ def generer_journee(demain, bookmaker):
     if len(pool) < 5:
         print("   (pas assez de cotes disponibles)")
         return
+
+    # --forcer (24/10/2026) : les coupons Montante/Turbo RÉSERVÉS (pas encore publiés comme
+    # palier, donc invisibles dans l'app) sont reconstruits eux aussi, si aucun de leurs matchs
+    # n'a commencé. Un palier déjà publié ne bouge JAMAIS.
+    if "--forcer" in sys.argv:
+        for typ in PALIERS:
+            for c in reserves(typ, jour):
+                if not deja_commence(c["id"]) and supprimer_coupon(c["id"]):
+                    print(f"   ↻ {NOMS_MONTANTE[typ]} : coupon réservé du {jour} reconstruit (--forcer)")
 
     print("→ Construction des coupons (Montante et Turbo servies en premier)")
     en_attente = {typ for typ in PALIERS if not montante_prete(typ, jour)}
