@@ -61,3 +61,31 @@ jobs:
         run: |
           curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/rappels?mode=manager" \
             -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
+
+      # ---------- Pages Google de aura90.app (27/10/2026) ----------
+      # S'active quand la variable SITE_URL est définie (Settings → Secrets and
+      # variables → Actions → Variables). Écrit les pages /pronostics, /pronostic,
+      # /palmares et le sitemap dans le dépôt aura90-app (jeton APP_REPO_TOKEN).
+      # En cas de souci, le reste du cron n'est jamais bloqué.
+      - name: Pages Google — récupération du site
+        if: ${{ vars.SITE_URL != '' }}
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: sebastiengastonmbaye-tech/aura90-app
+          token: ${{ secrets.APP_REPO_TOKEN }}
+          path: site
+
+      - name: Pages Google — génération et mise en ligne
+        if: ${{ vars.SITE_URL != '' }}
+        continue-on-error: true
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          python generer_seo.py site
+          cd site
+          git config user.name "moteur-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add pronostic pronostics palmares sitemap.xml robots.txt
+          git commit -m "Pages Google du $(date -u +'%Y-%m-%d')" || echo "Rien de neuf"
+          git push
