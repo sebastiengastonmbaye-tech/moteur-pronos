@@ -3,6 +3,7 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V5.2 (27/10/2026) : EFL CUP (League Cup) publiée aussi, même moteur anglais.
 V5.1 (27/10/2026) : FA CUP publiée sur l'Accueil. Les clubs de 5 divisions
 anglaises sont notés sur UNE SEULE échelle (Premier League → National League),
 reliée par les montées/descentes et par les matchs de coupe entre divisions
@@ -182,7 +183,7 @@ LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 # ANGLAIS entraîné sur les 5 premières divisions + les coupes nationales des
 # saisons passées. Les matchs de coupe entre divisions (un club de League Two
 # qui reçoit un club de Premier League…) mesurent directement l'écart de niveau.
-COUPES_NATIONALES_ACCUEIL = {45: "FA Cup"}
+COUPES_NATIONALES_ACCUEIL = {45: "FA Cup", 48: "EFL Cup"}   # EFL Cup ajoutée le 27/10/2026
 DIVISIONS_ANGLETERRE = {39: "Premier League", 40: "Championship", 41: "League One",
                         42: "League Two", 43: "National League"}
 COUPES_ANGLETERRE = {45: "FA Cup", 48: "League Cup"}
@@ -190,7 +191,8 @@ COUPES_ANGLETERRE = {45: "FA Cup", 48: "League Cup"}
 LIGUES_ANGLETERRE = {41: "League One", 42: "League Two", 43: "National League",
                      45: "FA Cup", 48: "League Cup"}
 # tours joués sur terrain neutre (Wembley) : pas d'avantage du terrain
-TOURS_NEUTRES = ("Semi-finals", "Final")
+# FA Cup : demi-finales + finale à Wembley ; EFL Cup : demi-finales aller-retour, finale à Wembley
+TOURS_NEUTRES = {45: ("Semi-finals", "Final"), 48: ("Final",)}
 # statuts d'un match terminé : à la 90e (FT), après prolongation (AET) ou aux tirs au but (PEN)
 FINIS = ("FT", "AET", "PEN")
 
@@ -447,7 +449,7 @@ def publier(histo):
 
     RANG_DIV = {39: 1, 40: 2, 41: 3, 42: 4, 43: 5}
 
-    def contexte_coupe(dom, ext, tour):
+    def contexte_coupe(dom, ext, tour, lid):
         """Division de chaque club et écart de niveau ; None si un club n'est pas suivi."""
         div = moteur_angleterre["division"]
         dd, de = div.get(canon(dom)), div.get(canon(ext))
@@ -456,7 +458,7 @@ def publier(histo):
         ecart = abs(RANG_DIV[dd] - RANG_DIV[de])
         t = f"{dom} ({DIVISIONS_ANGLETERRE[dd]}) – {ext} ({DIVISIONS_ANGLETERRE[de]})"
         t += " · même division" if ecart == 0 else f" · {ecart} division{'s' if ecart > 1 else ''} d'écart"
-        if tour in TOURS_NEUTRES:
+        if tour in TOURS_NEUTRES.get(lid, ()):
             t += " · terrain neutre (Wembley)"
         return t
 
@@ -513,15 +515,15 @@ def publier(histo):
         for _, f in a_publier.iterrows():
             ajust = facteurs.get(int(f.fixture_id))
             if lid in COUPES_NATIONALES_ACCUEIL:
-                # FA Cup : on n'analyse que si le NIVEAU RÉEL des deux clubs est connu
+                # FA Cup / EFL Cup : on n'analyse que si le NIVEAU RÉEL des deux clubs est connu
                 tour = f.get("tour") if isinstance(f.get("tour"), str) else ""
-                ctx = contexte_coupe(f.equipe_dom, f.equipe_ext, tour)
+                ctx = contexte_coupe(f.equipe_dom, f.equipe_ext, tour, lid)
                 if ctx is None:
                     ecartes.append((nom, f"{f.equipe_dom} – {f.equipe_ext}",
                                     "club hors des 5 divisions suivies (niveau inconnu)"))
                     continue
                 ajust = dict(ajust or {})
-                if tour in TOURS_NEUTRES:
+                if tour in TOURS_NEUTRES.get(lid, ()):
                     ajust["att_dom"] = ajust.get("att_dom", 1.0) / m.gamma
                 ajust["contexte"] = ctx + (" | " + ajust["contexte"] if ajust.get("contexte") else "")
             fiche = m.analyser(f.equipe_dom, f.equipe_ext, ajustements=ajust)
