@@ -167,7 +167,7 @@ La semaine prochaine, le moteur remet ça. Match gratuit chaque jour 👇
 REPONSES = """✋ « C'est fiable ? » → « Va voir le palmarès dans l'app : tout est publié avant les matchs, daté. Tu juges toi-même 📊 »
 ✋ « Ça marche vraiment ? » → cite le bilan du jour (les chiffres du bloc ① ci-dessus) + « les ratés restent affichés aussi — c'est ça la différence. »
 ✋ « C'est payant ? » → « Un match analysé offert chaque jour. Le reste, c'est l'accès complet — tarif de lancement en ce moment. »
-✋ « Comment gagner de l'argent avec vous ? » → « Programme partenaire : commission sur chaque abonné. Tout est là 👉 """ + LIEN_APP + """/partenaire.html »"""
+✋ « Comment gagner de l'argent avec vous ? » → « On travaille seulement avec des créateurs qu'on contacte nous-mêmes. Si on accroche avec ton contenu, on t'écrira 🤝 »"""
 
 
 # ------------------------------------------------------------
