@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, timezone
 from urllib.request import Request, urlopen
 from urllib.parse import quote
 
-LIEN_APP = "https://aura90.netlify.app"
+LIEN_APP = "https://aura90.app"
 
 URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
 CLE = os.environ.get("SUPABASE_SERVICE_KEY", "")
