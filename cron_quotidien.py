@@ -3,6 +3,16 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V5.1 (27/10/2026) : FA CUP publiée sur l'Accueil. Les clubs de 5 divisions
+anglaises sont notés sur UNE SEULE échelle (Premier League → National League),
+reliée par les montées/descentes et par les matchs de coupe entre divisions
+(FA Cup + League Cup des saisons passées) : un club de League Two n'est donc
+pas jugé sur ses résultats en League Two, mais sur son niveau réel face à un
+club de Premier League. Chaque match FA Cup affiche la division des deux clubs
+et l'écart ; un club dont la division n'est pas suivie (en dessous de la
+National League) n'est PAS analysé. Score retenu = score à la 90e (les
+prolongations et tirs au but ne comptent pas, comme chez les bookmakers) ;
+demi-finales et finale à Wembley jouées sans avantage du terrain.
 V5 (24/10/2026) : pronos de l'Accueil recalibrés après audit des 1 150 pronos
 vérifiés — oubli plus lent (XI_ACCUEIL), correction Dixon-Coles, plus de nul sec,
 « Moins de 3,5 buts » au lieu de « Moins de 2,5 », alias des clubs renommés
@@ -167,6 +177,23 @@ LIGUES_NATIONS_ACCUEIL = {5: "Ligue des Nations", 36: "CAN — qualifications"}
 COMPETITIONS_UEFA = {2, 3}
 LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 
+# FA Cup (27/10/2026) — publiée sur l'Accueil.
+# Les clubs viennent de divisions différentes : ils sont notés par un MOTEUR
+# ANGLAIS entraîné sur les 5 premières divisions + les coupes nationales des
+# saisons passées. Les matchs de coupe entre divisions (un club de League Two
+# qui reçoit un club de Premier League…) mesurent directement l'écart de niveau.
+COUPES_NATIONALES_ACCUEIL = {45: "FA Cup"}
+DIVISIONS_ANGLETERRE = {39: "Premier League", 40: "Championship", 41: "League One",
+                        42: "League Two", 43: "National League"}
+COUPES_ANGLETERRE = {45: "FA Cup", 48: "League Cup"}
+# collectées UNIQUEMENT pour le moteur anglais (aucun prono publié dessus)
+LIGUES_ANGLETERRE = {41: "League One", 42: "League Two", 43: "National League",
+                     45: "FA Cup", 48: "League Cup"}
+# tours joués sur terrain neutre (Wembley) : pas d'avantage du terrain
+TOURS_NEUTRES = ("Semi-finals", "Final")
+# statuts d'un match terminé : à la 90e (FT), après prolongation (AET) ou aux tirs au but (PEN)
+FINIS = ("FT", "AET", "PEN")
+
 SAISONS_HISTO = [2023, 2024, 2025]
 SAISON_COURANTE = 2026
 JOURS_A_PREDIRE = 7
@@ -196,6 +223,10 @@ def appel(endpoint, params):
 
 
 def plat(f):
+    # score à la 90e : en coupe, « goals » compte aussi les prolongations
+    ft = (f.get("score") or {}).get("fulltime") or {}
+    bd = ft.get("home") if ft.get("home") is not None else f["goals"]["home"]
+    be = ft.get("away") if ft.get("away") is not None else f["goals"]["away"]
     return {
         "fixture_id": f["fixture"]["id"],
         "date": f["fixture"]["date"][:10],
@@ -208,8 +239,9 @@ def plat(f):
         "equipe_ext": f["teams"]["away"]["name"],
         "logo_dom": f["teams"]["home"].get("logo"),
         "logo_ext": f["teams"]["away"].get("logo"),
-        "buts_dom": f["goals"]["home"],
-        "buts_ext": f["goals"]["away"],
+        "buts_dom": bd,
+        "buts_ext": be,
+        "tour": f["league"].get("round"),
     }
 
 
@@ -225,7 +257,8 @@ def importer_historique():
         histo, deja = pd.DataFrame(), set()
 
     nouveaux = []
-    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS}
+    a_historiser = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS,
+                    **LIGUES_ANGLETERRE}
     for lid in a_historiser:
         for saison in (SAISONS_NATIONS if lid in LIGUES_NATIONS else SAISONS_HISTO):
             if (lid, saison) in deja:
@@ -234,7 +267,7 @@ def importer_historique():
             rep = appel("fixtures", {"league": lid, "season": saison})
             if lid in LIGUES_NATIONS and not rep:
                 deja.add((lid, saison)); continue          # saison inexistante pour cette compétition
-            if lid in (LIGUES_EUROPE | LIGUES_NATIONS) and rep:
+            if lid in (LIGUES_EUROPE | LIGUES_NATIONS | LIGUES_ANGLETERRE) and rep:
                 # auto-vérification : ce que l'API dit de cet identifiant
                 l = rep[0]["league"]
                 print(f"      ↳ API : {l.get('country', '?')} — {l.get('name', '?')} "
@@ -244,7 +277,8 @@ def importer_historique():
             nouveaux += [plat(f) for f in rep]
             time.sleep(1)
 
-    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS}
+    toutes = {**LIGUES, **NOMS_D2, **LIGUES_COUPONS, **LIGUES_EUROPE, **LIGUES_SUIVI, **LIGUES_NATIONS,
+              **LIGUES_ANGLETERRE}
     for lid in toutes:
         saisons = [SAISON_COURANTE, SAISON_COURANTE + 1] if lid in LIGUES_NATIONS else [SAISON_COURANTE]
         for saison in saisons:
@@ -274,7 +308,7 @@ def verifier(histo):
     p = pd.read_csv(F_PRONOS)
     for c in ("score_reel", "prono_gagne", "buts_gagne"):
         p[c] = p[c].astype("object")
-    fini = histo[histo.statut == "FT"].set_index("fixture_id")
+    fini = histo[histo.statut.isin(FINIS)].set_index("fixture_id")
     n = 0
     for i, row in p[p.verifie != True].iterrows():
         if row.fixture_id not in fini.index:
@@ -383,7 +417,50 @@ def publier(histo):
                 print(f"   ⚠️ moteur équipes nationales : {e}")
         return moteur_nations["m"]
 
-    for lid, nom in {**LIGUES, **LIGUES_NATIONS_ACCUEIL}.items():
+    # --- moteur anglais : 5 divisions + coupes, une seule échelle de niveau (FA Cup) ---
+    moteur_angleterre = {"m": None, "erreur": None, "division": {}}
+
+    def obtenir_moteur_angleterre():
+        if moteur_angleterre["m"] is None and moteur_angleterre["erreur"] is None:
+            h = histo.copy()
+            fini = (h.ligue_id.isin(DIVISIONS_ANGLETERRE) & (h.statut == "FT")) | \
+                   (h.ligue_id.isin(COUPES_ANGLETERRE) & h.statut.isin(FINIS))
+            passe = h[fini].dropna(subset=["buts_dom", "buts_ext"])
+            print(f"   🏴 vivier anglais : {len(passe):,} matchs, "
+                  f"{pd.concat([passe.equipe_dom, passe.equipe_ext]).nunique()} clubs")
+            try:
+                moteur_angleterre["m"] = Moteur(passe, date_ref=aujourdhui,
+                                                xi=XI_ACCUEIL, rho=RHO_ACCUEIL)
+            except ValueError as e:
+                moteur_angleterre["erreur"] = str(e)
+                print(f"   ⚠️ moteur anglais : {e}")
+            # division ACTUELLE de chaque club = championnat joué cette saison
+            # (à défaut, la saison dernière)
+            div = {}
+            for saison in (SAISON_COURANTE - 1, SAISON_COURANTE):
+                c = h[h.ligue_id.isin(DIVISIONS_ANGLETERRE) & (h.saison == saison)]
+                for _, r in c.iterrows():
+                    div[canon(r.equipe_dom)] = int(r.ligue_id)
+                    div[canon(r.equipe_ext)] = int(r.ligue_id)
+            moteur_angleterre["division"] = div
+        return moteur_angleterre["m"]
+
+    RANG_DIV = {39: 1, 40: 2, 41: 3, 42: 4, 43: 5}
+
+    def contexte_coupe(dom, ext, tour):
+        """Division de chaque club et écart de niveau ; None si un club n'est pas suivi."""
+        div = moteur_angleterre["division"]
+        dd, de = div.get(canon(dom)), div.get(canon(ext))
+        if dd is None or de is None:
+            return None
+        ecart = abs(RANG_DIV[dd] - RANG_DIV[de])
+        t = f"{dom} ({DIVISIONS_ANGLETERRE[dd]}) – {ext} ({DIVISIONS_ANGLETERRE[de]})"
+        t += " · même division" if ecart == 0 else f" · {ecart} division{'s' if ecart > 1 else ''} d'écart"
+        if tour in TOURS_NEUTRES:
+            t += " · terrain neutre (Wembley)"
+        return t
+
+    for lid, nom in {**LIGUES, **LIGUES_NATIONS_ACCUEIL, **COUPES_NATIONALES_ACCUEIL}.items():
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= aujourdhui) & (histo.date < fin)]
         if avenir.empty:
@@ -396,6 +473,11 @@ def publier(histo):
             m = obtenir_moteur_europe()
             if m is None:
                 ecartes.append((nom, len(avenir), "moteur européen indisponible"))
+                continue
+        elif lid in COUPES_NATIONALES_ACCUEIL:
+            m = obtenir_moteur_angleterre()
+            if m is None:
+                ecartes.append((nom, len(avenir), "moteur anglais indisponible"))
                 continue
         elif lid in LIGUES_NATIONS:
             m = obtenir_moteur_nations()
@@ -429,8 +511,20 @@ def publier(histo):
         } for _, f in a_publier.iterrows()], histo, journal=lambda *a: None, api=api_enr)
 
         for _, f in a_publier.iterrows():
-            fiche = m.analyser(f.equipe_dom, f.equipe_ext,
-                               ajustements=facteurs.get(int(f.fixture_id)))
+            ajust = facteurs.get(int(f.fixture_id))
+            if lid in COUPES_NATIONALES_ACCUEIL:
+                # FA Cup : on n'analyse que si le NIVEAU RÉEL des deux clubs est connu
+                tour = f.get("tour") if isinstance(f.get("tour"), str) else ""
+                ctx = contexte_coupe(f.equipe_dom, f.equipe_ext, tour)
+                if ctx is None:
+                    ecartes.append((nom, f"{f.equipe_dom} – {f.equipe_ext}",
+                                    "club hors des 5 divisions suivies (niveau inconnu)"))
+                    continue
+                ajust = dict(ajust or {})
+                if tour in TOURS_NEUTRES:
+                    ajust["att_dom"] = ajust.get("att_dom", 1.0) / m.gamma
+                ajust["contexte"] = ctx + (" | " + ajust["contexte"] if ajust.get("contexte") else "")
+            fiche = m.analyser(f.equipe_dom, f.equipe_ext, ajustements=ajust)
             if "erreur" in fiche:
                 ecartes.append((nom, f"{f.equipe_dom} – {f.equipe_ext}", fiche["erreur"]))
                 continue
