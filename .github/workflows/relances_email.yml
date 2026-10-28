@@ -1,0 +1,29 @@
+name: Emails de relance (codes de réduction)
+
+on:
+  schedule:
+    - cron: "4,19,34,49 * * * *"   # toutes les 15 min ; la fonction n'envoie qu'entre 8 h et 21 h (heure de Dakar)
+  workflow_dispatch:
+    inputs:
+      apercu:
+        description: "Aperçu : ton adresse email pour recevoir les 3 mails (laisser vide = envoi normal)"
+        required: false
+        default: ""
+      langue:
+        description: "Langue de l'aperçu (fr, en, es, ar)"
+        required: false
+        default: "fr"
+
+jobs:
+  relance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Envoyer les emails dus (ou l'aperçu)
+        env:
+          APERCU: ${{ github.event.inputs.apercu }}
+          LANGUE: ${{ github.event.inputs.langue }}
+        run: |
+          URL="${{ secrets.SUPABASE_URL }}/functions/v1/relances-promo"
+          if [ -n "$APERCU" ]; then URL="$URL?apercu=$(printf %s "$APERCU" | jq -sRr @uri)&langue=${LANGUE:-fr}"; fi
+          curl -s -X POST "$URL" -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
+          echo
