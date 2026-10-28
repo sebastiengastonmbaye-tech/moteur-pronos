@@ -338,18 +338,10 @@ def page_match(r, st, mdj_id, ligues_ok):
              + (f"<h2>Forme récente</h2>{bloc_forme(r.dom, m_dom)}{bloc_forme(r.ext, m_ext)}" if (m_dom or m_ext) else "")
              + h2h_html + faq_html)
 
-    ld = [{"@context": "https://schema.org", "@type": "SportsEvent",
-           "name": f"{r.dom} – {r.ext}", "sport": "Football",
-           "startDate": t.isoformat() if t else str(r.date_match)[:10],
-           "eventStatus": "https://schema.org/EventScheduled",
-           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-           "location": {"@type": "Place", "name": f"Stade de {r.dom}"},
-           "homeTeam": {"@type": "SportsTeam", "name": r.dom, "logo": r.logo_dom},
-           "awayTeam": {"@type": "SportsTeam", "name": r.ext, "logo": r.logo_ext},
-           "superEvent": {"@type": "SportsEvent", "name": r.ligue},
-           "organizer": {"@type": "Organization", "name": r.ligue},
-           "description": desc, "url": SITE + url_match(r)},
-          {"@context": "https://schema.org", "@type": "FAQPage",
+    # 28/10/2026 : plus de données « Événement » (SportsEvent) — Google les réserve aux
+    # organisateurs d'événements avec billetterie et signalait des champs manquants
+    # (lieu, adresse, prix…). On garde la FAQ et le fil d'Ariane, sans erreur.
+    ld = [{"@context": "https://schema.org", "@type": "FAQPage",
            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]
     fil = [("AURA90", "/"), ("Pronostics", "/pronostics/"), (r.ligue, url_ligue(r.ligue)), (f"{r.dom} – {r.ext}", url_match(r))]
     return page(url_match(r), titre, desc, corps, ld, fil)
