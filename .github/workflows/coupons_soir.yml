@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       forcer:
-        description: "Recalculer les coupons de demain déjà publiés (Montante/Turbo en priorité)"
+        description: "Recalculer les coupons de demain déjà publiés (Montante 1 puis Montante 2 en priorité)"
         type: boolean
         default: false
 
