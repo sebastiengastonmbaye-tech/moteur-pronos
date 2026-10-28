@@ -97,19 +97,18 @@ CATEGORIES = {
         p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
         repli=dict(p_sel_min=0.68, moteur_min=0.66, moteur_min_dc=0.78,
                    p_coupon_min=0.55, europe_ok=True, repli_strict=True)),
-    # MONTANTE TURBO — V2 (24/10/2026, décision Babs) : 6 paliers à cote 1,75–1,90
-    # au lieu de 5 paliers à 1,90–2,60. Même gain au bout de la série (1,82⁶ ≈ 2,05⁵
-    # ≈ ×36) mais chaque palier passe plus souvent. Bilan qui a motivé le changement :
-    # paliers Turbo à 2 matchs 9/11 gagnés, à 3 matchs 2/4 seulement → 2 matchs max.
-    # Exigence du moteur relevée : 75 % (victoire / buts), 85 % (double chance),
-    # coupon ≥ 50 % de chances ; sinon pas de palier ce jour-là, la série attend.
+    # MONTANTE 2 (clé interne « turbo », 28/10/2026, décision Babs) : la Turbo
+    # (1,75–1,90) perdait trop → remplacée par une 2e montante IDENTIQUE à la
+    # Montante 1 : même tranche d'indices (1,40–1,80), même exigence du moteur,
+    # même repli. Seule différence : 6 paliers au lieu de 10. La Montante 1 choisit
+    # toujours ses matchs en premier (ORDRE_JOUR), la 2 prend les meilleurs restants.
     "turbo": dict(
-        cote_min=1.75, cote_max=1.90, legs_min=1, legs_max=2,
-        cote_sel_min=1.15, cote_sel_max=1.80, p_sel_min=0.62,
-        moteur_min=0.75, moteur_min_dc=0.85,
-        p_coupon_min=0.50, max_coupons=1, beta=0.0, table_legs=True,
-        repli=dict(p_sel_min=0.64, moteur_min=0.70, moteur_min_dc=0.82,
-                   p_coupon_min=0.50, europe_ok=True, repli_strict=True)),
+        cote_min=1.40, cote_max=1.80, legs_min=1, legs_max=2,
+        cote_sel_min=1.15, cote_sel_max=1.60, p_sel_min=0.65,
+        moteur_min=0.70, moteur_min_dc=0.80,
+        p_coupon_min=0.55, max_coupons=1, beta=0.0, table_legs=True,
+        repli=dict(p_sel_min=0.68, moteur_min=0.66, moteur_min_dc=0.78,
+                   p_coupon_min=0.55, europe_ok=True, repli_strict=True)),
     "nuit": dict(
         cote_min=2.00, cote_max=5.00, legs_min=2, legs_max=4,
         cote_sel_min=1.20, cote_sel_max=2.20, p_sel_min=0.45,
@@ -126,7 +125,7 @@ CATEGORIES = {
 # REPLI DURCI (17/10/2026) — bilan depuis le 19/09 : les 3 seuls paliers perdus
 # (Danemark – Portugal, Lens – Sporting +2,5, Le Mans – Toulouse BTTS) venaient
 # tous du repli, qui a par ailleurs gagné 9 paliers sur 12. On le garde, mais :
-#   · seuils moteur relevés (Montante 66 % / DC 78 % ; Turbo 67 % / DC 79 %)
+#   · seuils moteur relevés (Montante 1 et 2 : 66 % / DC 78 %)
 #   · jamais de match de sélections nationales en repli
 #   · jamais « plus de 2,5 buts » en repli (victoire, double chance, +1,5 seulement)
 # Pas assez de matchs à ce niveau → pas de palier ce jour-là, la série attend.
@@ -157,7 +156,7 @@ def plage_legs(cote):
     return 1, 15
 # ordre de rotation : chaque catégorie reçoit son 1er coupon avant qu'une autre
 # en reçoive un 2e. Sûre d'abord : c'est le produit qui fidélise.
-ORDRE_JOUR = ["montante", "turbo", "confiance", "fun"]   # les montantes se servent en premier
+ORDRE_JOUR = ["montante", "turbo", "confiance", "fun"]   # Montante 1, puis Montante 2 (clé « turbo »), puis le reste
 # (17/10/2026 : « Sûre » retirée à la demande de Babs — 6 coupons gagnés sur 17 depuis le 19/09,
 #  la Montante joue déjà ce rôle ; réglages conservés dans CATEGORIES)
 # (13/10/2026 : « Grosses cotes » retirée à la demande de Babs — réglages conservés dans CATEGORIES)

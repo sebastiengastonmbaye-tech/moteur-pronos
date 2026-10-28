@@ -5,9 +5,12 @@ AURA90 — GÉNÉRATEUR DE COUPONS
 Tourne dans le cron, après cron_quotidien.py.
 
 1. Vérifie les coupons de la veille (résultats réels)
-2. Construit les coupons du jour : Confiance · Fun · Montante · Turbo (Sûre retirée le 17/10)
-3. Fait avancer les deux montantes : Montante (10 paliers ; 12 pour la série n°6) et Montante Turbo
-   (6 paliers, cote 1,75–1,90 depuis la série n°6 ; 5 paliers à 1,90–2,60 avant), départ 10 000 F
+2. Construit les coupons du jour : Montante 1 · Montante 2 · Confiance · Fun (Sûre retirée le 17/10)
+3. Fait avancer les deux montantes, départ 10 000 F :
+   · Montante 1 (clé « montante ») : 10 paliers, indice 1,40–1,80 — choisit ses matchs en premier
+   · Montante 2 (clé « turbo », 28/10/2026) : MÊMES règles que la 1, mais 6 paliers.
+     Remplace la Montante Turbo (1,75–1,90). Ses séries sont numérotées à partir de 1001
+     (affichées « n°1, n°2… ») pour repartir de zéro sans toucher à l'historique Turbo.
 
 Règles : une seule sélection par match · pas deux fois la même sélection
 dans deux coupons différents · jamais deux codes contradictoires sur un match.
@@ -79,7 +82,13 @@ PALIERS_EXCEPTIONS = {("montante", 6): 12,   # la série n°6, lancée avant le 
 
 def nb_paliers(typ, serie):
     return PALIERS_EXCEPTIONS.get((typ, serie), PALIERS[typ])
-NOMS_MONTANTE = {"montante": "Montante", "turbo": "Montante Turbo"}
+NOMS_MONTANTE = {"montante": "Montante 1", "turbo": "Montante 2"}
+SERIE_DEPART_M2 = 1001    # 1re série de la Montante 2 (les séries < 1001 sont l'ancienne Turbo)
+
+
+def num_serie(typ, serie):
+    """Numéro affiché : Montante 2 → 1001 devient n°1."""
+    return serie - SERIE_DEPART_M2 + 1 if typ == "turbo" and serie >= SERIE_DEPART_M2 else serie
 
 # compétitions retenues pour les coupons (principales + complément)
 LIGUES_COUPONS = {
@@ -767,12 +776,15 @@ def avancer_montante(coupon_id, cote, jour, typ="montante"):
             return False   # palier encore en cours : on n'en ouvre pas un second
     else:
         serie, palier, mise = 1, 1, MISE_DEPART
+    # 28/10/2026 : la Montante 2 repart de zéro (l'ancienne série Turbo, s'il y en avait une, s'arrête là)
+    if typ == "turbo" and serie < SERIE_DEPART_M2:
+        serie, palier, mise = SERIE_DEPART_M2, 1, MISE_DEPART
 
     sb("montante", "POST", {
         "type": typ, "serie": serie, "palier": palier, "coupon_id": coupon_id,
         "mise": mise, "gain_vise": round(mise * cote, 2), "jour": jour,
     }, prefer="return=minimal")
-    print(f"   {NOMS_MONTANTE[typ]} série {serie} · palier {palier}/{nb_paliers(typ, serie)} : {int(mise)} F → {int(mise*cote)} F")
+    print(f"   {NOMS_MONTANTE[typ]} série {num_serie(typ, serie)} · palier {palier}/{nb_paliers(typ, serie)} : {int(mise)} F → {int(mise*cote)} F")
     return True
 
 
@@ -1039,7 +1051,7 @@ def generer_journee(demain, bookmaker):
                 if not deja_commence(c["id"]) and supprimer_coupon(c["id"]):
                     print(f"   ↻ {NOMS_MONTANTE[typ]} : coupon réservé du {jour} reconstruit (--forcer)")
 
-    print("→ Construction des coupons (Montante et Turbo servies en premier)")
+    print("→ Construction des coupons (Montante 1 puis Montante 2 servies en premier)")
     en_attente = {typ for typ in PALIERS if not montante_prete(typ, jour)}
     presentes, pris_mt = montantes_presentes(jour)            # déjà publiées ou réservées : on garde, matchs exclus
     if presentes:
