@@ -54203,9 +54203,9 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1550157,2026-10-25,FT,135,Serie A,2026,Atalanta,Frosinone,4.0,4.0,14:00,https://media.api-sports.io/football/teams/499.png,https://media.api-sports.io/football/teams/512.png,Regular Season - 8
 1550163,2026-10-25,FT,135,Serie A,2026,Lecce,Juventus,0.0,2.0,17:00,https://media.api-sports.io/football/teams/867.png,https://media.api-sports.io/football/teams/496.png,Regular Season - 8
 1550166,2026-10-25,FT,135,Serie A,2026,Udinese,AC Milan,0.0,2.0,19:45,https://media.api-sports.io/football/teams/494.png,https://media.api-sports.io/football/teams/489.png,Regular Season - 8
-1550174,2026-10-27,NS,135,Serie A,2026,Sassuolo,Lazio,,,17:30,https://media.api-sports.io/football/teams/488.png,https://media.api-sports.io/football/teams/487.png,Regular Season - 9
-1550168,2026-10-27,NS,135,Serie A,2026,AS Roma,Cagliari,,,19:45,https://media.api-sports.io/football/teams/497.png,https://media.api-sports.io/football/teams/490.png,Regular Season - 9
-1550175,2026-10-27,NS,135,Serie A,2026,Torino,Como,,,19:45,https://media.api-sports.io/football/teams/503.png,https://media.api-sports.io/football/teams/895.png,Regular Season - 9
+1550174,2026-10-27,FT,135,Serie A,2026,Sassuolo,Lazio,2.0,6.0,17:30,https://media.api-sports.io/football/teams/488.png,https://media.api-sports.io/football/teams/487.png,Regular Season - 9
+1550168,2026-10-27,FT,135,Serie A,2026,AS Roma,Cagliari,4.0,2.0,19:45,https://media.api-sports.io/football/teams/497.png,https://media.api-sports.io/football/teams/490.png,Regular Season - 9
+1550175,2026-10-27,FT,135,Serie A,2026,Torino,Como,1.0,3.0,19:45,https://media.api-sports.io/football/teams/503.png,https://media.api-sports.io/football/teams/895.png,Regular Season - 9
 1550167,2026-10-28,NS,135,Serie A,2026,AC Milan,Bologna,,,17:30,https://media.api-sports.io/football/teams/489.png,https://media.api-sports.io/football/teams/500.png,Regular Season - 9
 1550176,2026-10-28,NS,135,Serie A,2026,Venezia,Inter,,,17:30,https://media.api-sports.io/football/teams/517.png,https://media.api-sports.io/football/teams/505.png,Regular Season - 9
 1550173,2026-10-28,NS,135,Serie A,2026,Parma,Udinese,,,17:30,https://media.api-sports.io/football/teams/523.png,https://media.api-sports.io/football/teams/494.png,Regular Season - 9
@@ -57279,13 +57279,13 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1601563,2026-10-24,FT,136,Serie B,2026,Arezzo,Benevento,0.0,3.0,17:30,https://media.api-sports.io/football/teams/876.png,https://media.api-sports.io/football/teams/506.png,Regular Season - 8
 1601570,2026-10-25,FT,136,Serie B,2026,Palermo,Carrarese,2.0,1.0,14:00,https://media.api-sports.io/football/teams/522.png,https://media.api-sports.io/football/teams/1581.png,Regular Season - 8
 1601572,2026-10-25,FT,136,Serie B,2026,Hellas Verona,Pisa,1.0,1.0,16:15,https://media.api-sports.io/football/teams/504.png,https://media.api-sports.io/football/teams/801.png,Regular Season - 8
-1601574,2026-10-27,NS,136,Serie B,2026,Benevento,Catanzaro,,,18:00,https://media.api-sports.io/football/teams/506.png,https://media.api-sports.io/football/teams/1687.png,Regular Season - 9
-1601573,2026-10-27,NS,136,Serie B,2026,Ascoli,Sampdoria,,,19:00,https://media.api-sports.io/football/teams/507.png,https://media.api-sports.io/football/teams/498.png,Regular Season - 9
-1601576,2026-10-27,NS,136,Serie B,2026,Cesena,Empoli,,,19:00,https://media.api-sports.io/football/teams/509.png,https://media.api-sports.io/football/teams/511.png,Regular Season - 9
-1601577,2026-10-27,NS,136,Serie B,2026,Virtus Entella,Avellino,,,19:00,https://media.api-sports.io/football/teams/527.png,https://media.api-sports.io/football/teams/528.png,Regular Season - 9
-1601581,2026-10-27,NS,136,Serie B,2026,Padova,Sudtirol,,,19:00,https://media.api-sports.io/football/teams/870.png,https://media.api-sports.io/football/teams/1578.png,Regular Season - 9
-1601579,2026-10-27,NS,136,Serie B,2026,Vicenza Virtus,Modena,,,19:00,https://media.api-sports.io/football/teams/1584.png,https://media.api-sports.io/football/teams/899.png,Regular Season - 9
-1601580,2026-10-27,NS,136,Serie B,2026,Mantova,Cremonese,,,19:00,https://media.api-sports.io/football/teams/1693.png,https://media.api-sports.io/football/teams/520.png,Regular Season - 9
+1601574,2026-10-27,FT,136,Serie B,2026,Benevento,Catanzaro,1.0,1.0,18:00,https://media.api-sports.io/football/teams/506.png,https://media.api-sports.io/football/teams/1687.png,Regular Season - 9
+1601573,2026-10-27,FT,136,Serie B,2026,Ascoli,Sampdoria,2.0,0.0,19:00,https://media.api-sports.io/football/teams/507.png,https://media.api-sports.io/football/teams/498.png,Regular Season - 9
+1601576,2026-10-27,FT,136,Serie B,2026,Cesena,Empoli,2.0,1.0,19:00,https://media.api-sports.io/football/teams/509.png,https://media.api-sports.io/football/teams/511.png,Regular Season - 9
+1601577,2026-10-27,FT,136,Serie B,2026,Virtus Entella,Avellino,1.0,1.0,19:00,https://media.api-sports.io/football/teams/527.png,https://media.api-sports.io/football/teams/528.png,Regular Season - 9
+1601581,2026-10-27,FT,136,Serie B,2026,Padova,Sudtirol,2.0,0.0,19:00,https://media.api-sports.io/football/teams/870.png,https://media.api-sports.io/football/teams/1578.png,Regular Season - 9
+1601579,2026-10-27,FT,136,Serie B,2026,Vicenza Virtus,Modena,1.0,2.0,19:00,https://media.api-sports.io/football/teams/1584.png,https://media.api-sports.io/football/teams/899.png,Regular Season - 9
+1601580,2026-10-27,FT,136,Serie B,2026,Mantova,Cremonese,0.0,2.0,19:00,https://media.api-sports.io/football/teams/1693.png,https://media.api-sports.io/football/teams/520.png,Regular Season - 9
 1601582,2026-10-28,NS,136,Serie B,2026,Pisa,Palermo,,,18:00,https://media.api-sports.io/football/teams/801.png,https://media.api-sports.io/football/teams/522.png,Regular Season - 9
 1601578,2026-10-28,NS,136,Serie B,2026,Juve Stabia,Hellas Verona,,,19:00,https://media.api-sports.io/football/teams/863.png,https://media.api-sports.io/football/teams/504.png,Regular Season - 9
 1601575,2026-10-28,NS,136,Serie B,2026,Carrarese,Arezzo,,,19:00,https://media.api-sports.io/football/teams/1581.png,https://media.api-sports.io/football/teams/876.png,Regular Season - 9
@@ -61494,7 +61494,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1548551,2026-10-24,FT,210,HNL,2026,NK Varazdin,NK Slaven Belupo,1.0,2.0,16:00,https://media.api-sports.io/football/teams/1483.png,https://media.api-sports.io/football/teams/1018.png,Regular Season - 11
 1548550,2026-10-25,FT,210,HNL,2026,NK Osijek,Rudes,0.0,1.0,17:00,https://media.api-sports.io/football/teams/616.png,https://media.api-sports.io/football/teams/1019.png,Regular Season - 11
 1548549,2026-10-26,FT,210,HNL,2026,Istra 1961,HNK Hajduk Split,2.0,2.0,17:00,https://media.api-sports.io/football/teams/1016.png,https://media.api-sports.io/football/teams/608.png,Regular Season - 11
-1548547,2026-10-27,NS,210,HNL,2026,Dinamo Zagreb,HNK Rijeka,,,17:00,https://media.api-sports.io/football/teams/620.png,https://media.api-sports.io/football/teams/561.png,Regular Season - 11
+1548547,2026-10-27,FT,210,HNL,2026,Dinamo Zagreb,HNK Rijeka,2.0,1.0,17:00,https://media.api-sports.io/football/teams/620.png,https://media.api-sports.io/football/teams/561.png,Regular Season - 11
 1548556,2026-10-30,NS,210,HNL,2026,NK Slaven Belupo,Istra 1961,,,17:00,https://media.api-sports.io/football/teams/1018.png,https://media.api-sports.io/football/teams/1016.png,Regular Season - 12
 1548552,2026-10-31,NS,210,HNL,2026,HNK Hajduk Split,HNK Gorica,,,14:00,https://media.api-sports.io/football/teams/608.png,https://media.api-sports.io/football/teams/1068.png,Regular Season - 12
 1548555,2026-10-31,NS,210,HNL,2026,Rudes,Dinamo Zagreb,,,17:00,https://media.api-sports.io/football/teams/1019.png,https://media.api-sports.io/football/teams/620.png,Regular Season - 12
@@ -62992,8 +62992,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1551130,2026-10-24,FT,172,First League,2026,Lokomotiv Sofia,Botev Vratsa,1.0,1.0,13:30,https://media.api-sports.io/football/teams/1416.png,https://media.api-sports.io/football/teams/859.png,Regular Season - 12
 1551129,2026-10-26,FT,172,First League,2026,Lokomotiv Plovdiv,Slavia Sofia,0.0,0.0,15:00,https://media.api-sports.io/football/teams/858.png,https://media.api-sports.io/football/teams/854.png,Regular Season - 12
 1551127,2026-10-26,FT,172,First League,2026,CSKA Sofia,Ludogorets,2.0,0.0,17:30,https://media.api-sports.io/football/teams/853.png,https://media.api-sports.io/football/teams/566.png,Regular Season - 12
-1551125,2026-10-27,NS,172,First League,2026,Cherno More Varna,Septemvri Sofia,,,15:00,https://media.api-sports.io/football/teams/851.png,https://media.api-sports.io/football/teams/856.png,Regular Season - 12
-1551124,2026-10-27,NS,172,First League,2026,Arda Kardzhali,Levski Sofia,,,17:30,https://media.api-sports.io/football/teams/1430.png,https://media.api-sports.io/football/teams/646.png,Regular Season - 12
+1551125,2026-10-27,FT,172,First League,2026,Cherno More Varna,Septemvri Sofia,2.0,0.0,15:00,https://media.api-sports.io/football/teams/851.png,https://media.api-sports.io/football/teams/856.png,Regular Season - 12
+1551124,2026-10-27,FT,172,First League,2026,Arda Kardzhali,Levski Sofia,1.0,1.0,17:30,https://media.api-sports.io/football/teams/1430.png,https://media.api-sports.io/football/teams/646.png,Regular Season - 12
 1551140,2026-10-30,NS,172,First League,2026,CSKA 1948,Spartak Varna,,,15:00,https://media.api-sports.io/football/teams/1426.png,https://media.api-sports.io/football/teams/4660.png,Regular Season - 14
 1551144,2026-10-30,NS,172,First League,2026,Lokomotiv Sofia,Botev Plovdiv,,,17:30,https://media.api-sports.io/football/teams/1416.png,https://media.api-sports.io/football/teams/634.png,Regular Season - 14
 1551143,2026-10-31,NS,172,First League,2026,Lokomotiv Plovdiv,Ludogorets,,,12:00,https://media.api-sports.io/football/teams/858.png,https://media.api-sports.io/football/teams/566.png,Regular Season - 14
@@ -63392,8 +63392,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1558028,2026-10-17,FT,373,1. SNL,2026,Mura,Nafta,0.0,0.0,15:30,https://media.api-sports.io/football/teams/4197.png,https://media.api-sports.io/football/teams/4376.png,Regular Season - 12
 1558026,2026-10-18,FT,373,1. SNL,2026,Koper,Brinje-Grosuplje,5.0,0.0,13:00,https://media.api-sports.io/football/teams/4374.png,https://media.api-sports.io/football/teams/12744.png,Regular Season - 12
 1558027,2026-10-18,FT,373,1. SNL,2026,Maribor,Celje,0.0,0.0,16:00,https://media.api-sports.io/football/teams/552.png,https://media.api-sports.io/football/teams/4360.png,Regular Season - 12
-1558033,2026-10-27,NS,373,1. SNL,2026,Radomlje,Mura,,,16:00,https://media.api-sports.io/football/teams/4378.png,https://media.api-sports.io/football/teams/4197.png,Regular Season - 13
-1558030,2026-10-27,NS,373,1. SNL,2026,Koper,Maribor,,,18:00,https://media.api-sports.io/football/teams/4374.png,https://media.api-sports.io/football/teams/552.png,Regular Season - 13
+1558033,2026-10-27,FT,373,1. SNL,2026,Radomlje,Mura,1.0,1.0,16:00,https://media.api-sports.io/football/teams/4378.png,https://media.api-sports.io/football/teams/4197.png,Regular Season - 13
+1558030,2026-10-27,FT,373,1. SNL,2026,Koper,Maribor,4.0,0.0,18:00,https://media.api-sports.io/football/teams/4374.png,https://media.api-sports.io/football/teams/552.png,Regular Season - 13
 1558031,2026-10-28,NS,373,1. SNL,2026,Nafta,Aluminij,,,16:00,https://media.api-sports.io/football/teams/4376.png,https://media.api-sports.io/football/teams/4358.png,Regular Season - 13
 1558032,2026-10-28,NS,373,1. SNL,2026,Olimpija Ljubljana,Celje,,,18:30,https://media.api-sports.io/football/teams/677.png,https://media.api-sports.io/football/teams/4360.png,Regular Season - 13
 1558029,2026-10-29,NS,373,1. SNL,2026,Brinje-Grosuplje,Bravo,,,16:30,https://media.api-sports.io/football/teams/12744.png,https://media.api-sports.io/football/teams/4359.png,Regular Season - 13
@@ -64357,7 +64357,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1493200,2026-10-26,FT,128,Liga Profesional Argentina,2026,Barracas Central,Estudiantes de Rio Cuarto,2.0,1.0,00:30,https://media.api-sports.io/football/teams/2432.png,https://media.api-sports.io/football/teams/2424.png,Clausura - 14
 1493211,2026-10-26,FT,128,Liga Profesional Argentina,2026,Union Santa Fe,Estudiantes L.P.,3.0,1.0,22:00,https://media.api-sports.io/football/teams/441.png,https://media.api-sports.io/football/teams/450.png,Clausura - 14
 1493205,2026-10-27,FT,128,Liga Profesional Argentina,2026,Instituto Cordoba,Deportivo Riestra,1.0,0.0,00:15,https://media.api-sports.io/football/teams/478.png,https://media.api-sports.io/football/teams/476.png,Clausura - 14
-1493198,2026-10-27,NS,128,Liga Profesional Argentina,2026,Argentinos JRS,Independ. Rivadavia,,,22:00,https://media.api-sports.io/football/teams/458.png,https://media.api-sports.io/football/teams/473.png,Clausura - 14
+1493198,2026-10-27,FT,128,Liga Profesional Argentina,2026,Argentinos JRS,Independ. Rivadavia,1.0,0.0,22:00,https://media.api-sports.io/football/teams/458.png,https://media.api-sports.io/football/teams/473.png,Clausura - 14
 1493219,2026-10-30,NS,128,Liga Profesional Argentina,2026,Huracan,Tigre,,,22:00,https://media.api-sports.io/football/teams/445.png,https://media.api-sports.io/football/teams/452.png,Clausura - 15
 1493218,2026-10-30,NS,128,Liga Profesional Argentina,2026,Estudiantes de Rio Cuarto,Gimnasia L.P.,,,22:00,https://media.api-sports.io/football/teams/2424.png,https://media.api-sports.io/football/teams/434.png,Clausura - 15
 1493224,2026-10-31,NS,128,Liga Profesional Argentina,2026,Racing Club,Aldosivi,,,00:15,https://media.api-sports.io/football/teams/436.png,https://media.api-sports.io/football/teams/463.png,Clausura - 15
@@ -65338,7 +65338,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1494309,2026-10-24,FT,113,Allsvenskan,2026,Kalmar FF,IF Brommapojkarna,0.0,3.0,15:30,https://media.api-sports.io/football/teams/374.png,https://media.api-sports.io/football/teams/371.png,Regular Season - 25
 1494307,2026-10-25,FT,113,Allsvenskan,2026,Gais,IFK Goteborg,1.0,1.0,13:00,https://media.api-sports.io/football/teams/2170.png,https://media.api-sports.io/football/teams/366.png,Regular Season - 25
 1494310,2026-10-25,FT,113,Allsvenskan,2026,Mjallby AIF,Hammarby FF,0.0,2.0,15:30,https://media.api-sports.io/football/teams/2240.png,https://media.api-sports.io/football/teams/363.png,Regular Season - 25
-1494313,2026-10-27,NS,113,Allsvenskan,2026,AIK Stockholm,IF Elfsborg,,,18:00,https://media.api-sports.io/football/teams/377.png,https://media.api-sports.io/football/teams/372.png,Regular Season - 26
+1494313,2026-10-27,FT,113,Allsvenskan,2026,AIK Stockholm,IF Elfsborg,2.0,2.0,18:00,https://media.api-sports.io/football/teams/377.png,https://media.api-sports.io/football/teams/372.png,Regular Season - 26
 1494316,2026-10-28,NS,113,Allsvenskan,2026,IFK Goteborg,Djurgardens IF,,,18:00,https://media.api-sports.io/football/teams/366.png,https://media.api-sports.io/football/teams/364.png,Regular Season - 26
 1494314,2026-10-28,NS,113,Allsvenskan,2026,IF Brommapojkarna,BK Hacken,,,18:00,https://media.api-sports.io/football/teams/371.png,https://media.api-sports.io/football/teams/367.png,Regular Season - 26
 1494317,2026-10-28,NS,113,Allsvenskan,2026,Halmstad,Malmo FF,,,18:00,https://media.api-sports.io/football/teams/766.png,https://media.api-sports.io/football/teams/375.png,Regular Season - 26
@@ -66088,8 +66088,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1549837,2026-10-26,FT,239,Primera A,2026,Deportes Tolima,Deportivo Pasto,0.0,1.0,01:15,https://media.api-sports.io/football/teams/1142.png,https://media.api-sports.io/football/teams/1126.png,Clausura - 16
 1549839,2026-10-26,FT,239,Primera A,2026,Jaguares,Llaneros,1.0,0.0,23:00,https://media.api-sports.io/football/teams/1133.png,https://media.api-sports.io/football/teams/1464.png,Clausura - 16
 1549822,2026-10-27,FT,239,Primera A,2026,Santa Fe,Bucaramanga,2.0,1.0,01:05,https://media.api-sports.io/football/teams/1139.png,https://media.api-sports.io/football/teams/1131.png,Clausura - 14
-1549727,2026-10-27,NS,239,Primera A,2026,Cucuta,Águilas Doradas,,,23:00,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1144.png,Clausura - 5
-1549726,2026-10-28,NS,239,Primera A,2026,Chico,Junior,,,01:05,https://media.api-sports.io/football/teams/1132.png,https://media.api-sports.io/football/teams/1135.png,Clausura - 5
+1549727,2026-10-27,FT,239,Primera A,2026,Cucuta,Águilas Doradas,0.0,2.0,23:00,https://media.api-sports.io/football/teams/1470.png,https://media.api-sports.io/football/teams/1144.png,Clausura - 5
+1549726,2026-10-28,FT,239,Primera A,2026,Chico,Junior,1.0,1.0,01:05,https://media.api-sports.io/football/teams/1132.png,https://media.api-sports.io/football/teams/1135.png,Clausura - 5
 1549731,2026-10-28,NS,239,Primera A,2026,Once Caldas,Alianza Valledupar,,,23:00,https://media.api-sports.io/football/teams/1136.png,https://media.api-sports.io/football/teams/1141.png,Clausura - 5
 1549728,2026-10-29,NS,239,Primera A,2026,Internacional de Bogota,Independiente Medellin,,,01:05,https://media.api-sports.io/football/teams/1134.png,https://media.api-sports.io/football/teams/1128.png,Clausura - 5
 1549723,2026-10-29,NS,239,Primera A,2026,America de Cali,Fortaleza FC,,,23:15,https://media.api-sports.io/football/teams/1138.png,https://media.api-sports.io/football/teams/1147.png,Clausura - 5
@@ -67452,19 +67452,19 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1564383,2026-10-24,FT,41,League One,2026,Cambridge United,Plymouth,2.0,3.0,14:00,https://media.api-sports.io/football/teams/1370.png,https://media.api-sports.io/football/teams/1357.png,Regular Season - 13
 1564387,2026-10-24,FT,41,League One,2026,Notts County,Stockport County,1.0,1.0,14:00,https://media.api-sports.io/football/teams/1376.png,https://media.api-sports.io/football/teams/4686.png,Regular Season - 13
 1564381,2026-10-24,FT,41,League One,2026,Bromley,Peterborough,1.0,1.0,14:00,https://media.api-sports.io/football/teams/1832.png,https://media.api-sports.io/football/teams/1350.png,Regular Season - 13
+1564323,2026-10-27,FT,41,League One,2026,Leicester,Wigan,3.0,0.0,19:45,https://media.api-sports.io/football/teams/46.png,https://media.api-sports.io/football/teams/61.png,Regular Season - 8
+1564341,2026-10-27,FT,41,League One,2026,Sheffield Wednesday,Cambridge United,1.0,1.0,19:45,https://media.api-sports.io/football/teams/74.png,https://media.api-sports.io/football/teams/1370.png,Regular Season - 9
+1564338,2026-10-27,FT,41,League One,2026,Oxford United,Stockport County,1.0,0.0,19:45,https://media.api-sports.io/football/teams/1338.png,https://media.api-sports.io/football/teams/4686.png,Regular Season - 9
+1564325,2026-10-27,FT,41,League One,2026,Milton Keynes Dons,Bromley,4.0,1.0,19:45,https://media.api-sports.io/football/teams/1348.png,https://media.api-sports.io/football/teams/1832.png,Regular Season - 8
+1564337,2026-10-27,FT,41,League One,2026,Luton,Doncaster,3.0,1.0,19:45,https://media.api-sports.io/football/teams/1359.png,https://media.api-sports.io/football/teams/1354.png,Regular Season - 9
+1564324,2026-09-26,PST,41,League One,2026,Mansfield Town,Leyton Orient,,,14:00,https://media.api-sports.io/football/teams/1374.png,https://media.api-sports.io/football/teams/1373.png,Regular Season - 8
+1564326,2026-09-26,PST,41,League One,2026,Notts County,Blackpool,,,14:00,https://media.api-sports.io/football/teams/1376.png,https://media.api-sports.io/football/teams/1356.png,Regular Season - 8
 1564342,2026-10-03,PST,41,League One,2026,Wigan,Mansfield Town,,,14:00,https://media.api-sports.io/football/teams/61.png,https://media.api-sports.io/football/teams/1374.png,Regular Season - 9
 1564332,2026-10-03,PST,41,League One,2026,Barnsley,Milton Keynes Dons,,,14:00,https://media.api-sports.io/football/teams/747.png,https://media.api-sports.io/football/teams/1348.png,Regular Season - 9
 1564331,2026-10-03,PST,41,League One,2026,AFC Wimbledon,Stevenage,,,14:00,https://media.api-sports.io/football/teams/1333.png,https://media.api-sports.io/football/teams/1368.png,Regular Season - 9
 1564339,2026-10-03,PST,41,League One,2026,Peterborough,Notts County,,,14:00,https://media.api-sports.io/football/teams/1350.png,https://media.api-sports.io/football/teams/1376.png,Regular Season - 9
 1564334,2026-10-03,PST,41,League One,2026,Bromley,Wycombe,,,14:00,https://media.api-sports.io/football/teams/1832.png,https://media.api-sports.io/football/teams/1358.png,Regular Season - 9
 1564333,2026-11-24,PST,41,League One,2026,Blackpool,Leicester,,,19:45,https://media.api-sports.io/football/teams/1356.png,https://media.api-sports.io/football/teams/46.png,Regular Season - 9
-1564324,2026-09-26,NS,41,League One,2026,Mansfield Town,Leyton Orient,,,14:00,https://media.api-sports.io/football/teams/1374.png,https://media.api-sports.io/football/teams/1373.png,Regular Season - 8
-1564326,2026-09-26,NS,41,League One,2026,Notts County,Blackpool,,,14:00,https://media.api-sports.io/football/teams/1376.png,https://media.api-sports.io/football/teams/1356.png,Regular Season - 8
-1564323,2026-10-27,NS,41,League One,2026,Leicester,Wigan,,,19:45,https://media.api-sports.io/football/teams/46.png,https://media.api-sports.io/football/teams/61.png,Regular Season - 8
-1564341,2026-10-27,NS,41,League One,2026,Sheffield Wednesday,Cambridge United,,,19:45,https://media.api-sports.io/football/teams/74.png,https://media.api-sports.io/football/teams/1370.png,Regular Season - 9
-1564338,2026-10-27,NS,41,League One,2026,Oxford United,Stockport County,,,19:45,https://media.api-sports.io/football/teams/1338.png,https://media.api-sports.io/football/teams/4686.png,Regular Season - 9
-1564325,2026-10-27,NS,41,League One,2026,Milton Keynes Dons,Bromley,,,19:45,https://media.api-sports.io/football/teams/1348.png,https://media.api-sports.io/football/teams/1832.png,Regular Season - 8
-1564337,2026-10-27,NS,41,League One,2026,Luton,Doncaster,,,19:45,https://media.api-sports.io/football/teams/1359.png,https://media.api-sports.io/football/teams/1354.png,Regular Season - 9
 1564392,2026-10-31,NS,41,League One,2026,Bradford,Huddersfield,,,12:30,https://media.api-sports.io/football/teams/1343.png,https://media.api-sports.io/football/teams/37.png,Regular Season - 14
 1564398,2026-10-31,NS,41,League One,2026,Plymouth,Reading,,,12:30,https://media.api-sports.io/football/teams/1357.png,https://media.api-sports.io/football/teams/53.png,Regular Season - 14
 1564394,2026-10-31,NS,41,League One,2026,Leyton Orient,Cambridge United,,,12:30,https://media.api-sports.io/football/teams/1373.png,https://media.api-sports.io/football/teams/1370.png,Regular Season - 14
@@ -68016,12 +68016,12 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1563827,2026-10-24,FT,42,League Two,2026,Barnet,Oldham,1.0,1.0,14:00,https://media.api-sports.io/football/teams/1369.png,https://media.api-sports.io/football/teams/1349.png,Regular Season - 13
 1563838,2026-10-24,FT,42,League Two,2026,York,Port Vale,2.0,0.0,14:00,https://media.api-sports.io/football/teams/1828.png,https://media.api-sports.io/football/teams/1351.png,Regular Season - 13
 1563837,2026-10-26,FT,42,League Two,2026,Walsall,Salford City,2.0,4.0,20:00,https://media.api-sports.io/football/teams/1342.png,https://media.api-sports.io/football/teams/1844.png,Regular Season - 13
+1563780,2026-10-27,FT,42,League Two,2026,Barnet,York,3.0,1.0,19:45,https://media.api-sports.io/football/teams/1369.png,https://media.api-sports.io/football/teams/1828.png,Regular Season - 9
 1563769,2026-09-26,PST,42,League Two,2026,Crawley Town,Barnet,,,11:30,https://media.api-sports.io/football/teams/1362.png,https://media.api-sports.io/football/teams/1369.png,Regular Season - 8
 1563787,2026-10-03,PST,42,League Two,2026,Northampton,Oldham,,,14:00,https://media.api-sports.io/football/teams/1337.png,https://media.api-sports.io/football/teams/1349.png,Regular Season - 9
 1563790,2026-10-03,PST,42,League Two,2026,Walsall,Crawley Town,,,14:00,https://media.api-sports.io/football/teams/1342.png,https://media.api-sports.io/football/teams/1362.png,Regular Season - 9
 1563782,2026-10-03,PST,42,League Two,2026,Colchester,Port Vale,,,14:00,https://media.api-sports.io/football/teams/1361.png,https://media.api-sports.io/football/teams/1351.png,Regular Season - 9
 1563773,2026-09-26,NS,42,League Two,2026,Port Vale,Northampton,,,14:00,https://media.api-sports.io/football/teams/1351.png,https://media.api-sports.io/football/teams/1337.png,Regular Season - 8
-1563780,2026-10-27,NS,42,League Two,2026,Barnet,York,,,19:45,https://media.api-sports.io/football/teams/1369.png,https://media.api-sports.io/football/teams/1828.png,Regular Season - 9
 1563844,2026-10-30,NS,42,League Two,2026,Newport County,Chesterfield,,,19:45,https://media.api-sports.io/football/teams/1367.png,https://media.api-sports.io/football/teams/1345.png,Regular Season - 14
 1563846,2026-10-31,NS,42,League Two,2026,Port Vale,Rochdale,,,12:30,https://media.api-sports.io/football/teams/1351.png,https://media.api-sports.io/football/teams/1339.png,Regular Season - 14
 1563843,2026-10-31,NS,42,League Two,2026,Grimsby,York,,,12:30,https://media.api-sports.io/football/teams/1365.png,https://media.api-sports.io/football/teams/1828.png,Regular Season - 14
@@ -68584,17 +68584,16 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1585298,2026-10-24,FT,43,National League,2026,Boreham Wood,AFC Fylde,4.0,0.0,14:00,https://media.api-sports.io/football/teams/1830.png,https://media.api-sports.io/football/teams/1839.png,Regular Season - 14
 1585301,2026-10-24,FT,43,National League,2026,Solihull Moors,Carlisle,1.0,2.0,14:00,https://media.api-sports.io/football/teams/1834.png,https://media.api-sports.io/football/teams/1371.png,Regular Season - 14
 1585304,2026-10-24,FT,43,National League,2026,Kidderminster Harriers,Worthing,1.0,2.0,16:30,https://media.api-sports.io/football/teams/4695.png,https://media.api-sports.io/football/teams/7761.png,Regular Season - 14
+1585312,2026-10-27,FT,43,National League,2026,Woking,Boreham Wood,1.0,2.0,19:45,https://media.api-sports.io/football/teams/1836.png,https://media.api-sports.io/football/teams/1830.png,Regular Season - 15
+1585305,2026-10-27,FT,43,National League,2026,AFC Fylde,Hartlepool,3.0,1.0,19:45,https://media.api-sports.io/football/teams/1839.png,https://media.api-sports.io/football/teams/1366.png,Regular Season - 15
+1585308,2026-10-27,FT,43,National League,2026,FC Halifax Town,Barrow,2.0,3.0,19:45,https://media.api-sports.io/football/teams/1841.png,https://media.api-sports.io/football/teams/1819.png,Regular Season - 15
+1585306,2026-10-27,FT,43,National League,2026,Altrincham,Kidderminster Harriers,0.0,0.0,19:45,https://media.api-sports.io/football/teams/4700.png,https://media.api-sports.io/football/teams/4695.png,Regular Season - 15
+1585309,2026-10-27,FT,43,National League,2026,AFC Hornchurch,Yeovil Town,1.0,2.0,19:45,https://media.api-sports.io/football/teams/7690.png,https://media.api-sports.io/football/teams/1377.png,Regular Season - 15
+1585310,2026-10-27,FT,43,National League,2026,Tamworth,Scunthorpe,4.0,1.0,19:45,https://media.api-sports.io/football/teams/7752.png,https://media.api-sports.io/football/teams/1340.png,Regular Season - 15
+1585313,2026-10-27,FT,43,National League,2026,Worthing,Southend,3.0,3.0,19:45,https://media.api-sports.io/football/teams/7761.png,https://media.api-sports.io/football/teams/1341.png,Regular Season - 15
+1585307,2026-10-27,FT,43,National League,2026,Boston United,Gateshead,2.0,1.0,19:45,https://media.api-sports.io/football/teams/8146.png,https://media.api-sports.io/football/teams/1823.png,Regular Season - 15
+1585311,2026-10-27,FT,43,National League,2026,Wealdstone,Solihull Moors,2.0,3.0,19:45,https://media.api-sports.io/football/teams/8663.png,https://media.api-sports.io/football/teams/1834.png,Regular Season - 15
 1585277,2026-10-03,PST,43,National League,2026,Scunthorpe,Forest Green,,,14:00,https://media.api-sports.io/football/teams/1340.png,https://media.api-sports.io/football/teams/1378.png,Regular Season - 12
-1585293,2026-10-23,PST,43,National League,2026,Gateshead,Tamworth,,,18:45,https://media.api-sports.io/football/teams/1823.png,https://media.api-sports.io/football/teams/7752.png,Regular Season - 14
-1585312,2026-10-27,NS,43,National League,2026,Woking,Boreham Wood,,,19:45,https://media.api-sports.io/football/teams/1836.png,https://media.api-sports.io/football/teams/1830.png,Regular Season - 15
-1585305,2026-10-27,NS,43,National League,2026,AFC Fylde,Hartlepool,,,19:45,https://media.api-sports.io/football/teams/1839.png,https://media.api-sports.io/football/teams/1366.png,Regular Season - 15
-1585308,2026-10-27,NS,43,National League,2026,FC Halifax Town,Barrow,,,19:45,https://media.api-sports.io/football/teams/1841.png,https://media.api-sports.io/football/teams/1819.png,Regular Season - 15
-1585306,2026-10-27,NS,43,National League,2026,Altrincham,Kidderminster Harriers,,,19:45,https://media.api-sports.io/football/teams/4700.png,https://media.api-sports.io/football/teams/4695.png,Regular Season - 15
-1585309,2026-10-27,NS,43,National League,2026,AFC Hornchurch,Yeovil Town,,,19:45,https://media.api-sports.io/football/teams/7690.png,https://media.api-sports.io/football/teams/1377.png,Regular Season - 15
-1585310,2026-10-27,NS,43,National League,2026,Tamworth,Scunthorpe,,,19:45,https://media.api-sports.io/football/teams/7752.png,https://media.api-sports.io/football/teams/1340.png,Regular Season - 15
-1585313,2026-10-27,NS,43,National League,2026,Worthing,Southend,,,19:45,https://media.api-sports.io/football/teams/7761.png,https://media.api-sports.io/football/teams/1341.png,Regular Season - 15
-1585307,2026-10-27,NS,43,National League,2026,Boston United,Gateshead,,,19:45,https://media.api-sports.io/football/teams/8146.png,https://media.api-sports.io/football/teams/1823.png,Regular Season - 15
-1585311,2026-10-27,NS,43,National League,2026,Wealdstone,Solihull Moors,,,19:45,https://media.api-sports.io/football/teams/8663.png,https://media.api-sports.io/football/teams/1834.png,Regular Season - 15
 1585314,2026-10-28,NS,43,National League,2026,Carlisle,Harrogate Town,,,19:45,https://media.api-sports.io/football/teams/1371.png,https://media.api-sports.io/football/teams/1842.png,Regular Season - 15
 1585315,2026-10-28,NS,43,National League,2026,Forest Green,Eastleigh,,,19:45,https://media.api-sports.io/football/teams/1378.png,https://media.api-sports.io/football/teams/1822.png,Regular Season - 15
 1585316,2026-10-28,NS,43,National League,2026,Sutton Utd,Aldershot Town,,,19:45,https://media.api-sports.io/football/teams/1835.png,https://media.api-sports.io/football/teams/1818.png,Regular Season - 15
@@ -68610,6 +68609,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1585327,2026-10-31,NS,43,National League,2026,Worthing,Sutton Utd,,,15:00,https://media.api-sports.io/football/teams/7761.png,https://media.api-sports.io/football/teams/1835.png,Regular Season - 16
 1585326,2026-10-31,NS,43,National League,2026,Wealdstone,Southend,,,15:00,https://media.api-sports.io/football/teams/8663.png,https://media.api-sports.io/football/teams/1341.png,Regular Season - 16
 1585328,2026-10-31,NS,43,National League,2026,Boston United,Scunthorpe,,,17:30,https://media.api-sports.io/football/teams/8146.png,https://media.api-sports.io/football/teams/1340.png,Regular Season - 16
+1585293,2026-11-07,NS,43,National League,2026,Gateshead,Tamworth,,,15:00,https://media.api-sports.io/football/teams/1823.png,https://media.api-sports.io/football/teams/7752.png,Regular Season - 14
 1585336,2026-11-14,NS,43,National League,2026,Scunthorpe,Worthing,,,15:00,https://media.api-sports.io/football/teams/1340.png,https://media.api-sports.io/football/teams/7761.png,Regular Season - 17
 1585337,2026-11-14,NS,43,National League,2026,Southend,Aldershot Town,,,15:00,https://media.api-sports.io/football/teams/1341.png,https://media.api-sports.io/football/teams/1818.png,Regular Season - 17
 1585333,2026-11-14,NS,43,National League,2026,Hartlepool,Wealdstone,,,15:00,https://media.api-sports.io/football/teams/1366.png,https://media.api-sports.io/football/teams/8663.png,Regular Season - 17
@@ -69412,8 +69412,8 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1635565,2026-09-16,FT,48,League Cup,2026,Manchester United,Brighton,2.0,3.0,19:00,https://media.api-sports.io/football/teams/33.png,https://media.api-sports.io/football/teams/51.png,Round of 32
 1635557,2026-09-16,FT,48,League Cup,2026,Coventry,Aston Villa,1.0,3.0,19:00,https://media.api-sports.io/football/teams/1346.png,https://media.api-sports.io/football/teams/66.png,Round of 32
 1635564,2026-09-17,FT,48,League Cup,2026,Manchester City,Norwich,5.0,0.0,18:30,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/71.png,Round of 32
-1640384,2026-10-27,NS,48,League Cup,2026,Bradford,Peterborough,,,19:45,https://media.api-sports.io/football/teams/1343.png,https://media.api-sports.io/football/teams/1350.png,Round of 16
-1640386,2026-10-27,NS,48,League Cup,2026,Fleetwood Town,Arsenal,,,20:00,https://media.api-sports.io/football/teams/1336.png,https://media.api-sports.io/football/teams/42.png,Round of 16
+1640384,2026-10-27,FT,48,League Cup,2026,Bradford,Peterborough,2.0,0.0,19:45,https://media.api-sports.io/football/teams/1343.png,https://media.api-sports.io/football/teams/1350.png,Round of 16
+1640386,2026-10-27,PEN,48,League Cup,2026,Fleetwood Town,Arsenal,1.0,1.0,20:00,https://media.api-sports.io/football/teams/1336.png,https://media.api-sports.io/football/teams/42.png,Round of 16
 1640575,2026-10-28,NS,48,League Cup,2026,Manchester City,Brighton,,,19:30,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/51.png,Round of 16
 1640383,2026-10-28,NS,48,League Cup,2026,Bournemouth,Aston Villa,,,19:45,https://media.api-sports.io/football/teams/35.png,https://media.api-sports.io/football/teams/66.png,Round of 16
 1640387,2026-10-28,NS,48,League Cup,2026,Fulham,Crystal Palace,,,19:45,https://media.api-sports.io/football/teams/36.png,https://media.api-sports.io/football/teams/52.png,Round of 16
