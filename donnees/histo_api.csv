@@ -63333,6 +63333,7 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1528130,2026-10-31,NS,389,Premier League,2026,Zhenys,Kaisar,,,10:00,https://media.api-sports.io/football/teams/16611.png,https://media.api-sports.io/football/teams/4562.png,Regular Season - 30
 1528128,2026-10-31,NS,389,Premier League,2026,Ulytau,Atyrau,,,10:00,https://media.api-sports.io/football/teams/21010.png,https://media.api-sports.io/football/teams/4564.png,Regular Season - 30
 1528129,2026-10-31,NS,389,Premier League,2026,Yelimay Semey,Okzhetpes,,,10:00,https://media.api-sports.io/football/teams/21011.png,https://media.api-sports.io/football/teams/4558.png,Regular Season - 30
+1558029,2026-10-29,1H,373,1. SNL,2026,Brinje-Grosuplje,Bravo,0.0,0.0,16:30,https://media.api-sports.io/football/teams/12744.png,https://media.api-sports.io/football/teams/4359.png,Regular Season - 13
 1557971,2026-07-17,FT,373,1. SNL,2026,Nafta,Koper,0.0,2.0,16:00,https://media.api-sports.io/football/teams/4376.png,https://media.api-sports.io/football/teams/4374.png,Regular Season - 1
 1557970,2026-07-17,FT,373,1. SNL,2026,Celje,Mura,2.0,2.0,18:15,https://media.api-sports.io/football/teams/4360.png,https://media.api-sports.io/football/teams/4197.png,Regular Season - 1
 1557973,2026-07-18,FT,373,1. SNL,2026,Radomlje,Brinje-Grosuplje,0.0,2.0,16:00,https://media.api-sports.io/football/teams/4378.png,https://media.api-sports.io/football/teams/12744.png,Regular Season - 1
@@ -63396,7 +63397,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1558030,2026-10-27,FT,373,1. SNL,2026,Koper,Maribor,4.0,0.0,18:00,https://media.api-sports.io/football/teams/4374.png,https://media.api-sports.io/football/teams/552.png,Regular Season - 13
 1558031,2026-10-28,FT,373,1. SNL,2026,Nafta,Aluminij,0.0,0.0,16:00,https://media.api-sports.io/football/teams/4376.png,https://media.api-sports.io/football/teams/4358.png,Regular Season - 13
 1558032,2026-10-28,FT,373,1. SNL,2026,Olimpija Ljubljana,Celje,1.0,1.0,18:30,https://media.api-sports.io/football/teams/677.png,https://media.api-sports.io/football/teams/4360.png,Regular Season - 13
-1558029,2026-10-29,NS,373,1. SNL,2026,Brinje-Grosuplje,Bravo,,,16:30,https://media.api-sports.io/football/teams/12744.png,https://media.api-sports.io/football/teams/4359.png,Regular Season - 13
 1558037,2026-10-31,NS,373,1. SNL,2026,Maribor,Olimpija Ljubljana,,,15:00,https://media.api-sports.io/football/teams/552.png,https://media.api-sports.io/football/teams/677.png,Regular Season - 14
 1558034,2026-10-31,NS,373,1. SNL,2026,Aluminij,Radomlje,,,17:00,https://media.api-sports.io/football/teams/4358.png,https://media.api-sports.io/football/teams/4378.png,Regular Season - 14
 1558038,2026-11-01,NS,373,1. SNL,2026,Mura,Brinje-Grosuplje,,,14:00,https://media.api-sports.io/football/teams/4197.png,https://media.api-sports.io/football/teams/12744.png,Regular Season - 14
@@ -69432,3 +69432,6 @@ fixture_id,date,statut,ligue_id,ligue_nom,saison,equipe_dom,equipe_ext,buts_dom,
 1640389,2026-10-28,FT,48,League Cup,2026,Sunderland,Brentford,3.0,2.0,19:45,https://media.api-sports.io/football/teams/746.png,https://media.api-sports.io/football/teams/55.png,Round of 16
 1640388,2026-10-28,PEN,48,League Cup,2026,Liverpool,Chelsea,1.0,1.0,20:00,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/49.png,Round of 16
 1640385,2026-10-29,NS,48,League Cup,2026,Everton,Newcastle,,,19:45,https://media.api-sports.io/football/teams/45.png,https://media.api-sports.io/football/teams/34.png,Round of 16
+1647902,2026-12-14,NS,48,League Cup,2026,Liverpool,Bournemouth,,,19:45,https://media.api-sports.io/football/teams/40.png,https://media.api-sports.io/football/teams/35.png,Quarter-finals
+1647903,2026-12-14,NS,48,League Cup,2026,Manchester City,Bradford,,,19:45,https://media.api-sports.io/football/teams/50.png,https://media.api-sports.io/football/teams/1343.png,Quarter-finals
+1647901,2026-12-14,NS,48,League Cup,2026,Crystal Palace,Sunderland,,,19:45,https://media.api-sports.io/football/teams/52.png,https://media.api-sports.io/football/teams/746.png,Quarter-finals
