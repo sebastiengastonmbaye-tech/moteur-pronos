@@ -9,7 +9,7 @@ lire et classer (l'app elle-même est une seule page en JavaScript) :
   /pronostics/                      les matchs analysés des prochains jours
   /pronostics/<championnat>/        une page par compétition + son taux de réussite
   /pronostic/<dom>-<ext>-<date>/    une page par match (forme, buts, face-à-face…)
-  /palmares/                        le palmarès public complet
+  /palmares/                        simple renvoi vers le match gratuit du jour dans l'app (29/10 : plus de page en double)
   /sitemap.xml  /robots.txt
 
 Règles :
@@ -160,12 +160,12 @@ def page(chemin, titre, description, corps, jsonld=None, fil=None, image=None):
 </head>
 <body>
 <header class="haut"><div class="in"><a class="logo" href="/">AURA<b>90'</b></a>
-<nav><a href="/pronostics/">Pronostics</a><a href="/palmares/">Palmarès</a><a href="/">L'app</a></nav></div></header>
+<nav><a href="/pronostics/">Pronostics</a><a href="/?aller=palmares">Palmarès</a><a href="/">L'app</a></nav></div></header>
 <main>{fil_html}{corps}</main>
 <footer>AURA90 analyse chaque match de football avec un moteur statistique : forme des équipes, buts attendus, 121 scénarios de score simulés.
 Chaque pronostic est publié et daté AVANT le match, puis vérifié automatiquement — validé ou raté, tout reste visible.<br><br>
 Réservé aux 18 ans et plus. AURA90 fournit des analyses statistiques, jamais une garantie de résultat.<br><br>
-<a href="/">Ouvrir l'app AURA90</a> · <a href="/pronostics/">Pronostics du jour</a> · <a href="/palmares/">Palmarès</a></footer>
+<a href="/">Ouvrir l'app AURA90</a> · <a href="/pronostics/">Pronostics du jour</a> · <a href="/?aller=palmares">Palmarès</a></footer>
 </body>
 </html>
 """
@@ -396,7 +396,7 @@ def page_hub(p, ligues):
     corps = (f"<h1>Pronostics foot du jour</h1>"
              f'<p class="sous">Le moteur AURA90 analyse chaque nuit les matchs des grands championnats et des coupes. '
              f"Chaque pronostic est publié avant le match puis vérifié automatiquement : {n} pronostics vérifiés, "
-             f"{pct(r)} de réussite. <a href=\"/palmares/\">Voir le palmarès complet</a> · heures de Paris.</p>"
+             f"{pct(r)} de réussite. <a href=\"/?aller=palmares\">Voir le palmarès complet</a> · heures de Paris.</p>"
              '<div class="chips">' + "".join(f'<a href="{url_ligue(l)}">{E(l)}</a>' for l in ligues) + "</div>")
     for d, g in a_venir.groupby("date_match", sort=True):
         corps += f"<h2>{E(date_longue(d).capitalize())}</h2><div class='liste'>" + "".join(ligne_match(x) for x in g.itertuples()) + "</div>"
@@ -411,7 +411,15 @@ def page_hub(p, ligues):
     return page("/pronostics/", titre, desc, corps, ld, [("AURA90", "/"), ("Pronostics", "/pronostics/")])
 
 
-def page_palmares(p):
+RENVOI_PALMARES = """<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+<meta name="robots" content="noindex, follow"><link rel="canonical" href="https://aura90.app/">
+<meta http-equiv="refresh" content="0; url=/?aller=mdj"><title>AURA90</title>
+<script>location.replace('/?aller=mdj')</script></head>
+<body style="background:#070B12;color:#E8EEF6;font-family:sans-serif;text-align:center;padding:40px">
+<a href="/?aller=mdj" style="color:#3DE8C8">Voir le match gratuit du jour</a></body></html>"""
+
+
+def page_palmares(p):   # plus utilisée (29/10/2026), gardée au cas où
     v = p[p.verifie.map(vrai)].copy()
     v["ok"] = v.prono_gagne.map(vrai)
     v["okb"] = v.buts_gagne.map(vrai)
@@ -467,8 +475,10 @@ def main(sortie):
         n_ecrit += ecrire(sortie, url_ligue(l), page_ligue(l, p[p.ligue == l], ligues_ok.get(l)))
         urls.append((url_ligue(l), auj, "daily", "0.8"))
     n_ecrit += ecrire(sortie, "/pronostics/", page_hub(p, ligues))
-    n_ecrit += ecrire(sortie, "/palmares/", page_palmares(p))
-    urls = [("/", auj, "daily", "1.0"), ("/pronostics/", auj, "daily", "0.9"), ("/palmares/", auj, "daily", "0.8")] + urls
+    # 29/10/2026 : plus de page « palmarès » à part (doublon du Palmarès de l'app) →
+    # l'ancienne adresse ouvre directement l'analyse du match gratuit du jour dans l'app
+    n_ecrit += ecrire(sortie, "/palmares/", RENVOI_PALMARES)
+    urls = [("/", auj, "daily", "1.0"), ("/pronostics/", auj, "daily", "0.9")] + urls
 
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sm += [f"  <url><loc>{E(SITE + u)}</loc><lastmod>{d}</lastmod><changefreq>{c}</changefreq><priority>{pr}</priority></url>"
