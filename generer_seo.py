@@ -365,7 +365,7 @@ def page_ligue(ligue, df, taux):
     joues = df[df.verifie.map(vrai)].sort_values(["date_match", "heure"], ascending=False)
     n, r = stats_globales(joues)
     titre = f"Pronostic {ligue} : analyses des matchs et palmarès vérifié"
-    desc = (f"Pronostics {ligue} par l'IA AURA90 : {n} pronostics vérifiés, {pct(r)} de réussite. "
+    desc = (f"Pronostics {ligue} par le moteur AURA90 : {n} pronostics vérifiés, {pct(r)} de réussite. "
             f"Les prochains matchs analysés et tous les résultats, validés ou ratés.")
     corps = (f"<h1>Pronostics {E(ligue)}</h1>"
              f'<p class="sous">Chaque match de {E(ligue)} passe par le moteur AURA90 : forme des équipes, buts attendus, '
@@ -390,8 +390,8 @@ def page_hub(p, ligues):
     v = p[p.verifie.map(vrai)]
     n, r = stats_globales(v)
     hier = v[pd.to_datetime(v.date_match) >= auj - pd.Timedelta(days=3)].sort_values("date_match", ascending=False)
-    titre = "Pronostics foot du jour : analyses de l'IA AURA90"
-    desc = (f"Les pronostics foot du jour et des prochains jours, calculés par l'IA AURA90 : Ligue des Champions, "
+    titre = "Pronostics foot du jour : analyses du moteur AURA90"
+    desc = (f"Les pronostics foot du jour et des prochains jours, calculés par le moteur AURA90 : Ligue des Champions, "
             f"Premier League, Liga, Ligue 1, Serie A… {n} pronostics vérifiés, {pct(r)} de réussite.")
     corps = (f"<h1>Pronostics foot du jour</h1>"
              f'<p class="sous">Le moteur AURA90 analyse chaque nuit les matchs des grands championnats et des coupes. '

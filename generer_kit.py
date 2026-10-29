@@ -112,11 +112,11 @@ def bloc_chaine(auj, hier_signes, jour_signes, n_jour, scenario, detail):
 
 def bloc_video(scenario, detail, jour_signes):
     C = "⚙️ Sous-titres auto ON · son tendance discret · poster 19h-21h\n" \
-        "#football #IA #data #prediction #senegal — ❌ jamais : paris, cotes, bookmaker"
+        "#football #stats #data #prediction #senegal — ❌ jamais : paris, cotes, bookmaker"
     if scenario == "preuve":
         p = detail
         return f"""SCRIPT « LA PREUVE » (25 s, sans visage — le plus fort, priorité absolue)
-0-2 s   Main + téléphone, carte dorée à l'écran. Gros texte : « L'IA a trouvé le SCORE EXACT 🤯 »
+0-2 s   Main + téléphone, carte dorée à l'écran. Gros texte : « Le moteur a trouvé le SCORE EXACT 🤯 »
 2-10 s  Zoom sur la carte : « {p['dom']} – {p['ext']}. Score final {p.get('score_reel')}. L'algorithme l'avait mis dans ses scores probables. »
 10-18 s Scroll du palmarès : « Publié AVANT le match. Daté. Public. Les réussis ET les ratés. Allez vérifier vous-mêmes. »
 18-25 s Accueil : « Un match analysé gratuit chaque jour. Lien en bio. »
@@ -131,7 +131,7 @@ def bloc_video(scenario, detail, jour_signes):
     if scenario == "assume":
         p = detail
         return f"""SCRIPT « ON ASSUME » (20 s — celui qui construit la crédibilité long terme)
-0-2 s   Gros texte : « L'IA s'est trompée hier. Et je le montre. »
+0-2 s   Gros texte : « Le moteur s'est trompé hier. Et je le montre. »
 2-10 s  La carte du perdu : « {p['dom']} – {p['ext']} : le moteur avait dit "{p['prono_principal']}". Raté. {p.get('score_reel')}. »
 10-16 s « Il reste affiché en rouge au palmarès, pour toujours. C'est ça, la différence : ici, rien ne s'efface. »
 16-20 s « Jugez sur l'ensemble — tout est public. Lien en bio. »
@@ -139,7 +139,7 @@ def bloc_video(scenario, detail, jour_signes):
     haut = jour_signes[0] if jour_signes else None
     duel = f"{haut['dom']} – {haut['ext']}" if haut else "le match du jour"
     return f"""SCRIPT « VERDICT DU JOUR » (25 s)
-0-2 s   « L'IA vient d'analyser {duel} 👀 »
+0-2 s   « Le moteur vient d'analyser {duel} 👀 »
 2-14 s  Filme l'analyse EN DIRECT : l'anneau, les satellites, le % qui scanne, le verdict qui tombe. (C'est ton spectacle — laisse-le vivre.)
 14-20 s La fiche : les barres des marchés, les scores probables. « 121 scénarios simulés. »
 20-25 s « Verdict complet dans l'app — match gratuit chaque jour. Lien en bio. »
