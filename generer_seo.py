@@ -7,7 +7,7 @@ Chaque jour, après le cron, fabrique des pages HTML statiques que Google peut
 lire et classer (l'app elle-même est une seule page en JavaScript) :
 
   /pronostics/                      les matchs analysés des prochains jours
-  /pronostics/<championnat>/        une page par compétition + son taux de réussite
+  /pronostics/<championnat>/        une page par compétition (prochains matchs seulement — 29/10 : aucun historique)
   /pronostic/<dom>-<ext>-<date>/    une page par match (forme, buts, face-à-face…)
   /palmares/                        simple renvoi vers le match gratuit du jour dans l'app (29/10 : plus de page en double)
   /sitemap.xml  /robots.txt
@@ -163,7 +163,7 @@ def page(chemin, titre, description, corps, jsonld=None, fil=None, image=None):
 <nav><a href="/pronostics/">Pronostics</a><a href="/?aller=palmares">Palmarès</a><a href="/">L'app</a></nav></div></header>
 <main>{fil_html}{corps}</main>
 <footer>AURA90 analyse chaque match de football avec un moteur statistique : forme des équipes, buts attendus, 121 scénarios de score simulés.
-Chaque pronostic est publié et daté AVANT le match, puis vérifié automatiquement — validé ou raté, tout reste visible.<br><br>
+Chaque verdict est publié et daté AVANT le coup d'envoi.<br><br>
 Réservé aux 18 ans et plus. AURA90 fournit des analyses statistiques, jamais une garantie de résultat.<br><br>
 <a href="/">Ouvrir l'app AURA90</a> · <a href="/pronostics/">Pronostics du jour</a> · <a href="/?aller=palmares">Palmarès</a></footer>
 </body>
@@ -266,7 +266,7 @@ def page_match(r, st, mdj_id, ligues_ok):
 
     titre = (f"{r.dom} – {r.ext} ({r.score_reel}) : pronostic et analyse · {r.ligue}" if joue
              else f"Pronostic {r.dom} – {r.ext} · {r.ligue} · {pd.Timestamp(r.date_match).day} {MOIS[pd.Timestamp(r.date_match).month - 1]}")
-    desc = (f"{r.dom} – {r.ext} ({r.ligue}, {quand}) : score final {r.score_reel}. Le pronostic AURA90 publié avant le match, "
+    desc = (f"{r.dom} – {r.ext} ({r.ligue}, {quand}) : score final {r.score_reel}, "
             f"la forme des deux équipes et les confrontations directes." if joue else
             f"Pronostic {r.dom} – {r.ext} ({r.ligue}) le {quand}"
             + (f" à {p_h} (Paris), {d_h} à Dakar" if p_h else "")
@@ -287,10 +287,11 @@ def page_match(r, st, mdj_id, ligues_ok):
             f'{E(r.ligue)} · {E(quand)}{(" · " + p_h + " Paris / " + d_h + " Dakar") if p_h else ""}</div></div>')
 
     lien_app = f"{SITE}/?aller=match/{int(r.fixture_id)}"
-    if joue:
-        verdict = "<h2>Le pronostic AURA90 et le résultat</h2>" + resultat_html(r)
-        rep_faq = (f"Le moteur AURA90 avait publié « {verdict_txt(r)} » (confiance {int(r.confiance)} %) avant le match. "
-                   f"Score final : {r.score_reel} — pronostic {'validé' if vrai(r.prono_gagne) else 'raté'}.")
+    if joue:   # 29/10/2026 : match terminé → score final seulement, aucun historique de pronostic
+        verdict = (f'<h2>Match terminé</h2><div class="carte"><div>Score final : <b>{E(r.score_reel)}</b>.</div>'
+                   f'<div style="margin-top:6px">Le moteur AURA90 analyse chaque jour les prochains matchs.</div>'
+                   f'<a class="btn" href="{SITE}/?aller=mdj">Voir le match gratuit du jour</a></div>')
+        rep_faq = f"Le match s'est terminé sur le score de {r.score_reel}."
     elif int(r.fixture_id) == mdj_id:
         verdict = (f'<h2>Le verdict du moteur · match du jour gratuit</h2><div class="carte">'
                    f'<div class="verdict">{E(verdict_txt(r))}</div><div>Confiance : {int(r.confiance)} % · {E(r.badge)}</div>'
@@ -305,10 +306,7 @@ def page_match(r, st, mdj_id, ligues_ok):
                    f'Son verdict, son niveau de confiance et les scores les plus probables sont dans l\'app.</div>'
                    f'<a class="btn" href="{E(lien_app)}">Voir le verdict dans l\'app</a></div>')
         rep_faq = "Le verdict du moteur AURA90 et son niveau de confiance sont disponibles dans l'app, publiés avant le coup d'envoi."
-    taux = ligues_ok.get(r.ligue)
-    if taux:
-        verdict += (f'<p class="sous">En {E(r.ligue)}, les pronostics AURA90 affichent {pct(taux[0])} de réussite sur '
-                    f'{taux[1]} pronostics vérifiés. <a href="{url_ligue(r.ligue)}">Tous les pronostics {E(r.ligue)}</a></p>')
+    verdict += f'<p class="sous"><a href="{url_ligue(r.ligue)}">Tous les prochains pronostics {E(r.ligue)}</a></p>'
 
     h2h_html = ""
     if h2h:
@@ -364,21 +362,16 @@ def page_ligue(ligue, df, taux):
     a_venir = df[~df.verifie.map(vrai)].sort_values(["date_match", "heure"])
     joues = df[df.verifie.map(vrai)].sort_values(["date_match", "heure"], ascending=False)
     n, r = stats_globales(joues)
-    titre = f"Pronostic {ligue} : analyses des matchs et palmarès vérifié"
-    desc = (f"Pronostics {ligue} par le moteur AURA90 : {n} pronostics vérifiés, {pct(r)} de réussite. "
-            f"Les prochains matchs analysés et tous les résultats, validés ou ratés.")
+    titre = f"Pronostic {ligue} : analyses des prochains matchs"
+    desc = (f"Pronostics {ligue} par le moteur AURA90 : les prochains matchs analysés, "
+            f"forme des équipes, buts attendus et verdict publié avant le coup d'envoi.")
     corps = (f"<h1>Pronostics {E(ligue)}</h1>"
              f'<p class="sous">Chaque match de {E(ligue)} passe par le moteur AURA90 : forme des équipes, buts attendus, '
-             f"121 scénarios de score. Le pronostic est publié avant le coup d'envoi puis vérifié automatiquement (heures de Paris).</p>"
-             f'<div class="kpi"><div><b>{pct(r)}</b><span>réussite</span></div><div><b>{n}</b><span>pronostics vérifiés</span></div>'
-             f'<div><b>{len(a_venir)}</b><span>matchs à venir</span></div></div>')
+             f"121 scénarios de score. Le verdict est publié avant le coup d'envoi (heures de Paris).</p>")
     if len(a_venir):
         corps += "<h2>Prochains matchs analysés</h2><div class='liste'>" + "".join(ligne_match(x) for x in a_venir.itertuples()) + "</div>"
-    if len(joues):
-        corps += "<h2>Derniers résultats</h2><div class='liste'>" + "".join(ligne_match(x, True) for x in joues.head(30).itertuples()) + "</div>"
-        if len(joues) > 30:
-            corps += "<details><summary>Voir les résultats plus anciens</summary><div class='liste'>" + \
-                     "".join(ligne_match(x, True) for x in joues.iloc[30:].itertuples()) + "</div></details>"
+    else:
+        corps += "<p>Les prochains matchs sont publiés chaque nuit. Reviens demain matin.</p>"
     corps += f'<a class="btn" href="/">Ouvrir l\'app AURA90</a>'
     fil = [("AURA90", "/"), ("Pronostics", "/pronostics/"), (ligue, url_ligue(ligue))]
     return page(url_ligue(ligue), titre, desc, corps, None, fil)
@@ -391,19 +384,16 @@ def page_hub(p, ligues):
     n, r = stats_globales(v)
     hier = v[pd.to_datetime(v.date_match) >= auj - pd.Timedelta(days=3)].sort_values("date_match", ascending=False)
     titre = "Pronostics foot du jour : analyses du moteur AURA90"
-    desc = (f"Les pronostics foot du jour et des prochains jours, calculés par le moteur AURA90 : Ligue des Champions, "
-            f"Premier League, Liga, Ligue 1, Serie A… {n} pronostics vérifiés, {pct(r)} de réussite.")
+    desc = ("Les pronostics foot du jour et des prochains jours, calculés par le moteur AURA90 : Ligue des Champions, "
+            "Premier League, Liga, Ligue 1, Serie A…")
     corps = (f"<h1>Pronostics foot du jour</h1>"
              f'<p class="sous">Le moteur AURA90 analyse chaque nuit les matchs des grands championnats et des coupes. '
-             f"Chaque pronostic est publié avant le match puis vérifié automatiquement : {n} pronostics vérifiés, "
-             f"{pct(r)} de réussite. <a href=\"/?aller=palmares\">Voir le palmarès complet</a> · heures de Paris.</p>"
+             "Chaque verdict est publié avant le coup d'envoi · heures de Paris.</p>"
              '<div class="chips">' + "".join(f'<a href="{url_ligue(l)}">{E(l)}</a>' for l in ligues) + "</div>")
     for d, g in a_venir.groupby("date_match", sort=True):
         corps += f"<h2>{E(date_longue(d).capitalize())}</h2><div class='liste'>" + "".join(ligne_match(x) for x in g.itertuples()) + "</div>"
     if not len(a_venir):
         corps += "<p>Les prochains matchs sont publiés chaque nuit. Reviens demain matin.</p>"
-    if len(hier):
-        corps += "<h2>Derniers résultats</h2><div class='liste'>" + "".join(ligne_match(x, True) for x in hier.itertuples()) + "</div>"
     corps += '<a class="btn" href="/">Ouvrir l\'app AURA90</a>'
     ld = [{"@context": "https://schema.org", "@type": "ItemList",
            "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + url_match(x)}
@@ -417,34 +407,6 @@ RENVOI_PALMARES = """<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
 <script>location.replace('/?aller=mdj')</script></head>
 <body style="background:#070B12;color:#E8EEF6;font-family:sans-serif;text-align:center;padding:40px">
 <a href="/?aller=mdj" style="color:#3DE8C8">Voir le match gratuit du jour</a></body></html>"""
-
-
-def page_palmares(p):   # plus utilisée (29/10/2026), gardée au cas où
-    v = p[p.verifie.map(vrai)].copy()
-    v["ok"] = v.prono_gagne.map(vrai)
-    v["okb"] = v.buts_gagne.map(vrai)
-    n, r = stats_globales(v)
-    depuis = date_longue(v.date_match.min()) if n else ""
-    titre = f"Palmarès AURA90 : {pct(r)} de réussite sur {n} pronostics vérifiés"
-    desc = (f"Le palmarès public et complet d'AURA90 depuis le {depuis} : {n} pronostics publiés avant les matchs, "
-            f"{pct(r)} de réussite. Rien n'est trié, rien n'est effacé.")
-    corps = (f"<h1>Palmarès AURA90</h1><p class=\"sous\">Chaque pronostic est publié et daté AVANT le match, puis vérifié "
-             f"automatiquement. Validé ou raté, il reste visible — depuis le {E(depuis)}.</p>"
-             f'<div class="kpi"><div><b>{pct(r)}</b><span>pronostic principal</span></div>'
-             f'<div><b>{pct(v.okb.mean() if n else 0)}</b><span>pronostic buts</span></div>'
-             f'<div><b>{n}</b><span>pronostics vérifiés</span></div></div>')
-    corps += "<h2>Par niveau de confiance</h2><table><tr><th>Niveau</th><th>Pronostics</th><th>Réussite</th><th>Confiance annoncée</th></tr>"
-    for b in ["Très sûr", "Sûr", "Équilibré", "Audacieux"]:
-        s = v[v.badge == b]
-        if len(s):
-            corps += f"<tr><td>{E(b)}</td><td>{len(s)}</td><td>{pct(s.ok.mean())}</td><td>{s.confiance.mean():.0f} %</td></tr>"
-    corps += "</table><h2>Par compétition</h2><table><tr><th>Compétition</th><th>Pronostics</th><th>Réussite</th></tr>"
-    for l, s in sorted(v.groupby("ligue"), key=lambda x: -len(x[1])):
-        corps += f'<tr><td><a href="{url_ligue(l)}">{E(l)}</a></td><td>{len(s)}</td><td>{pct(s.ok.mean())}</td></tr>'
-    corps += "</table><h2>Les 40 derniers pronostics vérifiés</h2><div class='liste'>" + \
-             "".join(ligne_match(x, True) for x in v.sort_values(["date_match", "heure"], ascending=False).head(40).itertuples()) + "</div>"
-    corps += '<a class="btn" href="/">Ouvrir l\'app AURA90</a>'
-    return page("/palmares/", titre, desc, corps, None, [("AURA90", "/"), ("Palmarès", "/palmares/")])
 
 
 # ------------------------------------------------------------------ main
