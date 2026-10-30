@@ -184,6 +184,14 @@ LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 # saisons passées. Les matchs de coupe entre divisions (un club de League Two
 # qui reçoit un club de Premier League…) mesurent directement l'écart de niveau.
 COUPES_NATIONALES_ACCUEIL = {45: "FA Cup", 48: "EFL Cup"}   # EFL Cup ajoutée le 27/10/2026
+
+# 30/10/2026 (décision Babs, après simulation semaine par semaine depuis août 2025) :
+# Belgique et Turquie publiées sur l'Accueil, en plus des coupons.
+#   Turquie  : 72,4 % de réussite (352 matchs) — mais les pronos « signés » n'y passent qu'à 70 %
+#              → jamais signés (règle dans la colonne « signe » de Supabase, voir turquie_belgique.sql)
+#   Belgique : 67,7 % (365 matchs), signés 78 % — au niveau de l'Eredivisie
+# Elles restent dans LIGUES_COUPONS (collecte inchangée) ; moteur = championnat seul.
+LIGUES_ACCUEIL_PLUS = {144: "Jupiler Pro League", 203: "Süper Lig"}
 DIVISIONS_ANGLETERRE = {39: "Premier League", 40: "Championship", 41: "League One",
                         42: "League Two", 43: "National League"}
 COUPES_ANGLETERRE = {45: "FA Cup", 48: "League Cup"}
@@ -462,7 +470,7 @@ def publier(histo):
             t += " · terrain neutre (Wembley)"
         return t
 
-    for lid, nom in {**LIGUES, **LIGUES_NATIONS_ACCUEIL, **COUPES_NATIONALES_ACCUEIL}.items():
+    for lid, nom in {**LIGUES, **LIGUES_ACCUEIL_PLUS, **LIGUES_NATIONS_ACCUEIL, **COUPES_NATIONALES_ACCUEIL}.items():
         avenir = histo[(histo.ligue_id == lid) & (histo.statut == "NS") &
                        (histo.date >= aujourdhui) & (histo.date < fin)]
         if avenir.empty:
@@ -583,7 +591,7 @@ def alerter_clubs_sans_passe(histo):
     l'API a renommé. Il faut l'ajouter à ALIAS dans moteur_production.py."""
     h = histo.copy()
     h["equipe_dom"] = h["equipe_dom"].map(canon); h["equipe_ext"] = h["equipe_ext"].map(canon)
-    for lid, nom in LIGUES.items():
+    for lid, nom in {**LIGUES, **LIGUES_ACCUEIL_PLUS}.items():
         if lid in COMPETITIONS_UEFA:
             continue
         viviers = [lid] + [d2 for d2, d1 in D2_VERS_D1.items() if d1 == lid]
