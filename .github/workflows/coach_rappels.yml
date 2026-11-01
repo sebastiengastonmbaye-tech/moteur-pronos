@@ -1,0 +1,17 @@
+name: Coach 90 - rappels et bilans
+
+on:
+  schedule:
+    - cron: "7 * * * *"     # toutes les heures (minute 7) : rappel du matin a l'heure choisie, rappel avant match, bilan du dimanche
+  workflow_dispatch:        # bouton "Run workflow" pour tester a la main
+
+jobs:
+  rappels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Envoyer les rappels du coach (chacun a son heure locale)
+        run: |
+          curl -sS -f -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/coach" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
