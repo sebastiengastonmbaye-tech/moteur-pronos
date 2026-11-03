@@ -169,10 +169,22 @@ FAMILLE = {
     "1": "resultat", "N": "resultat", "2": "resultat",
     "1X": "resultat", "X2": "resultat", "12": "resultat",
     "O2.5": "buts", "O1.5": "buts15", "U3.5": "buts35",
+    "O2": "buts15",          # « plus de 2 buts » (ligne asiatique), à la place d'un +1,5 trop bas
+
     # 17/10/2026 : « Moins de 2,5 buts » retiré partout (passait une fois sur deux)
     "BTTS": "btts", "NOBTTS": "btts",
 }
 CODES_DC = {"1X": ("1", "N"), "X2": ("N", "2"), "12": ("1", "2")}
+
+# « PLUS DE 2 BUTS » (03/11/2026, décision Babs) — un « plus de 1,5 but » dont la cote de
+# référence est sous 1,25 ne rapporte presque rien (encore moins dans les pays où les cotes
+# sont plus basses : 1,20 au Sénégal, 1,15 en France). Il n'est plus proposé. À la place,
+# si les bookmakers ont la ligne, on propose « plus de 2 buts » (ligne asiatique) :
+#   · 3 buts ou plus → gagné · 2 buts pile → compté à 1,00 (« rembourse ») · 0-1 but → perdu
+# Le risque de perdre est donc exactement celui du +1,5 (il faut au moins 2 buts), seule la
+# cote change. Sans cette ligne, le match n'est pas pris en buts.
+# Même coupon pour tout le monde : le choix se fait ici, jamais pays par pays dans l'app.
+SEUIL_O15 = 1.25
 
 # Les coupes d'Europe n'entrent pas dans Sûre ni Montante tant que la
 # calibration inter-ligues n'est pas validée par backtest.
@@ -275,6 +287,13 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
             pe = {code: pe_code, contraire: (1 - pe_code) if pe_code else None} if pe_code else {}
             pf[code] = fusionner(pm, pe, w).get(code, pm[code]) if pe else pm[code]
 
+        # +1,5 trop bas → « plus de 2 buts » : même probabilité de ne pas perdre (au moins 2 buts)
+        if cotes.get("O1.5") and cotes["O1.5"] < SEUIL_O15:
+            if cotes.get("O2") and cotes["O2"] > cotes["O1.5"] and "O1.5" in pf:
+                pf["O2"] = pf["O1.5"]
+                pmar["O2"] = pmar.get("O1.5")
+            pf.pop("O1.5", None)
+
         # BTTS
         cb = {k: cotes[k] for k in ("BTTS", "NOBTTS") if cotes.get(k)}
         if len(cb) == 2:
@@ -297,6 +316,8 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
                 pm_code = 1 - mot["O2.5"]
             elif code == "NOBTTS" and mot.get("BTTS"):
                 pm_code = 1 - mot["BTTS"]
+            elif code == "O2":
+                pm_code = mot.get("O1.5")              # ne pas perdre = au moins 2 buts
             s.update({
                 "promu": bool(mt.get("promu")),
                 "p1": pf.get("1"), "p2": pf.get("2"),
@@ -396,7 +417,7 @@ def _logique_ok(s, cat):
             return False
     if code == "O2.5" and pm < 0.70:
         return False
-    if code == "O1.5" and pm < 0.78:
+    if code in ("O1.5", "O2") and pm < 0.78:
         return False
     return True
 

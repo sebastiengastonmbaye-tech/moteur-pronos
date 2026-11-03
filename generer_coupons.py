@@ -395,6 +395,7 @@ def _lire_bookmaker(bk):
             cotes["U2.5"] = vals.get("under 2.5")     # gardée pour retirer la marge, jamais proposée
             cotes["O1.5"] = vals.get("over 1.5")
             cotes["U1.5"] = vals.get("under 1.5")
+            cotes["O2"] = vals.get("over 2") or vals.get("over 2.0")   # ligne asiatique (03/11/2026)
             cotes["O3.5"] = vals.get("over 3.5")
             cotes["U3.5"] = vals.get("under 3.5")
         elif nom == "both teams score":
@@ -446,6 +447,7 @@ LIBELLES = {
     "12": ("Double chance", "{dom} ou {ext} (pas de nul)"),
     "O2.5": ("Buts", "Plus de 2,5 buts"), "U2.5": ("Buts", "Moins de 2,5 buts"),
     "O1.5": ("Buts", "Plus de 1,5 but"), "U3.5": ("Buts", "Moins de 3,5 buts"),
+    "O2": ("Buts", "Plus de 2 buts"),         # 2 buts pile : compté à 1,00
     "BTTS": ("Buts", "Les deux équipes marquent"),
     "NOBTTS": ("Buts", "Les deux équipes ne marquent pas"),
 }
@@ -485,7 +487,10 @@ def selections_possibles(matchs, bookmaker, estimer_si_absent=False):
         s["selection"] = gabarit.format(dom=s["dom"], ext=s["ext"])
         # « confiance » stockée = probabilité fusionnée (marché + moteur), en %
         s["confiance"] = round(s["p"] * 100)
-    print(f"   {len(out)} sélection(s) disponibles avec cotes réelles")
+    n_o2 = sum(1 for s in out if s["code"] == "O2")
+    n_bas = sum(1 for e in entrees if (e["cotes"].get("O1.5") or 9) < SEL.SEUIL_O15)
+    print(f"   {len(out)} sélection(s) disponibles avec cotes réelles"
+          + (f" · +1,5 sous {SEL.SEUIL_O15:.2f} : {n_bas} match(s), « plus de 2 buts » proposé sur {n_o2}" if n_bas else ""))
     return out
 
 
@@ -508,7 +513,12 @@ def construire(pool, nuit=False, sans=()):
 # ==================================================================
 # 4. Vérification des coupons de la veille
 # ==================================================================
+REMBOURSE = "rembourse"     # « plus de 2 buts » avec 2 buts pile : la sélection compte 1,00
+
+
 def gagnee(code, bd, be):
+    """True (gagné), False (perdu), REMBOURSE (ligne entière tombée pile : compte 1,00) ou None."""
+    if code == "O2":     return True if bd + be > 2 else (REMBOURSE if bd + be == 2 else False)
     if code == "1":      return bd > be
     if code == "2":      return be > bd
     if code == "1X":     return bd >= be
@@ -537,7 +547,7 @@ def verifier():
     for c in en_cours:
         if c["categorie"] in ("montante", "turbo") and not est_palier(c["id"]):
             continue          # coupon réservé (pas encore palier) : il sera adopté ou retiré, jamais vérifié seul
-        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,resultat,date_match,heure,score")
+        sels = sb(f"coupon_selections?coupon_id=eq.{c['id']}&select=id,fixture_id,code,cote,resultat,date_match,heure,score")
         if not sels:
             continue
         # résultat absent de l'historique local (passage hors cron, import en
@@ -556,14 +566,16 @@ def verifier():
                 if f["fixture"]["status"]["short"] in ("FT", "AET", "PEN") and g.get("home") is not None:
                     scores[int(f["fixture"]["id"])] = (int(g["home"]), int(g["away"]))
         tous_joues, perdu, un_gagne = True, False, False
+        cote_reelle, rembourse = 1.0, False          # cote effective (sélections « rembourse » à 1,00)
         for s in sels:
             if s["fixture_id"] not in scores:
                 tous_joues = False
                 continue
             if s["resultat"] is None:
                 ok = gagnee(s["code"], *scores[s["fixture_id"]])
-                sb(f"coupon_selections?id=eq.{s['id']}", "PATCH",
-                   {"resultat": "gagne" if ok else "perdu"})
+                res = REMBOURSE if ok == REMBOURSE else ("gagne" if ok else "perdu")
+                sb(f"coupon_selections?id=eq.{s['id']}", "PATCH", {"resultat": res})
+                s["resultat"] = res
                 # score final, pour la page Preuves du panneau admin (facultatif :
                 # un refus éventuel n'empêche jamais la vérification)
                 try:
@@ -572,7 +584,7 @@ def verifier():
                 except Exception:
                     pass
             else:
-                ok = s["resultat"] == "gagne"
+                ok = s["resultat"] in ("gagne", REMBOURSE)
                 if not s.get("score"):
                     try:
                         bd_, be_ = scores[s["fixture_id"]]
@@ -581,6 +593,10 @@ def verifier():
                         pass
             if ok:
                 un_gagne = True
+                if s["resultat"] == REMBOURSE:
+                    rembourse = True
+                else:
+                    cote_reelle *= float(s.get("cote") or 1)
             else:
                 perdu = True
         if c["categorie"] == "score":
@@ -596,7 +612,15 @@ def verifier():
             sb(f"coupons?id=eq.{c['id']}", "PATCH", {"statut": statut})
             print(f"   Coupon {c['categorie']} du {c['jour']} → {statut}")
             if c["categorie"] in ("montante", "turbo"):
-                sb(f"montante?coupon_id=eq.{c['id']}", "PATCH", {"statut": statut})
+                maj = {"statut": statut}
+                if statut == "gagne" and rembourse:
+                    # une sélection « plus de 2 buts » tombée sur 2 buts pile : le palier
+                    # rapporte la cote des autres sélections seulement (le palier suivant part de là)
+                    lien = sb(f"montante?coupon_id=eq.{c['id']}&select=mise")
+                    if isinstance(lien, list) and lien:
+                        maj["gain_vise"] = round(float(lien[0]["mise"]) * cote_reelle, 2)
+                        print(f"   ↳ 2 buts pile sur un « plus de 2 buts » : palier compté à ×{cote_reelle:.2f}")
+                sb(f"montante?coupon_id=eq.{c['id']}", "PATCH", maj)
 
 
 def completer_scores(jours=21):
