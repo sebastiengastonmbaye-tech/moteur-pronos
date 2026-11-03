@@ -8,7 +8,7 @@ API-Football en prod, football-data en test). Sort une fiche prête à afficher 
 
   - prono_principal : victoire sèche, double chance ou nul (selon les stats
     et la tendance du moment — pondération par récence intégrée)
-  - prono_buts      : Over/Under 2.5
+  - prono_buts      : Plus de 2,5 / Plus de 1,5 / Moins de 3,5 (V6, 03/11/2026)
   - scores_probables: top 3 scores exacts
   - badge de confiance par prono (le % reste dispo mais peut être masqué)
   - etapes_animation: les vraies étapes du calcul, à afficher pendant
@@ -164,8 +164,18 @@ class Moteur:
         # pour -3,5 sur les mêmes 920 matchs du backtest. La confiance annoncée
         # est légèrement resserrée (×0,9 autour de 50 %) car le moteur la
         # surestimait de ~2 points sur ce marché.
-        if pO25 >= 0.5:
+        # V6 (03/11/2026) : plus de prono buts autour de 50 %. Sur les 1 311 pronos
+        # vérifiés, « Plus de 2,5 » ne passait qu'à 57-65 % quand le moteur le
+        # donnait entre 45 et 70 %, alors que « Plus de 1,5 » passait à 80 % sur
+        # ces mêmes matchs (moteur bien calibré : 79 % annoncé). Règle :
+        #   pO25 ≥ 70 % → Plus de 2,5   (75 % de réussite observée)
+        #   45-70 %     → Plus de 1,5   (80 %)
+        #   < 45 %      → Moins de 3,5  (77 %, confiance resserrée ×0,9)
+        # Ensemble : 79 % de réussite au lieu de 59 %.
+        if pO25 >= 0.70:
             buts = {"selection": "Plus de 2,5 buts", "code": "O2.5", **_badge(pO25)}
+        elif pO25 >= 0.45:
+            buts = {"selection": "Plus de 1,5 but", "code": "O1.5", **_badge(pO15)}
         else:
             buts = {"selection": "Moins de 3,5 buts", "code": "U3.5",
                     **_badge(0.5 + 0.9*(pU35 - 0.5))}

@@ -3,6 +3,10 @@
 """
 CRON QUOTIDIEN — Pont API-Football + publication des pronos
 ===========================================================
+V6 (03/11/2026) : prono buts de l'Accueil — fini les « Plus de 2,5 » à ~55 %.
+Le moteur prend la ligne la plus sûre : Plus de 2,5 (≥ 70 %), sinon Plus de
+1,5 (45-70 %), sinon Moins de 3,5. Réussite sur les 1 311 pronos vérifiés :
+79 % au lieu de 59 %. Coupons non touchés.
 V5.2 (27/10/2026) : EFL CUP (League Cup) publiée aussi, même moteur anglais.
 V5.1 (27/10/2026) : FA CUP publiée sur l'Accueil. Les clubs de 5 divisions
 anglaises sont notés sur UNE SEULE échelle (Premier League → National League),
