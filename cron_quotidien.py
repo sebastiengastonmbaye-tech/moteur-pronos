@@ -384,6 +384,7 @@ def completer_metadonnees(histo):
         p[col] = p[col].astype("object")
     ref = histo.drop_duplicates("fixture_id").set_index("fixture_id")
     n = 0
+    deplaces = []
     for i, row in p.iterrows():
         if row.fixture_id not in ref.index:
             continue
@@ -392,9 +393,30 @@ def completer_metadonnees(histo):
             if (pd.isna(row.get(col)) or row.get(col) in (None, "")) and pd.notna(m.get(col)):
                 p.at[i, col] = m[col]
                 n += 1
-    if n:
+        # 05/11/2026 : match avancé ou reporté (ex. Rennes – Olympiakos, prévu le 05/11, joué le 04/11) :
+        # la date et l'heure suivent le calendrier réel, tant que le match n'est pas encore vérifié.
+        # Jamais plus de 7 jours d'écart (la protection de Supabase, pronos_verrou, n'autorise que ça) ;
+        # le prono lui-même ne change jamais, et un prono déjà vérifié garde sa date.
+        if row.get("verifie") is True or str(row.get("verifie")) == "True":
+            continue
+        try:
+            vraie_date = pd.Timestamp(m["date"]).date().isoformat()
+            ancienne = str(row["date_match"])[:10]
+            ecart = abs((pd.Timestamp(vraie_date) - pd.Timestamp(ancienne)).days)
+            if vraie_date != ancienne and ecart <= 7:
+                p.at[i, "date_match"] = vraie_date
+                deplaces.append(f"{row['dom']} – {row['ext']} : {ancienne} → {vraie_date}")
+            vraie_heure = m.get("heure")
+            if pd.notna(vraie_heure) and str(vraie_heure) and str(row.get("heure")) != str(vraie_heure) and ecart <= 7:
+                p.at[i, "heure"] = vraie_heure
+                n += 1
+        except Exception:
+            pass
+    if n or deplaces:
         p.to_csv(F_PRONOS, index=False)
     print(f"   ✅ métadonnées complétées : {n} champs (logos/heure)")
+    for d in deplaces:
+        print(f"   📅 match déplacé : {d}")
 
 # ==================================================================
 # 3. PUBLICATION DES NOUVEAUX PRONOS
