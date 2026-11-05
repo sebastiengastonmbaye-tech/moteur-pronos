@@ -187,7 +187,12 @@ LIGUES_SANS_LIEN_EUROPE = {71, 128, 253, 98, 262, 239} | set(LIGUES_NATIONS)
 # ANGLAIS entraîné sur les 5 premières divisions + les coupes nationales des
 # saisons passées. Les matchs de coupe entre divisions (un club de League Two
 # qui reçoit un club de Premier League…) mesurent directement l'écart de niveau.
-COUPES_NATIONALES_ACCUEIL = {45: "FA Cup", 48: "EFL Cup"}   # EFL Cup ajoutée le 27/10/2026
+COUPES_NATIONALES_ACCUEIL = {48: "EFL Cup"}   # EFL Cup ajoutée le 27/10/2026
+# 05/11/2026 (décision Babs) : FA Cup retirée de l'Accueil — tours de qualification de trop
+# bas niveau. Ses matchs restent dans l'historique (ils calibrent le moteur anglais de l'EFL Cup).
+# Les analyses FA Cup pas encore jouées sont retirées de pronos_publies.csv (et de Supabase,
+# voir retrait_fa_cup.sql) ; celles déjà vérifiées restent dans l'historique.
+LIGUES_RETIREES = {"FA Cup"}
 
 # 30/10/2026 (décision Babs, après simulation semaine par semaine depuis août 2025) :
 # Belgique et Turquie publiées sur l'Accueil, en plus des coupons.
@@ -313,6 +318,18 @@ def importer_historique():
 # ==================================================================
 # 2. VÉRIFICATION DES PRONOS PASSÉS
 # ==================================================================
+def retirer_ligues():
+    """Enlève de pronos_publies.csv les analyses NON vérifiées des compétitions retirées
+    (LIGUES_RETIREES), pour qu'elles ne soient plus renvoyées vers Supabase."""
+    if not LIGUES_RETIREES or not os.path.exists(F_PRONOS):
+        return
+    p = pd.read_csv(F_PRONOS)
+    a_retirer = p.ligue.isin(LIGUES_RETIREES) & (p.verifie != True)
+    if a_retirer.any():
+        p[~a_retirer].to_csv(F_PRONOS, index=False)
+        print(f"   🗑️  {int(a_retirer.sum())} analyses retirées ({', '.join(sorted(LIGUES_RETIREES))}, matchs pas encore joués)")
+
+
 def verifier(histo):
     """Ajoute le résultat réel aux pronos dont le match est terminé.
     N'écrit QUE dans les colonnes de résultat : le prono reste intact."""
@@ -629,7 +646,7 @@ def palmares():
 
 if __name__ == "__main__":
     print("1️⃣  IMPORT");   histo = importer_historique()
-    print("2️⃣  VÉRIFICATION"); verifier(histo); completer_metadonnees(histo)
+    print("2️⃣  VÉRIFICATION"); retirer_ligues(); verifier(histo); completer_metadonnees(histo)
     alerter_clubs_sans_passe(histo)
     print("3️⃣  PUBLICATION");  publier(histo)
     palmares()
