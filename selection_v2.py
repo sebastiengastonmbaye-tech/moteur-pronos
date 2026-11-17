@@ -275,7 +275,8 @@ def preparer_selections(matchs, w=POIDS_MOTEUR):
             pf.update(fusionner(pm, pe, w))
 
         # plus de 1,5 but / moins de 3,5 buts (17/10/2026)
-        for code, contraire, pe_code in (("O1.5", "U1.5", mot.get("O1.5")), ("U3.5", "O3.5", mot.get("U3.5"))):
+        # 17/11/2026 : « Moins de 3,5 buts » retiré (demande de Babs) → seulement « Plus de 1,5 but »
+        for code, contraire, pe_code in (("O1.5", "U1.5", mot.get("O1.5")),):
             if not cotes.get(code):
                 continue
             if cotes.get(contraire):
