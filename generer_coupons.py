@@ -478,7 +478,8 @@ def selections_possibles(matchs, bookmaker, estimer_si_absent=False):
                        "O1.5": m.get("pO15"), "U3.5": m.get("pU35")},
             "promu": m.get("promu", False),
         })
-    out = SEL.preparer_selections(entrees)
+    # 17/11/2026 : jamais « Moins de 3,5 buts » dans les coupons ni les montantes (demande de Babs)
+    out = [s for s in SEL.preparer_selections(entrees) if s.get("code") != "U3.5"]
     estimes = {e["fixture_id"] for e in entrees if e.get("estime")}
     for s in out:
         s["estime"] = s["fixture_id"] in estimes
